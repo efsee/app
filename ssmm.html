@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/common.js" ></script>
+<style type="text/css">
+			header .mui-icon {
+				color: #999;
+			}
+			.mui-title {
+				color: #333;
+			}
+</style>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+			<h1 id="title" class="mui-title">密码保护</h1>
+		</header>
+<div class="mui-content">
+
+<ul class="user-nav">
+<li><a class="tap" data='{"title":"手势密码"}'><i class="ico18 icon ico-dlmm"></i>手势密码 
+				<span  style=" position:absolute; right:5px; top:50%; margin-top:-15px;">
+					<div class="mui-switch mui-switch-mini" id="switch_ssmm">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</span>
+</a>
+</li>
+
+<li id="xiugaili" class="mui-hidden"><a href="permissions.html" class="tap" data='{"title":"修改手势密码"}'><i class="ico18 icon ico-dlmm"></i>修改手势密码<i class="ico-arrow icon"></i></a></li>
+</ul>
+	
+
+</div>
+
+<script type="text/javascript">
+	mui.plusReady(function(){
+		initpage();
+		
+		
+		mui('#xiugaili').on('tap', 'a.tap', function(e){
+			e.stopPropagation();
+			login();
+		})
+		
+		
+		
+		document.getElementById("switch_ssmm").addEventListener('toggle', function(event) {
+			//event.detail.isActive 可直接获取当前状态
+			//'状态：' + (event.detail.isActive ? 'true' : 'false');
+//			status = event.detail.isActive ? 0 : 1;
+			if(event.detail.isActive == true){
+				mui.openWindow({url:'permission.html', id:'permission',waiting:{autoShow:false},show:{'aniShow':'slide-in-right'}});
+			}else{
+				plus.storage.removeItem('shoushimima');
+				initpage();
+				//mui.openWindow({url:'permissionss.html', id:'permissionss',waiting:{autoShow:false},show:{'aniShow':'slide-in-right'},extras:{'type':'guanbi'}});
+			}
+		});
+	})
+	function initpage(){
+		if(plus.storage.getItem('shoushimima')){
+			document.getElementById("switch_ssmm").classList.add('mui-active');
+			document.getElementById("xiugaili").classList.remove('mui-hidden');
+		}else{
+			document.getElementById("switch_ssmm").classList.remove('mui-active');
+			document.getElementById("xiugaili").classList.add('mui-hidden');
+		}
+	}
+</script>
+
+
+</body>
+</html>

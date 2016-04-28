@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/mui.min.css" rel="stylesheet"/>
+<style type="text/css">
+	.notice-list li .tap{  line-height:20px;}
+	.notice-list li .tap p { margin: 0px;}
+	.active-list li { padding: 10px 10px; }
+	.active-list li p { margin: 0; padding: 0 10px;}
+	.active-list img { max-width: 100%; height: auto; }
+	.active-list a {  color: #666; }
+	.active-list p span {  color: #999;  font-size: 14px; margin-left: 10px;}
+	.active-list .date { line-height: 20px;}
+</style>
+</head>
+<body>
+	
+<div class="mui-content">
+	<!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper">-->
+		<div class="mui-scroll">
+	<ul id="news-list" class="active-list clearfix">
+	</ul>
+		</div>
+	<!--</div>-->
+</div>
+	
+	
+<script id="tpl-item-1" type="text/html">
+{{each list as item i}}
+<li>
+<a href="javascript:;" class="tap" data='{"id":{{item.id}}}'>
+<i class="ico-news ico24 icon"></i>
+<p class="title mui-ellipsis">{{item.name}}</p>
+<p class="date">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>
+<i class="ico-arrow icon"></i>
+</a>
+</li>
+{{/each}}
+</script>
+<script id="tpl-item" type="text/html">
+{{each list as $var i}}
+<li>
+<p><a class="tap" href="{{$var.tags}}" title="{{$var.name}}">{{$var.name}}</a></p>
+<p class="date">{{$var.title}}</p>
+<a class="tap" href="{{$var.tags}}"><img src="{{$var.fileurl | getpic }}" /></a>
+</li>
+{{/each}}
+</script>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script src="js/api.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+//  	var curr_page = 0;
+//			mui.init({
+//				pullRefresh: {
+//					container: '#pullrefresh',
+//					down: {
+//						callback: pulldownRefresh
+//					},
+//					up: {
+//						contentrefresh: '正在加载...',
+//						callback: pullupRefresh
+//					}
+//				}
+//			});
+//			
+//			/**
+//			 * 下拉刷新具体业务实现
+//			 */
+//			function pulldownRefresh() {
+//				setTimeout(function() {
+//					curr_page = 1;
+//					getdata(curr_page);
+//					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+//					//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+//				}, 1500);
+//			}
+//			var count = 0;
+//			/**
+//			 * 上拉加载具体业务实现
+//			 */
+//			function pullupRefresh() {
+//				setTimeout(function() {
+//					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+//					curr_page = curr_page + 1;
+//					getdata(curr_page);
+//				}, 1500);
+//			}
+//			if (mui.os.plus) {
+//				mui.plusReady(function() {
+//					setTimeout(function() {
+//						mui('#pullrefresh').pullRefresh().pullupLoading();
+//					}, 100);
+//				});
+//			} else {
+//				mui.ready(function() {
+//					mui('#pullrefresh').pullRefresh().pullupLoading();
+//				});
+//			}
+//    	
+			mui.plusReady(function(){
+				getdata(1);
+				mui("#news-list").on('tap', 'a.tap', function(e){
+					e.stopPropagation();
+					
+					var data = this.getAttribute('data');
+					if(data){
+						data = eval("(" + data + ")");
+						//var detailWV = mui.preload({url:'notice_detail.html'});
+						var detailWV = plus.webview.create('active_detail.html','active_detail.html');
+	//					console.log(data);
+						detailWV.addEventListener( "loaded", function(){
+							mui.fire(detailWV,"mui.view.show",data);
+						}, false );
+						setTimeout(function(){
+							detailWV.show('slide-in-right');
+						},10);						
+					}
+					var href = this.getAttribute('href');
+					if(href){
+//						mui.openWindow({'url':'http://www.ifcar99.com/yidong/jiaxi/jcr_yd.html','styles':{}});
+//						var detailWV = plus.webview.create('active_detail.html','active_detail.html');
+//						detailWV.addEventListener( "loaded", function(){
+//							mui.fire(detailWV,"mui.view.href",{'href':href});
+//						}, false );
+//						setTimeout(function(){
+//							detailWV.show('slide-in-right');
+//						},10);
+//						return false;
+//						
+						plus.runtime.openURL(href);
+//					if('Android'==plus.os.name){
+//					}
+//					if(mui.os.android){
+//						var main = plus.android.runtimeMainActivity();
+//						var intent = plus.android.newObject("android.content.Intent");
+//						plus.android.invoke(intent,"setAction","android.intent.action.VIEW");
+//						var url = plus.android.importClass("android.net.Uri");
+//						plus.android.invoke(intent,"setData",url.parse(href));
+//						main.startActivity(intent);
+//						console.log('tap');
+//					}
+//					if('iOS'==plus.os.name){
+//						/*
+//						NSURL*url= [NSURL URLWithString:@"http://eyecm.com"];
+//						[[UIApplication sharedApplication] openURL:url];
+//						*/
+//
+//						var UIApplication = plus.ios.importClass("UIApplication");
+//						var NSURL = plus.ios.importClass("NSURL");
+//						var url = NSURL.URLWithString(href);
+//						var application = UIApplication.sharedApplication();
+//						application.openURL(url);
+//						plus.ios.deleteObject(url);
+//						plus.ios.deleteObject(application);
+//					}
+					}
+				})
+			});
+			
+			function getdata(page){
+				request = {'type_id': 45, 'order':'order_asc','epage':20};
+				request.page = page;
+//				var url = 'http://www.ifcar99.com/api.php' + '?module=articles&action=GetList';
+//				ajax.post(url, {'request':request}, function(res){
+////					console.log(JSON.stringify(res));
+//					var html = template('tpl-item',res);
+//					var ul = document.querySelector('#news-list');
+//					var upflag = res.page >= res.total_page ? true : false;
+//					if(page > 1){
+//						ul.innerHTML = ul.innerHTML + html;
+//					}else{
+//						ul.innerHTML = html;
+//					}
+////					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+//					
+//					
+//					if(res.total == 0){
+//						html = '<li class="mui-table-view-cell">没有记录</li>';
+//						ul.innerHTML = html;
+////						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+//					}
+//				});
+//				
+				articles.GetList({'request':request},function(res){
+					var html = template('tpl-item',res);
+					var ul = document.querySelector('#news-list');
+					var upflag = res.page >= res.total_page ? true : false;
+					if(page > 1){
+						ul.innerHTML = ul.innerHTML + html;
+					}else{
+						ul.innerHTML = html;
+					}
+//					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+					
+					
+					if(res.total == 0){
+						html = '<li class="mui-table-view-cell">没有记录</li>';
+						ul.innerHTML = html;
+//						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					}
+				});
+			}
+    </script>
+</body>
+</html>

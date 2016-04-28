@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link href="../css/css.css" rel="stylesheet"/>
+    <style type="text/css">
+    	.card-model .text p { color: #fff; }
+    </style>
+</head>
+<body>
+<div class="mui-content">
+
+<div id="box-html-content">
+
+</div>
+
+<div class="Warm-tip clearfix">
+<i class="ico-tip icon"></i>
+<p class="title">温馨提示：</p>
+<p>只能使用一张卡进行提现，更换银行卡请联系客服，同时请提供相关身份证明</p>
+</div>
+
+<div class="tel-info">
+<a class="number" href="tel:4001-123-990"><i class="ico-tel icon"></i>4001-123-990</a>
+<div class="title">工作时间09:00-17:00</div>
+</div>
+</div>
+
+<script type="text/html" id="tpl">
+{{if account == null || bank == null}}	
+<div class="card-model">
+	<a href="card-bind.html" class="card-bind box-sizing">
+		<div class="text"><img src="../images/bind-card.png"><span class="name">绑定银行卡</span></div>
+	</a>
+</div>
+{{else}}
+<div class="card-model">
+	<div class="card-info">
+		<div class="text">
+			<p>{{bank_name}} {{branch}}</p>
+			<p>{{realname}}</p>
+			<p>{{account_str}}</p>
+		</div>
+		<!--<img src="../images/ICBC-logo.png">-->
+	</div>
+</div>
+{{/if}}
+</script>
+
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/template.js"></script>
+    <script src="../js/template.function.js"></script>
+    <script src="../js/api.js"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	mui.plusReady(function(){
+      		request = {"user_id":user.uid()};
+      		account.GetUsersBankOne({'request':request},function(res){
+      			console.log(JSON.stringify(res));
+      			var html = template("tpl",res);
+      			document.getElementById("box-html-content").innerHTML = html;
+      		});
+      		
+      		mui('body').on('tap','.card-bind',function(){
+      			request = {"user_id":user.uid()};
+      			user.UserInfo({'request':request},function(res){
+//    				console.log(JSON.stringify(res));
+      				if(res.realname_status != 1){
+      					//alert("你还没实名认证，请先进行实名认证");
+						// 弹出系统提示对话框
+						plus.nativeUI.alert( "你还没实名认证，请先进行实名认证!", function(){
+							var subWV = plus.webview.getWebviewById('subWV');
+							data = {
+								url: '/user/smrz.html',
+								title: '实名认证',
+								aniShow: 'slide-in-right'
+							}
+							mui.fire(subWV, "openWindow", data);
+						}, "提示", "实名认证" );
+      					
+      				}else{
+//					var detailWV = plus.webview.getWebviewById('card-bind.html');
+//					if(detailWV == null){
+						detailWV = plus.webview.create('/user/card-bind.html','card-bind.html');
+//					}
+					detailWV.addEventListener('loaded',function(){
+						mui.fire(detailWV, "senddata", {'realname':res.realname});
+					});
+					
+
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},150);
+//						var subWV = plus.webview.getWebviewById('subWV');
+//						data = {
+//							url: '/user/card-bind.html',
+//							title: '绑定银行卡',
+//							aniShow: 'slide-in-right'
+//						}
+//						mui.fire(subWV, "openWindow", data);
+      				}
+      			});
+      		})
+      		
+      		document.addEventListener('viewreload',function(){
+	      		request = {"user_id":user.uid()};
+	      		account.GetUsersBankOne({'request':request},function(res){
+	      			console.log(JSON.stringify(res));
+	      			var html = template("tpl",res);
+	      			document.getElementById("box-html-content").innerHTML = html;
+	      		});
+      		},false);
+      	})
+    </script>
+    
+</body>
+</html>

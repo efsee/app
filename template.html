@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-loader {
+				position: absolute;
+				top: 25%;
+				width: 100%;
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
+			.mui-fadein {
+				opacity: 1;
+			}
+			.mui-fadeout {
+				opacity: 0;
+			}
+			@keyframes fadein {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadein {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeout {
+				from {
+					opacity: 1;
+				}
+				to {
+					opacity: 0;
+				}
+			}
+			@-webkit-keyframes fadeout {
+				from {
+					opacity: 1;
+				}
+				to {
+					opacity: 0;
+				}
+			}
+			header .mui-icon {
+				color: #999;
+			}
+			.mui-title {
+				color: #333;
+			}
+			
+.header{
+	width:100%;
+	height:45px;
+	background:#fff;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#e6e5e5;
+	content:"";
+	font-size:0;
+	}
+.header.bgf{ background:#f3f3f3; border:none;}
+.header.bgf:after{ display:none;}
+.header.bgf .name{ color:#000;}
+.header .name{ line-height:44px; color:#FFF; font-size:20px; text-align:center;}
+.header .back{ width:20px; height:20px; padding:12px 6px; display:block; position:absolute; left:0; top:0;}
+.header .edit-text{ height:44px; font-size:14px; line-height:44px; padding:0 10px; display:block; position:absolute; right:0; top:0;}
+.header .more-nav{ width:24px; height:24px; display:block; padding:10px; position:absolute; right:0; top:0;}
+.ico-nav{ width:24px; height:24px; display:block; background-position:0px 0px;}
+.header .back{ width:20px; height:20px; display:block; padding:12px 5px; position:absolute; left:0; top:0;}
+.header .back .ico-back{ width:20px; height:20px; display:block; background-position:-96px -30px;}
+.header .share{ width:20px; height:20px; display:block; padding:12px 10px; position:absolute; right:0; top:0;}
+.header .share .ico-share{ width:20px; height:20px; display:block; background-position:-120px -30px;}
+.header .edit-text{ height:44px; font-size:14px; color:#FFF; line-height:44px; padding:0 10px; display:block; position:absolute; right:0; top:0;}
+
+#top_right_btn { color: #999; font-size: 14px; line-height: 44px; }
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+			<h1 id="title" class="mui-title"></h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-loader">
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+			//启用双击监听
+			mui.init({
+				gestureConfig: {
+					doubletap: true
+				}
+			});
+		mui.plusReady(function() {
+			window.addEventListener("loading", function(e) {
+				document.querySelector('.mui-loader').innerHTML = "";
+				setTimeout(function() {
+					document.querySelector('.mui-loader').innerHTML = '<span class="mui-spinner"></span> <span id="loading-text" class="mui-hidden">请耐心等候</span>';
+				}, 1000);
+				setTimeout(function() {
+					if (document.querySelector('#loading-text')) {
+						document.querySelector('#loading-text').classList.remove('mui-hidden');
+					}
+				}, 3000);
+			});
+//			document.querySelector('#back').addEventListener('tap', function() {
+//				document.querySelector('.mui-loader').innerHTML = "";
+//			});
+			var contentWebview = null;
+			mui.back = function() {
+				var current = plus.webview.currentWebview();
+				current.hide('auto');
+				setTimeout(function() {
+					//document.getElementById("title").className = 'mui-title mui-fadeout';
+					if (contentWebview == null) {
+						contentWebview = current.children()[0];
+					}
+					contentWebview.hide("none");
+				}, 200);
+			}
+
+//			document.getElementById("menu").addEventListener('tap', function(e) {
+//				e.stopPropagation();
+//				if (contentWebview == null) {
+//					contentWebview = plus.webview.currentWebview().children()[0];
+//				}
+//				contentWebview.evalJS('mui("#topPopover").popover("toggle")');
+//			});
+			document.querySelector('header').addEventListener('doubletap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS('mui.scrollTo(0, 100)');
+			});
+			
+			document.getElementById('top_right_btn').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				mui.fire(contentWebview,"top-right-btn");
+			});
+			
+			window.addEventListener("toggle_top_right_btn", function(e) {
+				display = e.detail.display;
+				document.getElementById("top_right_btn").style.display = display;
+			});
+			
+			
+		});
+		
+			var titleElem = document.getElementById("title")
+			//var menu = document.getElementById("menu")
+			document.addEventListener("updateHeader", function(e) {
+				var title = e.detail.title;
+				var right_btn = e.detail.right_btn;
+				titleElem.innerHTML = title;
+				//titleElem.className = "mui-title mui-fadein";
+				var display = right_btn ? "" : "none";
+				document.getElementById("top_right_btn").style.display = display;
+				if(right_btn){
+					document.getElementById("top_right_btn").innerHTML = right_btn;
+				}
+			},false);
+	</script>
+
+</html>

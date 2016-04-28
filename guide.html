@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>聚车金融</title>
+    <link rel="stylesheet" type="text/css" href="css/mui.min.css"/>
+    <style type="text/css">
+* { margin: 0; padding: 0;}
+.homeslider {margin: 0; padding: 0;}
+.homeslider .slides > li {display: none; -webkit-backface-visibility: hidden;} 
+.homeslider .slides img {width: 100%; display: block; height:100%;}
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+.no-js .slides > li:first-child {display: block;}
+.homeslider {margin:0px; background: #fff; zoom: 1;}
+.flex-viewport {-webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
+.homeslider .slides {zoom: 1;}
+.homeslider .learn{ position:absolute; bottom:50px; border:#ff705e 1px solid; border-radius:30px; color:#ff705e;  font-size:1.6em; left:0px;  z-index:999; padding:5px 30px; left:50%; margin-left:-60px;}
+
+.flex-control-nav {width: 100%; position: absolute; bottom:8px; text-align: center;display: none;}
+.flex-control-nav li {margin: 0 6px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {width: 14px; height: 14px; display: block;  cursor: pointer; text-indent: -9999px; -webkit-border-radius: 16px; -moz-border-radius: 16px; -o-border-radius: 16px; border:#ffc6bf 2px solid; border-radius: 16px; }
+.flex-control-paging li a:hover { border:#ff705e 2px solid; }
+.flex-control-paging li a.flex-active { border:#ff705e 2px solid; cursor: default; }
+/*#pass{ position: absolute; top:25px; right: 20px; display: block; width: 45px; height: 25px;  font-size:12px; text-align:center; color:#D2B771;z-index: 100; border: solid 1px #E2CD97; border-radius: 5px;;}*/
+#close{position: absolute; bottom: 0; height: 40%;width: 100%; display: block; }   
+    </style>
+    <script src="js/mui.min.js"></script>
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.sliderTabs.min.js"></script>
+</head>
+<body>
+<!--<span id="pass">跳过</span>-->
+<div class="homeslider">
+	<div class="flex-viewport" style="overflow: hidden; position: relative; ">
+		<ul class="slides">
+			<li class="flex-active-slide"><img src="images/guide/1.png"></li>
+			<li><img src="images/guide/2.png"></li>
+			<li><span id="close"></span><img src="images/guide/3.png" ></li>
+		</ul>
+	</div>
+	<!--<a href="#" class="learn" id="close">马上体验</a>-->
+	<!--<ol class="flex-control-nav flex-control-paging">
+	<li><a class="flex-active">1</a></li>
+	<li><a class="">2</a></li>
+	<li><a class="">3</a></li>
+	<li><a class="">4</a></li></ol>-->
+</div>
+
+		<script>
+			mui.back = function() {};
+			mui.plusReady(function() {
+				if(mui.os.ios){
+					plus.navigator.setFullscreen(true);
+				}
+				plus.navigator.closeSplashscreen();
+			});
+
+			//立即体验按钮点击事件
+			document.getElementById("close").addEventListener('tap', function(event) {
+				plus.storage.setItem("welcome", "true");
+				plus.navigator.setFullscreen(false);
+//				plus.webview.currentWebview().loadURL("index.html");
+//				mui.fire(plus.webview.getWebviewById("home"),"gohome");
+				plus.webview.currentWebview().close();
+			}, false);
+
+			document.getElementById("pass").addEventListener('tap', function(event) {
+				plus.storage.setItem("welcome", "true");
+				plus.navigator.setFullscreen(false);
+//				plus.webview.currentWebview().loadURL("index.html");
+//				mui.fire(plus.webview.getWebviewById("home"),"gohome");
+				plus.webview.currentWebview().close();
+			}, false);
+			
+			
+		</script>
+</body>
+</html>

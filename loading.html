@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+	<body>
+		<div class="mui-loader waiting" style="display: none;">内容正在加载，请稍后...</div>
+	</body>
+	<script>
+		 //0.5秒内没加载完显示加载条
+		setTimeout(function() {
+			if (document.querySelector('.waiting')) {
+				document.querySelector('.waiting').style.display = "block";
+			}
+		}, 3000);
+	</script>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+
+<link href="css/mui.min.css" rel="stylesheet"/>
+<style type="text/css">
+.help-list{ background:#FFF;}
+.help-list li{ border-bottom:#e1e1e1 1px solid;}
+.help-list li .tap{ padding:10px 25px 10px 44px; line-height:20px;}
+.help-list li .tap.pr10{ padding-right:10px;}
+.help-list li .ico-news{background-position:-90px 0px; position:absolute; left:10px; top:50%; margin-top:-12px;}
+.help-list li .ico-hot{ background-position:-120px 0px; position:absolute; left:10px; top:50%; margin-top:-12px;}
+.help-list li .ico-arrow{ position:absolute; right:5px; top:50%; margin-top:-10px;}
+.help-list li .title{ font-size:14px; line-height:30px; }
+.help-list li .date{ color:#999;}
+.help-list li .ico-view{ width:14px; height:14px; display:inline-block; vertical-align:middle; margin:-2px 5px 0 0; background-position:-80px -132px;}
+
+</style>
+</head>
+<body>
+	
+<div class="mui-content">
+
+	<ul id="news-list" class="help-list clearfix">
+	</ul>
+</div>
+	
+	
+<script id="tpl-item" type="text/html">
+	{{each list as item to i}}
+<li>
+<a href="javascript:;" class="tap" data='{"id":{{item.id}},"title":"{{item.name}}"}'>
+<i class="ico-news ico24 icon"></i>
+<p class="title" style=" line-height: 35px;">{{item.name}}</p>
+<!--<p class="date">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>-->
+</a>
+</li>
+	{{/each}}
+</script>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script src="js/api.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+    mui.init();
+			mui.plusReady(function(){
+				plus.nativeUI.showWaiting();
+				getdata(1);
+				mui("#news-list").on('tap', 'a.tap', function(e){
+					e.stopPropagation();					
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+					var detailWV = plus.webview.create('article_detail.html');
+					detailWV.addEventListener( "loaded", function(){
+						mui.fire(detailWV,"mui.view.show",data);
+					}, false );	
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},150);
+					
+				})
+			});
+			
+			function getdata(page){				
+				request = {'type_id':11,'order':'order_asc','epage':20};
+				request.page = page;
+				articles.GetList({'request':request},function(res){
+//					console.log(JSON.stringify(res));
+					var html = template('tpl-item',res);
+					var ul = document.querySelector('#news-list');
+					if(page > 1){
+						ul.innerHTML = ul.innerHTML + html;
+					}else{
+						ul.innerHTML = html;
+					}
+                    					
+					if(res.total == 0){
+						html = '<li class="mui-table-view-cell">没有记录</li>';
+						ul.innerHTML = html;
+						
+					
+					}
+					plus.nativeUI.closeWaiting();
+				});
+			}
+    </script>
+</body>
+</html>

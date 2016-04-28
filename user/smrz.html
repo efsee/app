@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link href="../css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+<div class="mui-content">
+<div class="tips-text">
+<p>温馨提示：请填写真实信息</p>
+</div>
+	
+				<form class="mui-input-group" method="post"  enctype="multipart/form-data" onsubmit="return formck();"  name="formx" id="formx">
+					<div class="mui-input-row">
+						<label>真实姓名</label>
+						<input type="text" class="mui-input-clear" name="realname" value="" placeholder="请输入姓名">
+					</div>
+
+					<div class="mui-input-row">
+						<label>性别</label>
+		            	<div class="mui-table" style="width: 65%; float: right;">
+		                	<div class="mui-table-cell mui-col-xs-5">
+		                		<div class="mui-radio mui-left">
+									<label>男</label>
+									<input type="radio" name="sex" value="男" checked="checked" />
+								</div>
+							</div>
+							<div class="mui-table-cell mui-col-xs-5">
+								<div class="mui-radio mui-left">
+									<label>女</label>
+									<input type="radio" id="sex2" name="sex" value="女" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+					<div class="mui-input-row">
+						<label>证件号码</label>
+						<input type="text" class="mui-input-clear" id="card_id" name="card_id" placeholder="请输入身份证证件号码">
+					</div>
+					<div class="mui-input-row">
+						<label>身份证正面</label>
+						<span id="span_card_pic1"></span>
+						<input type="hidden" id="card_pic1" name="card_pic1" readonly="readonly" style="width: 25%;" value="" />
+						<button type="button" rel="card_pic1" class="mui-btn mui-btn-primary upload_img">
+							上传
+						</button>
+					</div>
+					<div class="mui-input-row">
+						<label>身份证反面</label>
+						<span id="span_card_pic2"></span>
+						<input type="hidden" id="card_pic2" name="card_pic2" readonly="readonly" style="width: 25%;" value="" />
+						<button type="button" rel="card_pic2" class="mui-btn mui-btn-primary upload_img">
+							上传
+						</button>
+						
+					</div>
+
+					<div class="mui-button-row">
+						<button type="button" id="btn_submit" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
+						<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+					</div>
+					<input type="hidden" name="user_id" id="user_id" value="0" />
+				</form>
+</div>
+
+<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+
+function formck(){
+	var frm = document.forms['formx'];
+	var realname = frm.elements['realname'].value;
+	var card_id = frm.elements['card_id'].value;
+	 var card_pic1 = frm.elements['card_pic1'].value;
+	 var card_pic2 = frm.elements['card_pic2'].value;
+	var errorMsg = '';
+	if (realname.length == 0 ) {
+		errorMsg += '* 真实姓名不能为空' + '\n';
+	}
+	if (card_id.length == 0 ) {
+		errorMsg += '* 身份证号不能为空' + '\n';
+	}else{
+		if(!validateIdCard(card_id))
+		{
+			errorMsg += '* 身份证号错误' + '\n';
+		}
+	}
+	
+	if (card_pic1.length == 0 ) {
+//		errorMsg += '* 请上传身份证正面照片' + '\n';
+	}
+ 
+	if (errorMsg.length > 0){
+		plus.nativeUI.alert(errorMsg); return false;
+	}else{  
+		return true;
+	}
+}
+
+//$(function(){
+//	$(".upload_img").on("click",function(){
+//		var relobj = $(this).attr('rel');
+//		var options = {};
+//		options.data = {'user_id':user.uid(),'code':'approve','type':'realname'};
+//		options.callback = function(res){
+//			console.log(res);
+//			var r = JSON.parse(res);
+//			$('#' + relobj).val(r[0]['upfiles_id']);
+//			$('#span_' + relobj).html('图片上传成功');//r[0]['name']
+//		}
+//		getimg(options);
+//	})
+//})
+
+
+mui.plusReady(function(){
+	
+	mui("body").on("tap", ".upload_img",function(e){
+		e.stopPropagation();
+		var relobj = this.getAttribute('rel');
+		var options = {};
+		options.data = {'user_id':user.uid(),'code':'approve','type':'realname'};
+		options.callback = function(res){
+			console.log(res);
+			var r = JSON.parse(res);
+			document.getElementById(relobj).value = r[0]['upfiles_id'];
+			document.getElementById('span_' + relobj).innerHTML = '图片上传成功';//r[0]['name']
+		}
+		getimg(options);
+	})
+	
+	mui("body").on('tap', '#btn_submit', function(){
+		if(!formck()){
+			return false;
+		}
+	var frm = document.forms['formx'];
+	var realname = frm.elements['realname'].value;
+	var card_id = frm.elements['card_id'].value;
+	var card_pic1 = frm.elements['card_pic1'].value;
+	var card_pic2 = frm.elements['card_pic2'].value;
+
+	var sex = document.getElementById("sex2").checked ? '女' : '男';
+	
+		var request = {'user_id' : user.uid()};		
+		request.realname = realname;
+		request.card_id = card_id;
+		request.card_pic1 = card_pic1;
+		request.card_pic2 = card_pic2;
+		request.sex = sex;
+		plus.nativeUI.showWaiting();
+
+		user.realname(request,function(res){
+			console.log(JSON.stringify(res));
+			if(res.status == 1){
+				//alert("实名认证成功,请等待审核");
+				plus.nativeUI.alert( "实名认证成功,请等待审核!", function(){
+							mui.fire(plus.webview.currentWebview().opener(), "reload");
+							setTimeout(function(){
+								mui.back();
+							},150);
+						}, "提示", "关闭" );
+			}else{
+				plus.nativeUI.alert(res.msg);
+			}
+			plus.nativeUI.closeWaiting();
+		})
+	})
+
+})
+</script>
+
+<script type="text/javascript" charset="utf-8">
+
+
+function getimg(options) {
+	var btnArray = [{
+		title: "拍照"
+	}, {
+		title: "从相册选择"
+	}];
+	plus.nativeUI.actionSheet({
+		title: "选择照片",
+		cancel: "取消",
+		buttons: btnArray
+	}, function(e) {
+		var index = e.index;
+		switch (index) {
+			case 0:
+				break;
+			case 1:
+				var cmr = plus.camera.getCamera();
+				cmr.captureImage(function(path) {
+//	             path = "file://" + plus.io.convertLocalFileSystemURL(path);
+					appendFile(path,options);
+				}, function(err) {});
+				break;
+			case 2:
+				plus.gallery.pick(function(path) {
+					appendFile(path,options);
+				}, function(err) {}, null);
+				break;
+		}
+	});
+}
+					
+// 拍照添加文件
+function appendByCamera(){
+	plus.camera.getCamera().captureImage(function(p){
+		appendFile(p);
+	});	
+}
+
+function appendFile(p,options){
+	plus.zip.compressImage({
+			src:p,
+			dst:p,
+			//width:"800px",
+			quality:60,
+			overwrite:true
+		},
+		function(event) {
+			uploadFile(p,options);
+		},function(error) {
+			uploadFile(p,options);
+	});
+}
+// 上传文件
+function uploadFile(p,options){
+var server = api_upload_url;
+	var task=plus.uploader.createUpload(server,
+		{method:"POST"},
+		function(t,status){ //上传完成
+			if(status==200){
+				if(options.callback){
+					options.callback(t.responseText);
+				}
+//				plus.storage.setItem("uploader",t.responseText);
+//					console.log(t.responseText);
+					mui.toast("上传成功");
+//					var r = JSON.parse(t.responseText);
+//					if(r.status == 1){
+//						mui.toast(r.info);
+//					}else{
+//						mui.toast(r.info);
+//					}
+			}else{
+				mui.toast("上传失败");
+			}
+		}
+	);
+	task.addFile(p,{"key":"file"});
+	if(options.data){
+		for(var jk in options.data){
+			task.addData(jk,options.data[jk]);
+		}		
+	}
+	task.start();
+}
+</script>
+
+<script type="text/javascript">
+function validateIdCard(idCard) {
+	//15位和18位身份证号码的正则表达式
+	var regIdCard = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+
+	//如果通过该验证，说明身份证格式正确，但准确性还需计算
+	if (regIdCard.test(idCard)) {
+		if (idCard.length == 18) {
+			var idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2); //将前17位加权因子保存在数组里
+			var idCardY = new Array(1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+			var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+			for (var i = 0; i < 17; i++) {
+				idCardWiSum += idCard.substring(i, i + 1) * idCardWi[i];
+			}
+
+			var idCardMod = idCardWiSum % 11; //计算出校验码所在数组的位置
+			var idCardLast = idCard.substring(17); //得到最后一位身份证号码
+
+			//如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+			if (idCardMod == 2) {
+				if (idCardLast == "X" || idCardLast == "x") {
+					//alert("恭喜通过验证啦！");
+					return true;
+				} else {
+					//alert("身份证号码错误！");
+					return false;
+				}
+			} else {
+				//用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+				if (idCardLast == idCardY[idCardMod]) {
+					//alert("恭喜通过验证啦！");
+					return true;
+				} else {
+					//alert("身份证号码错误！");
+					return false;
+				}
+			}
+		}
+	} else {
+		//alert("身份证格式不正确!");
+		return false;
+	}
+}</script>
+
+</body>
+</html>

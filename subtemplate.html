@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+
+<style type="text/css">
+.header{
+	width:100%;
+	height:45px;
+	background:#FFF;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#E6E5E5;
+	content:"";
+	font-size:0;
+	}
+header .mui-icon { color: #999; font-size: 14px; }
+header .mui-title { color: #333; }
+</style>
+	</head>
+
+	<body>
+		<script id="tpl-template-header" type="text/html">
+			<header class="mui-bar mui-bar-nav header">
+				<a id="close" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+				{{if rightclass || righttext}}
+				<a class="mui-action-menu mui-icon mui-pull-right {{rightclass}}" {{if rightdo}} id="{{rightdo}}" {{/if}}>{{righttext}}</a>{{/if}}
+				<h1 id="title" class="mui-title">{{title}}</h1>
+			</header>
+		</script>
+		<div id="tpl-template-header-html"></div>
+		<div class="mui-content" id="content">
+
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/template.js"></script>
+	<script type="text/javascript">
+		 /////test
+		var html = template('tpl-template-header', {
+			title: '返回重试',
+			rightclass: 'mui-icon-loop',
+			rightdo: 'reload'
+		});
+		document.querySelector('#tpl-template-header-html').innerHTML = html;
+		 ////
+		var selfWV, mainWV, bodyWV;
+		mui.plusReady(function() {
+			selfWV = plus.webview.currentWebview();
+			mainWV = plus.webview.currentWebview().opener();
+			mui.init({
+				swipeBack: true,
+				gestureConfig: {
+					doubletap: true
+				}
+			});
+			//二级webview 
+			bodyWV = plus.webview.getWebviewById('template-index');
+			if (!bodyWV) {
+				bodyWV = plus.webview.create('loading.html', 'template-index', {
+					top: '45px'
+				});
+			}
+			selfWV.append(bodyWV);
+			//关闭页面
+			window.addEventListener('close', function(e) {
+				close();
+			});
+			//打开窗口事件
+			window.addEventListener('openWindow', function(e) {
+				var url = e.detail.url;
+				var title = e.detail.title;
+				var background = e.detail.background;
+				var rightdo = e.detail.rightdo;
+				var aniShow = e.detail.aniShow || "auto";
+				var data = {
+					title: title,
+					rightclass: e.detail.rightclass,
+					rightdo: rightdo
+				};
+				bodyWV.loadURL(url);
+				//加载头部
+				var html = template('tpl-template-header', data);
+				document.querySelector('#tpl-template-header-html').innerHTML = html;
+				//监听右上角菜单事件
+				if (rightdo) {
+					mui('header').on('tap', '#' + rightdo, function(e) {
+						mui.fire(bodyWV, rightdo);
+					})
+				}
+				//设置背景色
+				if (background) {
+					plus.navigator.setStatusBarBackground(background);
+					document.querySelector('header').style.backgroundColor = background;
+				}
+				//显示窗口
+				setTimeout(function(){
+					selfWV.show(aniShow);
+				},150);
+				
+			});
+			//重载头部事件
+			window.addEventListener('loadHeader', function(e) {
+				mui.fire(mainWV, 'loadHeader');
+			});
+			//敲击顶部导航，内容区回到顶部
+			mui('body').on('doubletap','header', function() {
+				bodyWV.evalJS("mui.scrollTo(0, 100);")
+			});
+			//关闭
+			mui('body').on('tap', '#close', function() {
+				close();
+			});
+			//返回
+			mui.back = function() {
+				close();
+			}
+			
+			mui('header').on('tap', '#reload', function(e) {
+				bodyWV.reload();
+			})
+		});
+
+		function close() {
+			bodyWV.loadData('<p align="center">请稍后...</p>')
+			bodyWV.loadURL('loading.html');
+			mainWV.setStyle({
+				left: '0'
+			});
+			mui.fire(mainWV, 'loadHeader');
+			//重新加载头部
+			var html = template('tpl-template-header', {});
+			document.querySelector('#tpl-template-header-html').innerHTML = html;
+			selfWV.hide();
+		}
+	</script>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<style>
+.reg-txt{ color: #333; }	
+</style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav header">
+<h1 class="name">会员注册</h1>
+<a href="javascript:void(0);" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
+</header>
+<div class="wrap clearfix mui-content">
+<ul class="reg-form clearfix">
+<li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" name="mobile" class="reg-txt" placeholder="手机号"></div></li>
+<li><div class="input-box yzm"><i class="ico-yzm ico24 icon"></i><input type="text" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码"><a href="javascript:sendmobilecode();" class="getyzm" id="getyzm">发送验证码</a></div></li>
+<li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="password" name="password" class="reg-txt" placeholder="输入密码"></div></li>
+<li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="confirm_password" name="confirm_password" class="reg-txt" placeholder="重复输入密码"></div></li>
+<li><div class="input-box"><i class="ico-yzm ico24 icon"></i><input type="text" id="invite_userid" name="invite_userid" class="reg-txt" placeholder="邀请码（选填）"></div></li>
+<li class="dsp">如果您已经有账号请<span class="space"></span><a href="javascript:mui.back();" class="c5" id="login-btn">登录</a></li>
+<li class="opn"><button type="button" class="btn Large" id="reg-btn">注册会员</button></li>
+<input type="hidden" name="reg_type" value="phone" />
+</ul>
+
+<div class="tel-info">
+<a class="number" href="" id='confirmBtn'><i class="ico-tel icon"></i>4001-123-990</a>
+<div class="title">工作时间09:00-17:00</div>
+</div>
+</div>
+<script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/base.js"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+	mui.init();
+	
+	mui.plusReady(function(){
+	})
+	mui(".tel-info").on('tap','a#confirmBtn',function(){
+		var btnArray = ['取消', '呼叫'];
+		mui.confirm(' ','4001-123-990', btnArray, function(e) {
+				if (e.index == 1) {
+					window.location.href = 'tel:4001-123-990';
+				} else {
+				}
+			})
+		});
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		$('#reg-btn').on('click',function(){
+			request = {};
+			request.reg_type = 'phone';
+			request.mobile = $("#mobile").val();
+			request.mobilecode = $("#mobilecode").val();
+			request.password = $("#password").val();
+			request.confirm_password = $("#confirm_password").val();
+			request.invite_userid = $("#invite_userid").val();			
+			request.username = $("#mobile").val();
+			if(request.mobile == ''){
+				alert('请输入手机号码注册');
+				return false;
+			}
+			if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(request.mobile)){
+				alert('手机号码错误');
+				return false;
+			}
+			if(request.mobilecode == ''){
+				alert('请输入您的短信验证码');
+				return false;
+			}
+			if(request.confirm_password != request.password){
+				alert('两次输入的密码不一致');
+				return false;
+			}
+			
+			$("input:focus").blur();
+			user.register(request,function(res){
+				console.log(JSON.stringify(res));
+				if(res.status == 1){
+					plus.nativeUI.toast("注册成功！");
+					if(res.uid){
+						uid = res.uid;
+							user.deleteCache(uid); //清空缓存 
+							store.delete('uid');
+							store.delete('utoken');
+							
+							//设置登陆信息,一年有效期
+							store.set('uid', uid, 3600 * 24 * 365);
+							store.set('utoken', res.utoken, 3600 * 24 * 365);
+							store.set('username', $("#mobile").val(), 3600 * 24 * 365);
+							//store.set('password', $("#password").val(), 3600 * 24 * 365);
+						setTimeout(function(){
+							plus.runtime.restart(); 
+						},200);
+					}else{
+						// 关闭注册页面
+						mui.back();
+					}
+				}else{
+					alert(res.msg);
+				}
+			})
+		})
+	})
+</script>
+<script language="javascript" type="text/javascript">
+var times=60,cuttime;
+function getyzm(idn){
+	times--;
+	if(times>0&&times<60){
+	$(idn).text(times+"秒后重新获取");
+	$(idn).addClass("fail");
+	cuttime=setTimeout(function(){getyzm(idn)},1000);
+	}
+	else{
+		$(idn).text("发送验证码");
+		times=60;
+		issend = true;
+		$(idn).removeClass("fail");
+		clearTimeout(cuttime);
+		}
+	}
+
+var issend = true;
+function sendmobilecode(){
+	var mobile = $("#mobile").val();
+	if(mobile == ""){
+		alert("请输入手机号码！");
+		return;
+	}
+	if(/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
+		
+	}else{
+		alert("手机号码格式不对！");
+		return;
+	}
+		if(issend && times == 60){
+			issend = false;
+			request = {'mobile': mobile,'type':'reg'};
+			//request.valicode = '';
+			user.mobilecode(request,function(res){
+				//console.log(JSON.stringify(res));
+				if(res.status == 1){
+					getyzm("#getyzm");
+					plus.nativeUI.toast("验证码短信已发送成功！");
+					issend = false;
+				}else{
+					alert(res.msg);
+					issend = true;
+				}
+			})
+		}
+		return false;
+}
+</script>
+</body>
+</html>

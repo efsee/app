@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+		<title>设置手势密码</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" href="css/mui.min.css" />
+        <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+	    <style type="text/css">
+	        html, body {
+	            margin: 0;
+	            padding: 0;
+	            width: 100%;
+	          
+	            background:#fff;
+	        }
+	        .mui-title { color: #333;}
+	    </style>
+    <script type="text/javascript">
+    //取消浏览器的所有事件，使得active的样式在手机上正常生效
+	document.addEventListener('touchstart',function(){return false;},true);
+	// 禁止选择
+	document.oncontextmenu=function(){return false;};
+     var password = '';
+     var first = 0;
+        function plusReady(){
+          	document.getElementById('log').innerText = '绘制解锁图案';
+         //document.getElementById('log').innerText = plus.storage.getItem('ssmminfo');
+          mycanns();
+          document.getElementById("cz").addEventListener('click',function(){
+          	first = 0;
+          	password = '';
+        	for(var i=0; i<9; i++){
+        	    document.getElementById("s"+i).style.backgroundColor = 'transparent';
+        	}
+          },false);
+        }
+		if(window.plus){
+	    	plusReady();
+        }else{
+	    	document.addEventListener('plusready',plusReady,false);
+        }
+    
+    function closewindow(){
+        var ws=plus.webview.currentWebview();
+        plus.webview.close(ws,'slide-out-right');
+    }
+    
+        var R = 32, CW = 210, CH = 300, OffsetX = 25, OffsetY = 25;
+        function CaculateNinePointLotion(diffX, diffY) {
+            var Re = [];
+            for (var row = 0; row < 3; row++) {
+                for (var col = 0; col < 3; col++) {
+                    var Point = {
+                        X: (OffsetX + col * diffX + ( col * 2 + 1) * R),
+                        Y: (OffsetY + row * diffY + (row * 2 + 1) * R)
+                    };
+                    Re.push(Point);
+                }
+            }
+            return Re;
+        }
+        var PointLocationArr = [];
+        
+        function mycanns(){
+        	var c = document.getElementById("myCanvas");
+            CW = document.body.offsetWidth;
+            c.width = CW;
+            c.height = CH;
+            var cxt = c.getContext("2d");
+            //两个圆之间的外距离 就是说两个圆心的距离去除两个半径
+            var X = (CW - 2 * OffsetX - R * 2 * 3) / 2;
+            var Y = (CH - 2 * OffsetY - R * 2 * 3) / 2;
+            PointLocationArr = CaculateNinePointLotion(X, Y);
+            InitEvent(c, cxt);
+            //CW=2*offsetX+R*2*3+2*X
+            Draw(cxt, PointLocationArr, [],null);
+        }
+         
+         function Draw(cxt, _PointLocationArr, _LinePointArr,touchPoint) {
+             if (_LinePointArr.length > 0) {
+                 cxt.beginPath();
+                 for (var i = 0; i < _LinePointArr.length; i++) {
+                     var pointIndex = _LinePointArr[i];
+                     cxt.lineTo(_PointLocationArr[pointIndex].X, _PointLocationArr[pointIndex].Y);
+                 }
+                 cxt.lineWidth = 4;
+                 cxt.strokeStyle = "#f13f3f";
+                 cxt.stroke();
+                 cxt.closePath();
+                 if(touchPoint!=null)
+                 {
+                     var lastPointIndex=_LinePointArr[_LinePointArr.length-1];
+                     var lastPoint=_PointLocationArr[lastPointIndex];
+                     cxt.beginPath();
+                     cxt.moveTo(lastPoint.X,lastPoint.Y);
+                     cxt.lineTo(touchPoint.X,touchPoint.Y);
+                     cxt.stroke();
+                     cxt.closePath();
+                 }
+             }
+             for (var i = 0; i < _PointLocationArr.length; i++) {
+                 var Point = _PointLocationArr[i];
+                 cxt.fillStyle = "#f13f3f";
+                 cxt.beginPath();
+                 cxt.arc(Point.X, Point.Y, R-1, 0, Math.PI * 2, true);
+                 cxt.closePath();
+                 cxt.fill();
+                 cxt.fillStyle = "#fff";
+                 cxt.beginPath();
+                 cxt.arc(Point.X, Point.Y, R - 3, 0, Math.PI * 2, true);
+                 cxt.closePath();
+                 cxt.fill();
+                 if(_LinePointArr.indexOf(i)>=0)
+                 {
+                     cxt.fillStyle = "#ffdfdf";
+                     cxt.beginPath();
+                     cxt.arc(Point.X, Point.Y, R -8, 0, Math.PI * 2, true);
+                     cxt.closePath();
+                     cxt.fill();
+                 }
+                 if(_LinePointArr.indexOf(i)>=0)
+                 {
+                     cxt.fillStyle = "#f13f3f";
+                     cxt.beginPath();
+                     cxt.arc(Point.X, Point.Y, R -22, 0, Math.PI * 2, true);
+                     cxt.closePath();
+                     cxt.fill();
+                 }
+             }
+         }
+        function IsPointSelect(touches,LinePoint)
+        {
+            for (var i = 0; i < PointLocationArr.length; i++) {
+                var currentPoint = PointLocationArr[i];
+                var xdiff = Math.abs(currentPoint.X - touches.pageX);
+                var ydiff = Math.abs(currentPoint.Y - touches.pageY+140);
+                var dir = Math.pow((xdiff * xdiff + ydiff * ydiff), 0.5);
+                if (dir < R ) {
+                    if(LinePoint.indexOf(i) < 0){ LinePoint.push(i);}
+                    break;
+                }
+            }
+        }
+        function InitEvent(canvasContainer, cxt) {
+            var LinePoint = [];
+            canvasContainer.addEventListener("touchstart", function (e) {
+                IsPointSelect(e.touches[0],LinePoint);
+            }, false);
+            canvasContainer.addEventListener("touchmove", function (e) {
+                e.preventDefault();
+                var touches = e.touches[0];
+                IsPointSelect(touches,LinePoint);
+                cxt.clearRect(0,0,CW,CH);
+                Draw(cxt,PointLocationArr,LinePoint,{X:touches.pageX,Y:touches.pageY-140});
+            }, false);
+            canvasContainer.addEventListener("touchend", function (e) {
+            	e.stopPropagation();
+                cxt.clearRect(0,0,CW,CH);
+                Draw(cxt,PointLocationArr,LinePoint,null);
+                //alert(password);
+                /*if(password == LinePoint.join("")){
+                	var ws=plus.webview.currentWebview();
+                	plus.webview.close(ws,'slide-out-bottom');
+                }else{
+                	document.getElementById('log').innerText = '密码错误，您还有4次机会';
+                }*/
+
+					if (LinePoint.length < 4) {
+						LinePoint = [];
+		                cxt.clearRect(0,0,CW,CH);
+		                Draw(cxt, PointLocationArr, [],null);
+		                document.getElementById('log').style.color = 'red';
+						document.getElementById('log').innerText = '至少连接4个点，请重新绘制';
+						return;
+					}
+
+					
+               console.log("first" + first + " password " + password);
+                if(first){
+	                if(password == LinePoint.join("")){
+	                	plus.storage.setItem('shoushimima', LinePoint.join(""));
+	                	plus.storage.setItem('ssmms', '1');
+	                	plus.storage.setItem('ssmminfo', '');
+	                	document.getElementById('log').innerText = '设置成功 请牢记';
+	                	var ssmmwv = plus.webview.getWebviewById('ssmm');
+	                	if(ssmmwv){
+	                		ssmmwv.evalJS("initpage();");
+	                	}
+						setTimeout(function(){
+		 		  			var ws=plus.webview.currentWebview();
+			                plus.webview.close(ws,'slide-out-right');
+						},1000);
+
+            	
+	                	
+	                }else{
+	                	plus.storage.setItem('ssmminfo', '两次密码不一样');
+	                	document.getElementById('log').style.color = 'red';
+	                	document.getElementById('log').innerText = '与首次绘制不一致，请重新绘制';
+	                	//plus.webview.getWebviewById( plus.webview.currentWebview().id).reload(true);
+	                		//first = 0;
+	                		//password = '';
+	                	setTimeout(function(){
+	                		first += 1;
+	                		plus.storage.setItem('ssmminfo', '');
+	                		document.getElementById('log').innerText = '请再次绘制图案';
+	                		document.getElementById('log').style.color = '#333';
+			                LinePoint = [];
+			                cxt.clearRect(0,0,CW,CH);
+			                Draw(cxt, PointLocationArr, [],null);
+	                	},1000);
+	                }
+                }else{
+                	for(var i=0; i<LinePoint.length; i++){
+                	    document.getElementById("s"+LinePoint[i]).style.backgroundColor = '#666';
+                	}
+                	document.getElementById("cz").classList.remove('mui-hidden');
+                	password = LinePoint.join("");
+                	document.getElementById('log').innerText = '请再次绘制图案';
+                	first += 1;
+	                LinePoint = [];
+	                cxt.clearRect(0,0,CW,CH);
+	                Draw(cxt, PointLocationArr, [],null);
+                }                
+                //mycanns();
+//              LinePoint = [];
+//              cxt.clearRect(0,0,CW,CH);
+//              Draw(cxt, PointLocationArr, [],null);
+            }, false);
+        }
+    </script> 
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav" style="position:fixed;background:#fff;">
+        
+        <a onclick="closewindow();"  class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a><h1 class="mui-title">设置手势密码</h1>
+     </header>
+    <div style="padding-top:0px;text-align: center; ">
+        
+        
+        <div class="small">
+         <span id='s0' class="smalls"></span>
+         <span id='s1' class="smalls"></span>
+         <span id='s2' class="smalls"></span>
+         <span id='s3' class="smalls"></span>
+         <span id='s4' class="smalls"></span>
+         <span id='s5' class="smalls"></span>
+         <span id='s6' class="smalls"></span>
+         <span id='s7' class="smalls"></span>
+         <span id='s8' class="smalls"></span>
+        </div>
+        <h5  id="log"style="text-align: center; color: #333;">绘制解锁图案</h5>
+        
+        <canvas id="myCanvas"></canvas>
+              <a class="mui-icon mui-hidden" id="cz" style="font-size: 1em; color: #999; margin-top: 20px; background: none;">重新设置手势密码</a>
+    </div>
+    
+    <style>
+    	.small{margin-top:70px;width:36px; height: 55px; margin-left: auto; margin-bottom: 0px; margin-right: auto;}
+    	.small .smalls{border: 1px solid #ddd; display: block; width: 8px; height: 8px; float:left; margin-right: 4px; margin-bottom: 4px; border-radius: 10px;}
+    </style>
+</body>
+</html>

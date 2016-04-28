@@ -1,0 +1,266 @@
+{"@platforms":["android","iPhone","iPad"],"id":"H50C5A464","name":"聚车金融","version":{"name":"1.0.4","code":"83"},"description":"","icons":{"72":"icon.png"},"launch_path":"index.html","developer":{"name":"com.hzgxr.ifcar99","email":"zcyxok@126.com","url":"http://www.dcloud.io"},"permissions":{"Accelerometer":{"description":"访问加速度感应器"},"Cache":{"description":"管理应用缓存"},"Console":{"description":"跟踪调试输出日志"},"Downloader":{"description":"文件下载管理"},"Events":{"description":"应用扩展事件"},"File":{"description":"访问本地文件系统"},"Gallery":{"description":"访问系统相册"},"Invocation":{"description":"使用Native.js能力"},"Orientation":{"description":"访问方向感应器"},"Proximity":{"description":"访问距离感应器"},"Storage":{"description":"管理应用本地数据"},"Uploader":{"description":"管理文件上传任务"},"Runtime":{"description":"访问运行期环境"},"XMLHttpRequest":{"description":"跨域网络访问"},"Zip":{"description":"文件压缩与解压缩"},"Webview":{"description":"窗口管理"},"NativeUI":{"description":"原生UI控件"},"Navigator":{"description":"浏览器信息"},"NativeObj":{"description":"原生对象"},"Share":{}},"plus":{"distribute":{"icons":{"ios":{"iphone":{"retina":"unpackage/res/icons/114x114.png","normal":"unpackage/res/icons/57x57.png","retina8":"unpackage/res/icons/180x180.png","retina7":"unpackage/res/icons/120x120.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/58x58.png","spotlight-normal":"unpackage/res/icons/29x29.png","settings-retina8":"unpackage/res/icons/87x87.png","spotlight-retina7":"unpackage/res/icons/80x80.png"},"ipad":{"retina":"unpackage/res/icons/144x144.png","normal":"unpackage/res/icons/72x72.png","retina7":"unpackage/res/icons/152x152.png","normal7":"unpackage/res/icons/76x76.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/100x100.png","spotlight-normal":"unpackage/res/icons/50x50.png","spotlight-normal7":"unpackage/res/icons/40x40.png","spotlight-retina7":"unpackage/res/icons/80x80.png"}},"android":{"ldpi":"unpackage/res/icons/48x48.png","mdpi":"unpackage/res/icons/48x48.png","hdpi":"unpackage/res/icons/72x72.png","xhdpi":"unpackage/res/icons/96x96.png","xxhdpi":"unpackage/res/icons/144x144.png"}},"splashscreen":{"ios":{"ipad":{"portrait-retina7":"E:/聚车汇/APP开发/启动页/IOS1536.png"},"iphone":{"default":"E:/聚车汇/APP开发/启动页/androind320.png","retina55":"E:/聚车汇/APP开发/启动页/IOS1242.png","retina47":"E:/聚车汇/APP开发/启动页/IOS750.png","retina40":"E:/聚车汇/APP开发/启动页/IOS640-1136.png","retina35":"E:/聚车汇/APP开发/启动页/IOS640.png"}},"android":{"hdpi":"E:/聚车汇/APP开发/启动页/androind480.png","ldpi":"E:/聚车汇/APP开发/启动页/androind320.png","mdpi":"E:/聚车汇/APP开发/启动页/androind240.png","xhdpi":"E:/聚车汇/APP开发/启动页/androind720.png","xxhdpi":"E:/聚车汇/APP开发/启动页/androind1080.png"}},"plugins":{"share":{"sina":{"appkey":"2611902893","appsecret":"c0bba74f6081b10f5a44124bffa4dd3b","redirect_uri":"http://www.ifcar99.com/zt/app.html","description":"可选，新浪微博分享"},"weixin":{"appid":"wx4730a0fb5b884cb3","appsecret":"d4624c36b6795d1d99dcf0547af5443d","description":"可选，微信分享"}}},"google":{"permissions":["<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>"]},"orientation":["portrait-primary","portrait-secondary"]},"splashscreen":{"autoclose":true,"waiting":false,"delay":"2000"},"runmode":"liberate","signature":"Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="},"fullscreen":true,
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"css/css.css",
+					"js/common.js",
+					"js/mui.min.js",
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/api.js",
+					"home.html",
+					"fonts/mui.ttf",
+					"product.html",
+					"more.html",
+					"user.html"
+				],
+				"refer": [
+					"subtemplate.html",
+					"login.html"
+				],
+				"priority": 0
+			},
+			"home.html": {
+				"resources": [
+					"images/2.png",
+					"images/3.png",
+					"images/1.png",
+					"css/swiper.min.css",
+					"js/swiper.min.js",
+					"js/jquery-1.11.2.min.js",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
+				],
+				"refer": [
+					"pshow.html"
+				],
+				"priority": 0
+			},
+			"more.html": {
+				"resources": [
+					"images/user.png",
+					"js/jquery-1.11.2.min.js",
+					"js/uploadimg.js",
+					"js/template.js",
+					"js/template.function.js",
+					"css/css.css",
+					"js/common.js",
+					"js/mui.min.js",
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/api.js",
+					"notice.html",
+					"index.html"
+				],
+				"refer": [
+					"template.html"
+				],
+				"priority": 0
+			},
+			"product.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/template.js",
+					"js/template.function.js",
+					"index.html",
+					"css/css.css",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user.html": {
+				"resources": [
+					"images/Assets-bg.png",
+					"images/ico_jyts.png",
+					"css/css.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js",
+					"images/icon.png",
+					"user/yqyl.html",
+					"index.html"
+				],
+				"refer": [
+					"template.html"
+				],
+				"priority": 0
+			},
+			"notice.html": {
+				"resources": [
+					"more.html",
+					"css/css.css",
+					"js/mui.min.js",
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/api.js",
+					"js/template.function.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"template.html": {
+				"resources": [
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"subtemplate.html": {
+				"resources": [
+					"loading.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"js/base.js",
+					"images/logo1.png",
+					"css/css.css",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js",
+					"images/icon.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"pshow.html": {
+				"resources": [
+					"css/css.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"images/icon.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user/yqyl.html": {
+				"resources": [
+					"js/base64.js",
+					"images/Invite-polite.png",
+					"js/share.js",
+					"js/jquery.qrcode.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"w_recharge.html",
+				"js/radialIndicator.min.js",
+				"css/css#.css",
+				"user/yqgl.html",
+				"active_detail.html",
+				"bbs.html",
+				"images/bank/bank2.png",
+				"js/mui.poppicker.js",
+				"withdraw.html",
+				"js/mui.js",
+				"js/city.data.js",
+				"images/Panic-buying.png",
+				"images/bank/bank11.png",
+				"js/jquery.mobile.min.js",
+				"images/guide/1.png",
+				"userinfo.html",
+				"xszn.html",
+				"images/rzlogo3.png",
+				"js/city.data-3.js",
+				"images/guide/2.png",
+				"user/wdyhk.html",
+				"user/zhye.html",
+				"wjmmpay.html",
+				"images/bank/bank5.png",
+				"images/Red-envelopes2.png",
+				"images/rzlogo6.png",
+				"images/guide/4.png",
+				"images/bank/bank8.png",
+				"active.html",
+				"article_detail.html",
+				"images/bind-card.png",
+				"images/logo.png",
+				"about.html",
+				"user/card-bind.html",
+				"images/focus2.jpg",
+				"images/icon_jyts.png",
+				"permissionss.html",
+				"control.xml",
+				"guide.html",
+				"images/bank/bank7.png",
+				"reg.html",
+				"images/over-Expired.png",
+				"dlmm.html",
+				"user/zdtz-add.html",
+				"images/bank/bank3.png",
+				"css/mui.min#.css",
+				"images/ICBC-logo.png",
+				"images/rzlogo7.png",
+				"images/bank/bank6.png",
+				"images/ewm.jpg",
+				"js/mui.picker.min.js",
+				"user/zjjl.html",
+				"ssmm.html",
+				"user-zdtz.html",
+				"wjmm.html",
+				"images/rzlogo4.png",
+				"images/bank/bank1.png",
+				"user-wdhb.html",
+				"images/over-Certified.png",
+				"recharge_header.html",
+				"css/radialindicator.css",
+				"js/iscroll.js",
+				"images/rzlogo5.png",
+				"images/bank/bank12.png",
+				"user/wdhb.html",
+				"notice_detail.html",
+				"js/mui.picker.js",
+				"js/jquery.form.min.js",
+				"images/bank/bank4.png",
+				"images/Red-envelopes.png",
+				"js/radialIndicator.js",
+				"css/mui.css",
+				"images/manbiao.png",
+				"recharge.html",
+				"js/zepto.min.js",
+				"images/bank/bank9.png",
+				"permissions.html",
+				"js/city.data1.js",
+				"tzjl.html",
+				"active_url.html",
+				"images/guide/3.png",
+				"permission.html",
+				"user/zdtz.html",
+				"images/over-Use.png",
+				"user/hkjl.html",
+				"images/rzlogo2.png",
+				"images/bank/bank10.png",
+				"css/mui.poppicker.css",
+				"images/txyhk.png",
+				"user/smrz.html",
+				"js/jquery.sliderTabs.min.js",
+				"css/mui.picker.css",
+				"images/focus.jpg",
+				"jymm.html",
+				"ljtz.html",
+				"user/tzjl.html",
+				"images/rzlogo1.png"
+			]
+		}
+	}}

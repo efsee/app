@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style type="text/css">
+    	.imgbox img{ width:60px; height:60px; }
+    	.user-bar .imgbox{width:auto}
+    </style>
+</head>
+<body>
+<div class="mui-content">
+<div class="user-bar" id="user-bar">
+<a href="" class="tap" id="taps" data='{"title":"账号信息"}'>
+<div class="imgbox br-p"><img id="avatar" src="images/user.png" class="br-p"></div>
+<div class="text">
+<p class="name">游客</p>
+<p class="green"><!--<i class="ico-verified active ico16 icon"></i>已认证实名--></p>
+</div>
+<i class="ico-arrow icon"></i>
+</a>
+</div>
+
+<ul class="user-nav">
+<li><a href="notice.html" class="tap" data='{"title":"公告"}'><i class="ico18 icon ico-notice"></i>公告<i class="ico-arrow icon"></i></a></li>
+<li><a href="active.html" class="tap" data='{"title":"活动中心"}'><i class="ico18 icon ico-activity"></i>活动中心<i class="ico-arrow icon"></i></a></li>
+<li><a href="xszn.html" class="tap" data='{"title":"新手指南"}'><i class="ico18 icon ico-xszn"></i>新手指南<i class="ico-arrow icon"></i></a></li>
+<li><a href="about.html" class="tap" data='{"title":"关于我们"}'><i class="ico18 icon ico-about"></i>关于我们<i class="ico-arrow icon"></i></a></li>
+
+<!--<li><a href="bbs.html" class="tap" data='{"title":"社区"}'><i class="ico18 icon ico-shequ"></i>社区栏目<i class="ico-arrow icon"></i></a></li>-->
+</ul>
+
+<div class="tel-info">
+<a class="number" href="" id='confirmBtn'><i class="ico-tel icon"></i>4001-123-990</a>
+<div class="title">工作时间09:00-17:00</div>
+</div>
+<div id="ucsynlogin"></div>
+<!--<ul class="user-nav" style="padding:0px 20px 20px 20px; background: transparent; ">
+<li style="border: none;"><a href="logout.html" class="btn Large" id="logout">退出应用</a></li>
+</ul>-->
+</div>
+
+<script id="tpluser" type="text/html">
+
+<a href="" class="tap" id="taps" data='{"title":"账号信息"}'>
+<div class="imgbox br-p">
+	<img id="avatar" src="{{host}}/data/avatar/{{user_id}}_avatar_middle.jpg" onerror="this.src='images/user.png'" class="br-p">
+</div>
+<div class="text">
+<p class="name" id="name">{{if realname}}{{realname}}{{else if username}}{{username}}{{else}}点击登录{{/if}}</p>
+{{if realname_status == '1'}}
+<p class="green"><i class="ico-verified active ico16 icon"></i>已认证实名</p>
+{{/if}}
+</div>
+<i class="ico-arrow icon"></i>
+</a>
+
+</script>
+
+<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
+<script src="js/uploadimg.js"></script>
+<script>
+document.getElementById("confirmBtn").addEventListener('tap', function() {
+				var btnArray = ['取消', '呼叫'];
+				mui.confirm(' ','4001-123-990', btnArray, function(e) {
+					if (e.index == 1) {
+						window.location.href = 'tel:4001-123-990';
+					} else {
+					}
+				})
+			});
+	mui.plusReady(function(){
+		user.getInfo(function(res){
+			if(res){
+			var html = template('tpluser', res);
+			document.getElementById("user-bar").innerHTML = html;
+			}
+		});
+//		request = {'user_id':user.uid()};
+//		user.UserInfo({'request':request},function(res){
+//			console.log(JSON.stringify(res));
+//			res.host = host;
+//			var html = template('tpluser', res);
+//			document.getElementById("user-bar").innerHTML = html;
+//		});
+		
+		mui('body').on('tap', '.imgbox', function(e){
+			e.stopPropagation();
+			var options = {};
+			options.data = {'user_id':user.uid(),'m':'user','action':'avatar','uid':user.uid(),'avatartype':'virtual'};
+			options.callback = function(res){
+				console.log(res);
+				//res.fileurl
+				rs = JSON.parse(res);
+				if(rs.status == 1){					
+					document.getElementById("avatar").src = host + rs.filename + "?t=" + Math.random();
+				}else{
+					plus.nativeUI.alert(rs.msg);
+				}
+			}
+			uid = user.uid();
+			if(!uid){
+				document.getElementById("taps").href="";
+				login();
+				return;
+			}else{
+				getimg(options);
+			}
+			
+		})
+		mui("body").on('tap','a#taps',function(){
+			uid = user.uid();
+			if(!uid){
+				document.getElementById("taps").href="";
+				login();
+				return;
+			}else{
+				document.getElementById("taps").href="userinfo.html";
+			}
+		})
+		var inittemplate = getTemplate('template', 'template.html');
+		mui("body").on('tap','a.tap',function(){
+			
+				var url = this.getAttribute('href');
+				href = this.href;
+				if(url == "") return;
+				
+			if(url == "bbs.html"){
+//				var bbswv = mui.openWindow({'url':'http://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":true}});
+//				bbswv.addEventListener("loaded",function(){
+//					bbswv.setStyle({"aniShow":"none"});
+//				})
+				//var w = plus.webview.open( "https://www.ifcar99.com/bbs/" );
+				mui.openWindow({'url':'https://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":false}});
+				return false;
+			}
+				
+
+
+				var data = this.getAttribute('data');
+				data = eval("(" + data + ")");
+				//通知模板修改标题，并显示隐藏右上角图标；
+				inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href);
+				var right_btn = data.right_btn || "";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: data.title,
+					showMenu: false,
+					right_btn:right_btn
+				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
+		})
+		
+		
+		mui('body').on('tap', '#logout', function(e){
+			e.stopPropagation();
+//			user.logout({},function(res){
+//				console.log('logout');
+				plus.nativeUI.toast('成功退出');
+				setTimeout(function(){
+					plus.runtime.quit(); 
+				},100);
+//			});
+		})
+	})
+	document.addEventListener('initpage',function(e){
+
+					request = {};
+					request.user_id = user.uid();
+					user.loginbbs({'request':request},function(res){
+						//console.log(JSON.stringify(res));
+						if(res.src){
+						var script = document.createElement('script');
+					    script.setAttribute('type', 'text/javascript');
+					    script.setAttribute('src', res.src);
+					    document.getElementsByTagName('head')[0].appendChild(script);
+					   }
+					})
+	},false);
+
+		document.addEventListener('mui.view.refresh',function(){
+			user.getInfo(function(res){
+				var html = template('tpluser', res);
+				document.getElementById("user-bar").innerHTML = html;
+			});
+		},false);
+</script>
+
+</body>
+</html>

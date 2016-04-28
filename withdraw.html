@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script src="js/mui.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style type="text/css">
+    	.imgbox { float: left;}
+    </style>
+</head>
+<body>
+<div class="mui-content">
+<ul class="form-tab">
+<li id="box-bank">
+
+</li>
+<li><div class="tab pl10">可提现余额<span class="dsp c5" id="balance">0.00</span></div></li>
+<li><div class="link"><span class="name">提现金额</span><input type="text" id="money" name="money" class="form-txt" placeholder="请输入提现金额" id="txje"><button type="button" class="qetx-btn" id="qetx">全额提现</button></div></li>
+<li><div class="link"><span class="name">交易密码</span><input type="password" id="paypassword" name="paypassword" class="form-txt" placeholder="请输入交易密码"></div></li>
+<li><div class="tips tar"><a href="wjmm.html" class="green fs1">忘记密码？</a></div></li>
+<li class="mlr10"><button type="button" class="btn Large" id="btn_submit">提交</button></li>
+</ul>
+<input type="hidden" name="bank_id" id="bank_id" value="" />
+<input type="hidden" name="bank" id="bank" value="" />
+<div class="Warm-tip clearfix">
+<i class="ico-tip icon"></i>
+<p class="title">温馨提示：</p>
+<p>禁止信用卡套现</p>
+<p>请先填写您的银行账户后再申请提现！</p>
+<!--<p><a href="#" class="black">立即设置银行账号</a></p>-->
+</div>
+
+</div>
+
+<script type="text/html" id="tpl-bank">
+<div class="tab txyhk">
+<div class="imgbox"><img src="images/bank/bank{{bank}}.png"></div>
+<div class="bank-info">
+<p class="bt">{{realname}}  {{branch}} 尾号{{account.substr(-4)}}</p>
+<p class="dsps">提现银行卡为绑定的投资银行卡</p>
+</div>
+</div>
+</script>
+<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.plusReady(function(){
+      		request = {"user_id":user.uid()};
+      		account.GetUsersBankOne({'request':request},function(res){
+//    			console.log(JSON.stringify(res));
+     			
+      			if(!res.account || !res.bank){
+						plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
+//							var detailWV = plus.webview.getWebviewById('card-bind.html');
+//							if(detailWV == null){
+//								detailWV = plus.webview.create('/user/card-bind.html','card-bind.html');
+//							}
+//							mui.fire(detailWV, "senddata", {'realname':res.realname});
+//		//					console.log(data);
+//							setTimeout(function(){
+//								detailWV.show('slide-in-right');
+//							},150);
+							data = {"title":"我的银行卡"};
+							var contentWebview = plus.webview.currentWebview();
+							contentWebview.loadURL('/user/wdyhk.html');
+							headerWebview = contentWebview.parent();
+							mui.fire(headerWebview, 'updateHeader', {
+								title: data.title,
+								showMenu: false
+							});
+						}, "提示", "绑定银行卡" );
+      			}else{
+	      			var html = template("tpl-bank",res);
+	      			document.getElementById("box-bank").innerHTML = html;
+	      			
+	      			$("#bank_id").val(res.account);
+	      			$("#bank").val(res.branch);
+      			}
+      		});
+      		
+		user.getInfo(function(res){
+//			console.log(JSON.stringify(res));
+			if(res){		
+				$('#balance').html(res.balance);				
+			}
+		});
+		
+		mui('.tips').on('tap', 'a', function(e){
+			mui.openWindow({
+				url:'wjmmpay.html',
+				show: {
+					autoShow: true,
+					duration: 300,
+					aniShow: 'slide-in-bottom'
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+		})
+		
+		document.getElementById('qetx').addEventListener('tap',function(){
+			$("#money").val($('#balance').html());
+		})
+		
+		document.getElementById("btn_submit").addEventListener('tap',function(){
+			request = {};
+			request.money = $('#money').val();
+			request.paypassword = $('#paypassword').val();
+			request.bank = $('#bank').val();
+			request.bank_id = $('#bank_id').val();
+			request.user_id = user.uid();
+			if(request.money == ""){
+				alert("请输入提现金额");
+				return false;
+			}
+			if(parseFloat($('#money').val()) > parseFloat($('#balance').html())){
+				alert("提现金额大于可提现金额");
+				return false;
+			}
+			if(request.paypassword == ""){
+				alert("请输入交易密码");
+				return false;
+			}
+			account.cash_new(request, function(res){
+				console.log(JSON.stringify(res));
+				if(res.status == 1){
+					//plus.webview.getWebviewById('user.html').evalJS("");
+					mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
+					mui.back();
+					//$('#balance').html(parseFloat($('#balance').html()) - parseFloat($('#money').val()));
+				}
+				alert(res.msg);
+			})
+		})
+	})
+</script>
+
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>

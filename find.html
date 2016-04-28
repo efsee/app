@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>聚车金融</title>
+    <link href="css/app_style.css" rel="stylesheet" type="text/css">
+      <link href="css/ui-min.css" rel="stylesheet" type="text/css">
+    	<script src="js/mui.min.js"></script>    	
+    	    <script type="text/javascript" charset="utf-8">
+         		mui.init();
+
+         		
+            </script>
+ <style>
+ .ui_cell_img > li, .ui_cell_img > div{padding: 14px 12px 14px 20px;}
+ .ui_item_cell{margin-top: 15px;}
+ .mar_ui{margin-top: -1px;}
+ .click_dialog{display: block;    position: relative;}
+ </style>
+</head>
+
+<body huaban_collector_injected="true">
+
+
+    <!--内容-->
+    	<div class="mui-scroll-wrapper">
+	<div class="mui-scroll">
+    	<div class="ui_wrap_cell">
+       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active mar_ui">
+		   		<li>
+		   			<a href="notice.html" class="tap" data='{"title":"消息通知"}'>		
+		   				<span class="icon_news"></span>
+		   				消息通知					
+		   			</a>
+		   		</li>
+		   	
+		    </ul> 
+		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
+		   		<li>
+		   			<a href="active.html" class="tap" data='{"title":"精彩活动"}'>
+		   				<span class="icon_activity"></span>
+		   				精彩活动
+		   			</a>
+		   		</li>
+		   			<li>
+		   			<a href="newbie.html" class="tap" data='{"title":"新手指南"}'>
+		   				<span class="icon_mall"></span>
+		   				新手指南
+		   			</a>
+		   		</li>
+		   			<li>
+		   			<a href="security.html" class="tap" data='{"title":"安全保障"}'>
+		   			   <span class="icon_forum"></span>
+		   				安全保障
+		   			</a>
+		   		</li>
+		   	
+		    </ul> 
+		    
+		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
+		   		<li>
+		   			<a href="xszn.html" class="tap" data='{"title":"帮助中心"}'>
+		   				 <span class="icon_help"></span>
+		   				帮助中心
+		   			</a>
+		   		</li>
+		   			<li>
+		   			<a href="javascript:void(0);" class="click_dialog" id="click_dialog">
+		   				 <span class="icon_follow"></span>
+		   				关注我们（微信公众号）
+		   			</a>		
+		   		</li>
+		   		
+		   		<li>
+		   			<a href="about.html" class="tap" data='{"title":"关于聚车金融"}'>
+		   			   <span class="icon_about"></span>
+		   				关于聚车金融
+		   			</a>
+		   		</li>
+		   	
+		    </ul> 
+		         <div class="ui_iphone" id='confirmBtn'><i class="ui_iphone_img"></i>服务热线：<button class="ui_iphone_font">4001-123-990</button><p>每日工作时间：9:00-17:00</p>
+		         </div>
+		    </div>
+		   </div>
+		   </div>
+		   <script>		   	
+		   	mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+});
+		   	</script>
+		   <div class="ui_dialog ui_dialog_demo">
+	    		<div class="ui_dialog_con">	    		
+					<p style="margin-top: 10px;">
+						您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。				
+					</p>
+	    			<div class="ui_dialog_btn">
+	    				<button>取消</button>
+	    				<button>去关注</button>
+	    			</div>
+	    		</div>
+	    	</div>		
+		   	
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
+<script src="js/uploadimg.js"></script>
+
+<script>
+document.getElementById("confirmBtn").addEventListener('tap', function() {
+				var btnArray = ['取消', '呼叫'];
+				mui.confirm(' ','4001-123-990', btnArray, function(e) {
+					if (e.index == 1) {
+						window.location.href = 'tel:4001-123-990';
+					} else {
+					}
+				})
+			});
+		mui.plusReady(function(){
+			
+document.getElementById("click_dialog").addEventListener('tap', function() {
+				var btnArray = ['取消', '去关注'];
+				mui.confirm(' ','您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。', btnArray, function(e) {
+					if (e.index == 1) {
+						window.location.href = 'weixin:WXSceneSession';
+					} else {
+					}
+				})
+			});	
+			
+	
+		user.getInfo(function(res){
+			if(res){
+			var html = template('tpluser', res);
+			document.getElementById("user-bar").innerHTML = html;
+			}
+		});
+		var inittemplate = getTemplate('usertemplate', 'template.html');
+//		request = {'user_id':user.uid()};
+//		user.UserInfo({'request':request},function(res){
+//			console.log(JSON.stringify(res));
+//			res.host = host;
+//			var html = template('tpluser', res);
+//			document.getElementById("user-bar").innerHTML = html;
+//		});
+		
+		mui('body').on('tap', '.imgbox', function(e){
+			e.stopPropagation();
+			var options = {};
+			options.data = {'user_id':user.uid(),'m':'user','action':'avatar','uid':user.uid(),'avatartype':'virtual'};
+			options.callback = function(res){
+				console.log(res);
+				//res.fileurl
+				rs = JSON.parse(res);
+				if(rs.status == 1){					
+					document.getElementById("avatar").src = host + rs.filename + "?t=" + Math.random();
+				}else{
+					plus.nativeUI.alert(rs.msg);
+				}
+			}
+			uid = user.uid();
+			if(!uid){
+				document.getElementById("taps").href="";
+				login();
+				return;
+			}else{
+				getimg(options);
+			}
+			
+		})
+		mui("body").on('tap','a#taps',function(){
+			uid = user.uid();
+			if(!uid){
+				document.getElementById("taps").href="";
+				login();
+				return;
+			}else{
+				document.getElementById("taps").href="userinfo.html";
+			}
+		})
+	
+		mui("body").on('tap','a.tap',function(){
+			
+				var url = this.getAttribute('href');
+				href = this.href;
+				if(url == "") return;
+				
+//			if(url == "bbs.html"){
+////				var bbswv = mui.openWindow({'url':'http://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":true}});
+////				bbswv.addEventListener("loaded",function(){
+////					bbswv.setStyle({"aniShow":"none"});
+////				})
+//				//var w = plus.webview.open( "https://www.ifcar99.com/bbs/" );
+//				mui.openWindow({'url':'https://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":false}});
+//				return false;
+//			}
+				
+
+
+				var data = this.getAttribute('data');
+				data = eval("(" + data + ")");
+				//通知模板修改标题，并显示隐藏右上角图标；
+				inittemplate = getTemplate('usertemplate', 'template.html');
+					//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href);
+				var right_btn = data.right_btn || "";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: data.title,
+					showMenu: false,
+					right_btn:right_btn
+				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
+		})
+		
+		
+		mui('body').on('tap', '#logout', function(e){
+			e.stopPropagation();
+//			user.logout({},function(res){
+//				console.log('logout');
+				plus.nativeUI.toast('成功退出');
+				setTimeout(function(){
+					plus.runtime.quit(); 
+				},100);
+//			});
+		})
+	})
+	document.addEventListener('initpage',function(e){
+					request = {};
+					request.user_id = user.uid();
+//					user.loginbbs({'request':request},function(res){
+//						//console.log(JSON.stringify(res));
+//						if(res.src){
+						var script = document.createElement('script');
+					    script.setAttribute('type', 'text/javascript');
+					   // script.setAttribute('src', res.src);
+					    document.getElementsByTagName('head')[0].appendChild(script);
+//					   }
+//					})
+	},false);
+
+		document.addEventListener('mui.view.refresh',function(){
+			user.getInfo(function(res){
+				var html = template('tpluser', res);
+				document.getElementById("user-bar").innerHTML = html;
+			});
+		},false);
+	
+</script>
+<script>
+(function(){
+	document.body.addEventListener('touchstart',function(){},false);
+
+//	document.querySelector('.click_dialog').onclick = function(){
+//		document.querySelector('.ui_dialog_demo').classList.add('show');
+//	};
+
+	var button = document.querySelectorAll('.ui_dialog button');
+	[].forEach.call(button,function(o){
+		o.onclick = function(){
+			this.parentNode.parentNode.parentNode.classList.remove('show')
+		};
+	});
+})();
+</script>
+
+</body>
+</html>

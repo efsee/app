@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.header{
+	width:100%;
+	height:45px;
+	background:#fff;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#E6E5E5;
+	content:"";
+	font-size:0;
+	}
+header .mui-icon { color: #999; font-size: 14px; }
+header .mui-title { color: #333; }
+</style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav header">
+	<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left"></a>
+	<h1 id="title" class="mui-title">我的好友</h1>
+</header>
+		
+		
+		
+<div class="mui-content" style="padding-bottom: 50px;">
+	<div id="tabbar-reginvite" class="mui-control-content">
+	<ul class="tzjl-list clearfix"  id="tablist-1">
+	</ul>
+	</div>
+
+		<div id="tabbar-myfriend" class="mui-control-content mui-active">
+			<ul class="tzjl-list clearfix" id="tablist-2">
+			</ul>
+		</div>
+</div>
+
+<script id="tpl-item-1" type="text/html">
+	{{if list.length}}
+	{{each list as $item i}}
+	<li>
+	<div class="text">
+	<p class="title">{{$item.friend_username}}</p>
+	<p class="date">注册时间：{{$item.friend_reg_time | dateFormat:"yyyy-MM-dd hh:mm:ss"}}</p>
+	</div>
+	<!--<div class="info"><p class="coins">金币：<span class="price">56</span></p></div>-->
+	</li>
+	{{/each}}
+	{{else}}
+	<li><div class="text">暂无好友记录</div></li>
+	{{/if}}
+</script>
+
+<script id="tpl-item-2" type="text/html">
+	{{if list.length}}
+	{{each list as $item i}}
+	<li>
+	<div class="text">
+	<p class="title">{{$item.friend_username}}</p>
+	<p class="date">注册时间：{{$item.addtime | dateFormat:"yyyy-MM-dd hh:mm:ss"}}</p>
+	</div>
+	<!--<div class="info"><p class="coins"><span class="del" data='{"user_id":{{$item.friends_userid}}}'>删除</span></p></div>-->
+	</li>
+	{{/each}}
+	{{else}}
+	<li><div class="text">暂无好友记录</div></li>
+	{{/if}}
+</script>
+	
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/template.js"></script>
+    <script src="../js/template.function.js"></script>
+    <script src="../js/api.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	mui.plusReady(function(){
+      		getdata();
+      		
+      		
+      		
+      		mui("#tabbar-myfriend").on('tap','.del',function(e){
+      			e.stopPropagation();
+      			if(confirm('你确定要删除此好友吗？')) {
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+      				var user_id = data.user_id;
+      				request = {'user_id':user.uid(),'friends_userid':user_id};
+      				user.delfriend({'request':request},function(res){
+      					if(res.status){
+      						plus.nativeUI.alert("删除成功！");
+      					}else{
+      						plus.nativeUI.alert(res.msg);
+      					}
+      				})
+      			}
+      			
+      		})
+      	})
+      	
+      	function getdata(){
+//    		request = {'user_id':user.uid(),'epage':100};
+//    		user.GetFriendsInvite({'request':request},function(res){
+//    			console.log(JSON.stringify(res));
+//    			var html = template('tpl-item-1',res);
+//    			document.getElementById("tablist-1").innerHTML = html;
+//    		});
+      		request = {'user_id':user.uid(),'epage':1000};
+      		user.GetFriendsInvite({'request':request},function(res){
+      			console.log(JSON.stringify(res));
+      			var html = template('tpl-item-2',res);
+      			document.getElementById("tablist-2").innerHTML = html;
+      		});
+      	}
+    </script>
+</body>
+</html>

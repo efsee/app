@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="mui-content">
+<ul class="Switch-tab">
+<li>
+<div class="text">
+<p class="name">可用余额(元)</p>
+<p class="price" id="balance">0.00</p>
+</div>
+<span class="on-off" style="border: 0;">
+<div class="mui-switch mui-switch-mini" id="switch_auto">
+  <div class="mui-switch-handle"></div>
+</div>
+</span>
+</li>
+</ul>
+<div class="Warm-tip lrtzsm clearfix">
+<i class="ico-tip icon"></i>
+<p class="title">懒人投资说明：</p>
+<p>1、懒人投资，投资模式随时使用</p>
+<p>2、懒人投资，新借款标上线后立即生效</p>
+<p>3、懒人投资用于网站出新标且年化率大于10%</p>
+<p>4、懒人投资总金额不得超过总标80%</p>
+</div>
+<div style="display: none;">
+<div class="title-bt">自动投标类型</div>
+<ul class="auto-Bid clearfix" id="autolistul">
+
+</ul>
+</div>
+</div>
+<script id="tpl-item" type="text/html">
+	{{if list.length}}
+	{{each list as $var i}}
+<li class="clearfix">
+<div class="item1">类型：<span class="NO">{{i+1}}</span><span class="dsp green">{{if $var.status==1}}启用{{else}}未启用{{/if}}</span></div>
+<div class="item2 clearfix">
+<p class="bt">投标类型：<span class="black">{{if $var.tender_type==1}}按金额投标{{else}}按比例投标{{/if}}</span></p>
+<dl>
+<dd class="n1">金额：<span class="c5">￥{{$var.tender_account}}</span></dd>
+<dd class="n2">比例：<span class="c5">{{$var.tender_scale}}%</span></dd>
+<dd class="n3">利率：<span class="c5">{{if $var.apr_status==1}}{{$var.apr_first}}%~{{$var.apr_last}}%{{else}}不启用{{/if}}</span></dd>
+</dl>
+</div>
+<div class="item3">
+项目期限：{{if $var.timelimit_status==1}}{{$var.timelimit_month_first}}~{{$var.timelimit_month_last}}{{else}}不启用{{/if}}
+<a href="javascript:void(0);" class="tap" act='del' data-id='{{$var.id}}' data='{{$var | echojson}}'><i class="ico-del icon"></i></a>
+<a href="javascript:void(0);" class="tap" act='edit' data-id='{{$var.id}}' data='{{$var | echojson}}'><i class="ico-edit icon"></i></a>
+</div>
+</li>
+	{{/each}}
+	{{else}}
+<!--<li><p>您没有添加自动投资规则。</p></li>-->
+	{{/if}}
+</script>
+
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/template.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/template.function.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+<script>
+function getdata(){
+		request = {'user_id':user.uid(),'limit':'all','lan':0};
+		borrow.GetAutoList({'request':request},function(res){
+//			console.log(JSON.stringify(res));
+			var html = template('tpl-item',{'list':res});
+			document.getElementById("autolistul").innerHTML = html;
+		});
+}
+	mui.plusReady(function(){
+
+		user.getInfo(function(res){
+			if(res){
+//				console.log(JSON.stringify(res));
+		 		if(res.bauto){
+//		 			mui("#switch_auto").switch().toggle();
+		 			document.getElementById("switch_auto").classList.add('mui-active');
+		 		}
+		 		document.getElementById("balance").innerHTML = res.balance;
+//
+			}
+		});
+//
+		//getdata();
+		
+		document.getElementById("switch_auto").addEventListener('toggle', function(event) {
+			//event.detail.isActive 可直接获取当前状态
+			//'状态：' + (event.detail.isActive ? 'true' : 'false');
+//			console.log(event.detail.isActive);
+//			status = event.detail.isActive ? 0 : 1;
+			request = {};
+			request.user_id = user.uid();
+			request.auto = event.detail.isActive ? 1 : 0;
+			borrow.lantou(request,function(res){
+//				console.log(JSON.stringify(res));
+				if(res.status == 0){
+					plus.nativeUI.alert(res.msg);
+				}else{
+					//plus.nativeUI.toast('操作成功');
+					plus.nativeUI.toast(request.auto ? "已开启" : "已关闭",{"verticalAlign": "center"});
+				}
+			});
+		});
+		
+
+		mui('#autolistul').on('tap', 'a.tap', function(){
+			action = this.getAttribute('act');
+			id = this.getAttribute('data-id');
+			
+			if(action == 'del'){
+				if(confirm('你确定要删除此自动投标吗？')){
+					borrow.auto_del({'id':id,'user_id':user.uid()},function(res){
+						plus.nativeUI.alert(res.msg);
+						if(res.status == 1){
+							getdata();
+						}
+						
+					})
+				}
+			}
+			if(action == 'edit'){
+				data = this.getAttribute('data');
+				data = JSON.parse(data);
+				zdtz_addWV = mui.openWindow({
+					url: '/user/zdtz-add.html',
+					id: 'zdtz-add',
+					show: {
+						autoShow: false,
+						duration: 100,
+						aniShow: 'slide-in-right'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+				
+				mui.fire(zdtz_addWV,'setdata',data);
+				setTimeout(function(){
+					if(zdtz_addWV.isVisible() == false){
+						zdtz_addWV.show();
+					}
+				},3000);
+			}
+		})
+		
+		document.addEventListener('reload',function(){
+			getdata();
+		})
+		
+		
+		document.addEventListener("top-right-btn",function(e){
+			e.preventDefault();
+			//location.herf = "zdtz-add.html";
+
+				zdtz_addWV = mui.openWindow({
+					url: '/user/zdtz-add.html',
+					id: 'zdtz-add',
+					show: {
+						autoShow: true,
+						duration: 100,
+						aniShow: 'slide-in-right'
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+		},false);
+	})
+</script>
+</body>
+</html>

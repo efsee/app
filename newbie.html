@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style type="text/css">
+.header{
+	width:100%;
+	height:45px;
+	background:#e4393c;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	border-bottom:#bf494b 1px solid;
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#e14b4d;
+	content:"";
+	font-size:0;
+	}
+header .mui-icon { color: #ffffff; font-size: 14px; }
+header .mui-title { color: #ffffff; }
+    	#main-box img { max-width: 100%; margin: 0; }
+    	#main-box p { margin: 0px; padding: 0px; background: #fff;  }
+    	
+.mui-loader { color: #999; line-height: 20px; font-size: 12px; padding-top: 50px; }
+
+    </style>
+</head>
+<body>
+<div class="mui-content">
+	<div class="mui-loader mui-text-center" id="mui-loader">
+		<span class="mui-spinner"></span> <span id="loading-text">内容正在加载，请稍后...</span>
+	</div>
+	<div id="main-box">
+	</div>
+</div>
+
+<script type="text/html" id="tpl-html">
+<!--	<div class="">-->
+		<!--<div class="news-bt">
+			<h1 class="title">{{name}}</h1>
+			<p class="date">{{publish}}</p>
+		</div>-->
+		<div class="content" style="margin: 0px; padding: 0px;">
+			{{#contents}}
+		</div>
+<!--	</div>-->
+</script>
+
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.plusReady(function(){
+			articles.GetPage({'request':{'id':76}},function(res){
+				console.log(JSON.stringify(res));
+//				document.getElementById("title").innerHTML = res.name;
+				html = template('tpl-html',res);				
+				document.getElementById("main-box").innerHTML = html;
+				document.getElementById("mui-loader").style.display = 'none';
+//				plus.webview.currentWebview().show('slide-in-right');
+			})
+
+	})
+</script>
+</body>
+</html>

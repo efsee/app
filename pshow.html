@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    
+<style type="text/css">
+#bodybox img { max-width: 100%;}
+.pshow-ad { box-sizing: content-box; }
+.mui-loader {
+	position: absolute;
+	top: 25%;
+	width: 100%;
+	height: 60%;
+	color: #888;
+	font-size: 14px;
+	text-align: center;
+}
+.header .mui-icon { color: #999;}
+a.ljtz-btn { color: #fff;}
+.header .ico-share {  background-position: -120px -30px; }
+
+.biao_xxn_xmms_b1 { margin-top: 10px; margin-bottom: 10px; font-size: 16px; border-left: 5px solid #f00; padding-left: 10px; }
+.biao_xxnr_shtb { overflow: hidden; padding: 10px 0px; border-top: 1px solid #e1e1e1; /*border-bottom: 1px solid #bababa;*/ }
+.biao_xxnr_shtb li { float: left; width: 25%; text-align: center; padding: 5px 0;}
+.biao_xxn_xmms_ms { padding: 10px 0px; min-height: 30px; }
+
+</style>
+
+</head>
+<body>
+<div class="blayer" id="blayer">
+<ul class="share-list clearfix">
+<li><a href="#" class="area"><span class="ico ico1 br-p"><i class="ico-weixin icon"></i></span><p>微信</p></a></li>
+<li><a href="#" class="area"><span class="ico ico2 br-p"><i class="ico-pyq icon"></i></span><p>朋友圈</p></a></li>
+<li><a href="#" class="area"><span class="ico ico3 br-p"><i class="ico-xlwb icon"></i></span><p>新浪微博</p></a></li>
+<li><a href="#" class="area"><span class="ico ico4 br-p"><i class="ico-qqkj icon"></i></span><p>QQ空间</p></a></li>
+<li><a href="#" class="area"><span class="ico ico5 br-p"><i class="ico-qq icon"></i></span><p>QQ</p></a></li>
+<li><a href="#" class="area"><span class="ico ico6 br-p"><i class="ico-txwb icon"></i></span><p>腾讯微博</p></a></li>
+<li><a href="#" class="area"><span class="ico ico7 br-p"><i class="ico-fdx icon"></i></span><p>发短信</p></a></li>
+<li><a href="#" class="area"><span class="ico ico8 br-p"><i class="ico-fzlj icon"></i></span><p>复制链接</p></a></li>
+</ul>
+<div class="opn"><a href="javascript:void(0)" class="btn cancel">取消</a></div>
+</div>
+<div class="layer-bg" id="layer-bg"></div>
+
+<header class="mui-bar mui-bar-nav header">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<!--<a class="mui-pull-right" style="padding-top: 10px;" id="share"><i class="icon ico-share"></i></a>-->
+	<h1 class="mui-title name" id="title">产品详情</h1>
+</header>
+
+<div class="mui-content">
+	<div class="mui-loader" id="mui-loader">
+		<span class="mui-spinner"></span> <span id="loading-text" class="mui-hidden">请耐心等候</span>
+	</div>
+<div class="" id="bodybox" style="display: none; min-height: 100%;  padding-bottom: 48px;">
+<div class="clear"></div>
+
+</div>
+</div>
+
+
+<script id="tpl" type="text/html">
+<div class="pshow-info clearfix">
+<p class="name">年化收益</p>
+<p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
+<div class="info box-sizing" style="padding-right: 5px;">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
+<div class="info last box-sizing" style="padding-left: 5px;">
+{{if borrow.borrow_account_scale == '100' && borrow.reverify_time > 0}}
+    满标时间 <span class="black">{{if borrow.reverify_time > 0}}{{borrow.reverify_time | dateFormat:'yyyy-MM-dd'}}{{/if}}</span>
+{{else}}
+上线时间 <span class="timeInterval" data-time="{{borrow.addtime}}"></span>
+	<!--<span class="black">募资中</span>-->
+{{/if}}
+</div>
+<div class="progress-bar"><div style="width:{{borrow.borrow_account_scale}}%;"></div></div>
+<div class="counts">借款金额<font class="c5">{{borrow.account}}元</font> <span class="fr">可投金额<font class="c5">{{borrow.borrow_account_wait}}元</font></span></div>
+</div>
+<ul class="pshow-ad">
+<li><i class="ico1 icon"></i><span>聚车推荐</span></li>
+<li><i class="ico2 icon"></i><span>安全保障</span></li>
+<li><i class="ico3 icon"></i><span>快速成交</span></li>
+<li><i class="ico4 icon"></i><span>超高收益</span></li>
+</ul>
+
+<ul class="list-tab clearfix">
+<li class="clearfix">
+<a href="javascript:;" id="tzjl" class="area clearfix" data='{"borrow_nid":"{{borrow.borrow_nid}}"}'>
+<p class="name">投资记录</p>
+<p class="dsp">已经有{{BtenderDetail.num}}笔投资，单笔最高投入<span class="c5">{{BtenderDetail.max_account_tender}}元</span></p>
+<i class="ico-arrow icon"></i>
+</a>
+</li>
+</ul>
+
+<div class="box clearfix">
+<ul class="pshow-bar" id="pshow-bar">
+<li class="active"><a href="javascript:void(0);" class="tab">项目详情</a></li>
+<li><a href="javascript:void(0);" class="tab">项目图片</a></li>
+</ul>
+<div class="text-box c3 pshow-tab">
+
+    <div class="biao_xxn_xmms_shzl">
+      <div class="biao_xxn_xmms_b1">资料审核</div>
+      <div><ul class="biao_xxnr_shtb">    	
+      {{each borrow.maincode as $vacode i}}
+      		{{if $vacode == 0}}
+             <li>
+               <img src="images/rzlogo1.png" />
+               <p>身份证</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 1}}
+             <li>
+               <img src="images/rzlogo2.png" />
+               <p>户口本</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 2}}
+             <li>
+               <img src="images/rzlogo3.png" />
+               <p>行驶证</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 3}}
+             <li>
+               <img src="images/rzlogo4.png" />
+               <p>驾驶证</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 4}}
+             <li>
+               <img src="images/rzlogo5.png" />
+               <p>购车发票</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 5}}
+             <li>
+               <img src="images/rzlogo6.png" />
+               <p>抵押手续</p>
+             </li>
+             {{/if}}
+             {{if $vacode == 6}}
+             <li class="biao_xxnr_jhz">
+               <img src="images/rzlogo7.png" />
+               <p>结婚证</p>
+             </li>
+             {{/if}}
+             {{/each}}
+           </ul></div>
+    </div>
+    <div>
+      <div class="biao_xxn_xmms_b1">项目描述</div>
+      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.borrow_contents}}</p></div></div>
+    </div>
+    <div>
+      <div class="biao_xxn_xmms_b1">基本信息</div>
+      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.userinfo}}</p></div></div>
+    </div>
+    <div>
+      <div class="biao_xxn_xmms_b1">还款来源</div>
+      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.fengxian}}</p></div></div>
+    </div>
+    <div>
+    </div>
+
+</div>
+<div class="text-box c3 pshow-tab" style="display:none;">
+{{each borrow.pics as pic i}}
+    <a rel="example_group" href="{{pic.fileurl}}"><img alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
+{{/each}}
+</div>
+
+
+</div>
+<div class="clear"></div>
+<nav class="bot-bar">
+	{{if borrow.borrow_account_scale == '100'}}
+		{{if BtenderDetail.has_repay < 1}}
+		<a href="javascript:;" class="ljtz-btn" >还款中</a>
+		{{else}}	
+		<a href="javascript:;" class="ljtz-btn" >已还款</a>
+		{{/if}}
+	{{else}}
+	{{if borrow.borrow_end_time > nowtime }}
+	<a href="javascript:;" class="ljtz-btn" id="ljtz-btn" data="{'article_id':'{{borrow.article_id}}','id':'{{borrow.id}}','borrow_account_wait':'{{borrow.borrow_account_wait}}','borrow_nid':'{{borrow.borrow_nid}}','borrow_apr':'{{borrow.borrow_apr}}','borrow_period':'{{borrow.borrow_period}}','borrow_style':'{{borrow.borrow_style}}'}" data-scale="{{borrow.borrow_account_scale}}"><i class="ico-ljtz icon"></i>立即投资</a>
+	{{else}}
+	<a href="javascript:;" class="ljtz-btn" >已结束</a>
+	{{/if}}
+	{{/if}}
+</nav>
+
+</script>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/api.js" ></script>
+<script src="js/common.js"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
+
+<script>
+	mui.plusReady(function(){
+		setInterval(function(){
+			showtime('.pshow-info .timeInterval');
+		},1000);
+		
+//		document.getElementById("share").addEventListener('tap', function(e) {
+//			e.stopPropagation();
+////			$("#blayer").toggleClass('active');
+////			$('#layer-bg').toggleClass('active');
+//		});
+
+		mui('#blayer').on('tap','.cancel',function(){
+			$("#blayer").removeClass('active');
+			$('#layer-bg').removeClass('active');
+		})
+		
+		mui('body').on('tap','#tzjl',function(e){
+				var data = this.getAttribute('data');
+				console.log(data);
+				edata = JSON.parse(data);
+//				data = eval("(" + data + ")");
+					var detailWV = plus.webview.create('tzjl.html','tzjl-borrow');
+					detailWV.addEventListener('loaded',function(){
+						mui.fire(detailWV,"mui.view.show",edata);
+					})
+					
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},300);
+		})
+		
+		mui('body').on('tap','#ljtz-btn',function(){
+			uid = user.uid();
+			if(!uid){
+				login();
+				return;
+			}
+			scale = parseFloat(this.getAttribute('data-scale'));
+			if(scale >= 100){
+				alert("此标的投资已满！");
+				return;
+			}
+//			var subWV = plus.webview.getWebviewById('subWV');
+//			data = {
+//				url: 'ljtz.html',
+//				title: '投资产品',
+//				aniShow: 'slide-in-right'
+//			}
+//			mui.fire(subWV, "openWindow", data);
+
+//					id = this.getAttribute('data-id');
+//					article_id = this.getAttribute('data-article_id');
+				var that = this;
+				var data = this.getAttribute('data');
+				data = eval("(" + data + ")");
+				var detailWV = plus.webview.getWebviewById('ljtz.html');
+				if(detailWV == null){
+					detailWV = plus.webview.create('ljtz.html','ljtz.html');
+				}
+//				console.log(JSON.stringify(data));
+					detailWV.addEventListener( "loaded", function(){
+						mui.fire(detailWV,"mui.view.show",data);
+					}, false );	
+//					mui.fire(detailWV,"mui.view.show",data);
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},150);
+		})
+		
+
+	});
+	
+		document.addEventListener("mui.view.show",function(e){
+			//console.log(JSON.stringify(e.detail));
+			window.scrollTo(0,0);
+			var data = e.detail;
+			getdata(data);
+		},false);
+	function getdata(data){
+		var request = data;
+		request.borrow_nid = data.article_id;
+		product.detail({"request":request},function(res){
+//			console.log(JSON.stringify(res));
+			if(res){
+			res.is_login = user.uid();
+			res.nowtime = new Date().getTime() / 1000;
+			var html = template('tpl',res);
+			$('#bodybox').html(html);
+			$('#title').html(res.borrow.name);
+			$('#mui-loader').hide();
+			$('#bodybox').show();
+			}else{
+				
+			}
+			plus.nativeUI.closeWaiting();
+			var self = plus.webview.currentWebview();
+		})
+	}
+	
+		var old_back = mui.back;
+		mui.back = function(){
+			plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+			old_back();
+			$('#bodybox').html("").hide();
+			$('#mui-loader').show();
+//			mui.back = old_back;
+		}
+		
+$(function(){
+	$("body").on("click","#pshow-bar li",function(){
+			var idx=$(this).index();
+			$(".pshow-tab").hide();
+			$(".pshow-tab").eq(idx).show();
+			$("#pshow-bar li").removeClass("active");
+			$(this).addClass("active");
+	});
+});
+
+</script>
+
+<script type="text/javascript">
+	function showtime(selector){
+		mui.each(document.querySelectorAll(selector), function(index, element) {
+					var nowTime = new Date().getTime();
+					//var s_time = new Date(element.getAttribute('data-time') * 1000).getTime();
+					var s_time = element.getAttribute('data-time') * 1000;
+					var time_stamp = s_time - nowTime;
+			
+					var m = Math.floor(Math.abs(time_stamp / 1000 / 60));
+					var d = Math.floor(Math.abs(time_stamp / 1000 / 3600 / 24));
+					var h = Math.floor(Math.abs(time_stamp / 1000 / 3600));
+					//var s = Math.floor(Math.abs(time_stamp/1000));
+					
+					if (h>=24)
+						element.innerHTML = d+'天'+h%24+'小时'+m%60+'分钟'
+					else if(m>=60)
+						element.innerHTML = h % 24+'小时'+m%60+'分钟'
+					else 
+						element.innerHTML = (m % 60) +'分钟';
+					//else
+	//					element.innerHTML = s%60+'秒'
+		});
+	}
+</script>
+</body>
+</html>

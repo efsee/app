@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.header:after{ height: 0px; }
+</style>
+</head>
+<body class="body-red">
+		<header class="header" style="background: transparent; border: none;">
+			<a href="javascript:void(0);" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
+		</header>
+<div class="login clearfix">
+<div class="logos"><img src="images/logo1.png"></div>
+<ul class="login-form clearfix">
+<li><div class="input-box"><i class="ico-yhm ico24 icon"></i><input type="number" pattern="[0-9]*"  class="login-txt" id="login-username" name="mobile" placeholder="用户名/手机号"></div></li>
+<li><div class="input-box"><i class="ico-pwd ico24 icon"></i><input type="password" class="login-txt" id="login-password" name="password" placeholder="密码"></div></li>
+<li class="opn"><button class="login-btn" id="login-post">会员登录</button></li>
+</ul>
+<div class="login-dsp"><span class="fl"><span class="opacity5">没有账号?</span> <a href="reg.html" class="white register-link">免费注册</a></span> <span class="fr"> <a href="wjmm.html" class="wjmm wjmm-link white">忘记密码</a></span></div>
+</div>
+<script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/base.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/api.js"></script>
+<script>
+	mui.init({'swipeBack':true});
+	
+	mui.plusReady(function(){
+		//注册按钮
+		mui('body').on('tap', '.register-link', function() {
+			mui.openWindow({
+				url:'reg.html',
+				show: {
+					autoShow: true,
+					duration: 300,
+					aniShow: 'slide-in-bottom'
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+		});
+		
+		//忘记密码
+		mui('body').on('tap', '.wjmm-link', function() {
+			mui.openWindow({
+				url:'wjmm.html',
+				show: {
+					autoShow: true,
+					duration: 300,
+					aniShow: 'slide-in-bottom'
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+		});
+		
+				//提交登录
+				mui('body').on('tap', '#login-post', function(data) {
+					var username = $("#login-username").val();
+					var password = $("#login-password").val();
+					$("input:focus").blur();
+					user.login({"username":username, "password":password}, function(rs) {
+						console.log(JSON.stringify(rs));
+						if (rs.status) {
+							var uid = rs.uid;
+							user.deleteCache(uid); //清空缓存 
+							store.delete('uid');
+							store.delete('utoken');
+							plus.storage.removeItem('shoushimima');
+							if (!uid) {
+								plus.nativeUI.alert('用户不存在');
+								return;
+							}
+							//设置登陆信息,一年有效期
+							store.set('uid', uid, 3600 * 24 * 365);
+							store.set('utoken', rs.utoken, 3600 * 24 * 365);
+							store.set('username', username, 3600 * 24 * 365);
+							store.set('password', password, 3600 * 24 * 365);
+							
+//							plus.runtime.restart();
+
+							mui.fire(plus.webview.getWebviewById('user.html'), 'mui.view.refresh');
+							mui.fire(plus.webview.getWebviewById('more.html'), 'mui.view.refresh');
+							
+							var yzwv = plus.webview.getWebviewById('yz');
+							if(yzwv){
+								yzwv.close();
+							}
+							mui.fire(plus.webview.getLaunchWebview(), 'permission');
+//							//发送设备信息,并返回信息
+							setTimeout(function(){
+//								//system.sendDeviceInfo();
+//								//获取签到数
+//								//checkin.count();
+//								//切换页面
+								//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+								plus.webview.currentWebview().close();
+							},300);
+//							//更新页面
+//							var mainWV = plus.webview.currentWebview().opener();
+//							mui.fire(mainWV, 'mui.view.refresh');
+							return true;
+						} else {
+							plus.nativeUI.alert(rs.info || rs.msg || rs.message);
+							return false;
+						}
+					});
+				});
+	})
+	
+//			 //首页返回键处理
+//			 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+//			var first = null;
+//			mui.back = function() {
+//				//首次按键，提示‘再按一次退出应用’
+//				if (!first) {
+//					first = new Date().getTime();
+//					mui.toast('再按一次退出应用');
+//					setTimeout(function() {
+//						first = null;
+//					}, 1000);
+//				} else {
+//					if (new Date().getTime() - first < 1000) {
+//						plus.runtime.quit();
+//					}
+//				}
+//			};
+//      mui.back = function() {
+//      	return false;
+//      };
+//			mui.back = function() {
+//				var current = plus.webview.currentWebview();
+//				current.hide('auto');
+//				setTimeout(function() {
+//					current.close();
+//				}, 1000);
+//			}
+
+</script>
+</body>
+</html>
