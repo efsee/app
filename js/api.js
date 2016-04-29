@@ -1,7 +1,7 @@
 var utoken, uid;
-var host = 'https://www.ifcar99.com/';
-var apiurl = 'https://www.ifcar99.com/api.php';
-var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
+var host = 'http://juche.orzcraft.com/';
+var apiurl = 'http://juche.orzcraft.com/api.php';
+var api_upload_url = 'http://juche.orzcraft.com/api.php?module=upload';
 //var host = 'http://192.168.1.10/';
 
 var appinfo = {};
@@ -406,8 +406,12 @@ var borrow = {
 	"lantou" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=lantou';
 		ajax.post(url, $data, callback);
+	},
+	"AddAnJie" : function($data, callback){
+		var url = apiurl + '?module=borrow&action=AddAnJie';
+		ajax.post(url, $data, callback);
 	}
-
+	
 
 }
 

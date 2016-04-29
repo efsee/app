@@ -113,11 +113,14 @@
                 <a class="mui-control-item mui-active" href="#tabbar-all">
                     	全部
                 </a>
-                <a class="mui-control-item" href="#tabbar-with-juchedai">
-                    	聚车贷
+                <a class="mui-control-item" href="#tabbar-with-15">
+                    	15天
                 </a>
-                <a class="mui-control-item" href="#tabbar-with-xinchehui">
-                    	新车汇
+                <a class="mui-control-item" href="#tabbar-with-30">
+                    	30天
+                </a>
+                <a class="mui-control-item" href="#tabbar-with-danren">
+                    	单人满标
                 </a>
 					</div>
 				</div>
@@ -130,18 +133,26 @@
 							</div>
 						</div>
 					</div>
-					<div id="tabbar-with-juchedai" class="mui-slider-item mui-control-content">
+					<div id="tabbar-with-15" class="mui-slider-item mui-control-content">
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
-								<ul class="mui-table-view plist" id="ul-juchedai" data='{page:0,borrow_type:6}'>
+								<ul class="mui-table-view plist" id="ul-15" data='{page:0,borrow_period:0.5}'>
 								</ul>
 							</div>
 						</div>
 					</div>
-					<div id="tabbar-with-xinchehui" class="mui-slider-item mui-control-content">
+					<div id="tabbar-with-30" class="mui-slider-item mui-control-content">
 						<div class="mui-scroll-wrapper">
 							<div class="mui-scroll">
-								<ul class="mui-table-view plist" id="ul-xinchehui" data='{page:0,borrow_type:7}'>
+								<ul class="mui-table-view plist" id="ul-30" data='{page:0,borrow_period:1}'>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="tabbar-with-danren" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view plist" id="ul-danren" data='{page:0,dan:1}'>
 								</ul>
 							</div>
 						</div>
@@ -352,10 +363,14 @@
 //				data.page = data.page + 1;
 //				page = data.page;
 				borrow_type = data.borrow_type || "";
-				var request = {'borrow_type':borrow_type,'page':1};
+				borrow_period = data.borrow_period || "";
+				dan = data.dan || "";
+				var request = {'borrow_type':borrow_type,'page':1,'borrow_period':borrow_period,'dan':dan};
+				//var request = {'borrow_type':borrow_type,'page':1,'order':'scale'};
 				
 				product.list({"request":request},function(res){
-					var html = template('tpl-borrow-item',res);
+					//console.log(JSON.stringify(res));
+					var html = template('tpl-borrow-item',res);	//tpl-borrow-item是一个script模板替换块，在本页的上方。用于加载列表的内容
 					ul.innerHTML = html;
 					mui.each(ul.querySelectorAll("canvas"),function(){
 						circle(this);
@@ -382,7 +397,10 @@
 				data.page = data.page + 1;
 				page = data.page;
 				borrow_type = data.borrow_type || "";
-				var request = {'borrow_type':borrow_type,'page':page};
+				borrow_period = data.borrow_period || "";
+				dan = data.dan || "";
+				var request = {'borrow_type':borrow_type,'page':page,'borrow_period':borrow_period,'dan':dan};
+				//var request = {'borrow_type':borrow_type,'page':page,'order':'scale'};
 				
 				product.list({"request":request},function(res){
 					var html = template('tpl-borrow-item',res);

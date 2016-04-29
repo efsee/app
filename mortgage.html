@@ -6,10 +6,7 @@
 	<title>聚车金融</title>
     <link href="css/app_style.css" rel="stylesheet" type="text/css">
       <link href="css/ui-min.css" rel="stylesheet" type="text/css">
-    	<script src="js/mui.min.js"></script>    	
-    	    <script type="text/javascript" charset="utf-8">
-         		mui.init();         		
-            </script>
+    	
  <style>
 
  .ui_item_cell{margin-top: 0px;}
@@ -33,24 +30,24 @@
 			   	
 				   		<li>
 				   			<span>真实姓名</span>
-				   			<input type="text">
+				   			<input id="realname" type="text">
 				   		</li>
 				   		<li>
 				   			<span>身份证号码</span>
-				   			<input type="number">
+				   			<input id="sfz" type="number">
 				   		</li>
 				   		<li>
 				   			<span>手机号</span>
-				   			<input type="number">
+				   			<input id="mobile" type="number">
 				   		</li>
 				   		
 				   		<li class="ui_code">
 				   			<span>短信验证码</span>
-				   			<input type="number">
+				   			<input id="yanzheng" type="number">
 				   			<bottom class="ui_getCode">获取动态码</bottom>
 				   		</li>
 		        </ul>
-		        <bottom class="mortgage-bottom">提交车贷申请</bottom>		     
+		        <bottom id="btn_submit" class="mortgage-bottom">提交车贷申请</bottom>		     
 		        <p class="mortgage-submit">提交即视为同意<a href="#" class="mortgage-agreement">《居间服务协议》</a></p>
 		    <!--</div>
 		</div>--></form>
@@ -65,4 +62,78 @@
 				  	<img src="images/mortgage-3.png">				  	
 		</p>
 </body>
+
+<script src="js/mui.min.js"></script>    	
+<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+	mui.init();
+	
+	mui.plusReady(function(){
+		document.getElementById("btn_submit").addEventListener('tap',function(e){
+			var realname    = $("#realname").val();
+			var sfz    = $("#sfz").val();
+			var mobile = $("#mobile").val();
+			var yanzheng  = $("#yanzheng").val();
+			request = {};
+			request.realname = realname;
+			request.sfz = sfz;
+			request.mobile = mobile;
+			request.yanzheng = yanzheng;
+			request.user_id = user.uid();
+			
+			if(realname == ""){
+				plus.nativeUI.alert('请输入真实姓名！');
+				return false;
+			}
+			if(sfz == ""){
+				plus.nativeUI.alert('请输入身份证号码！');
+				return false;
+			}
+			if(mobile == ""){
+				plus.nativeUI.alert('请输入手机号！');
+				return false;
+			}
+			/*if(yanzheng == ""){
+				plus.nativeUI.alert('请输入短信验证码！');
+				return false;
+			}*/
+			
+			plus.nativeUI.showWaiting();
+			borrow.AddAnJie(request,function(res){
+				console.log(JSON.stringify(res));
+				plus.nativeUI.showWaiting();
+				if(res.status == 1){
+					//alert("投标成功");
+						plus.nativeUI.closeWaiting();
+						plus.nativeUI.alert( "投标成功!", function(){
+							data = {'article_id': borrow_nid};
+							mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
+							try{
+								mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
+							}catch(e){}
+							setTimeout(function(){
+								mui.back();
+							},150);
+						}, "提示", "关闭" );
+				}else{
+					plus.nativeUI.alert( "投标成功!", function(){
+							data = {'article_id': borrow_nid};
+							mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
+							try{
+								mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
+							}catch(e){}
+							setTimeout(function(){
+								mui.back();
+							},150);
+						}, "提示", "关闭" );
+				}
+			})
+
+    
+    
+		});
+	})
+</script>
+
 </html>
