@@ -99,7 +99,7 @@ header .mui-title { color: #333; }
 			//获得事件参数
 			var id = event.detail.id;
 			//根据id向服务器请求新闻详情
-			//alert(id);
+			alert(id);
 			articles.detail({'request':{'id':id}},function(res){
 //				console.log(JSON.stringify(res));
 				html = template('tpl-html',res);

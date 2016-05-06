@@ -69,6 +69,7 @@
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 					articles.GetList({'request':request},function(res){
 						//for (var i = cells.length, len = i + 20; i < len; i++) {
+							
 						for (var i = 0, len = i + 20; i < len; i++) {
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell';

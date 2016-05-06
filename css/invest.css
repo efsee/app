@@ -1,0 +1,251 @@
+@charset "UTF-8";
+
+
+  
+ 
+.ui_item_cell {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	
+}
+
+.ui_item_cell > li,
+.ui_item_cell > div {
+	position: relative;
+	background: #fff;
+	width: 100%;
+
+}
+
+
+
+.ui_item_cell li{
+	border-bottom: 1px solid #f0f0f0;
+	border-top: 1px solid #f0f0f0;
+	overflow: hidden;
+	margin-top: 10px;
+	background: #fff;
+}
+
+
+.invest-border{
+				  margin-top: 10px;
+				  margin-bottom: 12px;				
+				  border-bottom: 1px solid #e8e8e8;
+			} 
+.ui_cell_explain > li,
+.ui_cell_explain > div {
+	padding: 10px 12px;
+
+}
+
+
+/*理财*/
+#invest-warp{margin: 0 auto; padding: 0px; background:#f8f8f8 ;}
+#invest-warp ul{margin: 0px; padding: 0px;}
+
+.invest-dan{ color: #3cb7f3; 
+             border: solid 1px #3cb7f3; 
+             font-style: normal; 
+             border-radius:50%;
+             width: 18px;
+             height: 18px;
+             text-align: center;
+             line-height: 17px;         
+             float: left;
+             margin-top: 3px;           
+             font-size: 12px;
+             
+             }
+.invest-xin{ color: #e99128; 
+             border: solid 1px #e99128; 
+          font-style: normal; 
+             border-radius:50%;
+             width: 18px;
+             height: 18px;
+             text-align: center;
+             line-height: 17px;         
+             float: left;
+             margin-top: 3px;           
+             font-size: 12px;
+             
+             
+             }
+.invest-ju{ color: #6ec426; 
+             border: solid 1px #6ec426; 
+          font-style: normal; 
+             border-radius:50%;
+             width: 18px;
+             height: 18px;
+             text-align: center;
+             line-height: 17px;         
+             float: left;
+             margin-top: 3px;           
+             font-size: 12px;
+             
+             
+             }
+.invest-title{ color: #000000;
+               font-size: 16px;
+               display:inline-block;
+               margin-left: 5px;             
+               font-weight: 100;               
+             
+             }
+.invest-money{ float: right;
+               margin-top: 4PX;
+               color: #aaaaaa;
+	    	   font-size: 12px;
+	    	
+		 
+				}
+
+.invest-red{ color: #f95453;             
+             font-size: 12px;
+           
+           
+           
+           
+           }
+
+.invest-left{ float: left;              
+              padding-bottom: 30px;              
+              width: 78%;
+              padding-top: 4px;     		
+     		
+     		}
+
+.invest-right{ float: right;
+               width: 54px;
+               height: 54px;
+               line-height: 54px;
+               text-align: center;    
+               border: solid 1px #f95453;
+               border-radius: 50%;
+               background: #fff;
+               color: #fff;
+               padding: 2px;
+               margin-top:-3px;          
+
+     		}
+/*.invest-right:hover{
+	          width: 60px;
+               height: 60px;
+               line-height: 60px;
+				
+		    }*/
+.invest-right-hkz{ float: right;
+               width: 54px;
+               height: 54px;
+               line-height: 54px;
+               text-align: center;    
+               border: solid 1px #d1d1d1;
+               border-radius: 50%;
+               background: #fff;
+               color: #fff;
+               padding: 2px; 
+               margin-top:-3px;          
+            
+     		}
+     		    		
+.invest-botton{width: 48px;
+               height: 48px;
+               line-height: 48px;
+               text-align: center;
+               border: solid 1px #f95453;
+               border-radius: 50%;
+               background: #f95453;
+               color: #fff;
+               display: block;
+
+               }
+.invest-botton:hover{
+	           /*width: 54px;
+               height: 54px;
+               line-height: 54px;*/
+               color:#fff ;
+               background: #e13a39;
+                
+			
+}               
+               
+.invest-hkz{width: 48px;
+               height: 48px;
+               line-height: 48px;
+               text-align: center;
+               border: solid 1px #d1d1d1;
+               border-radius: 50%;
+               background: #d1d1d1;
+               color: #fff;
+               font-size: 12px;
+               display: block;
+               
+               }
+.invest-hkz:hover{color: #fff;}              
+.invest-zong li{ float: left;             
+                margin-right: 12px;
+                margin-top: 2px;
+         
+                }
+         
+.invest-lv{ color: #f95453;          
+            font-size: 22px;
+            float: left; 
+         
+         }
+.invest-tian{ color: #888888;            
+            font-size: 22px;
+            float: left; 
+            margin-left:15px;
+         }         
+.invest-je{ float: right; 
+            color:#888888; 
+            font-size: 16px;
+            margin-top: 2px;
+            
+            }
+
+.invest-wei{ font-size: 14px;
+             color: #888888;              
+             font-weight: 100;
+             
+             }
+.hong{color: #f95453;
+
+ }
+.wuy{ background-size: 100%; 
+      display: block; 
+      width:50px; 
+      margin-top: 1px;
+      
+      }
+.invest-jdt{ width: 100%;
+            height: 4px;
+            position: relative;
+            top:40px;        
+            background:#d8d8d8;
+            border-radius:10px ;
+                    
+          
+            
+              }         
+.invest-hjdt{ width: 60%;
+            height: 4px;
+            position: relative;
+            top:36px;        
+            background:#f95453;
+            border-radius:10px ;
+                    
+          
+            
+              }         
+.invest-hkjdt{ width: 100%;
+            height: 4px;
+            position: relative;
+            top:36px;        
+            background:#f95453;
+            border-radius:10px ;                   
+          
+            
+              }

@@ -409,7 +409,7 @@ table {
 	text-align: right;
 	color: #9f9f9f;
 }
-.ui_cell_form > li:last-child input{ padding-right:120px;}
+.ui_cell_form > li:last-child input{ padding-right:140px;}
 .ui_cell_form textarea {
 	background: #ccc;
 	border: none;

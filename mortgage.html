@@ -43,8 +43,8 @@
 				   		
 				   		<li class="ui_code">
 				   			<span>短信验证码</span>
-				   			<input id="yanzheng" type="number">
-				   			<bottom class="ui_getCode">获取动态码</bottom>
+				   			<input type="text" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码">
+				   			<a href="javascript:sendmobilecode();" class="getyzm ui_getCode" id="getyzm">获取短信验证码</a>
 				   		</li>
 		        </ul>
 		        <bottom id="btn_submit" class="mortgage-bottom">提交车贷申请</bottom>		     
@@ -74,30 +74,53 @@
 			var realname    = $("#realname").val();
 			var sfz    = $("#sfz").val();
 			var mobile = $("#mobile").val();
-			var yanzheng  = $("#yanzheng").val();
+			var mobilecode  = $("#mobilecode").val();
 			request = {};
 			request.realname = realname;
 			request.sfz = sfz;
 			request.mobile = mobile;
-			request.yanzheng = yanzheng;
+			request.mobilecode = mobilecode;
 			request.user_id = user.uid();
 			
 			if(realname == ""){
 				plus.nativeUI.alert('请输入真实姓名！');
 				return false;
 			}
+			else{
+				var realnameReg=/^([\u4e00-\u9fa5]{1,20}|[a-zA-Z\.\s]{1,20})$/;
+				if(!realnameReg.test(realname)){
+					alert('请输入中文姓名');
+					return false;
+				}
+			}
 			if(sfz == ""){
 				plus.nativeUI.alert('请输入身份证号码！');
 				return false;
+			}
+			else{
+				var regIdCard=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+				if(!regIdCard.test(sfz)){
+					alert('身份证号码错误');
+					return false;
+				}
 			}
 			if(mobile == ""){
 				plus.nativeUI.alert('请输入手机号！');
 				return false;
 			}
-			/*if(yanzheng == ""){
+			else{
+				var mobileReg=/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
+				if(!mobileReg.test(mobile)){
+					alert('手机号码错误');
+					return false;
+				}
+			}
+			if(mobilecode == ""){
 				plus.nativeUI.alert('请输入短信验证码！');
 				return false;
-			}*/
+			}
+			
+			
 			
 			plus.nativeUI.showWaiting();
 			borrow.AddAnJie(request,function(res){
@@ -106,34 +129,76 @@
 				if(res.status == 1){
 					//alert("投标成功");
 						plus.nativeUI.closeWaiting();
-						plus.nativeUI.alert( "投标成功!", function(){
-							data = {'article_id': borrow_nid};
-							mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
-							try{
-								mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
-							}catch(e){}
-							setTimeout(function(){
-								mui.back();
-							},150);
+						plus.nativeUI.alert( "提交成功!", function(){
 						}, "提示", "关闭" );
-				}else{
-					plus.nativeUI.alert( "投标成功!", function(){
-							data = {'article_id': borrow_nid};
-							mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
-							try{
-								mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
-							}catch(e){}
-							setTimeout(function(){
-								mui.back();
-							},150);
+				}else if(res.status == -2){
+					plus.nativeUI.alert( "您已经提交过申请，请勿重复提交!", function(){
+						}, "提示", "关闭" );
+				}
+				else{
+					plus.nativeUI.alert( res.msg, function(){
 						}, "提示", "关闭" );
 				}
 			})
 
-    
+    		
     
 		});
 	})
+	
+	
+	var times=60,cuttime;
+	function getyzm(idn){
+		times--;
+		if(times>0&&times<60){
+		$(idn).text(times+"秒后重新获取");
+		$(idn).addClass("fail");
+		cuttime=setTimeout(function(){getyzm(idn)},1000);
+		}
+		else{
+			$(idn).text("发送验证码");
+			console.log($(idn).text);
+			times=60;
+			issend = true;
+			$(idn).removeClass("fail");
+			clearTimeout(cuttime);
+			}
+		}
+	
+	var issend = true;
+	function sendmobilecode(){
+		var mobile = $("#mobile").val();
+		if(mobile == ""){
+			alert("请输入手机号码！");
+			return;
+		}
+		if(/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
+			
+		}else{
+			alert("手机号码格式不对！");
+			return;
+		}
+			if(issend && times == 60){
+				issend = false;
+				request = {'mobile': mobile,'type':'reg'};
+				//request.valicode = '';
+				user.anjiemobilecode(request,function(res){
+					//console.log(JSON.stringify(res));
+					if(res){
+						if(res.status == 1){
+							getyzm("#getyzm");
+							plus.nativeUI.toast("验证码短信已发送成功！");
+							issend = false;
+						}else{
+							alert(res.msg);
+							issend = true;
+						}
+					}
+					
+				})
+			}
+			return false;
+	}
 </script>
 
 </html>
