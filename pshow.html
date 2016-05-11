@@ -284,6 +284,12 @@ a.ljtz-btn { color: #fff;}
 			var data = e.detail;
 			getdata(data);
 		},false);
+		document.addEventListener("productId",function(e){
+			console.log(JSON.stringify(e.detail));
+			window.scrollTo(0,0);
+			var data = e.detail;
+			getdata(data);
+		},false);
 	function getdata(data){
 		var request = data;
 		request.borrow_nid = data.article_id;

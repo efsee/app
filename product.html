@@ -37,10 +37,6 @@
 		<script src="js/api.js"></script>
 		<script>
 			mui.init({
-				preloadPages:[{
-				id:'notice_detail.html',
-				url:'notice_detail.html'
-				}],
 				pullRefresh: {
 					container: '#pullrefresh',
 					down: {
@@ -53,43 +49,93 @@
 				}
 			});
 			
-			
+			var count = 0;
+			var empty_flag = 0;
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
+				count=1;
+				empty_flag = 0;
+				
 				setTimeout(function() {
 					var table = document.body.querySelector('.ui_item_cell');
 					//var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					table.innerHTML ="";
+					
 					//console.log(JSON.stringify(cells));
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
-					articles.GetList({'request':request},function(res){
-						//for (var i = cells.length, len = i + 20; i < len; i++) {
-						for (var i = 0, len = i + 20; i < len; i++) {
-							var li = document.createElement('li');
-							li.className = 'mui-table-view-cell';
-							var item=res['list'][i];
-							li.innerHTML =	'<div class="invest-money">可投金额 : <span class="invest-red">95,450元</span></div><i class="invest-dan">单</i><h2 class="invest-title">XCH20160505001A</h2>'+
-				   		    '<p class="invest-border"></p>'+
-				   			'<div class="invest-left">'+		   	
-				   					'<div class="invest-lv">14.40<span class="invest-wei hong">%<span></span></div>'+
-				   					'<div class="invest-tian">30<span class="invest-wei">天</span></div>'+
-				   					'<div class="invest-je">1,500,300<span class="invest-wei">元</span></div>'+
-				   		    		'<div class="invest-jdt"></div>'+
-						   			'<div class="invest-hjdt"></div>'+
-				   			'</div>'+		   			
-				   			'<div class="invest-right">'+
-				   		         '<a class="invest-botton">抢购</a>'+
-				   			'</div>';
-							table.appendChild(li);
+					product.list({'request':request},function(res){
+						if(res){
+							table.innerHTML ="";
+							for (var i = 0, len = i + 20; i < len; i++) {
+								var li = document.createElement('li');
+								li.className = 'li_item_cell';
+								var item=res['list'][i];
+								if(item){
+									if(item.dan == 1){
+										str1='<i class="invest-dan">单</i>';
+									}
+									else if(item.borrow_type == 7){
+										str1='<i class="invest-xin">新</i>';
+									}
+									else if(item.borrow_type == 6){
+										str1='<i class="invest-ju">聚</i>';
+									}
+									
+									if(item.borrow_account_scale==100){
+										str2='<a href="#"><img src="images/wuy.jpg" class="wuy"></a>';
+									}
+									else{
+										str2='可投金额 : <span class="invest-red">'+item.borrow_account_wait+'元</span>';
+									}
+									
+									if(item.repay_account_yes>0){
+										str3=
+										'<div class="invest-right-hkz">'+
+							   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">已还款</a>'+
+							   			'</div>';
+									}
+									else{
+										if(item.borrow_account_scale==100){
+											str3=
+											'<div class="invest-right-hkz">'+
+								   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">还款中</a>'+
+								   			'</div>';
+										}
+										else{
+											str3=
+										'<div class="invest-right">'+
+							   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-button">抢购</a>'+
+							   			'</div>';
+										}
+										
+									}
+									
+								
+									li.innerHTML =	
+						   			'<div class="invest-money">'+str2+'</div>'+str1+'<h2 class="invest-title">'+item.name+'</h2>'+
+						   		    '<p class="invest-border"></p>'+
+						   			'<div class="invest-left">'+		   	
+						   					'<div class="invest-lv">'+item.borrow_apr+'<span class="invest-wei hong">%<span></span></div>'+
+						   					'<div class="invest-tian">'+Math.ceil(item.borrow_period*30)+'<span class="invest-wei">天</span></div>'+
+						   					'<div class="invest-je">'+item.account+'<span class="invest-wei">元</span></div>'+
+						   		    		'<div class="invest-jdt" ></div>'+
+								   			'<div class="invest-hjdt" style="width:'+item.borrow_account_scale+'%"></div>'+
+						   			'</div>'+
+						   			
+						   			str3;
+						   			
+						   			table.appendChild(li);
+					   			}
+								
+							}
 						}
-						
 					})
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
 				}, 500);
+				
 			}
-			var count = 0;
 			
 			
 			/**
@@ -97,7 +143,8 @@
 			 */
 			function pullupRefresh() {
 				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					++count;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag); //参数为true代表没有更多数据了。
 					var table = document.body.querySelector('.ui_item_cell');
 					var cells = document.body.querySelectorAll('.li_item_cell');
 					//request = {'type_id': 6, 'order':'order_asc','epage':20,'page':count};
@@ -111,45 +158,69 @@
 					var request = {'borrow_type':borrow_type,'page':count,'borrow_period':borrow_period,'dan':dan};
 					
 					product.list({'request':request},function(res){
-						//console.log(JSON.stringify(res));
-						//for (var i = cells.length, len = i + 20; i < len; i++) {
-						for (var i = 0, len = i + 20; i < len; i++) {
-							
-							var li = document.createElement('li');
-							li.className = 'li_item_cell';
-							var item=res['list'][i];
-							
-							if(item){
-								if(item.dan == 1){
-									str1='<i class="invest-dan">单</i>';
-								}
-								else if(item.borrow_type == 7){
-									str1='<i class="invest-xin">新</i>';
-								}
-								else if(item.borrow_type == 6){
-									str1='<i class="invest-ju">聚</i>';
-								}
-								scale=item.borrow_account_scale;
-							
-							
-								li.innerHTML =	
-					   			'<div class="invest-money">可投金额 : <span class="invest-red">'+item.borrow_account_wait+'元</span></div>'+str1+'<h2 class="invest-title">'+item.name+'</h2>'+
-					   		    '<p class="invest-border"></p>'+
-					   			'<div class="invest-left">'+		   	
-					   					'<div class="invest-lv">'+item.borrow_apr+'<span class="invest-wei hong">%<span></span></div>'+
-					   					'<div class="invest-tian">'+Math.ceil(item.borrow_period*30)+'<span class="invest-wei">天</span></div>'+
-					   					'<div class="invest-je">'+item.borrow_nid+'<span class="invest-wei">元</span></div>'+
-					   		    		'<div class="invest-jdt" ></div>'+
-							   			'<div class="invest-hjdt" style="width:'+scale+'%"></div>'+
-					   			'</div>'+		   			
-					   			'<div class="invest-right">'+
-					   		         '<a href="javascript:;"  data="'+item.borrow_nid+'" class="tap invest-botton">抢购</a>'+
-					   		        /*'<a href="pshow.html?nid=full_success&article_id='+item.borrow_nid+'&id='+item.id+'" data="'+item.borrow_nid+'" class="tap invest-botton">抢购</a>'+*/
-					   		        
-					   			'</div>';
-					   			
-				   			}
-							table.appendChild(li);
+						if(res){
+							for (var i = 0, len = i + 20; i < len; i++) {
+								var li = document.createElement('li');
+								li.className = 'li_item_cell';
+								var item=res['list'][i];
+								if(item){
+									if(item.dan == 1){
+										str1='<i class="invest-dan">单</i>';
+									}
+									else if(item.borrow_type == 7){
+										str1='<i class="invest-xin">新</i>';
+									}
+									else if(item.borrow_type == 6){
+										str1='<i class="invest-ju">聚</i>';
+									}
+									
+									if(item.borrow_account_scale==100){
+										str2='<a href="#"><img src="images/wuy.jpg" class="wuy"></a>';
+									}
+									else{
+										str2='可投金额 : <span class="invest-red">'+item.borrow_account_wait+'元</span>';
+									}
+									
+									if(item.repay_account_yes>0){
+										str3=
+										'<div class="invest-right-hkz">'+
+							   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">已还款</a>'+
+							   			'</div>';
+									}
+									else{
+										if(item.borrow_account_scale==100){
+											str3=
+											'<div class="invest-right-hkz">'+
+								   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">还款中</a>'+
+								   			'</div>';
+										}
+										else{
+											str3=
+										'<div class="invest-right">'+
+							   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-button">抢购</a>'+
+							   			'</div>';
+										}
+										
+									}
+									
+								
+									li.innerHTML =	
+						   			'<div class="invest-money">'+str2+'</div>'+str1+'<h2 class="invest-title">'+item.name+'</h2>'+
+						   		    '<p class="invest-border"></p>'+
+						   			'<div class="invest-left">'+		   	
+						   					'<div class="invest-lv">'+item.borrow_apr+'<span class="invest-wei hong">%<span></span></div>'+
+						   					'<div class="invest-tian">'+Math.ceil(item.borrow_period*30)+'<span class="invest-wei">天</span></div>'+
+						   					'<div class="invest-je">'+item.account+'<span class="invest-wei">元</span></div>'+
+						   		    		'<div class="invest-jdt" ></div>'+
+								   			'<div class="invest-hjdt" style="width:'+item.borrow_account_scale+'%"></div>'+
+						   			'</div>'+
+						   			
+						   			str3;
+						   			
+						   			table.appendChild(li);
+					   			}
+								
+							}
 						}
 						
 					})
@@ -163,34 +234,51 @@
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				}, 200);
 				var detailPage = null;
-				mui("#product-list").on('tap', 'a.invest-botton', function(e){
+				mui("#product-list").on('tap', 'a.tap', function(e){
 					
 					e.stopPropagation();
+					var article_id = eval("(" + this.getAttribute('data-article_id') + ")");
+					var id = eval("(" + this.getAttribute('data-id') + ")");
+					var has_repay = eval("(" + this.getAttribute('data-has_repay') + ")");
 					
-					var data = this.getAttribute('data');
-					data = eval("(" + data + ")");
-					alert(data)
+					
 					//获得详情页面
-					if(!detailPage){
-					detailPage = plus.webview.getWebviewById('notice_detail.html');
-					}
-					alert(detailPage)
-					//触发详情页面的newsId事件
-					mui.fire(detailPage,'newsId',{
-					id:data
-					});
-					//打开详情页面
-					mui.openWindow({
-					id:'notice_detail.html'
-					});
 					
+					if(!detailPage){
+						if(has_repay){
+							var detailPage = mui.preload({url:'pshow_repay.html'});
+							setTimeout(function(){
+								detailPage.show("slide-in-right",100);
+							},300);
+						}
+						else{
+							var detailPage = plus.webview.create('pshow.html');
+							plus.nativeUI.showWaiting();
+							setTimeout(function(){
+								detailPage.show("slide-in-right",100);
+							},150);
+							//触发详情页面的newsId事件
+							detailPage.addEventListener('loaded',function(){
+								mui.fire(detailPage,'productId',{
+								article_id:article_id,
+								id:id,
+								has_repay:has_repay,
+								});
+							});
+							
+							
+						}
+						
+					}
+					
+						
 				})
 
 			});
 			
-			function getLocalTime(nS) {     
-		       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace('GMT+8', "");      
-		    } 
+			
+		    
+		    
 			
 			
 			

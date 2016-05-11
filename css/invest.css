@@ -42,7 +42,10 @@
 
 
 /*理财*/
-#invest-warp{margin: 0 auto; padding: 0px; background:#f8f8f8 ;}
+#invest-warp{margin: 0 auto; padding: 0px;background:transparent; }
+/*.mui-pull-top-pocket,.mui-pull-bottom-pocket,.mui-scroll,.mui-scrollbar,#invest-warp{
+				background:#f6f6f6;
+			}*/
 #invest-warp ul{margin: 0px; padding: 0px;}
 
 .invest-dan{ color: #3cb7f3; 
@@ -149,7 +152,7 @@
             
      		}
      		    		
-.invest-botton{width: 48px;
+.invest-button{width: 48px;
                height: 48px;
                line-height: 48px;
                text-align: center;
@@ -160,7 +163,7 @@
                display: block;
 
                }
-.invest-botton:hover{
+.invest-button:hover{
 	           /*width: 54px;
                height: 54px;
                line-height: 54px;*/

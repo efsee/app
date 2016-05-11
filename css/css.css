@@ -30,6 +30,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 		tap-highlight-color			:rgba(0,0,0,0);
 		font-family:"Helvetica Neue",\5FAE\8F6F\96C5\9ED1,Tohoma;
 		background:#EFEFF4;
+		
 		-webkit-text-size-adjust:none;
 		}
 	a{color:#333;}

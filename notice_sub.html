@@ -56,37 +56,46 @@
 				}
 			});
 			
-			
+			var count = 0;
+			var empty_flag = 0;
 			/**
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
+				count=1;
+				empty_flag = 0;
 				setTimeout(function() {
 					var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					table.innerHTML ="";
-					//console.log(JSON.stringify(cells));
+					
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 					articles.GetList({'request':request},function(res){
-						//for (var i = cells.length, len = i + 20; i < len; i++) {
-							
-						for (var i = 0, len = i + 20; i < len; i++) {
-							var li = document.createElement('li');
-							li.className = 'mui-table-view-cell';
-							var item=res['list'][i];
-							li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-							'<p class="title mui-ellipsis">'+item.name+'</p>'+
-							'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-							'<i class="ico-arrow icon"></i>'+
-							'</a>';
-							table.appendChild(li);
+						if(res){
+							table.innerHTML ="";
+							for (var i = 0, len = i + 20; i < len; i++) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								var item=res['list'][i];
+								if(item){
+									li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+									'<p class="title mui-ellipsis">'+item.name+'</p>'+
+									'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+									'<i class="ico-arrow icon"></i>'+
+									'</a>';
+									table.appendChild(li);
+								}
+							}
 						}
+							
+						
 						
 					})
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
 				}, 500);
+				
+				
 			}
-			var count = 0;
 			
 			
 			/**
@@ -94,32 +103,37 @@
 			 */
 			function pullupRefresh() {
 				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					++count;
+					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag); //参数为true代表没有更多数据了。
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag);
 					var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					/*if(typeof(i)=="undefined") i=0;
-					var page=parseInt(i/20)+1;*/
-					//alert(count);
-					//alert(i);
-					//page=count;
 					
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':count};
 					articles.GetList({'request':request},function(res){
-						//for (var i = cells.length, len = i + 20; i < len; i++) {
-						for (var i = 0, len = i + 20; i < len; i++) {
-							var li = document.createElement('li');
-							li.className = 'mui-table-view-cell';
-							var item=res['list'][i];
-							li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-							'<p class="title mui-ellipsis">'+item.name+'</p>'+
-							'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-							'<i class="ico-arrow icon"></i>'+
-							'</a>';
-							table.appendChild(li);
+						if(res){
+							for (var i = 0, len = i + 20; i < len; i++) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								var item=res['list'][i];
+								if(item){
+									li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+									'<p class="title mui-ellipsis">'+item.name+'</p>'+
+									'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+									'<i class="ico-arrow icon"></i>'+
+									'</a>';
+									table.appendChild(li);
+								}else{
+									empty_flag = 1;
+								}
+								
+							}
 						}
+						
 						
 					})
 				}, 500);
+				//mui('#pullrefresh').pullRefresh().refresh(true);
 			}
 			
 			mui.plusReady(function() {

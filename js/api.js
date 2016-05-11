@@ -7,14 +7,14 @@ var api_upload_url = 'http://juche.orzcraft.com/api.php?module=upload';
 var appinfo = {};
 
 mui.plusReady(function() {
-//	plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-//		//appid属性
-//		appinfo.appid = wgtinfo.appid;
-//		//version属性
-//		appinfo.version = wgtinfo.version;
-//		//name属性
-//		appinfo.name = wgtinfo.name;
-//	});
+	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+		//appid属性
+		appinfo.appid = wgtinfo.appid;
+		//version属性
+		appinfo.version = wgtinfo.version;
+		//name属性
+		appinfo.name = wgtinfo.name;
+	});*/
 if(document.getElementById("main-box")){
 	mui('#main-box').on('tap', 'a[href]', function(){
 		var href = this.getAttribute('href');
@@ -457,6 +457,14 @@ var product = {
 	},
 	'getborrowlist': function($data, callback) {
 		var url = apiurl + '?module=borrow&action=GetList';
+		ajax.post(url, $data, callback);
+	},
+	'gettotal': function($data, callback) {
+		var url = apiurl + '?module=borrow&action=GetTotal';
+		ajax.post(url, $data, callback);
+	},
+	'getversion': function($data, callback) {
+		var url = apiurl + '?module=borrow&action=GetVersion';
 		ajax.post(url, $data, callback);
 	}
 }
