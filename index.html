@@ -153,21 +153,21 @@
 			//plus.webview.currentWebview().hide();
 			document.getElementById("title").innerHTML = this.getAttribute('title');
 			
-			mui.openWindow({
+			/*mui.openWindow({
 				id: url,
 				url: url,
 				styles: {},
 				waiting: {
 					autoShow: false
 				}
-			});
+			});*/
 				
-			//var sub = plus.webview.getWebviewById(url);
+			var sub = plus.webview.getWebviewById(url);
 //			if(sub == null){
 //				//sub = mui.preload({'url':url,'id':url,'show':{'autoShow':false}, 'styles':{ top:'45px',bottom:'50px',width:'100%',hight:'100%','bounce':'none'}});
 //			}
-			//mui.fire(sub,'initpage');
-			//sub.show('slide-in-right');
+			mui.fire(sub,'initpage');
+			sub.show('slide-in-right');
 			if(url == 'find.html'){
 				document.getElementById("top-contact").classList.add('mui-hidden');
 				document.getElementById("top-email").classList.add('mui-hidden');
