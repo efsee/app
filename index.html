@@ -8,6 +8,7 @@
     <script src="js/mui.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/jquery-1.11.2.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" charset="utf-8">
@@ -48,7 +49,6 @@
 </body>
 <script>
 	mui.plusReady(function(){
-	
 		if(!store.get('diffrent')){
 			var appinfo={};
 			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
@@ -62,13 +62,17 @@
 				var request = {};
 				
 				product.getversion({"request":request},function(res){
-					//console.log(res.version);
+					
 					if(res){
 						if(appinfo.version<res.version){
+							var content='';
+							$.each(res.content, function(i, item) {
+								content+='\r\n'+item;
+							});
 							
-							store.set('diffrent', 1, 3600*24*7);	//标志暂存时间30秒
+							store.set('diffrent', 1, res.time);	//标志暂存时间30秒
 							var btnArray = ['取    消', '立即更新'];
-							mui.confirm('更新如下：\r\n1.更新了第一项功能;\r\n2.更新了第二项功能;\r\n3.更新了第三项功能;','发现新版本', btnArray, function(e) {
+							mui.confirm(content,res.title, btnArray, function(e) {
 								if (e.index == 1) {
 									/*if(plus.os.name='iOS'){
 										url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
