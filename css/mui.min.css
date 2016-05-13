@@ -224,7 +224,7 @@ body {
 	font-size: 17px;
 	line-height: 21px;
 	color: #000;
-	background-color: #f8f8f8;
+	background-color: #f0eff5;
 	-webkit-overflow-scrolling: touch
 }
 
@@ -2305,7 +2305,7 @@ textarea {
 	width: 100%;
 	height: 40px;
 	/*margin-bottom: 15px;*/
-	padding: 10px 15px;
+	padding: 10px 40px;
 	-webkit-user-select: text;
 	border: 1px solid #dcdcdc;
 	border-radius:5px;
@@ -2403,7 +2403,7 @@ select:focus {
 
 .mui-input-row {
 	clear: left;
-	overflow: hidden
+
 }
 
 .mui-input-row select {
@@ -2492,20 +2492,28 @@ select:focus {
 .mui-input-row .mui-inline {
 	padding: 8px 0
 }
-
+.mui-icon-eye:before {
+	content: '\e568'
+}
 .mui-input-row .mui-input-clear~.mui-icon-clear,
+.mui-input-row .mui-input-password~.mui-icon-eye,
 .mui-input-row .mui-input-speech~.mui-icon-speech {
 	font-size: 20px;
 	position: absolute;
 	z-index: 1;
-	top: 10px;
-	right: 0;
-	width: 38px;
-	height: 38px;
+	top: 40px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
 	text-align: center;
 	color: #999
 }
 
+.mui-input-row .mui-input-clear~.mui-icon-clear.mui-active,
+.mui-input-row .mui-input-password~.mui-icon-eye.mui-active,
+.mui-input-row .mui-input-speech~.mui-icon-speech.mui-active {
+	color: #007aff
+}
 .mui-input-row .mui-input-speech~.mui-icon-speech {
 	font-size: 24px;
 	top: 8px
@@ -2577,7 +2585,7 @@ select:focus {
 .mui-checkbox input[type=checkbox]:before,
 .mui-radio input[type=radio]:before {
 	font-family: Muiicons;
-	font-size: 28px;
+	font-size: 26px;
 	font-weight: 400;
 	line-height: 1;
 	text-decoration: none;
@@ -2589,7 +2597,7 @@ select:focus {
 
 .mui-checkbox input[type=checkbox]:checked:before,
 .mui-radio input[type=radio]:checked:before {
-	color: #007aff
+	color: #01c302
 }
 
 .mui-checkbox label.mui-disabled,
@@ -3749,7 +3757,7 @@ select:focus {
 	display: inline-block;
 	text-decoration: none;
 	-webkit-font-smoothing: antialiased;
-	background: url(../images/icon.png) no-repeat;
+/*	background: url(../images/icon.png) no-repeat;*/
 }
 
 .mui-icon.mui-right:before {
@@ -4090,11 +4098,11 @@ select:focus {
 }
 
 .mui-icon-arrowthinright:before {
-	content: '\e587'
+	content: '\e587';
 }
 
 .mui-icon-pulldown:before {
-	content: '\e588'
+	content: '\e588'; 
 }
 
 .mui-fullscreen {

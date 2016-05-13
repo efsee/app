@@ -25,6 +25,7 @@
     	.mui-icon .mui-badge-yellow { color: #fff; background-color: #f0ad4e; }
     	.mui-pull-right .ico-More{ background-position:-72px -30px; }
     	.mui-pull-right .mui-icon-contact-filled { font-size: 30px; }
+    	
     </style>
 </head>
 <body>
@@ -47,6 +48,54 @@
 </body>
 <script>
 	mui.plusReady(function(){
+	
+		if(!store.get('diffrent')){
+			var appinfo={};
+			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+				//appid属性
+				appinfo.appid = wgtinfo.appid;
+				//version属性
+				appinfo.version = wgtinfo.version;
+				//name属性
+				appinfo.name = wgtinfo.name;
+				
+				var request = {};
+				
+				product.getversion({"request":request},function(res){
+					//console.log(res.version);
+					if(res){
+						if(appinfo.version<res.version){
+							
+							store.set('diffrent', 1, 3600*24*7);	//标志暂存时间30秒
+							var btnArray = ['取    消', '立即更新'];
+							mui.confirm('更新如下：\r\n1.更新了第一项功能;\r\n2.更新了第二项功能;\r\n3.更新了第三项功能;','发现新版本', btnArray, function(e) {
+								if (e.index == 1) {
+									/*if(plus.os.name='iOS'){
+										url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
+										plus.runtime.openURL(url);
+									}
+									else{
+										url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
+										plus.runtime.openURL(url);
+									}*/
+									url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
+									plus.runtime.openURL(url);
+									
+								} else {
+								}
+							})
+						}	
+					}
+					
+				})
+				
+			})
+			
+		}
+		/*else{
+			alert('时间未到')
+				
+		}*/
 
 		if(!plus.storage.getItem('welcome'))
 		{
@@ -86,7 +135,7 @@
 					}
 					self.append(sub);
 				}
-
+		//preload ()
 		mui(".bot-nav").on('tap','a',function(){
 			var url = this.getAttribute('href');
 			if(url == 'user.html'){
@@ -101,20 +150,36 @@
 			}
 			if(active) active.classList.remove("active");
 			this.classList.add("active");
+			//plus.webview.currentWebview().hide();
 			document.getElementById("title").innerHTML = this.getAttribute('title');
-			var sub = plus.webview.getWebviewById(url);
+			
+			mui.openWindow({
+				id: url,
+				url: url,
+				styles: {},
+				waiting: {
+					autoShow: false
+				}
+			});
+				
+			//var sub = plus.webview.getWebviewById(url);
 //			if(sub == null){
 //				//sub = mui.preload({'url':url,'id':url,'show':{'autoShow':false}, 'styles':{ top:'45px',bottom:'50px',width:'100%',hight:'100%','bounce':'none'}});
 //			}
-			mui.fire(sub,'initpage');
-			sub.show('slide-in-right');
+			//mui.fire(sub,'initpage');
+			//sub.show('slide-in-right');
 			if(url == 'find.html'){
 				document.getElementById("top-contact").classList.add('mui-hidden');
 				document.getElementById("top-email").classList.add('mui-hidden');
 			}else if(url == 'user.html'){
 				document.getElementById("top-contact").classList.remove('mui-hidden');
 				document.getElementById("top-email").classList.add('mui-hidden');
-			}else{
+			}
+			else if(url == 'product.html'){
+				document.getElementById("top-contact").classList.remove('mui-hidden');
+				document.getElementById("top-email").classList.add('mui-hidden');
+			}
+			else{
 				document.getElementById("top-contact").classList.add('mui-hidden');
 				document.getElementById("top-email").classList.remove('mui-hidden');
 			}
@@ -159,24 +224,34 @@
 		
 		//mui('.header .mui-icon-email')[0]
 		document.getElementById("top-email").addEventListener('tap',function(){
-
+				var webview_style = {
+					popGesture: "close"
+				};
+				mui.openWindow({
+					id: 'notice.html',
+					url: 'notice.html',
+					styles: webview_style,
+					waiting: {
+						autoShow: false
+					}
+				});
 				//通知模板修改标题，并显示隐藏右上角图标；
-				inittemplate = getTemplate('usertemplate', 'template.html');
+				//inittemplate = getTemplate('usertemplate', 'template.html');
 					//获得共用父模板
-				var headerWebview = inittemplate.header;
+				//var headerWebview = inittemplate.header;
 					//获得共用子webview
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL('notice.html');
-				mui.fire(headerWebview, 'updateHeader', {
+				//var contentWebview = inittemplate.content;
+				//contentWebview.loadURL('notice.html');
+				/*mui.fire(headerWebview, 'updateHeader', {
 					title: "公告",
 					showMenu: false,
 					right_btn:''
 				});
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
+				mui.fire(headerWebview, 'loading');*/
+				/*headerWebview.show('slide-in-right', 150);
 				document.querySelector('.header .badge').classList.add('mui-hidden');
 				var newnoticetime = store.get('newnoticetime');
-				if(newnoticetime) store.set('noticetime',newnoticetime);
+				if(newnoticetime) store.set('noticetime',newnoticetime);*/
 		})
 		
 		setTimeout(function(){
@@ -219,6 +294,22 @@
 				}
 			};
 			
+			/*var wgtVer=null;
+			
+			function plusReady(){
+			    // ......
+			    // 获取本地应用资源版本号
+			    plus.runtime.getProperty(plus.runtime.appid,function(inf){
+			        wgtVer=inf.version;
+			        console.log("当前应用版本："+wgtVer);
+			    });
+			}
+			if(window.plus){
+			    plusReady();
+			}else{
+			    document.addEventListener('plusready',plusReady,false);
+			}*/
+			
 			document.addEventListener('permission',function(e){
 				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
 					if (e.index === 0) {
@@ -226,5 +317,7 @@
 					}
 				});
 			},false);
+			
+			
 </script>
 </html>

@@ -1,0 +1,171 @@
+
+ /*首页*/  
+.home-banner img{max-width:100%; margin: 0px; padding:0px; margin-bottom: -5px;}           
+.home-con{width: 100%; margin: 0 auto;     
+          background: #fff; 
+          border-bottom: 1px solid #d1d1d1;        
+          border-top: 1px solid #d1d1d1;
+          
+          
+          }
+.home-con ul{width:90%;
+            margin: 0 auto;                 
+           list-style: none;
+           font-size: 14px;
+           padding:12px 10px;          
+           padding-bottom: 8px;
+           overflow: hidden;                     
+          
+                      }
+.home-lcsj li{ float: left; font-size: 13px; }
+.home-lcsj li:last-child { float: right; }
+.home-icon{background: url(../images/icon.png) no-repeat -28px -157px;
+					 width: 25px; 
+					 height:25px; 
+					 display:block; 
+					 float: left;
+					 text-align: left;					
+			 		 background-size:300px;
+
+			 			
+			 			 }
+.home-icona{background: url(../images/icon.png) no-repeat -50px -157px;
+					 width: 25px; 
+					 height:25px; 
+					 display:block; 
+					 float: left; 
+			 		 background-size:300px;
+			 		 margin-right: 5px;
+			 			
+			 			 }
+.home-peo{color: #f95453; font-style: normal;}
+
+.home-main{ width: 98%; margin: 0 auto;          
+           border-radius: 8px;
+           margin-top: 10px;
+           margin-bottom: 10px;
+           border:1px solid #d1d1d1;
+           padding:20px;
+           padding-bottom: 10px;           
+           background: #fff;
+           }
+.home-title{ float: left; color: #525252; font-size: 18px;}           
+.home-jctj{border-radius: 5px;           
+           border:1px solid #f95453;
+           padding: 2px 6px;
+           color:#f95453 ;
+           float: right;
+           margin-top:-4px;
+           
+            }
+
+.home-clear{ clear: both;}
+.home-nhsy{ float: left;margin-top: 20px; font-size: 14px;}
+.home-nhsy p{ font-size: 40px; color: #f95453;}
+
+.home-xmqx{ float: right; margin-top: 20px;font-size: 14px;margin-right: 30px;}
+.home-xmqx p{ font-size: 40px; color: #f95453;}
+
+.home-size{ font-size: 12px; font-style: normal; }
+
+.home-jdt{  width: 100%;
+            height: 2px;
+            position: relative;
+            top:15px;        
+            background:#d8d8d8;
+            border-radius:10px ;
+            clear: both;
+                    
+          
+            
+              }         
+.home-hjdt{ width: 60%;
+            height: 2px;
+            position: relative;
+            top:13px;        
+            background:#f95453;
+            border-radius:10px ;                   
+          
+            
+              } 
+.home-menoy{margin-top: 30px;}
+.home-xmze{ float: left;  font-size: 12px;}
+.home-ktje{ float: right; font-size: 12px;}
+.home-botton{ text-align: center; 
+              width: 100%; 
+              border-radius:5px; height: 45px;
+              background: #f95453;
+              margin: 0 auto;
+              line-height: 45px;
+              font-size: 16px;
+              color: #fff;
+              margin-top: 20px;
+              
+              }
+.home-botton a{color: #fff;}  
+
+          
+.home-botton:hover{ text-align: center; 
+              width: 100%; 
+              border-radius:5px; height: 45px;
+              background: #e13a39;
+              margin: 0 auto;
+              line-height: 45px;
+              font-size: 16px;
+              color: #fff;
+              margin-top: 20px;
+              
+              }  
+.home-botton-cc{text-align: center; 
+              width: 100%; 
+              border-radius:5px; height: 45px;
+              background: #d1d1d1;
+              margin: 0 auto;
+              line-height: 45px;
+              font-size: 16px;
+              color: #fff;
+              margin-top: 20px; }               
+ .home-botton-cc  a{color: #fff;}                         
+.Secured{font-size:18px; color:#999; line-height:24px; width: 100%;  margin: 0 auto; margin-top: 15px; }
+.Secured ul{font-size: 12px;text-align: center; width: 155px; margin: 0 auto; margin-top:10px; height: 25px; }
+.Secured ul li{ float: left; width: 70px;}
+.Secured .hbjh{
+ background: url(../images/find_icon.png) no-repeat 0px -66px; width: 12px; height: 25px; display:block; float: left; 
+ background-size:250px 250px;}
+.Secured .xiant{ width: 20px;  display: block;}
+.Secured .ancun{
+ background: url(../images/find_icon.png) no-repeat -24px -66px; width: 20px; height: 25px; display:block; float: left; 
+ background-size:250px 250px; }
+
+.home-k-ico{height: 23px; 
+           width: 3px; 
+           background:#f95453;
+           position: relative;
+           display: block;
+           top:0px;
+           left: -20px;
+           
+           
+           }
+.home-l-ico{
+ background: url(../images/icon.png) no-repeat -99px -140px;
+  width: 20px; height: 40px; display:block;
+  position: relative;
+  top:92px;
+  left: -28px; 
+ 
+ background-size:300px; 
+ 
+ }
+.home-r-ico{
+ background: url(../images/icon.png) no-repeat -78px -144px;
+  width: 20px; height: 40px; display:block;
+  position: relative;
+  float: right;
+  top:55px;
+  right: -113px; 
+ 
+ background-size:300px; 
+ 
+ }
+

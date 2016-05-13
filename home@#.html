@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link href="css/css.css" rel="stylesheet" type="text/css" />
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <link href="css/swiper.min.css" rel="stylesheet" type="text/css" />
+	
+	<style>
+    .swiper-container {
+        width: 100%;
+        height:auto;
+    }
+    .swiper-slide {
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+	.swiper-slide img{ width:100%;}
+	.home-body{
+		zoom:1;
+		overflow: hidden;
+	}
+    </style>
+</head>
+<body>
+	<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<div id="home-warp">
+					<div class="home-banner">
+						<div class="swiper-container">
+					        <div class="swiper-wrapper" id="swiper-wrapper">
+					             <div class="swiper-slide"><img src="images/jiaz.gif"></div>
+					        </div>
+					        <!-- Add Pagination -->
+					        <div class="swiper-pagination"></div>
+					    </div>
+					</div>
+					
+					<div id="home-body" class="home-body">
+						
+					</div>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+
+<div id="idx-box"></div>
+</body>
+
+<script id="tpl-borrow-item" type="text/html">
+	{{each list as item i}}
+	<div class="home-con">
+		<ul class="home-lcsj">
+			 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}万</span></li>  
+			 <li><i class="home-icona"></i>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
+		</ul>
+	</div>	
+	<div class="home-main">
+		<div>	<span class="home-jctj">{{item.tip}}</span>
+			<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}"><h3 class="home-title">{{item.name}}</h3></a>
+			<div class="home-k-ico"></div>
+		</div>
+		<div class="home-clear"></div>
+		<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">
+		<div class="home-nhsy">		
+			年化收益 
+			<p>{{item.borrow_apr}}<i class="home-size">%</i></p>
+		</div>
+		<div class="home-xmqx">		
+			项目期限 
+			<p>{{item.borrow_period | month2day}}<i class="home-size">天</i></p>
+		</div>
+	  	<div class="home-l-ico"></div>
+	  	<div class="home-r-ico"></div>
+		<div class="home-jdt"></div>
+		<div class="home-hjdt" style="width:{{item.borrow_account_scale}}%;"></div>
+	
+		<div class="home-menoy">
+			<span class="home-xmze">项目总额  : {{item.account}}元 </span>
+			<span class="home-ktje">可投金额 : <i class="home-peo">{{item.borrow_account_wait}}</i>元</span>
+		</div>
+		</a>
+		<div class="home-clear"></div>	
+		{{if item.borrow_account_scale == '100'}}
+			<div class="home-botton-cc"><a href="#">已抢完</a></div>
+		{{else}}
+			<div class="home-botton"><a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">立即抢购</a></div>
+		{{/if}}
+		
+		  <div class="Secured">
+		    <ul>
+		      <li><span class="hbjh"></span>杭标计划</li> 
+		       <li class="xiant" style="width: 15px;">&nbsp;</li>
+		       <li><span class="ancun" ></span>安存无忧</li> 
+		    </ul>
+		 
+		   </div>
+	</div>
+	{{/each}}
+</script>
+
+<script id="tpl-pic-item" type="text/html">
+	{{each list as item i}}
+		<div class="swiper-slide"><a class="tap" href="{{item.url}}" data='{"url":"{{item.url}}"}'><img src="{{host}}{{item.pic}}" onerror="this.src='images/1.png'" /></a></div>
+	{{/each}}
+</script>
+
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/swiper.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
+<script src="js/api.js"></script>
+<script type="text/javascript" charset="utf-8">
+  	mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					 
+					callback: pulldownRefresh
+				}
+			}
+		});
+	
+	/**
+	 * 下拉刷新具体业务实现
+	 */
+	function pulldownRefresh() {
+		mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		setTimeout(function() {
+			var request = {'borrow_type':'','epage':1,'totalinfo':1};
+		
+			product.getborrowlist({"request":request},function(res){
+				var total= new Array();
+				if(res){ 
+					res.newtime = new Date().getTime() / 1000;
+					var html = template('tpl-borrow-item',res);
+					document.getElementById("home-body").innerHTML = html;
+				}
+			});
+			
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}, 500);
+		
+	}
+  	
+  	mui.plusReady(function(){
+  		
+		
+		
+		request = {'type_id':6};
+		articles.GetscrollpicList({'request':request},function(res){
+			res.host = host;
+			var html = template('tpl-pic-item',res);
+			document.getElementById("swiper-wrapper").innerHTML = html;
+		    var swiper = new Swiper('.swiper-container', {
+		        pagination: '.swiper-pagination',
+		        paginationClickable: true,
+		        autoplay: 4000,
+		        autoplayDisableOnInteraction: false
+		    });
+		})
+		
+		mui('.swiper-wrapper').on('tap', 'a.tap', function(e){
+	    e.stopPropagation();
+	    href = this.getAttribute('href');
+	    if(href && href.substr(0,1) != "#"){      
+	
+	            var detailWV = plus.webview.create('active_detail.html','active_detail.html');
+	            detailWV.addEventListener( "loaded", function(){
+	              mui.fire(detailWV,"mui.view.href",{'href':href});
+	            }, false );
+	            setTimeout(function(){
+	              detailWV.show('slide-in-right');
+	            },10);
+	            return false;
+	      }
+	    })
+		
+		
+		var request = {'borrow_type':'','epage':1,'totalinfo':1};
+		
+		product.getborrowlist({"request":request},function(res){
+			var total= new Array();
+			if(res){ 
+				res.newtime = new Date().getTime() / 1000;
+				var html = template('tpl-borrow-item',res);
+				document.getElementById("home-body").innerHTML = html;
+			}
+		});
+		
+		var pshowshow = true;
+		mui("#home-body").on('tap','a.tap',function(e){
+			e.preventDefault();
+			if(pshowshow){
+				pshowshow = false;
+				setTimeout(function(){
+					pshowshow = true;
+				}, 1000);
+			}else{
+				return false;
+			}
+			var data = this.getAttribute('data');
+			data = eval("(" + data + ")");
+			//console.log(JSON.stringify(data))
+			var pshow = plus.webview.create('pshow.html','pshow-borrow');
+			pshow.addEventListener('loaded',function(){
+			mui.fire(pshow,"mui.view.show",data);
+			});
+			setTimeout(function(){
+				pshow.show("slide-in-right",100);
+			},300);
+		})
+		
+	})
+  	
+  	//首页返回键处理
+	 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+	var first = null;
+	mui.back = function() {
+		//首次按键，提示‘再按一次退出应用’
+		if (!first) {
+			first = new Date().getTime();
+			mui.toast('再按一次退出应用');
+			setTimeout(function() {
+				first = null;
+			}, 1000);
+		} else {
+			if (new Date().getTime() - first < 1000) {
+				plus.runtime.quit();
+			}
+		}
+	};
+  	
+</script>
+
+<script type="text/javascript">
+
+/*// 扩展API加载完毕后调用onPlusReady回调函数
+//document.addEventListener( "plusready", onPlusReady, false );
+document.addEventListener( "initpage", onPlusReady, false );
+// 扩展API加载完毕，现在可以正常调用扩展API
+function onPlusReady() {
+	appinfo=getAppInfo();
+	console.log(JSON.stringify(appinfo))
+}
+//mui.fire(sub,'initpage');
+if(window.plus){
+    onPlusReady();
+}else{
+    document.addEventListener('plusready',onPlusReady,false);
+}
+// 获取应用信息
+function getAppInfo() {
+	
+}*/
+		</script>
+
+</html>

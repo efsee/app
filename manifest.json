@@ -1,571 +1,1125 @@
-{"@platforms":["android","iPhone","iPad"],"id":"wx4730a0fb5b884cb3","name":"聚车金融","version":{"name":"1.31","code":"131"},"description":"","icons":{"72":"icon.png"},"launch_path":"index.html","developer":{"name":"com.hzgxr.ifcar99","email":"zcyxok@126.com","url":"http://www.dcloud.io"},"permissions":{"Accelerometer":{"description":"访问加速度感应器"},"Cache":{"description":"管理应用缓存"},"Console":{"description":"跟踪调试输出日志"},"Contacts":{},"Device":{},"Downloader":{"description":"文件下载管理"},"Events":{"description":"应用扩展事件"},"File":{"description":"访问本地文件系统"},"Gallery":{"description":"访问系统相册"},"Geolocation":{},"Invocation":{"description":"使用Native.js能力"},"Orientation":{"description":"访问方向感应器"},"Proximity":{"description":"访问距离感应器"},"Storage":{"description":"管理应用本地数据"},"Uploader":{"description":"管理文件上传任务"},"Runtime":{"description":"访问运行期环境"},"XMLHttpRequest":{"description":"跨域网络访问"},"Zip":{"description":"文件压缩与解压缩"},"Speech":{},"Webview":{"description":"窗口管理"},"NativeUI":{"description":"原生UI控件"},"Navigator":{"description":"浏览器信息"},"NativeObj":{"description":"原生对象"},"Messaging":{},"Share":{},"OAuth":{}},"plus":{"distribute":{"plugins":{"oauth":{"qq":{"appid":"1104973443"},"sina":{"appkey":"2611902893","appsecret":"c0bba74f6081b10f5a44124bffa4dd3b","redirect_uri":"http://www.ifcar99.com/zt/app.html"},"weixin":{"appid":"wx4730a0fb5b884cb3","appsecret":"d4624c36b6795d1d99dcf0547af5443d"}},"share":{"qq":{"appid":"1104973443","description":"QQ分享"},"sina":{"appkey":"2611902893","appsecret":"c0bba74f6081b10f5a44124bffa4dd3b","redirect_uri":"http://www.ifcar99.com/zt/app.html","description":"可选，新浪微博分享"},"weixin":{"appid":"wx4730a0fb5b884cb3","appsecret":"d4624c36b6795d1d99dcf0547af5443d","description":"可选，微信分享"},"tencent":{"appkey":"nwirl4NbSvOX8L3X","appsecret":"d4624c36b6795d1d99dcf0547af5443d","redirect_uri":"http://www.ifcar99.com/zt/app.html","description":"可选，腾讯微博分享"}}},"splashscreen":{"ios":{"ipad":{"portrait-retina7":"E:/聚车汇/APP开发/启动页/IOS1536.png"},"iphone":{"retina40":"E:/聚车汇/APP开发/启动页/IOS640-1136.png","default":"E:/聚车汇/APP开发/启动页/androind320.png","retina55":"E:/聚车汇/APP开发/启动页/IOS1242.png","retina47":"E:/聚车汇/APP开发/启动页/IOS750.png","retina35":"E:/聚车汇/APP开发/启动页/IOS640.png"}},"android":{"xxhdpi":"E:/聚车汇/APP开发/启动页/androind1080.png","hdpi":"E:/聚车汇/APP开发/启动页/androind480.png","xhdpi":"E:/聚车汇/APP开发/启动页/androind720.png"}},"icons":{"ios":{"iphone":{"retina":"unpackage/res/icons/114x114.png","normal":"unpackage/res/icons/57x57.png","retina8":"unpackage/res/icons/180x180.png","retina7":"unpackage/res/icons/120x120.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/58x58.png","spotlight-normal":"unpackage/res/icons/29x29.png","settings-retina8":"unpackage/res/icons/87x87.png","spotlight-retina7":"unpackage/res/icons/80x80.png"},"ipad":{"retina":"unpackage/res/icons/144x144.png","normal":"unpackage/res/icons/72x72.png","retina7":"unpackage/res/icons/152x152.png","normal7":"unpackage/res/icons/76x76.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/100x100.png","spotlight-normal":"unpackage/res/icons/50x50.png","spotlight-normal7":"unpackage/res/icons/40x40.png","spotlight-retina7":"unpackage/res/icons/80x80.png"}},"android":{"ldpi":"unpackage/res/icons/48x48.png","mdpi":"unpackage/res/icons/48x48.png","hdpi":"unpackage/res/icons/72x72.png","xhdpi":"unpackage/res/icons/96x96.png","xxhdpi":"unpackage/res/icons/144x144.png"}},"google":{"permissions":["<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]},"orientation":["portrait-primary","portrait-secondary"]},"splashscreen":{"autoclose":true,"waiting":false,"delay":"2000"},"runmode":"liberate","signature":"Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="},"fullscreen":true,
+{"@platforms":["android","iPhone","iPad"],"id":"wx4730a0fb5b884cb3","name":"聚车金融","version":{"name":"1.4.0","code":"140"},"description":"","icons":{"72":"icon.png"},"launch_path":"index.html","developer":{"name":"com.hzgxr.ifcar99","email":"zcyxok@126.com","url":"http://www.dcloud.io"},"permissions":{"Accelerometer":{"description":"访问加速度感应器"},"Cache":{"description":"管理应用缓存"},"Console":{"description":"跟踪调试输出日志"},"Contacts":{},"Device":{},"Downloader":{"description":"文件下载管理"},"Events":{"description":"应用扩展事件"},"File":{"description":"访问本地文件系统"},"Gallery":{"description":"访问系统相册"},"Geolocation":{},"Invocation":{"description":"使用Native.js能力"},"Orientation":{"description":"访问方向感应器"},"Proximity":{"description":"访问距离感应器"},"Storage":{"description":"管理应用本地数据"},"Uploader":{"description":"管理文件上传任务"},"Runtime":{"description":"访问运行期环境"},"XMLHttpRequest":{"description":"跨域网络访问"},"Zip":{"description":"文件压缩与解压缩"},"Speech":{},"Webview":{"description":"窗口管理"},"NativeUI":{"description":"原生UI控件"},"Navigator":{"description":"浏览器信息"},"NativeObj":{"description":"原生对象"},"Messaging":{},"Share":{},"OAuth":{}},"plus":{"distribute":{"plugins":{"oauth":{"qq":{"appid":"1104973443"},"sina":{"appkey":"2611902893","appsecret":"c0bba74f6081b10f5a44124bffa4dd3b","redirect_uri":"http://www.ifcar99.com/zt/app.html"},"weixin":{"appid":"wx4730a0fb5b884cb3","appsecret":"d4624c36b6795d1d99dcf0547af5443d"}},"share":{"qq":{"appid":"1104973443","description":"QQ分享"},"sina":{"appkey":"2611902893","appsecret":"c0bba74f6081b10f5a44124bffa4dd3b","redirect_uri":"http://www.ifcar99.com/zt/app.html","description":"可选，新浪微博分享"},"weixin":{"appid":"wx4730a0fb5b884cb3","appsecret":"d4624c36b6795d1d99dcf0547af5443d","description":"可选，微信分享"},"tencent":{"appkey":"nwirl4NbSvOX8L3X","appsecret":"d4624c36b6795d1d99dcf0547af5443d","redirect_uri":"http://www.ifcar99.com/zt/app.html","description":"可选，腾讯微博分享"}}},"splashscreen":{"ios":{"ipad":{"portrait-retina7":"E:/聚车汇/APP开发/启动页/IOS1536.png"},"iphone":{"retina40":"E:/聚车汇/APP开发/启动页/IOS640-1136.png","default":"E:/聚车汇/APP开发/启动页/androind320.png","retina55":"E:/聚车汇/APP开发/启动页/IOS1242.png","retina47":"E:/聚车汇/APP开发/启动页/IOS750.png","retina35":"E:/聚车汇/APP开发/启动页/IOS640.png"}},"android":{"xxhdpi":"E:/聚车汇/APP开发/启动页/androind1080.png","hdpi":"E:/聚车汇/APP开发/启动页/androind480.png","xhdpi":"E:/聚车汇/APP开发/启动页/androind720.png"}},"icons":{"ios":{"iphone":{"retina":"unpackage/res/icons/114x114.png","normal":"unpackage/res/icons/57x57.png","retina8":"unpackage/res/icons/180x180.png","retina7":"unpackage/res/icons/120x120.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/58x58.png","spotlight-normal":"unpackage/res/icons/29x29.png","settings-retina8":"unpackage/res/icons/87x87.png","spotlight-retina7":"unpackage/res/icons/80x80.png"},"ipad":{"retina":"unpackage/res/icons/144x144.png","normal":"unpackage/res/icons/72x72.png","retina7":"unpackage/res/icons/152x152.png","normal7":"unpackage/res/icons/76x76.png","settings-retina":"unpackage/res/icons/58x58.png","settings-normal":"unpackage/res/icons/29x29.png","spotlight-retina":"unpackage/res/icons/100x100.png","spotlight-normal":"unpackage/res/icons/50x50.png","spotlight-normal7":"unpackage/res/icons/40x40.png","spotlight-retina7":"unpackage/res/icons/80x80.png"}},"android":{"ldpi":"unpackage/res/icons/48x48.png","mdpi":"unpackage/res/icons/48x48.png","hdpi":"unpackage/res/icons/72x72.png","xhdpi":"unpackage/res/icons/96x96.png","xxhdpi":"unpackage/res/icons/144x144.png"}},"google":{"permissions":["<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]},"orientation":["portrait-primary","portrait-secondary"]},"splashscreen":{"autoclose":true,"waiting":false,"delay":"2000"},"runmode":"liberate","signature":"Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw=="},"fullscreen":true,
 	"dependencies": {
-		"pages": {
-			"more.html": {
-				"resources": [
-					"images/user.png",
-					"js/uploadimg.js",
-					"js/jquery-1.11.2.min.js",
-					"js/template.js",
-					"js/template.function.js",
-					"images/icon.png"
-				],
-				"refer": [
-					"template.html",
-					"login.html"
-				],
-				"priority": 0
-			},
-			"home.html": {
-				"resources": [
-					"images/2.png",
-					"images/3.png",
-					"images/1.png",
-					"css/swiper.min.css",
-					"js/swiper.min.js",
-					"js/template.js",
-					"js/template.function.js",
-					"js/jquery-1.11.2.min.js",
-					"css/css.css",
-					"js/mui.min.js",
-					"js/api.js",
-					"images/find_icon.png"
-				],
-				"refer": [
-					"pshow.html"
-				],
-				"priority": 0
-			},
-			"guide.html": {
-				"resources": [
-					"images/guide/3.png",
-					"images/guide/2.png",
-					"images/guide/1.png",
-					"js/jquery.sliderTabs.min.js",
-					"images/guide/4.png",
-					"js/jquery-1.11.2.min.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"index.html": {
-				"resources": [
-					"css/css.css",
-					"home.html",
-					"js/common.js",
-					"js/mui.min.js",
-					"images/icon.png",
-					"fonts/mui.ttf",
-					"css/mui.min.css",
-					"js/api.js",
-					"product.html"
-				],
-				"refer": [
-					"more.html",
-					"guide.html",
-					"user.html",
-					"subtemplate.html",
-					"login.html",
-					"find.html",
-					"permission.html",
-					"permissions.html",
-					"notice.html",
-					"template.html"
-				],
-				"priority": 0
-			},
-			"product.html": {
-				"resources": [
-					"js/mui.pullToRefresh.js",
-					"js/mui.pullToRefresh.material.js",
-					"js/template.js",
-					"js/template.function.js",
-					"css/css.css",
-					"js/common.js",
-					"js/mui.min.js",
-					"css/mui.min.css",
-					"js/api.js"
-				],
-				"refer": [
-					"pshow.html"
-				],
-				"priority": 0
-			},
-			"user.html": {
-				"resources": [
-					"js/jquery-1.11.2.min.js",
-					"images/Assets-bg.png",
-					"images/ico_jyts.png",
-					"images/icon.png",
-					"css/css.css",
-					"js/common.js",
-					"js/mui.min.js",
-					"css/mui.min.css",
-					"js/api.js",
-					"images/my_icon.png",
-					"js/down.js",
-					"css/app_style.css",
-					"user/wdhb.html",
-					"more.html",
-					"withdraw.html",
-					"css/ui-min.css"
-				],
-				"refer": [
-					"template.html",
-					"user/yqyl.html",
-					"w_recharge.html",
-					"user/tzjl.html",
-					"userinfo.html",
-					"user/zjjl.html",
-					"my_bill.html",
-					"notice.html",
-					"xszn.html",
-					"about.html",
-					"active.html"
-				],
-				"priority": 0
-			},
-			"subtemplate.html": {
-				"resources": [
-					"loading.html",
-					"images/icon.png"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"login.html": {
-				"resources": [
-					"js/base.js",
-					"css/css.css",
-					"js/jquery-1.11.2.min.js",
-					"images/logo1.png",
-					"js/mui.min.js",
-					"images/icon.png",
-					"js/api.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"pshow.html": {
-				"resources": [
-					"images/rzlogo2.png",
-					"images/rzlogo5.png",
-					"images/rzlogo4.png",
-					"images/rzlogo3.png",
-					"images/rzlogo1.png",
-					"css/css.css",
-					"js/common.js",
-					"js/jquery-1.11.2.min.js",
-					"js/mui.min.js",
-					"images/icon.png",
-					"fonts/mui.ttf",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/template.function.js",
-					"js/api.js",
-					"images/rzlogo7.png"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"template.html": {
-				"resources": [
-					"fonts/mui.ttf",
-					"images/icon.png",
-					"js/mui.min.js",
-					"css/mui.min.css"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"user/yqyl.html": {
-				"resources": [
-					"js/base64.js",
-					"images/Invite-polite.png",
-					"css/css.css",
-					"js/jquery-1.11.2.min.js",
-					"js/mui.min.js",
-					"images/icon.png",
-					"js/share.js",
-					"css/mui.min.css",
-					"js/jquery.qrcode.min.js",
-					"js/api.js"
-				],
-				"refer": [
-					"user/yqgl.html"
-				],
-				"priority": 0
-			},
-			"find.html": {
-				"resources": [
-					"css/ui-min.css",
-					"images/find_icon.png",
-					"js/uploadimg.js",
-					"css/app_style.css",
-					"js/template.js",
-					"js/template.function.js",
-					"js/jquery-1.11.2.min.js",
-					"js/common.js",
-					"js/mui.min.js",
-					"js/api.js",
-					"xszn.html",
-					"css/css.css",
-					"css/mui.min.css"
-				],
-				"refer": [
-					"template.html",
-					"active.html",
-					"about.html",
-					"notice.html",
-					"security.html",
-					"newbie.html",
-					"userinfo.html"
-				],
-				"priority": 0
-			},
-			"active.html": {
-				"resources": [
-					"css/css.css",
-					"js/mui.min.js",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/api.js",
-					"js/template.function.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"about.html": {
-				"resources": [
-					"css/css.css",
-					"js/mui.min.js",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/template.function.js",
-					"js/api.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"xszn.html": {
-				"resources": [
-					"images/icon.png",
-					"css/mui.min.css",
-					"css/css.css",
-					"css/ui-min.css",
-					"js/mui.min.js",
-					"js/template.js",
-					"js/template.function.js",
-					"js/api.js"
-				],
-				"refer": [
-					"article_detail.html"
-				],
-				"priority": 0
-			},
-			"article_detail.html": {
-				"resources": [
-					"fonts/mui.ttf",
-					"css/css.css",
-					"js/mui.min.js",
-					"images/icon.png",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/template.function.js",
-					"js/api.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"notice.html": {
-				"resources": [
-					"css/css.css",
-					"images/icon.png",
-					"css/mui.min.css",
-					"js/mui.min.js",
-					"js/template.js",
-					"js/api.js",
-					"js/template.function.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"newbie.html": {
-				"resources": [
-					"css/mui.min.css",
-					"css/css.css"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"permission.html": {
-				"resources": [
-					"fonts/mui.ttf",
-					"css/mui.min.css",
-					"images/icon.png"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"withdraw.html": {
-				"resources": [
-					"images/icon.png",
-					"js/template.js",
-					"css/css.css",
-					"js/jquery-1.11.2.min.js",
-					"js/mui.min.js",
-					"js/api.js",
-					"images/bank/bank3.png"
-				],
-				"refer": [
-					"wjmmpay.html"
-				],
-				"priority": 0
-			},
-			"recharge.html": {
-				"resources": [
-					"fonts/mui.ttf",
-					"images/bank/bank3.png",
-					"js/jquery-1.11.2.min.js",
-					"js/template.js",
-					"js/api.js",
-					"css/css.css",
-					"images/icon.png"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"w_recharge.html": {
-				"resources": [
-					"recharge.html",
-					"js/mui.min.js",
-					"css/mui.min.css"
-				],
-				"refer": [
-					"recharge_header.html"
-				],
-				"priority": 0
-			},
-			"recharge_header.html": {
-				"resources": [
-					"css/css.css",
-					"images/icon.png",
-					"fonts/mui.ttf"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"userinfo.html": {
-				"resources": [
-					"css/css.css",
-					"js/common.js",
-					"images/over-Certified.png",
-					"js/mui.min.js",
-					"images/icon.png",
-					"css/mui.min.css",
-					"js/api.js"
-				],
-				"refer": [
-					"template.html",
-					"user/wdyhk.html",
-					"user/zdtz.html",
-					"ssmm.html"
-				],
-				"priority": 0
-			},
-			"user/wdhb.html": {
-				"resources": [
-					"images/Red-envelopes2.png",
-					"images/icon.png",
-					"images/over-Expired.png",
-					"js/template.js",
-					"js/template.function.js",
-					"css/css.css",
-					"js/mui.min.js",
-					"css/mui.min.css",
-					"js/api.js"
-				],
-				"refer": [
-					"user/yqyl.html",
-					"more.html"
-				],
-				"priority": 0
-			},
-			"user/zjjl.html": {
-				"resources": [
-					"css/css.css",
-					"js/mui.min.js",
-					"images/icon.png",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/api.js",
-					"js/template.function.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"user/zdtz.html": {
-				"resources": [
-					"js/template.js",
-					"js/template.function.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"my_bill.html": {
-				"resources": [
-					"css/css.css",
-					"user/hkjl.html",
-					"js/mui.min.js",
-					"images/icon.png",
-					"css/mui.min.css",
-					"js/template.js",
-					"js/api.js",
-					"js/template.function.js",
-					"user/zjjl.html"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"user/hkjl.html": {
-				"resources": [
-					"js/template.js",
-					"js/template.function.js",
-					"js/mui.min.js",
-					"js/api.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"user/tzjl.html": {
-				"resources": [
-					"js/mui.min.js",
-					"js/template.js",
-					"js/api.js",
-					"js/template.function.js",
-					"css/css.css",
-					"css/mui.min.css",
-					"images/icon.png"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"security.html": {
-				"resources": [
-					"js/template.js",
-					"js/template.function.js"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"user/yqgl.html": {
-				"resources": [
-					"fonts/mui.ttf"
-				],
-				"refer": [],
-				"priority": 0
-			},
-			"ssmm.html": {
-				"resources": [
-					"css/css.css",
-					"js/common.js",
-					"js/mui.min.js",
-					"images/icon.png",
-					"fonts/mui.ttf",
-					"css/mui.min.css"
-				],
-				"refer": [
-					"permission.html"
-				],
-				"priority": 0
-			},
-			"permissions.html": {
-				"resources": [
-					"images/user.png"
-				],
-				"refer": [
-					"login.html"
-				],
-				"priority": 0
-			},
-			"wjmmpay.html": {
-				"resources": [
-					"css/css.css",
-					"js/jquery-1.11.2.min.js",
-					"js/mui.min.js",
-					"images/icon.png",
-					"js/api.js"
-				],
-				"refer": [],
-				"priority": 0
-			}
-		},
-		"idle": {
-			"resources": [
-				"js/radialIndicator.min.js",
-				"active_detail.html",
-				"bbs.html",
-				"images/bank/bank2.png",
-				"js/mui.poppicker.js",
-				"js/city.data.js",
-				"js/mui.js",
-				"images/Panic-buying.png",
-				"images/bank/bank11.png",
-				"js/jquery.mobile.min.js",
-				"js/city.data-3.js",
-				"user/zhye.html",
-				"images/bank/bank5.png",
-				"images/rzlogo6.png",
-				"images/bank/bank8.png",
-				"images/logo.png",
-				"images/bind-card.png",
-				"user/card-bind.html",
-				"images/focus2.jpg",
-				"images/icon_jyts.png",
-				"permissionss.html",
-				"images/bank/bank7.png",
-				"reg.html",
-				"dlmm.html",
-				"user/zdtz-add.html",
-				"images/ICBC-logo.png",
-				"images/bank/bank6.png",
-				"images/ewm.jpg",
-				"js/mui.picker.min.js",
-				"user-zdtz.html",
-				"wjmm.html",
-				"images/bank/bank1.png",
-				"user-wdhb.html",
-				"css/radialindicator.css",
-				"js/iscroll.js",
-				"images/bank/bank12.png",
-				"notice_detail.html",
-				"js/mui.picker.js",
-				"js/jquery.form.min.js",
-				"images/bank/bank4.png",
-				"images/Red-envelopes.png",
-				"js/radialIndicator.js",
-				"css/mui.css",
-				"images/manbiao.png",
-				"js/zepto.min.js",
-				"images/bank/bank9.png",
-				"js/city.data1.js",
-				"active_url.html",
-				"tzjl.html",
-				"images/over-Use.png",
-				"images/bank/bank10.png",
-				"css/mui.poppicker.css",
-				"images/txyhk.png",
-				"new_file.css",
-				"user/smrz.html",
-				"css/mui.picker.css",
-				"images/focus.jpg",
-				"jymm.html",
-				"ljtz.html"
-			]
-		}
+	  "pages": {
+	    "more.html": {
+	      "resources": [
+	        "images/user.png",
+	        "js/uploadimg.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "images/icon.png",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "css/css.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/common.js",
+	        "js/api.js"
+	      ],
+	      "refer": [
+	        "template.html",
+	        "login.html",
+	        "active.html",
+	        "notice.html",
+	        "xszn.html",
+	        "userinfo.html",
+	        "about.html"
+	      ],
+	      "priority": 0
+	    },
+	    "home.html": {
+	      "resources": [
+	        "images/2.png",
+	        "images/3.png",
+	        "images/1.png",
+	        "css/swiper.min.css",
+	        "js/swiper.min.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/jquery-1.11.2.min.js",
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "css/index.css",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "images/jiaz.gif",
+	        "home_sub.html",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "pshow.html",
+	        "active_detail.html",
+	        "home_sub.html"
+	      ],
+	      "priority": 0
+	    },
+	    "guide.html": {
+	      "resources": [
+	        "images/guide/3.png",
+	        "images/guide/2.png",
+	        "images/guide/1.png",
+	        "js/jquery.sliderTabs.min.js",
+	        "images/guide/4.png",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "index.html": {
+	      "resources": [
+	        "css/css.css",
+	        "home.html",
+	        "js/common.js",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "product.html",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "more.html",
+	        "guide.html",
+	        "user.html",
+	        "subtemplate.html",
+	        "login.html",
+	        "find.html",
+	        "permission.html",
+	        "permissions.html",
+	        "notice.html",
+	        "template.html",
+	        "home.html",
+	        "product.html",
+	        "userinfo.html"
+	      ],
+	      "priority": 0
+	    },
+	    "product.html": {
+	      "resources": [
+	        "js/mui.pullToRefresh.js",
+	        "js/mui.pullToRefresh.material.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "css/css.css",
+	        "js/common.js",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "css/invest.css",
+	        "images/wuy.jpg",
+	        "js/jquery-1.11.2.min.js",
+	        "product_sub.html",
+	        "images/icon.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "pshow.html",
+	        "product_sub.html"
+	      ],
+	      "priority": 0
+	    },
+	    "user.html": {
+	      "resources": [
+	        "js/jquery-1.11.2.min.js",
+	        "images/Assets-bg.png",
+	        "images/ico_jyts.png",
+	        "images/icon.png",
+	        "css/css.css",
+	        "js/common.js",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "images/my_icon.png",
+	        "js/down.js",
+	        "css/app_style.css",
+	        "user/wdhb.html",
+	        "more.html",
+	        "withdraw.html",
+	        "css/ui-min.css",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "template.html",
+	        "user/yqyl.html",
+	        "w_recharge.html",
+	        "user/tzjl.html",
+	        "userinfo.html",
+	        "user/zjjl.html",
+	        "my_bill.html",
+	        "notice.html",
+	        "xszn.html",
+	        "about.html",
+	        "active.html",
+	        "user/hkjl.html",
+	        "mortgage.html",
+	        "user/wdhb.html",
+	        "withdraw.html"
+	      ],
+	      "priority": 0
+	    },
+	    "subtemplate.html": {
+	      "resources": [
+	        "loading.html",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "css/mui.min.css"
+	      ],
+	      "refer": [
+	        "loading.html"
+	      ],
+	      "priority": 0
+	    },
+	    "login.html": {
+	      "resources": [
+	        "js/base.js",
+	        "css/css.css",
+	        "js/jquery-1.11.2.min.js",
+	        "images/logo1.png",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "js/api.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "user.html",
+	        "wjmm.html",
+	        "more.html",
+	        "reg.html"
+	      ],
+	      "priority": 0
+	    },
+	    "pshow.html": {
+	      "resources": [
+	        "images/rzlogo2.png",
+	        "images/rzlogo5.png",
+	        "images/rzlogo4.png",
+	        "images/rzlogo3.png",
+	        "images/rzlogo1.png",
+	        "css/css.css",
+	        "js/common.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/rzlogo7.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "images/rzlogo6.png"
+	      ],
+	      "refer": [
+	        "login.html",
+	        "ljtz.html",
+	        "tzjl.html"
+	      ],
+	      "priority": 0
+	    },
+	    "template.html": {
+	      "resources": [
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "js/mui.min.js",
+	        "css/mui.min.css"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "user/yqyl.html": {
+	      "resources": [
+	        "js/base64.js",
+	        "images/Invite-polite.png",
+	        "css/css.css",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "js/share.js",
+	        "css/mui.min.css",
+	        "js/jquery.qrcode.min.js",
+	        "js/api.js",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "images/logo.png"
+	      ],
+	      "refer": [
+	        "user/yqgl.html"
+	      ],
+	      "priority": 0
+	    },
+	    "find.html": {
+	      "resources": [
+	        "css/ui-min.css",
+	        "images/find_icon.png",
+	        "js/uploadimg.js",
+	        "css/app_style.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/common.js",
+	        "js/mui.min.js",
+	        "js/api.js",
+	        "xszn.html",
+	        "css/css.css",
+	        "css/mui.min.css",
+	        "images/my_icon.png",
+	        "images/mortgage-banner.png",
+	        "images/user.png"
+	      ],
+	      "refer": [
+	        "template.html",
+	        "active.html",
+	        "about.html",
+	        "notice.html",
+	        "security.html",
+	        "newbie.html",
+	        "userinfo.html",
+	        "guide.html",
+	        "xszn.html"
+	      ],
+	      "priority": 0
+	    },
+	    "active.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "active_detail.html"
+	      ],
+	      "priority": 0
+	    },
+	    "about.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "xszn.html": {
+	      "resources": [
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "css/css.css",
+	        "css/ui-min.css",
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "article_detail.html"
+	      ],
+	      "priority": 0
+	    },
+	    "article_detail.html": {
+	      "resources": [
+	        "fonts/mui.ttf",
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "notice.html": {
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "notice_sub.html",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "notice_sub.html"
+	      ],
+	      "priority": 0
+	    },
+	    "newbie.html": {
+	      "resources": [
+	        "css/mui.min.css",
+	        "css/css.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "permission.html": {
+	      "resources": [
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "images/icon.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "withdraw.html": {
+	      "resources": [
+	        "images/icon.png",
+	        "js/template.js",
+	        "css/css.css",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "js/api.js",
+	        "images/bank/bank3.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "wjmmpay.html",
+	        "user.html",
+	        "user/wdyhk.html",
+	        "wjmm.html"
+	      ],
+	      "priority": 0
+	    },
+	    "recharge.html": {
+	      "resources": [
+	        "fonts/mui.ttf",
+	        "images/bank/bank3.png",
+	        "js/jquery-1.11.2.min.js",
+	        "js/template.js",
+	        "js/api.js",
+	        "css/css.css",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js"
+	      ],
+	      "refer": [
+	        "w_recharge.html",
+	        "user/wdyhk.html"
+	      ],
+	      "priority": 0
+	    },
+	    "w_recharge.html": {
+	      "resources": [
+	        "recharge.html",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png"
+	      ],
+	      "refer": [
+	        "recharge_header.html",
+	        "recharge.html"
+	      ],
+	      "priority": 0
+	    },
+	    "recharge_header.html": {
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "userinfo.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/common.js",
+	        "images/over-Certified.png",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "template.html",
+	        "user/wdyhk.html",
+	        "user/zdtz.html",
+	        "ssmm.html",
+	        "dlmm.html",
+	        "jymm.html"
+	      ],
+	      "priority": 0
+	    },
+	    "user/wdhb.html": {
+	      "resources": [
+	        "images/Red-envelopes2.png",
+	        "images/icon.png",
+	        "images/over-Expired.png",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "images/Red-envelopes.png"
+	      ],
+	      "refer": [
+	        "user/yqyl.html",
+	        "more.html"
+	      ],
+	      "priority": 0
+	    },
+	    "user/zjjl.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "user/zdtz.html": {
+	      "resources": [
+	        "js/template.js",
+	        "js/template.function.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js",
+	        "js/api.js"
+	      ],
+	      "refer": [
+	        "user/zdtz-add.html"
+	      ],
+	      "priority": 0
+	    },
+	    "my_bill.html": {
+	      "resources": [
+	        "css/css.css",
+	        "user/hkjl.html",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "user/zjjl.html"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "user/hkjl.html": {
+	      "resources": [
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/mui.min.js",
+	        "js/api.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "pshow.html",
+	        "pshow_repay.html"
+	      ],
+	      "priority": 0
+	    },
+	    "user/tzjl.html": {
+	      "resources": [
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "css/css.css",
+	        "css/mui.min.css",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "pshow_repay.html",
+	        "pshow.html"
+	      ],
+	      "priority": 0
+	    },
+	    "security.html": {
+	      "resources": [
+	        "js/template.js",
+	        "js/template.function.js",
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/api.js",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "user/yqgl.html": {
+	      "resources": [
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "ssmm.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/common.js",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "permission.html",
+	        "permissions.html"
+	      ],
+	      "priority": 0
+	    },
+	    "permissions.html": {
+	      "resources": [
+	        "images/user.png",
+	        "js/mui.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/api.js",
+	        "js/common.js"
+	      ],
+	      "refer": [
+	        "login.html"
+	      ],
+	      "priority": 0
+	    },
+	    "wjmmpay.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "notice_sub.html": {
+	      "resources": [
+	        "images/icon.png",
+	        "js/jquery-1.11.2.min.js",
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "notice_detail.html"
+	      ],
+	      "priority": 0
+	    },
+	    "notice_detail.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "active_detail.html": {
+	      "resources": [
+	        "css/css.css",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [],
+	      "priority": 0
+	    },
+	    "product_sub.html": {
+	      "resources": [
+	        "css/invest.css",
+	        "images/wuy.jpg",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/api.js",
+	        "js/template.function.js",
+	        "images/icon.png",
+	        "fonts/mui.ttf"
+	      ],
+	      "refer": [
+	        "pshow.html",
+	        "active_detail.html",
+	        "pshow_repay.html"
+	      ],
+	      "priority": 0
+	    },
+	    "home_sub.html": {
+	      "resources": [
+	        "css/index.css",
+	        "css/swiper.min.css",
+	        "js/swiper.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "css/css.css",
+	        "images/find_icon.png",
+	        "js/mui.min.js",
+	        "images/icon.png",
+	        "images/jiaz.gif",
+	        "css/mui.min.css",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js",
+	        "images/1.png",
+	        "fonts/mui.ttf",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png"
+	      ],
+	      "refer": [
+	        "pshow.html",
+	        "active_detail.html"
+	      ],
+	      "priority": 0
+	    },
+	    "user/card-bind.html": {
+	      "href": "user/card-bind.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/mui.picker.css",
+	        "css/mui.poppicker.css",
+	        "js/mui.min.js",
+	        "js/city.data1.js",
+	        "js/mui.picker.js",
+	        "js/mui.poppicker.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/api.js"
+	      ],
+	      "priority": 3
+	    },
+	    "user/smrz.html": {
+	      "href": "user/smrz.html",
+	      "resources": [
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/api.js"
+	      ],
+	      "priority": 4
+	    },
+	    "user/wdyhk.html": {
+	      "href": "user/wdyhk.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "images/bind-card.png",
+	        "js/mui.min.js",
+	        "js/template.js",
+	        "js/template.function.js",
+	        "js/api.js"
+	      ],
+	      "refer": [
+	        "user/card-bind.html",
+	        "user/smrz.html"
+	      ],
+	      "priority": 3
+	    },
+	    "pshow_repay.html": {
+	      "href": "pshow_repay.html",
+	      "resources": [
+	        "js/mui.min.js",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/api.js",
+	        "js/template.js",
+	        "js/template.function.js"
+	      ],
+	      "priority": 4
+	    },
+	    "dlmm.html": {
+	      "href": "dlmm.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "js/api.js"
+	      ],
+	      "priority": 6
+	    },
+	    "jymm.html": {
+	      "href": "jymm.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "js/api.js"
+	      ],
+	      "priority": 7
+	    },
+	    "user/zdtz-add.html": {
+	      "href": "user/zdtz-add.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/jquery-1.11.2.min.js",
+	        "js/mui.min.js",
+	        "js/api.js"
+	      ],
+	      "priority": 9
+	    },
+	    "mortgage.html": {
+	      "href": "mortgage.html",
+	      "resources": [
+	        "js/mui.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/api.js",
+	        "css/app_style.css",
+	        "images/my_icon.png",
+	        "css/ui-min.css",
+	        "images/find_icon.png",
+	        "images/mortgage-banner.png",
+	        "images/user.png",
+	        "images/mortgage-1.png",
+	        "images/mortgage-2.png",
+	        "images/mortgage-3.png"
+	      ],
+	      "priority": 7
+	    },
+	    "wjmm.html": {
+	      "href": "wjmm.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/api.js"
+	      ],
+	      "priority": 13
+	    },
+	    "reg.html": {
+	      "href": "reg.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "js/mui.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/base.js",
+	        "js/api.js"
+	      ],
+	      "priority": 4
+	    },
+	    "ljtz.html": {
+	      "href": "ljtz.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "js/mui.min.js",
+	        "js/jquery-1.11.2.min.js",
+	        "js/api.js",
+	        "js/template.js",
+	        "js/template.function.js"
+	      ],
+	      "refer": [
+	        "w_recharge.html"
+	      ],
+	      "priority": 2
+	    },
+	    "tzjl.html": {
+	      "href": "tzjl.html",
+	      "resources": [
+	        "css/css.css",
+	        "images/icon.png",
+	        "images/find_icon.png",
+	        "images/ico_jyts.png",
+	        "images/manbiao.png",
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png",
+	        "js/mui.min.js",
+	        "js/api.js",
+	        "js/template.js",
+	        "js/template.function.js"
+	      ],
+	      "priority": 3
+	    },
+	    "loading.html": {
+	      "href": "loading.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "images/icon.png"
+	      ],
+	      "priority": 2
+	    }
+	  },
+	  "idle": {
+	    "resources": [
+	      "images/bank/bank6.png",
+	      "js/radialIndicator.min.js",
+	      "product-2.html",
+	      "images/ewm.jpg",
+	      "product-test.html",
+	      "js/mui.picker.min.js",
+	      "index-bf.html",
+	      "user-zdtz.html",
+	      "js/mui.min-bf.js",
+	      "images/bank/bank8.png",
+	      "images/bank/bank1.png",
+	      "LICENSE",
+	      "images/over-Use.png",
+	      "user-wdhb.html",
+	      "bbs.html",
+	      "user/yqyl_az.html",
+	      "home@#.html",
+	      "images/bank/bank2.png",
+	      "images/bank/bank10.png",
+	      "js/iscroll.js",
+	      "css/radialindicator.css",
+	      "images/icon_jyts.png",
+	      "js/city.data.js",
+	      "js/mui.js",
+	      "permissionss.html",
+	      "images/bank/bank11.png",
+	      "images/txyhk.png",
+	      "images/bank/bank12.png",
+	      "control.xml",
+	      "new_file.css",
+	      "js/jquery.form.min.js",
+	      "images/bank/bank7.png",
+	      "product_detail.html",
+	      "images/bank/bank4.png",
+	      "js/jquery.mobile.min.js",
+	      "product-1.html",
+	      "js/radialIndicator.js",
+	      "invest.html",
+	      "css/mui.css",
+	      "js/city.data-3.js",
+	      "js/zepto.min.js",
+	      "images/bank/bank9.png",
+	      "home-2.html",
+	      "images/ICBC-logo.png",
+	      "user/zhye.html",
+	      "images/bank/bank5.png",
+	      "active_url.html"
+	    ]
+	  }
 	},
 	"unpackage":[
 	  "images/ewm.jpg",
 	  "images/focus.jpg",
-	  "images/focus2.jpg"
+	  "images/focus2.jpg",
+	  "css/mui.css",
+	  "css/radialindicator.css",
+	  "images/bank/bank1.png",
+	  "images/bank/bank10.png",
+	  "images/bank/bank11.png",
+	  "images/bank/bank12.png",
+	  "images/bank/bank2.png",
+	  "images/bank/bank4.png",
+	  "images/bank/bank5.png",
+	  "images/bank/bank6.png",
+	  "images/bank/bank7.png",
+	  "images/bank/bank8.png",
+	  "images/bank/bank9.png",
+	  "images/ICBC-logo.png",
+	  "images/icon_jyts.png",
+	  "images/over-Use.png",
+	  "images/txyhk.png",
+	  "js/city.data-3.js",
+	  "js/city.data.js",
+	  "js/iscroll.js",
+	  "js/jquery.form.min.js",
+	  "js/jquery.mobile.min.js",
+	  "js/mui.js",
+	  "js/mui.min-bf.js",
+	  "js/mui.picker.min.js",
+	  "js/radialIndicator.js",
+	  "js/radialIndicator.min.js",
+	  "js/zepto.min.js",
+	  "user/yqyl_az.html",
+	  "user/zhye.html",
+	  "LICENSE",
+	  "active_url.html",
+	  "bbs.html",
+	  "control.xml",
+	  "home-2.html",
+	  "home@#.html",
+	  "index-bf.html",
+	  "invest.html",
+	  "new_file.css",
+	  "permissionss.html",
+	  "product-1.html",
+	  "product-2.html",
+	  "product-test.html",
+	  "product_detail.html",
+	  "user-wdhb.html",
+	  "user-zdtz.html"
 	]}

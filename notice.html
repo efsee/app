@@ -1,146 +1,51 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta name="format-detection" content="telephone=no, email=no" />
-<title>聚车金融</title>
-<link href="css/css.css" rel="stylesheet" type="text/css" />
-<link href="css/mui.min.css" rel="stylesheet"/>
-<style type="text/css">
-	.notice-list li .tap{  line-height:20px;}
-	.notice-list li .tap p { margin: 0px;}
-    .notice-list li .tap p.title{ font-weight: bold; color: #666;}
-    .notice-list li .tap p.date{ font-size: 12px; color: #bbb;}
-	
-</style>
-</head>
-<body>
-	
-<div class="mui-content">
-	<!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper">-->
-		<div class="mui-scroll">
-	<ul id="news-list" class="notice-list clearfix " >
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		
-	</ul>
-		</div>
-	<!--</div>-->
-</div>
-	
-	
-<script id="tpl-item" type="text/html">
-	{{each list as item i}}
-<li >
-<a href="javascript:;" class="tap" data='{"id":{{item.id}}}' style="padding-left:15px">
-<!--<i class="ico-news ico24 icon"></i>-->
-<p class="title mui-ellipsis">{{item.name}}</p>
-<p class="date">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>
-<i class="ico-arrow icon"></i>
-</a>
-</li>
-	{{/each}}
-</script>
-
-		<script src="js/mui.min.js"></script>
-		<script src="js/template.js"></script>
-		<script src="js/template.function.js"></script>
-		<script src="js/api.js"></script>
-
-    <script type="text/javascript" charset="utf-8">
-//  	var curr_page = 0;
-//			mui.init({
-//				pullRefresh: {
-//					container: '#pullrefresh',
-//					down: {
-//						callback: pulldownRefresh
-//					},
-//					up: {
-//						contentrefresh: '正在加载...',
-//						callback: pullupRefresh
-//					}
-//				}
-//			});
-//			
-//			/**
-//			 * 下拉刷新具体业务实现
-//			 */
-//			function pulldownRefresh() {
-//				setTimeout(function() {
-//					curr_page = 1;
-//					getdata(curr_page);
-//					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-//					//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-//				}, 1500);
-//			}
-//			var count = 0;
-//			/**
-//			 * 上拉加载具体业务实现
-//			 */
-//			function pullupRefresh() {
-//				setTimeout(function() {
-//					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
-//					curr_page = curr_page + 1;
-//					getdata(curr_page);
-//				}, 1500);
-//			}
-//			if (mui.os.plus) {
-//				mui.plusReady(function() {
-//					setTimeout(function() {
-//						mui('#pullrefresh').pullRefresh().pullupLoading();
-//					}, 100);
-//				});
-//			} else {
-//				mui.ready(function() {
-//					mui('#pullrefresh').pullRefresh().pullupLoading();
-//				});
-//			}
-//    	
-			mui.plusReady(function(){
-				getdata(1);
-				
-				mui("#news-list").on('tap', 'a.tap', function(e){
-					e.stopPropagation();
-					
-					var data = this.getAttribute('data');
-					data = eval("(" + data + ")");
-					//var detailWV = mui.preload({url:'notice_detail.html'});
-					var detailWV = plus.webview.create('notice_detail.html','notice_detail.html');
-//					console.log(data);
-					detailWV.addEventListener( "loaded", function(){
-						mui.fire(detailWV,"mui.view.show",data);
-					}, false );					
-					setTimeout(function(){
-						detailWV.show('slide-in-right',100);
-					},10);
-					
-				})
-			});
-			
-			function getdata(page){
-				request = {'type_id': 6, 'order':'order_asc','epage':100};
-				request.page = page;
-				articles.GetList({'request':request},function(res){
-//					console.log(JSON.stringify(res));
-					var html = template('tpl-item',res);
-					var ul = document.querySelector('#news-list');
-					var upflag = res.page >= res.total_page ? true : false;
-					if(page > 1){
-						ul.innerHTML = ul.innerHTML + html;
-					}else{
-						ul.innerHTML = html;
-					}
-//					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					
-					
-					if(res.total == 0){
-						html = '<li class="mui-table-view-cell">没有记录</li>';
-						ul.innerHTML = html;
-//						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
-					}
-				});
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-bar{
+				background-color: #fff;
 			}
-    </script>
-</body>
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">消息通知</h1>
+		</header>
+		<div class="mui-content"></div> 
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'notice_sub.html',
+				id:'notice_sub.html',
+				styles:{
+					top: '45px',
+					bottom: '0px',
+				}
+			}]
+		});
+	
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+	</script>
+
 </html>

@@ -365,7 +365,7 @@ header .mui-title { color: #333; }
 		}
 
 $(function(){
-    $('#money').focusout(function(){
+    $('#money').keyup(function(){
 	var borrow_nid    = $("#borrow_nid").val();
 	var borrow_apr    = $("#borrow_apr").val();
 	var borrow_period = $("#borrow_period").val();
@@ -377,7 +377,7 @@ $(function(){
 	request.borrow_period = borrow_period;
 	request.borrow_style = borrow_style;
 	request.money = money;
-	console.log(JSON.stringify(request));
+	//console.log(JSON.stringify(request));
 		borrow.sy({'request':request},function(res){
 			if(res) {
 				$('#span_borrow_sy').html(res);
