@@ -7,34 +7,49 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
-<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/css.css" rel="stylesheet" type="text/css" /> 
+
 <style type="text/css">
 .header:after{ height: 0px; }
+
 </style>
 </head>
 <body class="body-red">
-		<header class="header" style="background: transparent; border: none;">
-			<a href="javascript:void(0);" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
-		</header>
+<header class="header login-head" >
+	<a href="javascript:void(0);" style="width:120px;" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
+</header>
 <div class="login clearfix">
-<div class="logos"><img src="images/logo1.png"></div>
-<ul class="login-form clearfix">
-<li><div class="input-box"><i class="ico-yhm ico24 icon"></i><input type="number" pattern="[0-9]*"  class="login-txt" id="login-username" name="mobile" placeholder="用户名/手机号"></div></li>
-<li><div class="input-box"><i class="ico-pwd ico24 icon"></i><input type="password" class="login-txt" id="login-password" name="password" placeholder="密码"></div></li>
-<li class="opn"><button class="login-btn" id="login-post">会员登录</button></li>
-</ul>
-<div class="login-dsp"><span class="fl"><span class="opacity5">没有账号?</span> <a href="reg.html" class="white register-link">免费注册</a></span> <span class="fr"> <a href="wjmm.html" class="wjmm wjmm-link white">忘记密码</a></span></div>
+	<div class="logos">
+		<img src="images/logo1.png">	
+	</div>
+		<ul class="login-form clearfix">
+			<li><div class=" mui-input-row"><i class="ico-yhm"></i><input type="text" pattern="[0-9]*" class="login-txt mui-input-clear" id="login-username" name="mobile" placeholder="手机号码"></div></li>
+			<li><div class="mui-input-row mui-password"><i class="ico-pwd"></i><input type="password" class="login-txt mui-input-password" id="login-password" name="password" placeholder="登录密码"></div></li>
+			<li class="opn login-opn"><button class="login-btn" id="login-post">会员登录</button></li>
+			
+		</ul>
+	<div class="login-dsp">
+		<span class="fl"><span class="opacity5">没有账号?</span>
+			<a href="reg.html" class="white register-link">免费注册</a>
+		</span>
+		<span class="fr"> <a href="wjmm.html" class="wjmm wjmm-link white">忘记密码</a>
+		</span>
+	</div>
 </div>
+
 <script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/base.js"></script>
 
 <script language="javascript" type="text/javascript" src="js/api.js"></script>
 <script>
+
 	mui.init({'swipeBack':true});
-	
+  
 	mui.plusReady(function(){
 		//注册按钮
+		
 		mui('body').on('tap', '.register-link', function() {
 			mui.openWindow({
 				url:'reg.html',

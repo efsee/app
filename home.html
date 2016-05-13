@@ -1,254 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title></title>
-
-<link href="css/css.css" rel="stylesheet" type="text/css" />
-<link href="css/swiper.min.css" rel="stylesheet" type="text/css" />
-
-<style>
-    .swiper-container {
-        width: 100%;
-        height:auto;
-    }
-    .swiper-slide {
-        text-align: center;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-.swiper-slide img{ width:100%;}
-    </style>
-</head>
-<body>
-<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-<script language="javascript" type="text/javascript" src="js/swiper.min.js"></script>
-    <script src="js/mui.min.js"></script>
-		<script src="js/template.js"></script>
-		<script src="js/template.function.js"></script>
-		<script src="js/api.js"></script>
-    <script type="text/javascript" charset="utf-8">
-      	mui.init();
-    </script>
-<div class="swiper-container">
-        <div class="swiper-wrapper" id="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/1.png"></div>
-            <div class="swiper-slide"><img src="images/2.png"></div>
-            <div class="swiper-slide"><img src="images/3.png"></div>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-
-<div id="idx-box"></div>
-
-<script id="tpl-borrow-item" type="text/html">
-	{{each list as item i}}
-<div class="idx-box">
-	<p class="name">{{item.name}}</p>
-	<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">
-	<div class="circle br-p">		
-		<canvas id="myCanvas" width="170" height="170" path="85,85,83,{{item.borrow_account_scale/100}}"></canvas>
-		<div class="text">
-			<p class="rate">年化收益</p>
-			<p class="price">{{item.borrow_apr}}<span class="small">%</span></p>
-			<p class="term">项目期限<strong>{{item.borrow_period | month2day}}</strong> 天</p>
-			<p style="line-height: 1.8em;">100元起投</p>
-		</div>		
-	</div>
-	</a>
-
-	<div class="info box-sizing" style="width: 49%;">借款金额 <b class="c5">{{item.account}}</b></div>
-	<div class="info last box-sizing" style="width: 49%;">剩余可投 <b class="c5">{{item.borrow_account_wait}}</b></div>
-	  <div class="Secured">
-	    <ul>
-	      <li><span class="hbjh"></span>杭标计划</li> 
-	       <li class="xiant" style="width: 15px;">&nbsp;</li>
-	       <li><span class="ancun" ></span>安存无忧</li> 
-	    </ul>
-	 
-	   </div>
-	<div class="opn">
-	{{if item.borrow_account_scale == '100'}}
-		<a href="javascript:;" class="ljtz-btn tap"  data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}" style="background: #bbbbbb;" >投资已满</a>
-	{{else}}
-		{{if item.borrow_end_time > newtime}}
-		<a href="#" class="btn Large tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">立即投资</a>
-		{{else}}
-		<a href="#" class="btn Large tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">已结束</a>
-		{{/if}}
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		
-	{{/if}}
-	</div>	 
-		
-		
-</div>
-	{{/each}}
-</script>
-<script id="tpl-pic-item" type="text/html">
-	{{each list as item i}}
-		<div class="swiper-slide"><a class="tap" href="{{item.url}}" data='{"url":"{{item.url}}"}'><img src="{{host}}{{item.pic}}" onerror="this.src='images/1.png'" /></a></div>
-	{{/each}}
-</script>
-<script>
-//	    var swiper = new Swiper('.swiper-container', {
-//	        pagination: '.swiper-pagination',
-//	        paginationClickable: true,
-//	        autoplay: 4000,
-//	        autoplayDisableOnInteraction: false
-//	    });
-
-mui.plusReady(function(){
-	request = {'type_id':6};
-	articles.GetscrollpicList({'request':request},function(res){
-		res.host = host;
-		var html = template('tpl-pic-item',res);
-		document.getElementById("swiper-wrapper").innerHTML = html;
-	    var swiper = new Swiper('.swiper-container', {
-	        pagination: '.swiper-pagination',
-	        paginationClickable: true,
-	        autoplay: 4000,
-	        autoplayDisableOnInteraction: false
-	    });
-	})
-	
-	mui('.swiper-wrapper').on('tap', 'a.tap', function(e){
-		e.stopPropagation();
-		href = this.getAttribute('href');
-		if(href && href.substr(0,1) != "#"){
-			plus.runtime.openURL(href);
-		}
-	})
-	
-//	product.getrecommendborrow(function(res){
-//		console.log(JSON.stringify(res));
-//		res.newtime = new Date().getTime() / 1000;
-//		var html = template('tpl-borrow-item',res);
-//		document.getElementById("idx-box").innerHTML = html;
-//		mui.each(document.querySelectorAll("canvas"),function(){
-//			circle(this);
-//		});
-//	},2000);
-	
-	var request = {'borrow_type':'','epage':1,'recommend':'1','xszx':'1'};
-	product.getborrowlist({"request":request},function(res){
-		res.newtime = new Date().getTime() / 1000;
-		var html = template('tpl-borrow-item',res);
-		document.getElementById("idx-box").innerHTML = html;
-		mui.each(document.querySelectorAll("canvas"),function(){
-			circle(this);
-		});
-	});
-	
-	setTimeout(function(){
-		plus.navigator.closeSplashscreen();
-	},1000);
-	
-	plus.webview.currentWebview().setStyle({scrollIndicator:"none"});
-//				var request = {'borrow_type':'','epage':1,'recommend':'1','xszx':'1'};				
-//				product.list({"request":request},function(res){
-////					console.log(JSON.stringify(res));
-//					var html = template('tpl-borrow-item',res);
-//					document.getElementById("idx-box").innerHTML = html;
-//					mui.each(document.querySelectorAll("canvas"),function(){
-//						circle(this);
-//					});
-//				});
-
-				var pshowshow = true;
-				mui("#idx-box").on('tap','a.tap',function(e){
-					e.preventDefault();
-					if(pshowshow){
-						pshowshow = false;
-						setTimeout(function(){
-							pshowshow = true;
-						}, 1000);
-					}else{
-						return false;
-					}
-					var data = this.getAttribute('data');
-					data = eval("(" + data + ")");
-					var pshow = plus.webview.create('pshow.html','pshow-borrow');
-					pshow.addEventListener('loaded',function(){
-					mui.fire(pshow,"mui.view.show",data);
-					});
-					setTimeout(function(){
-						pshow.show("slide-in-right",100);
-					},300);
-				})
-})
-
-			function circle(obj){
-				var ctx;
-				if(obj.getContext){  
-					ctx = obj.getContext("2d");
-					ctx.beginPath();
-					ctx.strokeStyle = "#e4393c";
-					ctx.lineWidth = 4;
-					ctx.closePath();
-					path = obj.getAttribute("path");
-					var patharr=path.split(",");
-					var paths={
-						x:	Number(patharr[0]),
-						y:	Number(patharr[1]),
-						r:	Number(patharr[2]),
-						pis:Number(patharr[3])
-						};
-					ctx.arc(paths.x,paths.y,paths.r,0,Math.PI*paths.pis*2,false);  
-					ctx.stroke();
-				}
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			.mui-bar{
+				background-color: #fff;
 			}
-			
-			 //首页返回键处理
-			 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
-			var first = null;
-			mui.back = function() {
-				//首次按键，提示‘再按一次退出应用’
-				if (!first) {
-					first = new Date().getTime();
-					mui.toast('再按一次退出应用');
-					setTimeout(function() {
-						first = null;
-					}, 1000);
-				} else {
-					if (new Date().getTime() - first < 1000) {
-						plus.runtime.quit();
-					}
-				}
-			};
-			
-			document.addEventListener('reloadpage',function(e){
-				mui.fire(plus.webview.currentWebview(),'initpage');
-			},false);
-			
-			document.addEventListener('initpage',function(e){
-				//plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
-				window.scrollTo(0,0);
-				var request = {'borrow_type':'','epage':1,'recommend':'1','xszx':'1'};
-				product.getborrowlist({"request":request},function(res){
-					if(res){
-//						var key = 'product@borrow_top';
-//						store.set(key, res, 3600 * 1);
-						res.newtime = new Date().getTime() / 1000;
-						var html = template('tpl-borrow-item',res);
-						document.getElementById("idx-box").innerHTML = html;
-						mui.each(document.querySelectorAll("canvas"),function(){
-							circle(this);
-						});
-					}
-				});
-			},false);
-</script>
-</body>
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="mui-content"></div> 
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'home_sub.html',
+				id:'home_sub.html',
+				styles:{}
+			}]
+		});
+	
+		
+	</script>
+
 </html>

@@ -29,7 +29,7 @@
 </div>
 
 <ul class="user-nav">
-<li><a href="notice.html" class="tap" data='{"title":"公告"}'><i class="ico18 icon ico-notice"></i>公告<i class="ico-arrow icon"></i></a></li>
+<li><a href="notice.html" open-type="common" class="tap" data='{"title":"公告"}'><i class="ico18 icon ico-notice"></i>公告<i class="ico-arrow icon"></i></a></li>
 <li><a href="active.html" class="tap" data='{"title":"活动中心"}'><i class="ico18 icon ico-activity"></i>活动中心<i class="ico-arrow icon"></i></a></li>
 <li><a href="xszn.html" class="tap" data='{"title":"新手指南"}'><i class="ico18 icon ico-xszn"></i>新手指南<i class="ico-arrow icon"></i></a></li>
 <li><a href="about.html" class="tap" data='{"title":"关于我们"}'><i class="ico18 icon ico-about"></i>关于我们<i class="ico-arrow icon"></i></a></li>
@@ -87,20 +87,15 @@ document.getElementById("confirmBtn").addEventListener('tap', function() {
 			document.getElementById("user-bar").innerHTML = html;
 			}
 		});
-//		request = {'user_id':user.uid()};
-//		user.UserInfo({'request':request},function(res){
-//			console.log(JSON.stringify(res));
-//			res.host = host;
-//			var html = template('tpluser', res);
-//			document.getElementById("user-bar").innerHTML = html;
-//		});
+		
+		preload ();
 		
 		mui('body').on('tap', '.imgbox', function(e){
 			e.stopPropagation();
 			var options = {};
 			options.data = {'user_id':user.uid(),'m':'user','action':'avatar','uid':user.uid(),'avatartype':'virtual'};
 			options.callback = function(res){
-				console.log(res);
+				//console.log(res);
 				//res.fileurl
 				rs = JSON.parse(res);
 				if(rs.status == 1){					
@@ -131,23 +126,29 @@ document.getElementById("confirmBtn").addEventListener('tap', function() {
 		})
 		var inittemplate = getTemplate('template', 'template.html');
 		mui("body").on('tap','a.tap',function(){
-			
+			var id = this.getAttribute('href');
+			var href = this.href;
+			var type = this.getAttribute("open-type");
+			console.log(type);
+			//console.log(22222222);
+			//不使用父子模板方案的页面
+			if (type == "common") {
+				var webview_style = {
+					popGesture: "close"
+				};
+				mui.openWindow({
+					id: id,
+					url: this.href,
+					styles: webview_style,
+					waiting: {
+						autoShow: false
+					}
+				});
+			}
+			else{
 				var url = this.getAttribute('href');
 				href = this.href;
 				if(url == "") return;
-				
-			if(url == "bbs.html"){
-//				var bbswv = mui.openWindow({'url':'http://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":true}});
-//				bbswv.addEventListener("loaded",function(){
-//					bbswv.setStyle({"aniShow":"none"});
-//				})
-				//var w = plus.webview.open( "https://www.ifcar99.com/bbs/" );
-				mui.openWindow({'url':'https://www.ifcar99.com/bbs/',show:{"aniShow":"none"},waiting:{"autoShow":false}});
-				return false;
-			}
-				
-
-
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
 				//通知模板修改标题，并显示隐藏右上角图标；
@@ -165,6 +166,8 @@ document.getElementById("confirmBtn").addEventListener('tap', function() {
 				});
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 150);
+			}
+				
 		})
 		
 		
@@ -178,28 +181,48 @@ document.getElementById("confirmBtn").addEventListener('tap', function() {
 				},100);
 //			});
 		})
-	})
+		
+	})		//plusReady结束
+	
 	document.addEventListener('initpage',function(e){
 
 					request = {};
 					request.user_id = user.uid();
-					user.loginbbs({'request':request},function(res){
-						//console.log(JSON.stringify(res));
-						if(res.src){
-						var script = document.createElement('script');
-					    script.setAttribute('type', 'text/javascript');
-					    script.setAttribute('src', res.src);
-					    document.getElementsByTagName('head')[0].appendChild(script);
-					   }
-					})
+					
 	},false);
 
-		document.addEventListener('mui.view.refresh',function(){
-			user.getInfo(function(res){
-				var html = template('tpluser', res);
-				document.getElementById("user-bar").innerHTML = html;
-			});
-		},false);
+	/*document.addEventListener('mui.view.refresh',function(){
+		user.getInfo(function(res){
+			var html = template('tpluser', res);
+			document.getElementById("user-bar").innerHTML = html;
+		});
+	},false);*/
+	function preload () {
+		mui.preload({
+			url:'notice.html',
+			styles: {
+				popGesture: 'hide'
+			}
+		});
+		mui.preload({
+			url:'active.html',
+			styles: {
+				popGesture: 'hide'
+			}
+		});
+		mui.preload({
+			url:'xszn.html',
+			styles: {
+				popGesture: 'hide'
+			}
+		});
+		mui.preload({
+			url:'about.html',
+			styles: {
+				popGesture: 'hide'
+			}
+		});
+	}
 </script>
 
 </body>

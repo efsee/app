@@ -279,7 +279,13 @@ a.ljtz-btn { color: #fff;}
 	});
 	
 		document.addEventListener("mui.view.show",function(e){
-			//console.log(JSON.stringify(e.detail));
+			console.log(JSON.stringify(e.detail));
+			window.scrollTo(0,0);
+			var data = e.detail;
+			getdata(data);
+		},false);
+		document.addEventListener("productId",function(e){
+			console.log(JSON.stringify(e.detail));
 			window.scrollTo(0,0);
 			var data = e.detail;
 			getdata(data);

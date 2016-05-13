@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/invest.css">
+	</head>
+	<body>
+		test
+		<a href="javascript:;"  data="12345" class="tap invest-botton">抢购</a>
+	</body>
+	
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/template.js"></script>
+	<script src="js/template.function.js"></script>
+	<script src="js/api.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+				
+				var detailPage = null;
+				mui("body").on('tap', 'a.invest-botton', function(e){
+					
+					e.stopPropagation();
+					
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+					//alert(data)
+					//获得详情页面
+					if(!detailPage){
+					//detailPage = plus.webview.getWebviewById('product_detail.html');
+					var detailPage = plus.webview.create('product_detail.html','pshow-borrow',{},data);
+					//alert(111111111)
+					}
+					//alert(22222222)
+					//console.log(detailPage)
+					//触发详情页面的newsId事件
+					/*mui.fire(detailPage,'newsId',{
+					id:data
+					});*/
+					detailPage.show("slide-in-right",150);
+					detailPage.addEventListener('loaded',function(){
+						mui.fire(detailPage,'newsId',{
+						id:data
+						});
+					});
+					//var detailPage = plus.webview.create('product_detail.html');
+					
+					//打开详情页面
+					/*mui.openWindow({
+					id:'product_detail.html'
+					});*/
+					
+				})
+
+			});
+	</script>
+</html>

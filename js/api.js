@@ -1,20 +1,20 @@
-var utoken, uid;
-var host = 'https://www.ifcar99.com/';
-var apiurl = 'https://www.ifcar99.com/api.php';
-var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
+﻿var utoken, uid;
+var host = 'http://test.ifcar99.com/';
+var apiurl = 'http://test.ifcar99.com/api.php';
+var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
 //var host = 'http://192.168.1.10/';
 
 var appinfo = {};
 
 mui.plusReady(function() {
-//	plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-//		//appid属性
-//		appinfo.appid = wgtinfo.appid;
-//		//version属性
-//		appinfo.version = wgtinfo.version;
-//		//name属性
-//		appinfo.name = wgtinfo.name;
-//	});
+	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+		//appid属性
+		appinfo.appid = wgtinfo.appid;
+		//version属性
+		appinfo.version = wgtinfo.version;
+		//name属性
+		appinfo.name = wgtinfo.name;
+	});*/
 if(document.getElementById("main-box")){
 	mui('#main-box').on('tap', 'a[href]', function(){
 		var href = this.getAttribute('href');
@@ -218,6 +218,11 @@ var user = {
 		var url = apiurl + '?module=user&action=mobilecode';
 		ajax.post(url, $data, callback);
 	},
+	//发送验证码
+	'anjiemobilecode': function($data, callback) {
+		var url = apiurl + '?module=user&action=anjiemobilecode';
+		ajax.post(url, $data, callback);
+	},
 	'reg_invite': function($data, callback) {
 		var url = apiurl + '?module=user&action=reg_invite';
 		ajax.post(url, $data, callback);
@@ -406,8 +411,12 @@ var borrow = {
 	"lantou" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=lantou';
 		ajax.post(url, $data, callback);
+	},
+	"AddAnJie" : function($data, callback){
+		var url = apiurl + '?module=borrow&action=AddAnJie';
+		ajax.post(url, $data, callback);
 	}
-
+	
 
 }
 
@@ -448,6 +457,14 @@ var product = {
 	},
 	'getborrowlist': function($data, callback) {
 		var url = apiurl + '?module=borrow&action=GetList';
+		ajax.post(url, $data, callback);
+	},
+	'gettotal': function($data, callback) {
+		var url = apiurl + '?module=borrow&action=GetTotal';
+		ajax.post(url, $data, callback);
+	},
+	'getversion': function($data, callback) {
+		var url = apiurl + '?module=borrow&action=GetVersion';
 		ajax.post(url, $data, callback);
 	}
 }

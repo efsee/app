@@ -128,17 +128,18 @@
 					}
 					var href = this.getAttribute('href');
 					if(href){
-//						mui.openWindow({'url':'http://www.ifcar99.com/yidong/jiaxi/jcr_yd.html','styles':{}});
-//						var detailWV = plus.webview.create('active_detail.html','active_detail.html');
-//						detailWV.addEventListener( "loaded", function(){
-//							mui.fire(detailWV,"mui.view.href",{'href':href});
-//						}, false );
-//						setTimeout(function(){
-//							detailWV.show('slide-in-right');
-//						},10);
-//						return false;
+						//mui.openWindow({'url':'http://www.ifcar99.com/yidong/jiaxi/jcr_yd.html','styles':{}});
+						var detailWV = plus.webview.create('active_detail.html','active_detail.html');
+						detailWV.addEventListener( "loaded", function(){
+							mui.fire(detailWV,"mui.view.href",{'href':href});
+						}, false );
+						setTimeout(function(){
+							detailWV.show('slide-in-right');
+						},10);
+						return false;
 //						
-						plus.runtime.openURL(href);
+//						plus.runtime.openURL(href);
+                      //	plus.webview.create(href).show();
 //					if('Android'==plus.os.name){
 //					}
 //					if(mui.os.android){

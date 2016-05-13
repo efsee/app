@@ -29,10 +29,16 @@
 					"css/css.css",
 					"js/mui.min.js",
 					"js/api.js",
-					"images/find_icon.png"
+					"images/find_icon.png",
+					"css/index.css",
+					"images/icon.png",
+					"css/mui.min.css",
+					"images/jiaz.gif",
+					"home_sub.html"
 				],
 				"refer": [
-					"pshow.html"
+					"pshow.html",
+					"active_detail.html"
 				],
 				"priority": 0
 			},
@@ -43,7 +49,9 @@
 					"images/guide/1.png",
 					"js/jquery.sliderTabs.min.js",
 					"images/guide/4.png",
-					"js/jquery-1.11.2.min.js"
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
 				],
 				"refer": [],
 				"priority": 0
@@ -84,7 +92,12 @@
 					"js/common.js",
 					"js/mui.min.js",
 					"css/mui.min.css",
-					"js/api.js"
+					"js/api.js",
+					"css/invest.css",
+					"images/wuy.jpg",
+					"js/jquery-1.11.2.min.js",
+					"product_sub.html",
+					"images/icon.png"
 				],
 				"refer": [
 					"pshow.html"
@@ -128,7 +141,8 @@
 			"subtemplate.html": {
 				"resources": [
 					"loading.html",
-					"images/icon.png"
+					"images/icon.png",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -141,7 +155,9 @@
 					"images/logo1.png",
 					"js/mui.min.js",
 					"images/icon.png",
-					"js/api.js"
+					"js/api.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -219,7 +235,8 @@
 					"notice.html",
 					"security.html",
 					"newbie.html",
-					"userinfo.html"
+					"userinfo.html",
+					"guide.html"
 				],
 				"priority": 0
 			},
@@ -285,7 +302,9 @@
 					"js/mui.min.js",
 					"js/template.js",
 					"js/api.js",
-					"js/template.function.js"
+					"js/template.function.js",
+					"notice_sub.html",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -293,7 +312,10 @@
 			"newbie.html": {
 				"resources": [
 					"css/mui.min.css",
-					"css/css.css"
+					"css/css.css",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -453,7 +475,11 @@
 			"security.html": {
 				"resources": [
 					"js/template.js",
-					"js/template.function.js"
+					"js/template.function.js",
+					"css/css.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -498,12 +524,96 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"notice_sub.html": {
+				"resources": [
+					"images/icon.png",
+					"js/jquery-1.11.2.min.js",
+					"css/css.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/api.js",
+					"js/template.function.js"
+				],
+				"refer": [
+					"notice_detail.html"
+				],
+				"priority": 0
+			},
+			"notice_detail.html": {
+				"resources": [
+					"css/css.css",
+					"js/mui.min.js",
+					"images/icon.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"active_detail.html": {
+				"resources": [
+					"css/css.css",
+					"js/mui.min.js",
+					"images/icon.png",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"product_sub.html": {
+				"resources": [
+					"css/invest.css",
+					"images/wuy.jpg",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/api.js",
+					"js/template.function.js",
+					"images/icon.png"
+				],
+				"refer": [
+					"pshow.html",
+					"active_detail.html"
+				],
+				"priority": 0
+			},
+			"home_sub.html": {
+				"resources": [
+					"css/index.css",
+					"css/swiper.min.css",
+					"js/swiper.min.js",
+					"js/jquery-1.11.2.min.js",
+					"css/css.css",
+					"images/find_icon.png",
+					"js/mui.min.js",
+					"images/icon.png",
+					"images/jiaz.gif",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js",
+					"images/1.png"
+				],
+				"refer": [
+					"pshow.html",
+					"active_detail.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
 				"js/radialIndicator.min.js",
-				"active_detail.html",
 				"bbs.html",
 				"images/bank/bank2.png",
 				"js/mui.poppicker.js",
@@ -538,7 +648,6 @@
 				"css/radialindicator.css",
 				"js/iscroll.js",
 				"images/bank/bank12.png",
-				"notice_detail.html",
 				"js/mui.picker.js",
 				"js/jquery.form.min.js",
 				"images/bank/bank4.png",

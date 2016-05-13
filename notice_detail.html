@@ -80,9 +80,11 @@ header .mui-title { color: #333; }
 <script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.plusReady(function(){
-	})
-		document.addEventListener('mui.view.show',function(e){
-			var id = e.detail.id;
+	
+		/*document.addEventListener('mui.view.show',function(e){
+			var id = e;
+			console.log(111111);
+			alert(e);
 			articles.detail({'request':{'id':id}},function(res){
 //				console.log(JSON.stringify(res));
 				html = template('tpl-html',res);
@@ -90,7 +92,24 @@ header .mui-title { color: #333; }
 				document.getElementById("mui-loader").style.display = 'none';
 //				plus.webview.currentWebview().show('slide-in-right');
 			})
-		},false);
+		},false);*/
+		
+		//添加newId自定义事件监听
+		window.addEventListener('newsId',function(event){
+			//获得事件参数
+			var id = event.detail.id;
+			//根据id向服务器请求新闻详情
+			//alert(event);
+			//
+			articles.detail({'request':{'id':id}},function(res){
+//				console.log(JSON.stringify(res));
+				html = template('tpl-html',res);
+				document.getElementById("main-box").innerHTML = html;
+				document.getElementById("mui-loader").style.display = 'none';
+//				plus.webview.currentWebview().show('slide-in-right');
+			})
+		})
+	})
 
 </script>
 </body>
