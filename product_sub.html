@@ -85,7 +85,7 @@
 										str2='<a href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></a>';
 									}
 									else{
-										str2='可投金额 : <span class="invest-red">'+parseInt(item.borrow_account_wait)+'元</span>';
+										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
 									}
 									
 									if(item.repay_account_yes>0){
@@ -117,7 +117,7 @@
 						   			'<div class="invest-left">'+		   	
 						   					'<div class="invest-lv">'+item.borrow_apr+'<span class="invest-wei hong">%<span></span></div>'+
 						   					'<div class="invest-tian">'+Math.ceil(item.borrow_period*30)+'<span class="invest-wei">天</span></div>'+
-						   					'<div class="invest-je">'+parseInt(item.account)+'<span class="invest-wei">元</span></div>'+
+						   					'<div class="invest-je">'+toThousands(parseInt(item.account))+'<span class="invest-wei">元</span></div>'+
 						   		    		'<div class="invest-jdt" ></div>'+
 								   			'<div class="invest-hjdt" style="width:'+item.borrow_account_scale+'%"></div>'+
 						   			'</div></a>'+
@@ -177,7 +177,7 @@
 											str2='<a href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></a>';
 									}
 									else{
-										str2='可投金额 : <span class="invest-red">'+parseInt(item.borrow_account_wait)+'元</span>';
+										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
 									}
 									
 									if(item.repay_account_yes>0){
@@ -209,7 +209,7 @@
 						   			'<div class="invest-left">'+		   	
 						   					'<div class="invest-lv">'+item.borrow_apr+'<span class="invest-wei hong">%<span></span></div>'+
 						   					'<div class="invest-tian">'+Math.ceil(item.borrow_period*30)+'<span class="invest-wei">天</span></div>'+
-						   					'<div class="invest-je">'+parseInt(item.account)+'<span class="invest-wei">元</span></div>'+
+						   					'<div class="invest-je">'+toThousands(parseInt(item.account))+'<span class="invest-wei">元</span></div>'+
 						   		    		'<div class="invest-jdt" ></div>'+
 								   			'<div class="invest-hjdt" style="width:'+item.borrow_account_scale+'%"></div>'+
 						   			'</div></a>'+
@@ -226,7 +226,21 @@
 				}, 500);
 			}
 			
+			function toThousands(num) {
+			    var result = [ ], counter = 0;
+			    num = (num || 0).toString().split('');
+			    for (var i = num.length - 1; i >= 0; i--) {
+			        counter++;
+			        result.unshift(num[i]);
+			        if (!(counter % 3) && i != 0) { result.unshift(','); }
+			    }
+			    return result.join('');
+			}
+			
 			mui.plusReady(function() {
+				
+				
+				
 				
 				
 				setTimeout(function() {

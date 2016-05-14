@@ -69,7 +69,7 @@
 	{{each list as item i}}
 	<div class="home-con">
 		<ul class="home-lcsj">
-			 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}万</span></li>  
+			 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}亿</span></li>  
 			 <li><i class="home-icona"></i>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
 		</ul>
 	</div>	
@@ -95,8 +95,8 @@
 		<div class="home-hjdt" style="width:{{item.borrow_account_scale}}%;"></div>
 	
 		<div class="home-menoy">
-			<span class="home-xmze">项目总额  : {{item.account}}元 </span>
-			<span class="home-ktje">可投金额 : <i class="home-peo">{{item.borrow_account_wait}}</i>元</span>
+			<span class="home-xmze">项目总额  : {{item.account | toThousandsint}}元 </span>
+			<span class="home-ktje">可投金额 : <i class="home-peo">{{item.borrow_account_wait | toThousandsint}}</i>元</span>
 		</div>
 		</a>
 		<div class="home-clear"></div>	
@@ -141,6 +141,9 @@
 				}
 			}
 		});
+		
+	
+	
 	
 	/**
 	 * 下拉刷新具体业务实现
