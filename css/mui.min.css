@@ -3661,7 +3661,7 @@ select:focus {
 
 .mui-toast-message {
 	font-size: 14px;
-	width: 270px;
+	width: 80%;
 	margin: 5px auto;
 	padding: 5px;
 	text-align: center;
