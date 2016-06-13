@@ -9,31 +9,69 @@
 <title>聚车金融</title>
      <link href="css/mui.min.css" rel="stylesheet"/>     
      <link href="css/iphone.css" rel="stylesheet"/>
+     <link href="css/header.css" rel="stylesheet"/>
+     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/mui.min.js"></script>
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
 </head>
 <body>
-<div class="iphone-warp">
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">充值详情</h1>
+	</header>
+	<div class="mui-content">
+		<div class="iphone-warp">
 	<div class="iphone-active-czcg">
-		 充值成功<p class="iphone-active-money">-90.00元</p>
+		 <span class="cz-status">充值成功</span><p class="iphone-active-money cz-sale_price">-90.00元</p>
 		
 	</div>
 	
 	<div class="mui-content">
 			
 			<ul class="mui-table-view">
-				 <li class="mui-table-view-cell"><span class="iphone-active-left">充值号码</span> <span class="iphone-active-font">15655115007</span></li>
-		         <li class="mui-table-view-cell"><span class="iphone-active-left">面值</span>   <span class="iphone-active-font">20元</span></li>
+				 <li class="mui-table-view-cell"><span class="iphone-active-left">充值号码</span> <span class="iphone-active-font cz-account_no">15655115007</span></li>
+		         <li class="mui-table-view-cell"><span class="iphone-active-left">面值</span>   <span class="iphone-active-font cz-face_price">20元</span></li>
 		         <li class="mui-table-view-cell"><span class="iphone-active-left">付款方式</span> <span class="iphone-active-font">账户余额</span></li>
-		         <li class="mui-table-view-cell"><span class="iphone-active-left">创建时间</span> <span class="iphone-active-font">2016-05-22 17:20</span></li>
+		         <li class="mui-table-view-cell"><span class="iphone-active-left">创建时间</span> <span class="iphone-active-font cz-time">2016-05-22 17:20</span></li>
 			</ul>
 	</div>
 	<div class="iphone-active-ts">
 		<i class="iphone-active-icon"></i>话费一般30分钟内到账。月初高峰期会有延迟的情况。若迟迟未到账可点击<a href="#" class="iphone-active-kf">联系客服</a>
 	</div>
 </div>
-
+	</div>
+	<script>
+		mui.plusReady(function(){
+			//console.log(56489)
+			document.addEventListener("Getllcz",function(e){
+				order_no=e.detail.order_no;
+				account_no=e.detail.account_no;
+				time=e.detail.time;
+				sale_price=parseFloat(e.detail.sale_price).toFixed(2);
+				face_price=e.detail.face_price;
+				status=e.detail.status;
+				if(status==1){
+					$('.cz-status').text('充值成功');
+				}
+				else if(status==-1){
+					$('.cz-status').text('马上到账');
+				}
+				else{
+					$('.cz-status').text('充值失败');
+				}
+				$('.cz-account_no').text(account_no);
+				$('.cz-time').text(time);
+				$('.cz-sale_price').text('-'+sale_price+'元');
+				$('.cz-face_price').text(face_price+'元');
+				
+				
+			},false);
+				
+				
+			
+		})
+	</script>
 </body>
 </html>

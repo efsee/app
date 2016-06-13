@@ -9,7 +9,9 @@
 <title>聚车金融</title>
      <link href="css/mui.min.css" rel="stylesheet"/>     
      <link href="css/iphone.css" rel="stylesheet"/>
+     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/mui.min.js"></script>
+    <script src="js/api.js"></script>
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
@@ -17,75 +19,12 @@
 <body>
 <div class="iphone-warp">
 	<div class="mui-content">
-			<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;"><a href="notes_active.html" style="display: block;" >本月</a></h5>
+			<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;"><a  style="display: block;" >全部</a></h5>
 			<ul id="OA_task_1" class="mui-table-view">
-				<li class="mui-table-view-cell">				
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red iphone-color">删除</a>
-					</div>
 				
-					<div class="mui-slider-handle iphone-cont">						
-						<div class="iphone-date">今天<p>9:42</p></div>
-						<div class="iphone-money">-19元<span class="iphone-first">首冲</span><p>充值20元 - 15655115007</p></div>  
-						<div class="iphone-msdz">马上到账</div>					
-					</div>				
-				</li>
-				<li class="mui-table-view-cell">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red iphone-color">删除</a>
-					</div>
-					<div class="mui-slider-handle iphone-cont">
-						<div class="iphone-date">周二<p>05-17</p></div>
-						<div class="iphone-money">-49元<p>充值50元 - 18756280228</p></div>  
-						
-					</div>
-				</li>
-			    <li class="mui-table-view-cell">
-					<div class="mui-slider-right mui-disabled">
-							<a class="mui-btn mui-btn-red iphone-color">删除</a>
-					</div>
-					<div class="mui-slider-handle iphone-cont">
-						<div class="iphone-date">周四<p>05-18</p></div>
-						<div class="iphone-money">-90元<p>充值100元 - 13738015820</p></div>  
-					
-					</div>
-				</li>
 				
 			</ul>
-			<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;">4月</h5>
-			<ul id="OA_task_2" class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<div class="mui-slider-right mui-disabled">
-							<a class="mui-btn mui-btn-red iphone-color">删除</a>
-					</div>
-					<div class="mui-slider-handle iphone-cont">
-						<div class="iphone-date">周六<p>04-28</p></div>
-						<div class="iphone-money">-29元<p>充值30元 - 13855875820</p></div>  
-					
-					</div>
-				</li>
-				<li class="mui-table-view-cell">
-					<div class="mui-slider-right mui-disabled">
-						<a class="mui-btn mui-btn-red iphone-color">删除</a>	
-					</div>
-					<div class="mui-slider-handle iphone-cont">
-						<div class="iphone-date">周二<p>04-17</p></div>
-						<div class="iphone-money">-49元<p>充值50元 - 18756280228</p></div>  
 						
-					</div>
-				</li>
-			    <li class="mui-table-view-cell">
-					<div class="mui-slider-right mui-disabled">
-							<a class="mui-btn mui-btn-red iphone-color">删除</a>
-					</div>
-					<div class="mui-slider-handle iphone-cont">
-						<div class="iphone-date">周五<p>04-10</p></div>
-						<div class="iphone-money">-90元<p>充值100元 - 15655115007</p></div>  
-						<div class="iphone-czsb">充值失败</div>
-					</div>
-				</li>
-				
-			</ul>			
 			
 			
 			
@@ -93,22 +32,70 @@
 </div>
 <script>
 			mui.init();
-			(function($) {
-				//$.swipeoutOpen(el,direction)//打开指定列的滑动菜单，el:指定列的dom对象，direction：取值left|right，指定打开的是左侧或右侧滑动菜单
-				//$.swipeoutClose(el);//关闭指定列的滑动菜单，el:指定列的dom对象
-				//				setTimeout(function() {
-				//					$.swipeoutOpen(document.getElementById("OA_task_1").querySelector('li:last-child'), 'left');
-				//					setTimeout(function() {
-				//						$.swipeoutClose(document.getElementById("OA_task_1").querySelector('li:last-child'));
-				//					}, 1000);
-				//				}, 1000);
-				//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+			
+			mui.plusReady(function(){
+				
+				request = {'user_id': user.uid()};
+				user.GetllczList({'request':request},function(res){
+					//console.log(JSON.stringify(res))
+					if(res){
+						$('#OA_task_1').html('');
+						$(res).each(function(i,e){
+							time=getLocalTime(e.create_at);
+							str1='';
+							if(parseInt(e.is_first)){
+								str1='<span class="iphone-first">首冲</span>';
+							}
+							if(parseInt(e.status)==-1){
+								str2='<div class="iphone-msdz">马上到账</div>';
+							}
+							else if(parseInt(e.status)==1){
+								str2='<div class="iphone-msdz">充值成功</div>';
+							}
+							else{
+								str2='<div class="iphone-czsb">充值失败</div>';
+							}
+							//console.log(time)
+							$('#OA_task_1').append(
+							'<li class="mui-table-view-cell" data-order_no="'+e.order_no+'">'+
+								'<div class="mui-slider-right mui-disabled">'+
+									'<a class="mui-btn mui-btn-red iphone-color">删除</a>'+
+								'</div>'+
+							
+								'<div class="mui-slider-handle iphone-cont" data-order_no="'+e.order_no+'" data-account_no="'+e.account_no+'" data-sale_price="'+e.sale_price+'" data-face_price="'+e.face_price+'" data-time="'+time+'" data-status="'+e.status+'">'+						
+									'<div class="iphone-date"><p>'+time+'</p></div>'+
+									'<div class="iphone-money">-'+e.sale_price+'元'+str1+'<p>充值'+e.face_price+'元 - '+e.account_no+'</p></div>'+  
+									str2+					
+								'</div>'+				
+							'</li>'
+							);
+						})
+					}
+					
+				})
+				var btnArray = ['确认', '取消'];
 				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
 					var elem = this;
 					var li = elem.parentNode.parentNode;
+					var order_no = $(this).parents('li').attr('data-order_no');
+					//console.log(order_no)
 					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
 						if (e.index == 0) {
 							li.parentNode.removeChild(li);
+							//console.log(order_no);
+							//console.log($(this).parents('li').attr('data-order_no'));
+							
+							request = {'order_no': order_no};
+							//console.log(JSON.stringify(request));
+							user.Deletellcz({'request':request},function(res){
+								//console.log(JSON.stringify(res));
+								if(res>0){
+									mui.toast('删除成功');
+								}
+								else{
+									mui.toast('删除失败');
+								}
+							})
 						} else {
 							setTimeout(function() {
 								$.swipeoutClose(li);
@@ -116,21 +103,56 @@
 						}
 					});
 				});
-				var btnArray = ['确认', '取消'];
-		$('#OA_task_2').on('tap', '.mui-btn', function(event) {
-					var elem = this;
-					var li = elem.parentNode.parentNode;
-					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
-						if (e.index == 0) {
-							li.parentNode.removeChild(li);
-						} else {
-							setTimeout(function() {
-								$.swipeoutClose(li);
-							}, 0);
-						}
+				
+				$('#OA_task_1').on('tap', '.iphone-cont', function(event) {
+					var order_no = $(this).attr('data-order_no');
+					var account_no = $(this).attr('data-account_no');
+					var time = $(this).attr('data-time');
+					var sale_price = $(this).attr('data-sale_price');
+					var face_price = $(this).attr('data-face_price');
+					var status = $(this).attr('data-status');
+					console.log(order_no);
+					
+					var	calling=plus.webview.create('notes_active.html','notes_active.html',{'popGesture':'close'});
+				
+					setTimeout(function(){
+						calling.show("slide-in-right",100);
+					},100);
+					//触发详情页面的newsId事件
+					calling.addEventListener('loaded',function(){
+						mui.fire(calling,'Getllcz',{
+							order_no:order_no,
+							account_no:account_no,
+							time:time,
+							sale_price:sale_price,
+							face_price:face_price,
+							status:status
+						});
 					});
-				});
-			})(mui);
+				})
+				
+				
+				/*request = {'user_id': user.uid()};
+				user.UpdateCzlist({'request':request},function(res){
+					console.log(JSON.stringify(res))
+				})*/
+			})
+			
+			
+			function getLocalTime(nS) {     
+		       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, "").replace('GMT+8', "");      
+		    }
+			
+			function Deletellcz(request){
+				user.Deletellcz({'request':request},function(res){
+					console.log(JSON.stringify(res))
+					
+					
+				})
+			}
+			
+			
+			
 		</script>
 </body>
 </html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script src="js/mui.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style type="text/css">
+.header{
+	width:100%;
+	height:45px;
+	background:#fff;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#E6E5E5;
+	content:"";
+	font-size:0;
+	}
+header .mui-icon { color: #999; font-size: 14px; }
+header .mui-title { color: #333; }
+    	#main-box img { max-width: 100%;}
+    
+    
+    	.content{
+	margin-top:5px;
+}
+
+.content dt{
+	width:160px;
+	display:inline-block;
+	text-align:right;
+	float:left;
+	
+}
+.content dd{
+	margin-left:100px;
+	margin-bottom:5px;
+}
+.content dd input{
+	width: 100px;
+}
+    </style>
+</head>
+<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+			<h1 id="title" class="mui-title">充值</h1>
+		</header>
+<div class="mui-content">
+<form name="llpayment" action="http://test.ifcar99.com/api/authllczpay/llpayapi.php" method="post" >
+
+                <dl class="content" style="display: none;">
+                      <dt>商户用户唯一编号：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" id="user_id" name="user_id" value="0" />
+                        <span>必填
+</span>
+                    </dd>
+                     <dt>商户业务类型：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" name="busi_partner" value="101001"/>
+                        <span>必填  虚拟商品：101001 实物商品：109001 账户充值：108001
+                        </span>
+                    </dd>
+                    <dt>商户唯一订单号：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" id="no_order" name="no_order" value=""/>
+                        <span>商户订单系统中唯一订单号，必填
+</span>
+                    </dd>
+                      <!--<dt>交易金额：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" name="money_order" value="0.1"/>
+                        <span>必填</span>
+                    </dd>-->
+                    <dt>商品名称：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" name="name_goods" value="充值"/>
+                        <span>
+</span>
+                    </dd>
+                     <dt>订单描述
+：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" name="info_order" value="充值"/>
+                        <span></span>
+                    </dd>
+                    
+                      <dt>卡号：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" id="card_no" name="card_no" value=""/>
+                        <span>
+</span>
+                    </dd>
+                       <dt>姓名：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" id="acct_name" name="acct_name" value=""/>
+                        <span>
+</span>
+                    </dd>
+                      <dt>身份证号：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" id="id_no" name="id_no" value=""/>
+                        <span>
+</span>
+                    </dd>
+                    
+                      <dt>协议号：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <input size="30" name="no_agree" value=""/>
+                        <span>
+</span>
+                    </dd>
+                    
+                       <dt>风险控制参数：</dt>
+                    <dd>
+                        <span class="null-star">*</span>
+                        <textarea rows="5" cols="60"  size="30" id="risk_item" name="risk_item">
+                        	{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
+						</textarea>
+
+                    </dd>
+                    <dt>订单有效时间：</dt>
+                    	<span class="null-star">*</span>
+                        <input size="30" name="valid_order" value="10080"/>
+                        <span>分钟为单位，默认为10080分钟（7天）</span>
+                    </dd>
+                    </dl>
+                    
+<ul class="form-tab">
+<li id="box-bank">
+</li>
+<li><div class="link"><span class="name">充值金额</span><input id="money_order" name="money_order" type="text" class="form-txt" placeholder="请输入充值金额" style="ime-mode: disabled;-webkit-ime-mode:disabled;" /></div></li>
+<li class="clearfix"><div class="fwxy mb10" id="fwxy"><label class="ico-check active"><input type="checkbox" id="xieyi" /></label> 我已阅读并同意<a class="green">《充值服务协议》</a></div></li>
+<li class="mlr10"><button class="btn Large" type="button" id="btn_submit">提交</button></li>
+</ul>
+
+<div class="Warm-tip clearfix">
+<i class="ico-tip icon"></i>
+<p class="title">温馨提示：</p>
+<p>1、为保障您的资金安全，您新绑定的银行卡将作为您在移动端唯一的充值以及提现卡；<br/>
+2、移动端充值有限额，具体额度以不同银行设置为准；<br/>
+3、如需充值大额资金，您可以在聚车金融网页端（www.ifcar99.com）进行充值。
+</p>
+
+
+</div>
+</div>
+<script type="text/html" id="tpl-bank">
+<div class="tab txyhk" style="height: 60px;">
+<div class="imgbox"><img src="images/bank{{bank}}.png"></div>
+<div class="bank-info">
+<p class="bt">{{branch}} 尾号{{account.substr(-4)}}</p>
+<p class="dsps">提现银行卡为绑定的投资银行卡</p>
+</div>
+</div>
+</script>
+<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.plusReady(function(){
+      		request = {"user_id":user.uid()};
+      		account.GetUsersBankOne({'request':request},function(res){
+      			console.log(JSON.stringify(res));
+     			
+      			if(!res.account || !res.bank){
+						plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
+////							
+							//获得共用父模板
+							var headerWebview = plus.webview.getWebviewById('usertemplate-main');
+							//获得共用子webview
+							var contentWebview = plus.webview.getWebviewById('usertemplate-sub');							
+							data = {"title":"我的银行卡"};
+							contentWebview.loadURL('/user/wdyhk.html');
+							headerWebview = contentWebview.parent();
+							mui.fire(headerWebview, 'updateHeader', {
+								title: data.title,
+								showMenu: false
+							});
+							mui.fire(headerWebview, 'loading');
+							headerWebview.show('slide-in-right', 10,function(){
+								plus.webview.getWebviewById('w_recharge.html').close();
+							});
+						}, "提示", "绑定银行卡" );
+      			}else{
+	      			var html = template("tpl-bank",res);
+	      			document.getElementById("box-bank").innerHTML = html;
+	      			
+	      			$("#bank_id").val(res.account);
+	      			$("#bank").val(res.branch);
+	      			
+	      			$('#user_id').val(res.user_id);
+	      			$('#card_no').val(res.account);
+	      			$("#id_no").val(res._realname.card_id);
+	      			$("#acct_name").val(res.realname);
+	      			$('#no_order').val(new Date().getTime() + "_" + user.uid());
+	      			
+	      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
+
+      				risk_item = {};
+      				risk_item.frms_ware_category = "2009";
+      				risk_item.user_info_mercht_userno = res.username;
+      				risk_item.user_info_dt_register = res.register_time;;
+      				risk_item.user_info_full_name = res.realname;
+      				risk_item.user_info_id_no = res._realname.card_id;
+      				risk_item.user_info_identify_type = "1";
+      				risk_item.user_info_identify_state = "1";
+      				risk_item.user_info_bind_phone = res.mobile;
+//    				console.log(JSON.stringify(risk_item));
+      				$("#risk_item").val(JSON.stringify(risk_item));
+      			}
+      		});
+      		document.getElementById("btn_submit").addEventListener('tap',function(e){
+      			e.stopPropagation();
+      			var money = $("#money_order").val();
+      			if(money == "" || isNaN(money) || money <= 0){
+      				alert("请输入充值金额！");
+      				return false;
+      			}
+      			
+      			//if($('#xieyi').prop('checked') == false){
+      			if(!$('.ico-check').hasClass('active')){
+      				alert("请先同意充值服务协议！");
+      				return false;
+      			}
+      			//$('#no_order').val(new Date().getTime() + "_" + user.uid());
+      			
+      			account.recharge_new({'user_id':user.uid(),'money': money},function(res){
+      				console.log(JSON.stringify(res))
+      				if(res.status == 1){
+      					$('#no_order').val(res.trade_no);
+      					$("form[name='llpayment']").submit();
+      				}else{
+      					alert(res.msg);
+      				}      				
+      			})
+      		})
+      		
+      		document.getElementById("back").addEventListener('tap',function(e){
+      			var pwv = plus.webview.currentWebview().opener();
+      			pwv.close();
+      		},false);
+      		
+      		document.addEventListener("recharge",function(e){
+				
+				$('#money_order').val(e.detail.sale_price);
+				
+			},false);
+      		
+	});
+	
+$(function(){
+	$("#fwxy").on('click',function(){
+			//$(this).find(".ico-check").click();
+			$(this).find(".ico-check").toggleClass("active");
+	});
+});		
+</script>
+</body>
+</html>

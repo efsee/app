@@ -3,180 +3,468 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta name="format-detection" content="telephone=no, email=no" />
-<title>聚车金融</title>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<title>聚车金融</title>
      <link href="css/mui.min.css" rel="stylesheet"/>     
      <link href="css/iphone.css" rel="stylesheet"/>
-  <script src="js/jquery-1.11.2.min.js"></script>
-    <script src="js/mui.min.js"></script>
-  <script type="text/javascript" charset="utf-8">
-      	mui.init();
-    </script>
+     <link href="css/header.css" rel="stylesheet"/>
+     <style>
+     	.iphone-top{margin-top: 44px;}
+     </style>
 </head>
 <body>
-<div class="mui-scroll-wrapper">
-<div class="mui-scroll">
-<div class="iphone-warp">
-	<div class="iphone-top"><img src="images/iphone-banner.png" style="max-width:100%"></div>
-	<div class="mui-input-row iphone-input">		
-		<input type="text" pattern="[0-9]*" maxlength="11" class="mui-input-clear iphone-text" id="login-username" name="mobile" placeholder="请输入手机号码">	
-		<i class="iphone-ico">通讯录</i>
-		<span id="myDIV"></span>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">手机充值</h1>
+	</header>
+	<div class="mui-content">	
+		<div class="iphone-warp">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">					
+					<div class="iphone-top"><img src="images/iphone-banner.png" style="max-width:100%"></div>
+					<div class="mui-input-row iphone-input">		
+						<input type="text" pattern="[0-9]*" maxlength="13" class=" iphone-text" id="mobile" name="mobile" placeholder="请输入手机号码" onfocus="xiaoshi()">	
+						<a class="txl-button" href=""><i class="iphone-ico">通讯录</i></a>
+						<span id="myDIV" class="phone-name"></span>
+					</div>
+				
+				
+					<div class="iphone-drop">
+						<ul>
+							<li>15655115007    <span class="iphone-drop-peo">绑定的号码</span></li>
+							<li>13738015820    <span  class="iphone-drop-peo">张三-北京</span></li>
+						
+						</ul>
+						<a href="#"><p class="iphone-clear-history">清空历史记录</p></a>
+						
+					</div>
+					<div class="iphone-cz">
+						<h3>充话费</h3>
+						<ul class="iphone-green">
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">10</span>元<p>售价<span class="sale_price">9.8</span>元</p></li>
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">20</span>元<p>售价<span class="sale_price">19.6</span>元</p></li>
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">30</span>元<p>售价<span class="sale_price">29.4</span>元</p></li>
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">50</span>元<p>售价<span class="sale_price">49</span>元</p></li>
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">100</span>元<p>售价<span class="sale_price">98</span>元</p></li>
+							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">200</span>元<p>售价<span class="sale_price">196</span>元</p></li>		
+						
+						</ul>
+						
+					</div>
+					
+					<div class="iphone-active-syts">
+						<i class="iphone-active-syicon"></i>话费一般30分钟内到账。月初高峰期会有延迟的情况。若迟迟未到账可点击<a href="#" id='confirmBtn' class="iphone-active-kf">联系客服</a>
+					</div>
+					<div class="iphone-czjl">
+						<a class="note" href="notes.html"><i class="iphone-czjl-icon"></i>我的充值记录</a>
+					</div>
+				</div>
+				
+		    	<div class="ui_dialog">
+		    		<div class="ui_dialog_con">
+		    			<h1>支付密码</h1>
+						<p>	<input class="paypassword" type="password" name=""  placeholder="请输入支付密码">
+						</p>
+						 <div class="ui-repaly"><a id="wjmm" href="wjmmpay-2.html">忘记支付密码？</a></div>
+		    			<div class="ui_dialog_btn">
+		    				<button class="cancel">取消</button>
+		    				<button class="submit">确定</button>
+		    			</div>
+		    		
+		    		</div>
+		    	</div>	
+		    	
+		   </div>
+		</div>
+	</div>
 	</div>
 	
-<script>
-    var inp= document.getElementById("login-username");
-    inp.onkeyup= function(){
-   var value =this.value;
-   
-   if(/^1(34[0-8]|(3[5-9]|47|5[0-2]|57[124]|5[89]|8[2378])\d)\d{7}$/gi.test(value)){
-        document.getElementById("myDIV").innerHTML="中国移动";
-         $(".iphone-ico").hide();
-   }else if(/^1(3[0-2]|45|5[56]|8[56])\d{8}$/gi.test(value)){
-        document.getElementById("myDIV").innerHTML="中国联通";
-        $(".iphone-ico").hide();
-         
-   }else if(/^1(33|53|8[09])\d{8}$/gi.test(value)){
-    	document.getElementById("myDIV").innerHTML="中国电信";
-    	$(".iphone-ico").hide();
-	}else{		
-		document.getElementById("myDIV").innerHTML="";		
-		$(".iphone-ico").show();
 	
-	}
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/common.js"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
 
- 
- }
-
-</script>	
-<!--<script>
-		document.getElementById("login-username").onkeyup = function() {
-		  var text_len = this.value.length;
-		  if (text_len === 3 || text_len === 8) {
-		      this.value += " ";
-		  }
-		};
-		
-</script>-->
-<!--<script type="text/javascript">
-$(document).ready(function(){
-$("input").focus(function(){
-$(".iphone-drop").toggle();
-    $(".iphone-ico").toggle();
-});
-});
-
-</script>-->
-
-
-	<div class="iphone-drop">
-		<ul>
-			<li>15655115007    <span class="iphone-drop-peo">绑定的号码</span></li>
-			<li>13738015820    <span  class="iphone-drop-peo">张三-北京</span></li>
-		
-		</ul>
-		<a href="#"><p class="iphone-clear-history">清空历史记录</p></a>
-		
-	</div>
-	<div class="iphone-cz">
-		<h3>充话费</h3>
-		<ul class="iphone-green">
-		
-			<li class="ui_button click_dialog">	<i class="phone-icosc"></i>10元<p>售价9.99元</p></li>
-			<li id="toastBtn"><i class="phone-icoyh"></i>20元<p>售价19.98元</p></li>
-			<li id="click_balance">30元<p>售价29.96元</p></li>
-			<li>50元<p>售价49.95元</p></li>
-			<li>100元<p>售价99.90元</p></li>
-			<li>200元<p>售价199.80元</p></li>		
-		
-		</ul>
-		
-	</div>
-	
-	<div class="iphone-active-syts">
-		<i class="iphone-active-syicon"></i>话费一般30分钟内到账。月初高峰期会有延迟的情况。若迟迟未到账可点击<a href="#" id='confirmBtn' class="iphone-active-kf">联系客服</a>
-	</div>
-	<div class="iphone-czjl">
-		<a href="notes.html"><i class="iphone-czjl-icon"></i>我的充值记录</a>
-	</div>
-</div>
-	    	<div class="ui_dialog ui_dialog_demo">
-	    		<div class="ui_dialog_con">
-	    			<h1>支付密码</h1>
-					<p>	<input type="password" name=""  placeholder="请输入支付密码">
-					</p>
-					 <div class="ui-repaly"><a href="">忘记支付密码？</a></div>
-	    			<div class="ui_dialog_btn">
-	    				<button>取消</button>
-	    				<button>确定</button>
-	    			</div>
-	    		
-	    		</div>
-	    	</div>	
-	   </div>
-	</div>
-
-<script>		   	
-		   	mui('.mui-scroll-wrapper').scroll({           
-  			scrollY: true, //是否竖向滚动
-			 scrollX: false, //是否横向滚动
-			 startX: 0, //初始化时滚动至x
-			 startY: 0, //初始化时滚动至y
-			 indicators: false, //是否显示滚动条
-			 bounce: true, //是否启用回弹
-			 deceleration:0.0005 //阻尼系数,系数越小滑动越灵敏			
-		   	});
-
-</script>
 <script type="text/javascript" charset="utf-8">
-		document.getElementById("confirmBtn").addEventListener('tap', function() {
-				var btnArray = ['取消', '呼叫'];
-				mui.confirm(' ','4001-123-990', btnArray, function(e) {
-					if (e.index == 1) {
-						window.location.href = 'tel:4001-123-990';
-					} else {
-					}
-				})
-			});
-			//		
-document.getElementById("click_balance").addEventListener('tap', function() {
-				var btnArray = ['确定'];
-				mui.confirm(' ','余额不足', btnArray, function(e) {
-					if (e.index == 1) {
-						
-//						window.location.href = 'weixin:WXSceneSession';	
-return false;
-					} else {
-						
-						return false;
-					}
-				})
-			});	
-		
-			
-			document.getElementById("toastBtn").addEventListener('tap', function() {
-				mui.toast('请输入正确手机号');
-			});
-		</script>
-	<script>
-
-;(function(){
-	document.body.addEventListener('touchstart',function(){},false);
-
-	document.querySelector('.click_dialog').onclick = function(){
-		document.querySelector('.ui_dialog_demo').classList.add('show');
-	};
-
-	var button = document.querySelectorAll('.ui_dialog button');
-	[].forEach.call(button,function(o){
-		o.onclick = function(){
-			this.parentNode.parentNode.parentNode.classList.remove('show')
-		};
+	//mui初始化
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
 	});
-})();
-</script>	
+	
+	
+	mui.plusReady(function(){
+		
+		if(!store.get('llcz_mobile')){
+			llcz_mobile=store.get('username');
+			$('#mobile').val(llcz_mobile);
+		}else{
+			var mobile=store.get('llcz_mobile');
+			$('#mobile').val(mobile);
+			var result=testType(mobile);
+			$('#myDIV').html(result);
+		}
+		
+		document.addEventListener('initpage',function(e){
+			mobile=e.detail.mobile;
+			store.set('llcz_mobile', mobile, 3600 * 24 * 365);
+			$('#mobile').val(mobile);
+			name=e.detail.name;
+			
+			var result=testType(mobile);
+			str=name+'('+result+')';
+			$('#myDIV').html(str);
+			
+		},false);
+		
+		plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, function( addressbook ) {
+			addressbook.find(["displayName","phoneNumbers"],function(contacts){
+				
+				var arr=[];
+				$(contacts).each(function(i,e){
+					if(e['displayName']&&e['displayName']!='钉钉'&&e['displayName']!='易信专线'){
+						//if(e['displayName']=='阿姨')console.log(e['displayName']);
+						
+						displayName=e['displayName'];
+						//console.log(e['phoneNumbers'].length);
+						$(e['phoneNumbers']).each(function(j,v){
+							var request = {};
+							request.Name = displayName;
+							//fdjhi
+							//request.Mobile = v.value.replace(/-/g, "");
+							request.Mobile = v.value.replace(/-/g, "").replace(/\+86/g, "").replace(/\s/g, "");
+							//request.Mobile = v.value.replace(/+86/g, "");
+							//console.log(JSON.stringify(request));
+							arr.push(request);
+						})
+					}
+					
+					
+				})
+				//console.log(JSON.stringify(arr));
+				
+				$('.txl-button').on('click',function(e){
+					e.preventDefault();
+					var txl = plus.webview.create('mail-list.html');
+					//plus.nativeUI.showWaiting();
+					setTimeout(function(){
+						txl.show("slide-in-right",100);
+					},150);
+					//触发详情页面的newsId事件
+					txl.addEventListener('loaded',function(){
+						mui.fire(txl,'showlist',{
+						arr:arr
+						});
+					});
+				})
+			}, function () {
+				alert("error");
+			},{multiple:true});
+		}, function ( e ) {
+			alert( "获取通讯录失败: " + e.message );
+		} );
+		
+		initprice()
+		function initprice(){
+			request = {'user_id': user.uid()};
+			user.GetllczCount({'request':request},function(res){
+				//console.log(JSON.stringify(res))
+				
+				if(!res){//首次充值
+					$('.item').each(function(i,e){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').text(face_price*0.9);
+						$(this).removeClass('phone-icoyh').addClass('phone-icosc');
+					});
+					//console.log($('.item').find('.sale_price').text());
+				}
+				else{
+					user.GetllczMonthCount({'request':request},function(res){
+						/*console.log('month')
+						console.log(JSON.stringify(res))*/
+						
+						if(res){//
+							if(res<3){
+								$('.item').each(function(){
+									var face_price=$(this).find('.face_price').text();
+									$(this).find('.sale_price').html(face_price*0.95);
+								    //alert($(this).find('.sale_price').text());
+								  });
+								
+							}else{
+								$('.item').each(function(){
+									var face_price=$(this).find('.face_price').text();
+									$(this).find('.sale_price').html(face_price*0.98);
+								    //alert($(this).find('.sale_price').text());
+								  });
+							}
+						}
+					})
+				}
+			})
+		}
+		
+		
+		$('#wjmm').on('click',function(e){
+			e.preventDefault();
+			href=$(this).attr('href');
+			//alert(href)
+			inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(href);
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '忘记支付密码',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+		});
+		$(document).on('tap','.item',function(){
+			initprice();
+			if($('#mobile').val()){
+				if(mobileTest($('#mobile').val())){
+					//console.log($('#mobile').val().sTrim());
+					store.set('llcz_mobile', $('#mobile').val(), 3600 * 24 * 365);
+					
+					var order_no=new Date().getTime() + "_" + user.uid();
+					//var account_no=$('#mobile').val().sTrim();
+					var account_no=$('#mobile').val();
+					//var account_no='15876018141';
+					var user_id=user.uid();
+					var face_price=$(this).find('.face_price').text();
+					var sale_price=$(this).find('.sale_price').text();
+					
+					//console.log(sale_price)
+					
+					user.getInfo(function(res){
+						$('.click_dialog').off();
+						if(res){
+							
+							if(parseFloat(res.balance)<parseFloat(sale_price)){
+								$('.click_dialog').off();
+								var btnArray = ['取消','确定'];
+								mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
+									if (e.index == 1) {
+										var	recharge=plus.webview.create('w_recharge_llcz.html','w_recharge_llcz.html',{'popGesture':'close'});
+					
+										setTimeout(function(){
+											recharge.show("slide-in-right",100);
+										},50);
+										
+										recharge.addEventListener('loaded',function(){
+											mui.fire(recharge,'recharge',{
+												sale_price:sale_price
+											});
+										});
+										return false;
+									} else {
+										
+										return false;
+									}
+								})
+							}
+							else{
+								$('.paypassword').val('');
+								
+								$('.click_dialog').on('click',function(){
+									document.querySelector('.ui_dialog').classList.add('show');
+								})
+								
+								
+								
+								var submit = document.querySelectorAll('.ui_dialog_btn .submit');
+								[].forEach.call(submit,function(o){//支付密码框点击确定
+									o.onclick = function(){
+										if(!$('.paypassword').val()){
+											mui.toast('请输入支付密码');
+										}
+										else{
+											paypassword=$('.paypassword').val();
+											request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
+											account.Cost_llcz({'request':request},function(res){//扣款
+												//console.log(JSON.stringify(res))
+												if(res){
+													if(res.status>0){//从余额中扣款成功
+														request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price};
+														//console.log(JSON.stringify(request))
+														AddCharge(request);//充值话费
+														document.querySelector('.ui_dialog').classList.remove('show');
+													}
+													else{
+														document.querySelector('.ui_dialog').classList.remove('show');
+														mui.toast(res.msg);
+													}
+												}
+											})
+											
+										}
+										
+										
+									};
+								});
+								
+								var cancel = document.querySelectorAll('.ui_dialog_btn .cancel');
+								[].forEach.call(cancel,function(o){
+									o.onclick = function(){
+										this.parentNode.parentNode.parentNode.classList.remove('show')
+									};
+								});
+							}
+						}
+					});
+				}
+				else{
+					mui.toast('请输入正确手机号');
+				}
+				
+			}
+			else{
+				mui.toast('请输入正确手机号');
+			}
+			
+		})
+		
+		function mobileTest(mobile){
+			var mobileReg=/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
+			if(!mobileReg.test(mobile)){
+				//alert('手机号码错误');
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		
+		function AddCharge(request){
+			user.AddCharge({'request':request},function(res){
+				//console.log(1111);
+				var w = plus.nativeUI.showWaiting();
+				//console.log(JSON.stringify(res));
+				if(res.result==1){
+					plus.nativeUI.closeWaiting();
+					//console.log(JSON.stringify(res));
+					//mui.toast(res.msg);
+					href='notes_fin.html';
+					inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					//var right_btn = data.right_btn || "";
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '充值成功',
+						showMenu: false
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				}
+				else{
+					mui.toast(res.msg);
+				}
+			
+			})
+		}
+		
+		
+		$('.note').on('click',function(e){
+			e.preventDefault();
+			href=$(this).attr('href');
+			//alert(href)
+			inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(href);
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '充值记录',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+			
+			/*contentWebview.addEventListener('loaded',function(){
+				mui.fire(contentWebview,'getczlist',{
+					phone:'15655115007'
+				});
+			});*/
+		})
+		
+		
+		mui('.mui-scroll-wrapper').scroll({           
+		scrollY: true, //是否竖向滚动
+		 scrollX: false, //是否横向滚动
+		 startX: 0, //初始化时滚动至x
+		 startY: 0, //初始化时滚动至y
+		 indicators: false, //是否显示滚动条
+		 bounce: true, //是否启用回弹
+		 deceleration:0.0005 //阻尼系数,系数越小滑动越灵敏			
+	   	});
+	   	
+	   	document.getElementById("confirmBtn").addEventListener('tap', function() {
+			var btnArray = ['取消', '呼叫'];
+			mui.confirm(' ','4001-123-990', btnArray, function(e) {
+				if (e.index == 1) {
+					window.location.href = 'tel:4001-123-990';
+				} else {
+				}
+			})
+		});
+		
+		request = {'user_id': user.uid()};
+		user.UpdateCzlist({'request':request},function(res){
+			//console.log(JSON.stringify(res))
+		})
+		
+		
+	})
+	
+	$(document).ready(function(){
+		
+		var inp= document.getElementById("mobile");
+		
+	    inp.onkeyup= function(){
+		   var value =this.value;
+		   var result=testType(value);
+		   //console.log(result)
+		   if(result){
+		   	$('#myDIV').html(result);
+		   }
+		}
+	});
+	
+	function xiaoshi(){
+		$('#mobile').val('');
+		$('#myDIV').html('');
+	}
+	
+	function testType(value){
+		if(/^1(34[0-8]|(3[5-9]|47|5[0-2]|57[124]|5[89]|8[2378])\d)\d{7}$/gi.test(value)){
+			var result = "中国移动";
+		}
+		else if(/^1(3[0-2]|45|5[56]|8[56])\d{8}$/gi.test(value)){
+			var result = "中国联通";
+		}
+		else if(/^1(33|53|8[09])\d{8}$/gi.test(value)){
+			var result = "中国电信";
+		}
+		else{
+			var result = " ";
+		}
+		return result;
+	}
+	
+   	
+</script>
 		
 </body>
 </html>

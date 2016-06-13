@@ -120,7 +120,7 @@
 			request.bank = $('#bank').val();
 			request.bank_id = $('#bank_id').val();
 			request.user_id = user.uid();
-			if(request.money == ""){
+			if(request.money == ""||request.money == 0){
 				alert("请输入提现金额");
 				return false;
 			}
