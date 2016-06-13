@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+     <link href="css/mui.min.css" rel="stylesheet"/>     
+     <link href="css/iphone.css" rel="stylesheet"/>
+     <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/mui.min.js"></script>
+    <script src="js/api.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+<div class="iphone-warp">
+	<div class="mui-content">
+			<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;"><a  style="display: block;" >全部</a></h5>
+			<ul id="OA_task_1" class="mui-table-view">
+				
+				
+			</ul>
+						
+			
+			
+			
+	</div>
+</div>
+<script>
+			mui.init();
+			
+			mui.plusReady(function(){
+				
+				request = {'user_id': user.uid()};
+				user.GetllczList({'request':request},function(res){
+					//console.log(JSON.stringify(res))
+					if(res){
+						$('#OA_task_1').html('');
+						$(res).each(function(i,e){
+							time=getLocalTime(e.create_at);
+							str1='';
+							if(parseInt(e.is_first)){
+								str1='<span class="iphone-first">首冲</span>';
+							}
+							if(parseInt(e.status)==-1){
+								str2='<div class="iphone-msdz">马上到账</div>';
+							}
+							else if(parseInt(e.status)==1){
+								str2='<div class="iphone-msdz">充值成功</div>';
+							}
+							else{
+								str2='<div class="iphone-czsb">充值失败</div>';
+							}
+							//console.log(time)
+							$('#OA_task_1').append(
+							'<li class="mui-table-view-cell" data-order_no="'+e.order_no+'">'+
+								'<div class="mui-slider-right mui-disabled">'+
+									'<a class="mui-btn mui-btn-red iphone-color">删除</a>'+
+								'</div>'+
+							
+								'<div class="mui-slider-handle iphone-cont" data-order_no="'+e.order_no+'" data-account_no="'+e.account_no+'" data-sale_price="'+e.sale_price+'" data-face_price="'+e.face_price+'" data-time="'+time+'" data-status="'+e.status+'">'+						
+									'<div class="iphone-date"><p>'+time+'</p></div>'+
+									'<div class="iphone-money">-'+e.sale_price+'元'+str1+'<p>充值'+e.face_price+'元 - '+e.account_no+'</p></div>'+  
+									str2+					
+								'</div>'+				
+							'</li>'
+							);
+						})
+					}
+					
+				})
+				var btnArray = ['确认', '取消'];
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					var order_no = $(this).parents('li').attr('data-order_no');
+					//console.log(order_no)
+					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
+						if (e.index == 0) {
+							li.parentNode.removeChild(li);
+							//console.log(order_no);
+							//console.log($(this).parents('li').attr('data-order_no'));
+							
+							request = {'order_no': order_no};
+							//console.log(JSON.stringify(request));
+							user.Deletellcz({'request':request},function(res){
+								//console.log(JSON.stringify(res));
+								if(res>0){
+									mui.toast('删除成功');
+								}
+								else{
+									mui.toast('删除失败');
+								}
+							})
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				
+				$('#OA_task_1').on('tap', '.iphone-cont', function(event) {
+					var order_no = $(this).attr('data-order_no');
+					var account_no = $(this).attr('data-account_no');
+					var time = $(this).attr('data-time');
+					var sale_price = $(this).attr('data-sale_price');
+					var face_price = $(this).attr('data-face_price');
+					var status = $(this).attr('data-status');
+					console.log(order_no);
+					
+					var	calling=plus.webview.create('notes_active.html','notes_active.html',{'popGesture':'close'});
+				
+					setTimeout(function(){
+						calling.show("slide-in-right",100);
+					},100);
+					//触发详情页面的newsId事件
+					calling.addEventListener('loaded',function(){
+						mui.fire(calling,'Getllcz',{
+							order_no:order_no,
+							account_no:account_no,
+							time:time,
+							sale_price:sale_price,
+							face_price:face_price,
+							status:status
+						});
+					});
+				})
+				
+				
+				/*request = {'user_id': user.uid()};
+				user.UpdateCzlist({'request':request},function(res){
+					console.log(JSON.stringify(res))
+				})*/
+			})
+			
+			
+			function getLocalTime(nS) {     
+		       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, "").replace('GMT+8', "");      
+		    }
+			
+			function Deletellcz(request){
+				user.Deletellcz({'request':request},function(res){
+					console.log(JSON.stringify(res))
+					
+					
+				})
+			}
+			
+			
+			
+		</script>
+</body>
+</html>

@@ -2,3 +2,7 @@
 /unpackage
 #.DS_Store,mac自动系统存储文件
 .DS_Store
+#.project
+.project
+#manifest.json
+manifest.json

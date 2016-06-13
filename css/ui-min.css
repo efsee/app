@@ -207,6 +207,11 @@ table {
  background-size:250px 250px; margin-right: 10px;	
 	
 }
+.ui_cell_img .icon_jcts{
+	background: url(../images/find_icon.png) no-repeat -42px -100px; width: 28px; height: 28px; display:block; float: left; 
+ background-size:250px 250px; margin-right: 10px;	
+	
+}
 .ui_cell_img .icon_mall{
 	background: url(../images/find_icon.png) no-repeat -72px 0px; width: 28px; height: 28px; display:block; float: left; 
   background-size:250px 250px;margin-right: 10px;	
@@ -232,7 +237,11 @@ table {
  background-size:250px 250px; margin-right: 10px;	
 	
 }
-
+.ui_cell_img .icon_bbh{
+	background: url(../images/find_icon.png) no-repeat -80px -104px; width: 28px; height: 28px; display:block; float: left; 
+ background-size:250px 250px; margin-right: 10px;	
+	
+}
 .ui_cell_img > li img,
 .ui_cell_img > div img {
 	position: absolute;
@@ -409,7 +418,7 @@ table {
 	text-align: right;
 	color: #9f9f9f;
 }
-.ui_cell_form > li:last-child input{ padding-right:120px;}
+/*.ui_cell_form > li:last-child input{ padding-right:140px;}*/
 .ui_cell_form textarea {
 	background: #ccc;
 	border: none;
@@ -755,7 +764,15 @@ table {
 .user-bar .text{ vertical-align:middle; display:inline-block; margin-left:10px; line-height:24px; font-size:14px;}
 .user-bar .text .name{ font-size:16px;}
 .user-bar .ico-arrow{ position:absolute; right:5px; top:50%; margin-top:-10px;}
+
+#bbh:after {
 	
+	width: 0px;
+	height: 0px;
+   border: none;
+}
+
+.bbh-style{ float:right; font-size: 14px;}
 /*我要借款样式*/
 .mortgage-bottom{ width:90%;
                   margin: 0 auto; 
@@ -770,13 +787,16 @@ table {
                   
                   
                   }
+                  
+.mortgage-bottom:hover{background:#ce660b; }                  
 .mortgage-submit{ width: 90%;
                   margin: 0 auto;
                   text-align: left;
                   margin-top: 10px; 
                 
                 
-                 }   
+                 } 
+                 
 
 .mortgage-agreement{ color:#e69347 ;
                      display: inline-block;	
@@ -815,5 +835,113 @@ margin: 0 auto;
 	       		
 				}*/
 .mortgage-color{ color: #fff600; font-weight: bold;}
-.mortgage-img{width: 100%; margin-top: 10px;; border-top: #dedfda solid 1px;border-bottom: #dedfda solid 1px;}
+.mortgage-img{width: 100%; margin-top: 15px;; border-top: #dedfda solid 1px;border-bottom: #dedfda solid 1px;}
 .mortgage-img img{ background-size:100%; width: 100%;}
+
+/*理财*/
+
+.invest-dan{ color: #3cb7f3; 
+             border: solid 1px #3cb7f3; 
+             font-style: normal; 
+             border-radius:50%;
+             width: 20px;
+             height: 20px;
+             text-align: center;
+             line-height: 20px;         
+             float: left;
+             margin-top: 7px;
+             font-size: 12px;
+             
+             }
+.invest-xin{ color: #e99128; 
+             border: solid 1px #e99128; 
+            font-style: normal; 
+             border-radius:50%;
+             width: 26px;
+             height: 26px;
+             text-align: center;
+             line-height: 26px;;           
+             font-weight: bold;
+             float: left;
+             margin-top: 5px;
+             
+             
+             }
+.invest-ju{ color: #6ec426; 
+             border: solid 1px #6ec426; 
+            font-style: normal; 
+             border-radius:50%;
+             width: 26px;
+             height: 26px;
+             text-align: center;
+             line-height: 26px;;           
+             font-weight: bold;
+             float: left;
+             margin-top: 5px;
+             
+             
+             }
+.invest-title{ color: #000000;
+               font-size: 16px;
+               display:inline-block;
+               margin-left: 5px;               
+               margin-top: 10px;
+                
+             
+             
+             
+             }
+.invest-money{ float: right;
+               margin-top: 8PX;
+               color: #aaaaaa;
+	    	   font-size: 14px;
+	    	
+	
+	 
+				}
+
+.invest-red{ color: #f95453; 
+             font-weight: bold;
+             font-size: 14px;
+           
+           
+           
+           
+           }
+
+.invest-left{ float: left;              
+
+     		
+     		
+     		}
+
+.invest-right{ float: right;
+               width: 46px;
+               height: 46px;
+               line-height: 46px;
+               text-align: center;
+               border: solid 1px #f95453;
+               border-radius: 50%;
+               background: #fff;
+               color: #fff;
+               padding: 2px;
+
+
+     		
+     		
+     		}
+.invest-botton{width: 40px;
+               height: 40px;
+               line-height: 42px;
+               text-align: center;
+               border: solid 1px #f95453;
+               border-radius: 50%;
+               background: #f95453;
+               color: #fff;
+               display: block;
+               
+               }
+
+
+
+

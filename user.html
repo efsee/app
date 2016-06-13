@@ -56,7 +56,7 @@
 	    	<div class="zhye_zjk zjk2">
 	    		<ul>
                   <li>
-                  	<a href="withdraw.html" class="mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现"}'>提现</a>
+                  	<a href="withdraw.html" class="tap mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现"}'>提现</a>
 
                   	<!--<a class="mdialog1" href="javascript:;">
                   		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">
@@ -65,7 +65,7 @@
                   	</a>
                   </li>
                   <li>
-                  	<a href="w_recharge.html" id="recharge" class="mui-btn mui-btn-danger noopen" data='{"title":"充值"}'>充值</a>
+                  	<a href="w_recharge.html" id="recharge" class="tap mui-btn mui-btn-danger noopen" data='{"title":"充值"}'>充值</a>
                   	<!--<a class="mdialog2" href="javascript:;">
                   	  <button type="button" class="mui-btn mui-btn-danger ">
 					    充值
@@ -113,6 +113,24 @@
 						<div class="mui-media-body">邀请好友</div>
 					</a>
 				</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+				   <a href="phone-charge.html" class="phonecharge" data='{"title":"手机充值"}' >
+						<span class="icon icon-cz"></span>
+						<div class="mui-media-body">手机充值</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
+				<a href="user/yunphone.html" class="tap" data='{"title":"免费电话"}'>
+						<span class="icon icon-dh"></span>
+						<div class="mui-media-body">免费电话</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+				<a href="#" class="tap" data='{"title":"积分兑换"}'>
+						<span class="icon icon-hdjf"></span>
+						<div class="mui-media-body">积分兑换</div>
+					</a>
+				</li>
 			</ul>
 						    
 	        <div class="zhan">&nbsp;&nbsp;账户资金享有银行级别安全保障</div>
@@ -158,7 +176,29 @@
 
 		plus.webview.currentWebview().setStyle({scrollIndicator:"none"});
 		var template = getTemplate('usertemplate', 'template.html');
-		mui("body").on('tap','a',function(){
+		mui("body").on('tap','a.phonecharge',function(){
+			uid = user.uid();
+			if(!uid){
+				login();
+				return;
+			}
+			if(this.classList.contains('noopen')){
+				return;
+			}
+			var phonecharge = plus.webview.create('phone-charge.html');
+			//var phonecharge = plus.webview.getWebviewById('phone-charge.html');
+			//plus.nativeUI.showWaiting();
+			setTimeout(function(){
+				phonecharge.show("slide-in-right",100);
+			},150);
+			//触发详情页面的newsId事件
+			/*phonecharge.addEventListener('loaded',function(){
+				mui.fire(phonecharge,'getnumber',{
+				arr:arr
+				});
+			});*/
+		})
+		mui("body").on('tap','a.tap',function(){
 			uid = user.uid();
 			if(!uid){
 				login();
