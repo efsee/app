@@ -9,7 +9,11 @@
 <title>聚车金融</title>
      <link href="css/mui.min.css" rel="stylesheet"/>     
      <link href="css/iphone.css" rel="stylesheet"/>
+     <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/mui.min.js"></script>
+    <script src="js/api.js"></script>
+    
+    
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
@@ -20,8 +24,20 @@
 	     <div class="iphone-fin-ico"></div>
 	   <h3 class="iphone-fin-font">话费马上到账</h3>
 	   <p class="iphone-fin-p">充值成功后会收到短信提醒</p>
-	   <div class="iphone-fin-botton">完 成</div>
+	   <div class="iphone-fin-botton mui-action-back">完 成</div>
 </div>
-
+<script type="text/javascript">
+	mui.init({
+	});
+	
+	
+	mui.plusReady(function(){
+		request = {'user_id': user.uid()};
+		user.UpdateCzlist({'request':request},function(res){
+			console.log(JSON.stringify(res))
+		})
+	})
+	
+</script>
 </body>
 </html>

@@ -13,6 +13,7 @@
 					border-bottom:#cbcbcb solid 1px ;
 					margin-top: -5px;
 					
+					
                 
                      }
 input[type=text]
@@ -20,11 +21,12 @@ input[type=text]
    
 	width: 100%;
 	/*margin-bottom: 15px;*/
-	padding: 32px 15px;	
+	padding: 38px 15px;	
 	-webkit-user-select: text;	
 	outline: 0;
 	font-size: 24px;
 	background-color: #fff;
+	padding-right: 100px;
 	-webkit-appearance: none
 }                     
 .mui-input-row .mui-input-clear~.mui-icon-clear,
@@ -184,25 +186,21 @@ input[type=text]
 	background: #f1f1f1;
 	color: #09BB07
 }
-.phone-icosc{width: 30px; 
-             height: 30px; 
-             background: url(../images/find_icon.png) no-repeat 0px -80px;
-             display:block;								
-	 		 background-size:150px;
-	 		 position: absolute;	 		 
-	 		 left: 24.88%;
-	 		 top:46%;	 	
+.phone-name{ margin-top: 5px;}
+.phone-icosc{
+            	    width: 30px; 
+                     height: 30px; 
+                     background: url(../images/sc-ico.png) no-repeat top right;
+                     display:block;						 					
+			 		 background-size:28px;
 	 
 			}
-.phone-icoyh{width: 30px; 
-             height: 30px; 
-             background: url(../images/find_icon.png) no-repeat -42px -80px;
-             display:block;								
-	 		 background-size:150px;
-	 		 position: absolute;	 		 
-	 		 left: 57.22%;
-	 		 top:46%;	 	
-	 
+.phone-icoyh{		 width: 30px; 
+                     height: 30px; 
+                     background: url(../images/yh-ico.png) no-repeat top right;
+                     display:block;						 					
+			 		 background-size:28px;
+	 		
 			}			
 .iphone-top{width: 100%; 
     		background-size:100% ;
@@ -229,7 +227,7 @@ input[type=text]
                 font-style: normal ;
                 
                 }
-.iphone-cz ul a{  color:#f96268; }                 
+               
 .iphone-space > li{ width: 30.9%;
                   height:60px;
                   line-height: 60px;
@@ -260,7 +258,8 @@ input[type=text]
                   font-size: 20px;                           
                 
                   }     
-.iphone-green  li:active{background: #f96268; color: #fff; }                                    
+.iphone-green  li:active{background: #f96268; color: #fff;  }   
+.iphone-green  li:active p{color: #fff;}                           
 .iphone-green  li:nth-of-type(1),
 .iphone-green  li:nth-of-type(4){margin-left: 0px;}   
 .iphone-green  li p{   margin:0px;
@@ -270,8 +269,7 @@ input[type=text]
                     
                         
                         }                
-    
- .iphone-green  li p:active{color: #fff;}  
+  
                         
 
                       
@@ -296,7 +294,8 @@ input[type=text]
 			 		 background-size:200px;
 			 		 position: relative;
 			 		 top:5px	
-                   }  
+                   }                  
+                   
 .iphone-drop {padding: 15px;
               background: #fff; 
               display: none; 
@@ -335,7 +334,7 @@ input[type=text]
                         
  .iphone-ico{ position: absolute; 
               right: 10px; 
-              top:14px;
+              top:20px;
               font-style: normal;
               border: 1px solid #d4d4d4;
               background: #F2F2F2;
@@ -393,7 +392,7 @@ input[type=text]
              }
 .iphone-color{ background: #ff6600;}
 
-
+.recods-color{ background: #f96268;}
 /*充值详情页面*/
 .iphone-active-czcg{ background: #fff; 
                      padding: 20px 20px 2px 20px; 
@@ -592,6 +591,7 @@ input[type=text]
                        }  
   
  /*免费电话*/ 
+.free-bgcolor{ background: #FFF url(../images/free-bg.png) no-repeat bottom center;}
 .free-top  { background: #fff5f6;
 			 padding: 30px 15px;
 			 text-align: center; 
@@ -604,9 +604,220 @@ input[type=text]
  				  font-size: 16px;
  				  
  				  }  
+.free-font-mcolor{ color: #989394;
+ 				  font-size: 16px;
+ 				  
+ 				  }   				  
+ .free-yyw{           
+           margin: 15px 0px;
+           color:#d0021b;
+           font-size: 26px;              
   
+            }  
+.free-jdt{ border-radius:20px;
+           background: #CCC;
+           height:15px;
+           margin: 15px 0px;              
   
+            }  
   
+.free-red-jdt{ border-radius:20px;
+		         background: #f96268;
+		         height:15px;		           
+		         position: absolute; 
+		         top:66px           
+		  
+		            }    
   
-  
-                                                  
+ .free-color{ color: #d0021b;
+ 
+  			}  
+ 
+ .free-bottom{
+			 padding: 30px 15px;
+			
+	
+	
+			}                                               
+.free-botton{  width:90% ;
+               margin: 0 auto; 
+               height: 55px; 
+               background:#f96268 ; 
+               color: #fff;
+               text-align: center;
+               line-height: 55px;
+               border-radius:6px               
+               }
+.free-botton a{ color: #fff;
+				display:block;
+				
+				}      
+				         
+.free-botton:active{background:#dd353c ;
+					display: block;
+					
+					}      
+					         
+ .free-bottom p{ margin: 30px 0px; 
+ 				text-align: center; 
+ 				color: #000000;
+ 				font-size: 16px; 
+ 				
+ 				}
+
+.free-tzze   { 		margin: 0px auto;  				
+ 					list-style: none;
+ 					font-size: 14px;
+ 					color: #040404;
+ 					padding: 0 20px;
+ 									
+ 					
+ 					
+ 					}
+.free-tzze li{ line-height: 40px; 
+			   border-bottom: 1px solid #ececec; 
+			   display: block;
+			   padding: 0px 15px;
+			   
+			   
+			   } 
+.free-tzze .free-title{ background: #fff5f6;
+						border-bottom: none; 
+						color:#666464 ;
+						font-size: 15px;
+						}			   					
+.free-mright{ float: right;
+
+			}
+/*暂无通话记录*/
+.no-records{ background: url(../images/find_icon.png) no-repeat 0px -230px;
+			 display: block;
+			 width: 80px;
+			 height: 80px;
+			 background-size: 400px;
+			 margin: 0px auto;
+			 margin-top: 30px;
+			 
+				
+				 }
+.no-records-size{ text-align: center;
+ 				  color: #000000;
+ 				  font-size: 18px;
+ 				  margin: 20px 0px;
+ 				  
+ 				  }
+.no-moblie-cent{ margin: 0 auto;width: 80%; }				  
+.no-mobile{ width: 80%; 
+            margin: 0 auto;
+            height: 50px;            
+            display: block;
+            line-height: 50px;
+            text-align: center;
+            background: #f96268; 
+			color:#fff ;
+			border-radius: 6px;
+			position: fixed;
+			bottom:5%;
+			
+            } 				  
+/*历史记录*/
+.records-title{ background: #FFF; 
+				text-align: center;
+				padding: 15px 0px;
+				color: #000000;
+				
+				}
+.records-name{float: left;            
+             font-size: 14px;
+             color: #000000;
+             }
+.records-date{float: right;               
+              font-size: 14px;
+               color: #000000;            
+              }
+.mui-icon-info:before {
+	content: '\e504';
+	color: #4a90e2;
+	margin-left: 30px;
+	margin-top: 8px;
+}
+.records-txll{ border: 1px solid #7d7d7; 
+			  background: #fff;			 
+              text-align: center;
+               position: fixed;
+			  bottom: 5%;
+              width: 100%;
+          	  	  
+			  } 
+.records-t{ width: 80%; 
+            margin: 0 auto;
+            height: 50px;            
+            display: block;
+            line-height: 50px;
+            border-bottom: 1px solid #d7d7d7;
+            }	
+.records-t:active{ background: #f96268; 
+					color:#fff ;
+					border-radius: 6px;
+					border-bottom: none;
+					display: block;
+					}            
+.records-b{ width: 80%; 
+            margin: 0 auto;
+            height: 50px;            
+            display: block;
+            line-height: 50px;
+           
+            }	
+.records-b:active{  background: #f96268; 
+					color:#fff ;
+					border-radius: 6px;
+					border-top: none;
+					width: 80%; 
+					 height: 50px; 
+					display: block;
+					}  
+.records-txll a{ color: #000; display: block;}
+.records-txll a:active{color: #fff; display: block;}					
+/*拨号界面*/					
+.speed-name{ text-align: center; 
+			 color: #fff; 
+			 margin-top: 10%;
+			 font-weight: normal;
+			 font-size: 24px;
+			 
+			 }
+.speed-color{ color: #fff;
+			  font-size: 14px;
+			  margin-top: 0px;
+ 				  			
+ 			}
+.speed-img{ background: url(../images/find_icon.png) no-repeat -183px 0px;
+			 display: block;
+			 width: 80px;
+			 height: 80px;
+			 background-size: 250px;
+			 margin: 0px auto;
+			 margin-top: 60px;
+			 } 				  
+.speed-away{ color: #fff;
+			 background: #d0021b;
+			  width: 60%;
+			  margin: 0 auto;
+			  text-align: center;
+			  height: 40px;
+			  line-height: 40px;
+			  margin-top: 30%;
+			  font-size: 18px;
+			  border-radius: 6px;
+			 } 				  
+.speed-away:active{ background:#ed1731 ;display: block;} 				  
+.speed-points{text-align: center;
+			  color: #fff;
+			  margin-top: 20px;
+			  font-size: 12px;
+				} 				  
+ 				  
+ 				  
+ 				  
+ 				   					                        		               

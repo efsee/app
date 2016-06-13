@@ -2,6 +2,8 @@
 var host = 'http://test.ifcar99.com/';
 var apiurl = 'http://test.ifcar99.com/api.php';
 var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
+var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
+var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
 //var host = 'http://192.168.1.10/';
 
 var appinfo = {};
@@ -333,6 +335,42 @@ var user = {
 //		var url = apiurl + '?module=user&action=loginbbs';
 //		ajax.post(url, $data, callback);
 //	}
+	"GetPhoneInfo" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetPhoneInfo';
+		ajax.post(url, $data, callback);
+	},
+	"CallPhone" : function($data, callback){
+		var url = apiurl + '?module=user&action=CallPhone';
+		ajax.post(url, $data, callback);
+	},
+	"GetLastPhone" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetLastPhone';
+		ajax.post(url, $data, callback);
+	},
+	"AddCharge": function($data, callback) {
+		var url = chargeapi_url;
+		ajax.post(url, $data, callback);
+	},
+	"GetllczCount" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetllczCount';
+		ajax.post(url, $data, callback);
+	},
+	"GetllczMonthCount" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetllczMonthCount';
+		ajax.post(url, $data, callback);
+	},
+	"GetllczList" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetllczList';
+		ajax.post(url, $data, callback);
+	},
+	"UpdateCzlist" : function($data, callback){
+		var url = queryapi_url ;
+		ajax.post(url, $data, callback);
+	},
+	"Deletellcz" : function($data, callback){
+		var url = apiurl + '?module=user&action=Deletellcz';
+		ajax.post(url, $data, callback);
+	}
 }
 
 var account = {
@@ -364,7 +402,11 @@ var account = {
 	"getrealname" : function($data, callback){
 		var url = apiurl + '?module=account&action=getrealname';
 		ajax.post(url, $data, callback);
-	}
+	},
+	"Cost_llcz" : function($data, callback){
+		var url = apiurl + '?module=account&action=Cost_llcz';
+		ajax.post(url, $data, callback);
+	},
 }
 
 var borrow = {
