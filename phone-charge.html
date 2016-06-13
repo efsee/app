@@ -133,6 +133,7 @@
 						$(e['phoneNumbers']).each(function(j,v){
 							var request = {};
 							request.Name = displayName;
+							//fdjhi
 							//request.Mobile = v.value.replace(/-/g, "");
 							request.Mobile = v.value.replace(/-/g, "").replace(/\+86/g, "").replace(/\s/g, "");
 							//request.Mobile = v.value.replace(/+86/g, "");
