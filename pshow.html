@@ -31,6 +31,7 @@ a.ljtz-btn { color: #fff;}
 .biao_xxnr_shtb { overflow: hidden; padding: 10px 0px; border-top: 1px solid #e1e1e1; /*border-bottom: 1px solid #bababa;*/ }
 .biao_xxnr_shtb li { float: left; width: 25%; text-align: center; padding: 5px 0;}
 .biao_xxn_xmms_ms { padding: 10px 0px; min-height: 30px; }
+.ljtz-btn-ccc{ background: #999; }
 
 </style>
 
@@ -72,15 +73,15 @@ a.ljtz-btn { color: #fff;}
 <div class="pshow-info clearfix">
 <p class="name">年化收益</p>
 <p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
-<div class="info box-sizing" style="padding-right: 5px;">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
-<div class="info last box-sizing" style="padding-left: 5px;">
+<div class="info box-sizing" style="padding-right: 5px;border:none">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
+<!--<div class="info last box-sizing" style="padding-left: 5px;">
 {{if borrow.borrow_account_scale == '100' && borrow.reverify_time > 0}}
     满标时间 <span class="black">{{if borrow.reverify_time > 0}}{{borrow.reverify_time | dateFormat:'yyyy-MM-dd'}}{{/if}}</span>
 {{else}}
 上线时间 <span class="timeInterval" data-time="{{borrow.addtime}}"></span>
-	<!--<span class="black">募资中</span>-->
+	<span class="black">募资中</span>
 {{/if}}
-</div>
+</div>-->
 <div class="progress-bar"><div style="width:{{borrow.borrow_account_scale}}%;"></div></div>
 <div class="counts">借款金额<font class="c5">{{borrow.account}}元</font> <span class="fr">可投金额<font class="c5">{{borrow.borrow_account_wait}}元</font></span></div>
 </div>
@@ -185,7 +186,7 @@ a.ljtz-btn { color: #fff;}
 <nav class="bot-bar">
 	{{if borrow.borrow_account_scale == '100'}}
 		{{if BtenderDetail.has_repay < 1}}
-		<a href="javascript:;" class="ljtz-btn" >还款中</a>
+		<a href="javascript:;" class="ljtz-btn ljtz-btn-ccc" >还款中</a>
 		{{else}}	
 		<a href="javascript:;" class="ljtz-btn" >已还款</a>
 		{{/if}}
