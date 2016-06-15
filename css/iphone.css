@@ -3,7 +3,7 @@
 
 .iphone-warp{ width: 100%;              
               margin: 0px; 
-           
+            box-shadow: none;
               
               }
 .mui-input-row input{width: 100%;                     
@@ -118,24 +118,7 @@ input[type=text]
 	 	  			 /* background-size:250px;*/
 	 	  			
                      }
- /*.ui-bq{    width: 84%;
- 		   height: 40px;
-           position: absolute;
-           top:64px;
-           left: 8px;
-           list-style: none;
-           padding: 0px;
-	   
 
-          
-           }   
-.ui-bq  li{border-right:1px solid #666666;           
-           width: 23%;
-           float: left;         
-           height: 39px;          
-           text-align: center;
-           line-height: 40px;}        */
-                             
 .ui_dialog_con input::-webkit-input-placeholder{ color:#999;
                                                  font-size: 18px;
                                                  letter-spacing:0px;
@@ -174,17 +157,100 @@ input[type=text]
 	border: none;
 	width: 50%;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 	line-height: 35px
 }
 
 .ui_dialog_btn button:active {
-	background: #f0f0f0
+	background: #f0f0f0;
+	color: #4a4a4a;
 }
 
 .ui_dialog_btn button:nth-of-type(2) {
-	background: #f1f1f1;
-	color: #09BB07
+	color: #f96268;
+	border-left: 1px solid #f0f0f0;
+}
+/*拨打弹窗*/
+.ui_dialog_conn {
+	width: 90%;
+	position: absolute;
+	left: 5%;
+	top: 30%;
+	background: #fff;
+	box-shadow: 0px 0px 15px #444;
+	border-radius: 5px;
+	padding-bottom: 50px;
+	overflow: hidden
+}
+
+.ui_dialog_conn h1 {
+	font-size: 17px;
+	font-weight: normal;
+	padding: 15px 15px;
+	text-align: center;
+	font-size: 18px;
+	border-bottom: 1px solid #f0f0f0;
+	margin-bottom: 10px
+
+}
+
+.ui_dialog_conn input{font-size: 20px;                     
+                     letter-spacing:2px;                     
+                      width: 100%;
+                      height: 55px;             
+                      padding: 0px;
+                      border: 1px solid #979797;                      
+                      padding-left: 15px;
+                      margin-top: 5px;
+
+	 	  			
+                     }
+
+                             
+.ui_dialog_conn input::-webkit-input-placeholder{ color:#999;
+                                                 font-size: 18px;
+                                                 letter-spacing:0px;
+                                                 padding-left: 4px;
+                                                 padding-top: 1px;
+                                                 }
+.ui_dialog_conn p {
+	padding: 5px 15px;
+	color: #555;
+
+}
+.ui_dialog_btton {
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	text-align: center;	
+	border-top: 1px solid #f0f0f0;
+	margin-top: -10px;
+}
+
+.ui_dialog_btton button {
+	display: block;
+	background: #fff;
+	float: left;
+	border-radius: 0px;
+	border: none;
+	width: 50%;
+	text-align: center;
+	font-size: 18px;
+	line-height: 35px;
+	color: #4a4a4a;
+}
+
+.ui_dialog_btton button:active {
+	background: #f0f0f0;
+	color: #4a4a4a;
+}
+
+.ui_dialog_btton button:nth-of-type(2) {
+	
+	color: #f96268;
+	border-left: 1px solid #f0f0f0;
 }
 .phone-name{ margin-top: 5px;}
 .phone-icosc{
@@ -278,11 +344,10 @@ input[type=text]
                margin: 0 auto;
                /*position: fixed;
                	z-index: 9999;
-				bottom: 20px;                      */
-               color: #333333;
+				bottom: 20px;                      */             
                font-size: 14px;
                color: #333333;
-               margin-bottom: 20px;               
+               margin-bottom:20px;               
                }     
  .iphone-czjl a:active{  color: #333333;}                                 
  .iphone-czjl-icon{
@@ -334,7 +399,7 @@ input[type=text]
                         
  .iphone-ico{ position: absolute; 
               right: 10px; 
-              top:20px;
+              top:19px;
               font-style: normal;
               border: 1px solid #d4d4d4;
               background: #F2F2F2;
@@ -419,31 +484,28 @@ input[type=text]
 
                      }
 
- .iphone-active-ts{ width: 100%;  					
+ .iphone-active-ts{ width: 95%;  					
 	               text-align: center; 
 	               margin: 0 auto;        
-	               color: #333333;
-	               font-size: 16px;
-	               color: #333333; 
+	               color: #7d7d7d;            
 	               font-size: 12px;
 	               padding:0px 10px 10px 10px;
 	               position:absolute;
-	               bottom: 0%;             
+	               bottom: 4%;
+	               left: 2%;             
 	                        
 	               } 
- .iphone-active-syts{ width: 100%;  					
-	               text-align: center; 
-	               margin: 0 auto;        
-	               color: #333333;
-	               font-size: 16px;
-	               color: #7d7d7d; 
-	               font-size: 12px;
-	               padding:0px 10px 10px 10px;
-	                        
+ .iphone-active-syts{ width: 95%;  					
+		               text-align: center; 
+		               margin: 0 auto; 	             
+		               color: #7d7d7d; 
+		               font-size: 12px;
+		               padding:0px 10px 10px 10px;
+		                        
 	                        
 	               } 
-.iphone-active-kf{color:#007AFF ; text-decoration:underline}
-.iphone-active-kf:active{color:#007AFF ; text-decoration:underline}
+.iphone-active-kf{color:#f96268 ;}
+
 .iphone-active-icon{ width: 20px; 
                      height: 20px; 
                      background: url(../images/my_icon.png) no-repeat 0px -168px;
@@ -689,6 +751,7 @@ input[type=text]
 .free-mright{ float: right;
 
 			}
+	
 /*暂无通话记录*/
 .no-records{ background: url(../images/find_icon.png) no-repeat 0px -230px;
 			 display: block;
@@ -818,6 +881,60 @@ input[type=text]
 			  font-size: 12px;
 				} 				  
  				  
- 				  
- 				  
+ /*电话详情*/
+.records-active li{ list-style: none; 
+					margin: 0px; 
+					padding: 0px;
+					border-bottom: 1px solid #dedede;
+					padding:15px 10px;
+					
+					
+					}
+.records-active{ padding:0px 15px 15px 15px;
+				 background: #fff;
+				 margin-top: 0px;
+				 font-size: 14px;
+					}	
+.records-active p{ color: #000000;
+				   font-size: 14px;
+				   margin-top: -10px;
+				  
+				   }					
+.records-active-name{ background: #FFF; 
+					  text-align: left;					
+					  color: #000000;
+					  font-size: 18px;
+					  font-weight: bold;
+					  padding-top: -15px;
+					
+					
+		
+						}	
+.records-active-time{ float: left;
+					  width: 30%;
+	
+						} 
+ 									  
+.records-active-mob{ 
+					display: inline-block;	
+					
+					}					  
+					 
+.records-active-second{ float: right;
+	
+						} 
+ 
+.records-active-mob{ 
+					display: inline-block;	
+					
+					} 
+.records-active-p{display: inline-block;
+                  color:#4a4a4a;
+                  
+                  } 
+ 
+ 
+ 
+ 
+ 
  				   					                        		               
