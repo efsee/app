@@ -19,15 +19,11 @@
 <body>
 <div class="iphone-warp">
 	<div class="mui-content">
-			<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;"><a  style="display: block;" >全部</a></h5>
-			<ul id="OA_task_1" class="mui-table-view">
+			<!--<h5 class="mui-content-padded" style="margin: 15px 10px 15px 10px;"><a  style="display: block;" >全部</a></h5>
+			<ul id="ss" class="mui-table-view">
 				
 				
-			</ul>
-						
-			
-			
-			
+			</ul>-->
 	</div>
 </div>
 <script>
@@ -37,68 +33,28 @@
 				
 				request = {'user_id': user.uid()};
 				user.GetllczList({'request':request},function(res){
-					//console.log(JSON.stringify(res))
+					var myDate = new Date();
 					if(res){
-						$('#OA_task_1').html('');
+						$('.mui-content').html('');
+						
 						$(res).each(function(i,e){
 
-/**      
- * 对Date的扩展，将 Date 转化为指定格式的String      
- * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符      
- * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)      
- * eg:      
- * (new Date()).pattern("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423      
- * (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04      
- * (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04      
- * (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04      
- * (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18      
- */        
-Date.prototype.pattern=function(fmt) {         
-    var o = {         
-    "M+" : this.getMonth()+1, //月份         
-    "d+" : this.getDate(), //日         
-    "h+" : this.getHours()%24 == 0 ? 24 : this.getHours()%24, //小时         
-    "H+" : this.getHours(), //小时         
-    "m+" : this.getMinutes(), //分         
-    "s+" : this.getSeconds(), //秒         
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度         
-    "S" : this.getMilliseconds() //毫秒         
-    };         
-    var week = {         
-    "0" : "周日",         
-    "1" : "周一",         
-    "2" : "周二",         
-    "3" : "周三",         
-    "4" : "周四",         
-    "5" : "周五",         
-    "6" : "周六"        
-    };         
-    if(/(y+)/.test(fmt)){         
-        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));         
-    }         
-    if(/(E+)/.test(fmt)){         
-        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);         
-    }         
-    for(var k in o){         
-        if(new RegExp("("+ k +")").test(fmt)){         
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));         
-        }         
-    }         
-    return fmt;         
-}       
-
-     
-
-							 time=getLocalTime(e.create_at);
-						 	 tm=time.replace(/-/g,"/");
-                             var date = new Date(tm);
-                            var myDate = new Date();
+							time=getLocalTime(e.create_at);
+						 	tm=time.replace(/-/g,"/");
+                            var date = new Date(tm);
+                            
                             if(myDate.getMonth()==date.getMonth()){
                                 yue="本月";
                             }else{
                             	yue=date.pattern("M")+"月";
                             }
-                         alert(i);
+                            
+							if(myDate.getFullYear()==date.getFullYear()){
+                                year='';
+                            }else{
+                            	year=date.getFullYear()+"年";
+                            }
+                            //console.log(date.getFullYear())
                             if (myDate.getYear()+myDate.getMonth()+myDate.getDate()==date.getYear()+date.getMonth()+date.getDate()){
                                var tm="今天";
                                var tm2=date.pattern("hh:mm");
@@ -120,8 +76,19 @@ Date.prototype.pattern=function(fmt) {
 							else{
 								str2='<div class="iphone-czsb">充值失败</div>';
 							}
-							//console.log(time)
-							$('#OA_task_1').append(
+							
+							
+							datamonth=date.getMonth();
+							datayear=date.getFullYear();
+							//console.log('.year-'+datayear+'.month-'+datamonth)
+							if(!$('.mui-content').find('.year-'+datayear+'.month-'+datamonth).length){
+								$('.mui-content').append(
+									'<h5 class="mui-content-padded year-'+datayear+' month-'+datamonth+'" style="margin: 15px 10px 15px 10px;"><a  style="display: block;" >'+year+yue+'</a></h5>'+
+									'<ul id="year-'+datayear+'-month-'+datamonth+'" class="mui-table-view">'+
+									'</ul>'
+								);
+							}
+							$('#year-'+datayear+'-month-'+datamonth).append(
 							'<li class="mui-table-view-cell" data-order_no="'+e.order_no+'">'+
 								'<div class="mui-slider-right mui-disabled">'+
 									'<a  style="background-color: #f96268;" class="mui-btn mui-btn-red iphone-color">删除</a>'+
@@ -134,31 +101,38 @@ Date.prototype.pattern=function(fmt) {
 								'</div>'+				
 							'</li>'
 							);
+							//console.log(time)
+							
 						})
 					}
 					
 				})
 				var btnArray = ['取消', '确认'];
-				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+				$(document).on('tap', '.mui-btn', function(event) {
 					var elem = this;
 					var li = elem.parentNode.parentNode;
 					var order_no = $(this).parents('li').attr('data-order_no');
 					//console.log(order_no)
 					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
 						if (e.index == 1) {
-							li.parentNode.removeChild(li);
-							//console.log(order_no);
-							//console.log($(this).parents('li').attr('data-order_no'));
-							
+							plus.nativeUI.showWaiting();
 							request = {'order_no': order_no};
 							//console.log(JSON.stringify(request));
 							user.Deletellcz({'request':request},function(res){
 								//console.log(JSON.stringify(res));
 								if(res>0){
+									
 									mui.toast('删除成功');
+									setTimeout(function(){
+										li.parentNode.removeChild(li);
+										plus.nativeUI.closeWaiting();
+									},300);
 								}
 								else{
 									mui.toast('删除失败');
+									setTimeout(function(){
+										plus.nativeUI.closeWaiting();
+									},300);
 								}
 							})
 						} else {
@@ -169,21 +143,20 @@ Date.prototype.pattern=function(fmt) {
 					});
 				});
 				
-				$('#OA_task_1').on('tap', '.iphone-cont', function(event) {
+				$(document).on('tap', '.iphone-cont', function(event) {
 					var order_no = $(this).attr('data-order_no');
 					var account_no = $(this).attr('data-account_no');
 					var time = $(this).attr('data-time');
 					var sale_price = $(this).attr('data-sale_price');
 					var face_price = $(this).attr('data-face_price');
 					var status = $(this).attr('data-status');
-					console.log(order_no);
+					//console.log(order_no);
 					
 					var	calling=plus.webview.create('notes_active.html','notes_active.html',{'popGesture':'close'});
 				
-					setTimeout(function(){
-						calling.show("slide-in-right",100);
-					},100);
+					
 					//触发详情页面的newsId事件
+					plus.nativeUI.showWaiting();
 					calling.addEventListener('loaded',function(){
 						mui.fire(calling,'Getllcz',{
 							order_no:order_no,
@@ -193,6 +166,12 @@ Date.prototype.pattern=function(fmt) {
 							face_price:face_price,
 							status:status
 						});
+						
+						
+						setTimeout(function(){
+							calling.show("slide-in-right",200);
+							plus.nativeUI.closeWaiting();
+						},300);
 					});
 				})
 				
@@ -201,6 +180,7 @@ Date.prototype.pattern=function(fmt) {
 				user.UpdateCzlist({'request':request},function(res){
 					console.log(JSON.stringify(res))
 				})*/
+				
 			})
 			
 			
@@ -214,6 +194,51 @@ Date.prototype.pattern=function(fmt) {
 					
 					
 				})
+			}
+			
+			/**      
+			 * 对Date的扩展，将 Date 转化为指定格式的String      
+			 * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符      
+			 * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)      
+			 * eg:      
+			 * (new Date()).pattern("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423      
+			 * (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04      
+			 * (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04      
+			 * (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04      
+			 * (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18      
+			 */        
+			Date.prototype.pattern=function(fmt) {         
+			    var o = {         
+			    "M+" : this.getMonth()+1, //月份         
+			    "d+" : this.getDate(), //日         
+			    "h+" : this.getHours()%24 == 0 ? 24 : this.getHours()%24, //小时         
+			    "H+" : this.getHours(), //小时         
+			    "m+" : this.getMinutes(), //分         
+			    "s+" : this.getSeconds(), //秒         
+			    "q+" : Math.floor((this.getMonth()+3)/3), //季度         
+			    "S" : this.getMilliseconds() //毫秒         
+			    };         
+			    var week = {         
+			    "0" : "周日",         
+			    "1" : "周一",         
+			    "2" : "周二",         
+			    "3" : "周三",         
+			    "4" : "周四",         
+			    "5" : "周五",         
+			    "6" : "周六"        
+			    };         
+			    if(/(y+)/.test(fmt)){         
+			        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));         
+			    }         
+			    if(/(E+)/.test(fmt)){         
+			        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);         
+			    }         
+			    for(var k in o){         
+			        if(new RegExp("("+ k +")").test(fmt)){         
+			            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));         
+			        }         
+			    }         
+			    return fmt;         
 			}
 			
 			
