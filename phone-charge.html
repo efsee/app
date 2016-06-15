@@ -91,12 +91,13 @@
 
 <script type="text/javascript" charset="utf-8">
 	//mui初始化
-	mui.init({
-		swipeBack: true //启用右滑关闭功能
-	});
+	mui.init();
 	
 	
 	mui.plusReady(function(){
+		var wv=plus.webview.currentWebview();
+		// 侧滑返回后关闭webview
+		wv.setStyle({'popGesture':'close'});
 		
 		if(!store.get('llcz_mobile')){
 			llcz_mobile=store.get('username');
@@ -227,6 +228,7 @@
 			headerWebview.show('slide-in-right', 150);
 		});
 		$(document).on('tap','.item',function(){
+			$('.click_dialog').off();
 			initprice();
 			if($('#mobile').val()){
 				if(mobileTest($('#mobile').val())){
@@ -321,11 +323,13 @@
 					});
 				}
 				else{
+					$('.click_dialog').off();
 					mui.toast('请输入正确手机号');
 				}
 				
 			}
 			else{
+				$('.click_dialog').off();
 				mui.toast('请输入正确手机号');
 			}
 			
