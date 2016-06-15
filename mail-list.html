@@ -204,25 +204,17 @@
 			mobile=$(this).find('.mail-phone').text();
 			name=$(this).find('.name').text();
 				
-			//var phonecharge = plus.webview.create('phone-charge.html');
 			var phonecharge = plus.webview.getWebviewById('phone-charge.html');
-			//plus.nativeUI.showWaiting();
-			/*setTimeout(function(){
-				phonecharge.show("slide-in-right",100);
-			},150);*/
-			//触发详情页面的newsId事件
-			/*phonecharge.addEventListener('loaded',function(){
-				mui.fire(phonecharge,'initpage',{
-				mobile:mobile
-				});
-			});*/
 			
 			setTimeout(function(){
-				phonecharge.show("slide-in-left",100);
+				
+				//phonecharge.show("slide-in-left",100);
 				mui.fire(phonecharge,'initpage',{
 					mobile:mobile,
 					name:name
 				});
+				var ws=plus.webview.currentWebview();
+				ws.close();
 			},150);
 		});
 	})

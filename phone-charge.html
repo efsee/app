@@ -104,19 +104,22 @@
 			$('#mobile').val(llcz_mobile);
 		}else{
 			var mobile=store.get('llcz_mobile');
+			var type=store.get('llcz_type');
 			$('#mobile').val(mobile);
-			var result=testType(mobile);
-			$('#myDIV').html(result);
+			$('#myDIV').html(type);
 		}
 		
 		document.addEventListener('initpage',function(e){
 			mobile=e.detail.mobile;
-			store.set('llcz_mobile', mobile, 3600 * 24 * 365);
-			$('#mobile').val(mobile);
 			name=e.detail.name;
-			
 			var result=testType(mobile);
 			str=name+'('+result+')';
+			
+			store.set('llcz_mobile', mobile, 3600 * 24 * 365);
+			store.set('llcz_name', name, 3600 * 24 * 365);
+			store.set('llcz_type', str, 3600 * 24 * 365);
+			
+			$('#mobile').val(mobile);
 			$('#myDIV').html(str);
 			
 		},false);
@@ -162,10 +165,10 @@
 					});
 				})
 			}, function () {
-				alert("error");
+				mui.toast("error");
 			},{multiple:true});
 		}, function ( e ) {
-			alert( "获取通讯录失败: " + e.message );
+			mui.toast( "获取通讯录失败: " + e.message );
 		} );
 		
 		initprice()
