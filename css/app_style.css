@@ -363,10 +363,22 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 }
 
 .ui_cell_img > li, .ui_cell_img > div{padding: 16px 12px 16px 20px;}
-		
 	
+.user-new{   		 			
+            background: url(../images/new.png) no-repeat top right;
+         	display: block;		 					
+			background-size:40px;
+			
+	 		
+			}	
 	
-	
+.user-new-l{   		 			
+            background: url(../images/new1.png) no-repeat top right;
+         	display: block;		 					
+			background-size:40px;
+			
+	 		
+			}	
 	
 	
 	
