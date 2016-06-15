@@ -98,7 +98,7 @@ Date.prototype.pattern=function(fmt) {
                             }else{
                             	yue=date.pattern("M")+"月";
                             }
-                            alert(yue);
+                         alert(i);
                             if (myDate.getYear()+myDate.getMonth()+myDate.getDate()==date.getYear()+date.getMonth()+date.getDate()){
                                var tm="今天";
                                var tm2=date.pattern("hh:mm");
@@ -124,7 +124,7 @@ Date.prototype.pattern=function(fmt) {
 							$('#OA_task_1').append(
 							'<li class="mui-table-view-cell" data-order_no="'+e.order_no+'">'+
 								'<div class="mui-slider-right mui-disabled">'+
-									'<a class="mui-btn mui-btn-red iphone-color">删除</a>'+
+									'<a  style="background-color: #f96268;" class="mui-btn mui-btn-red iphone-color">删除</a>'+
 								'</div>'+
 //							E hh:mm:ss
 								'<div class="mui-slider-handle iphone-cont" data-order_no="'+e.order_no+'" data-account_no="'+e.account_no+'" data-sale_price="'+e.sale_price+'" data-face_price="'+e.face_price+'" data-time="'+time+'" data-status="'+e.status+'">'+						
@@ -138,14 +138,14 @@ Date.prototype.pattern=function(fmt) {
 					}
 					
 				})
-				var btnArray = ['确认', '取消'];
+				var btnArray = ['取消', '确认'];
 				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
 					var elem = this;
 					var li = elem.parentNode.parentNode;
 					var order_no = $(this).parents('li').attr('data-order_no');
 					//console.log(order_no)
 					mui.confirm('确认删除该条记录？', '', btnArray, function(e) {
-						if (e.index == 0) {
+						if (e.index == 1) {
 							li.parentNode.removeChild(li);
 							//console.log(order_no);
 							//console.log($(this).parents('li').attr('data-order_no'));
