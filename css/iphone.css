@@ -347,8 +347,11 @@ input[type=text]
 				bottom: 20px;                      */             
                font-size: 14px;
                color: #333333;
-               margin-bottom:20px;               
-               }     
+               height: 40px;               
+            
+                        
+               } 
+               
  .iphone-czjl a:active{  color: #333333;}                                 
  .iphone-czjl-icon{
                     width: 25px; 
@@ -460,10 +463,44 @@ input[type=text]
 .recods-color{ background: #f96268;}
 /*充值详情页面*/
 .iphone-active-czcg{ background: #fff; 
-                     padding: 20px 20px 2px 20px; 
+                     padding: 20px 0px 2px 15px; 
                      font-size: 16px;
                      
                      }
+.note-active-cont{color:#666;}
+.note-active-icon{border-top:#e3e3e5 solid 1px ;
+			 width:100%;
+			 margin-right: -15px;
+			 padding:0px 0px 15px 0px;
+			 }  
+.cz-status{ padding-left: 15px;}
+.note-zgyd{background:url(../images/icon.png) no-repeat 8px -186px;
+      	   background-size: 250px;
+      	   width: 40px;
+      	   height: 30px;
+      	   display: inline-block;
+      	   position: relative;
+      	   top:7px 
+      	  
+      		 }	
+.note-zglt{background:url(../images/icon.png) no-repeat -30px -186px;
+      	   background-size: 250px;
+      	   width: 40px;
+      	   height: 30px;
+      	   display: inline-block;
+      	   position: relative;
+      	   top:7px 
+      	  
+      		 } 
+.note-zgdx{background:url(../images/icon.png) no-repeat -70px -186px;
+      	   background-size: 250px;
+      	   width: 40px;
+      	   height: 30px;
+      	   display: inline-block;
+      	   position: relative;
+      	   top:7px 
+      	  
+      		 }       		      		 		                  
 .iphone-active-left{ width: 20%; 
                      float: left;
                      
@@ -476,6 +513,7 @@ input[type=text]
 .iphone-active-money{ font-size: 36px; 
                       margin-top:20px; 
                       color: #000000;
+                      padding-left: 15px;
                       
                       }
 
@@ -491,8 +529,9 @@ input[type=text]
 	               font-size: 12px;
 	               padding:0px 10px 10px 10px;
 	               position:absolute;
-	               bottom: 4%;
-	               left: 2%;             
+	               bottom: 2%;
+	               left: 2%;
+	                      
 	                        
 	               } 
  .iphone-active-syts{ width: 95%;  					

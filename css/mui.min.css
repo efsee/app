@@ -1236,12 +1236,12 @@ input[type=submit]:enabled:active {
 	height: 44px;
 	padding-right: 10px;
 	padding-left: 10px;
-	border-bottom: 0;
-	background-color: #f7f7f7;
+	border-bottom:0;
+	/*background-color: #f7f7f7;
 	-webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
 	box-shadow: 0 0 1px rgba(0, 0, 0, .85);
 	-webkit-backface-visibility: hidden;
-	backface-visibility: hidden
+	backface-visibility: hidden*/
 }
 
 .mui-bar .mui-title {
@@ -1282,8 +1282,9 @@ input[type=submit]:enabled:active {
 
 .mui-bar-nav {
 	top: 0;
-	-webkit-box-shadow: 0 1px 6px #ccc;
-	box-shadow: 0 1px 6px #ccc
+	/*-webkit-box-shadow: 0 1px 6px #ccc;
+	box-shadow: 0 1px 6px #ccc*/
+
 }
 
 .mui-bar-nav~.mui-content .mui-anchor {
@@ -1296,8 +1297,9 @@ input[type=submit]:enabled:active {
 .mui-bar-nav.mui-bar .mui-icon {
 	margin-right: -10px;
 	margin-left: -10px;
-	padding-right: 10px;
-	padding-left: 10px
+	padding-right: 40px;
+	padding-left: 10px;
+	
 }
 
 .mui-title {
@@ -2161,7 +2163,7 @@ input[type=submit]:enabled:active {
 	padding: 10px 0 0 14px;
 	text-align: center;
 	vertical-align: middle;
-	background: 0 0
+	/*background: 0 0*/
 }
 
 .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object {
@@ -3655,7 +3657,7 @@ select:focus {
 .mui-toast-container {
 	position: fixed;
 	z-index: 9999;
-	bottom: 50px;
+	top: 45%;
 	width: 100%
 }
 
@@ -3667,7 +3669,7 @@ select:focus {
 	text-align: center;
 	color: #000;
 	border-radius: 7px;
-	background-color: #d8d8d8
+
 }
 
 .mui-numbox {
