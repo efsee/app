@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+     <link href="css/mui.min.css" rel="stylesheet"/>     
+     <link href="css/iphone.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+
+</head>
+<body style=" background: #fff;">
+<div class="iphone-warp free-bgcolor">
+ 	 <div class="no-records"></div>
+ 	 <p class="no-records-size">暂无通话记录</p>
+ 	 
+ 	 <div class="no-moblie-cent">
+ 		 <botton class="no-mobile click_dialog">拨打电话</botton>
+	 </div>
+
+<div class="ui_dialog ui_dialog_demo">
+	    		<div class="ui_dialog_conn">
+	    			<h1>请输入要拨打的号码</h1>
+					<p>	<input type="text" autocomplete="off" name=""  placeholder="请输手机号">
+					</p>
+					
+	    			<div class="ui_dialog_btton">
+	    				<button>取消</button>
+	    				<button>拨号</button>
+	    			</div>
+	    		
+	    		</div>
+	    	</div>	
+<script>
+
+;(function(){
+	document.body.addEventListener('touchstart',function(){},false);
+
+	document.querySelector('.click_dialog').onclick = function(){
+		document.querySelector('.ui_dialog_demo').classList.add('show');
+	};
+
+	var button = document.querySelectorAll('.ui_dialog button');
+	[].forEach.call(button,function(o){
+		o.onclick = function(){
+			this.parentNode.parentNode.parentNode.classList.remove('show')
+		};
+	});
+})();
+	</script>
+</body>
+</html>
