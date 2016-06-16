@@ -160,18 +160,7 @@
 <script>
 	mui.plusReady(function(){
 		
-		if(!store.get('mytzopen')){
-			$('#mytz').addClass('user-new');
-		}
-		if(!store.get('llczopen')){
-			$('#llcz').addClass('user-new-l');
-		}
-		mui("body").on('tap','#mytz',function(){
-			store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-		})
-		mui("body").on('tap','#llcz',function(){
-			store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-		})
+		
 		//store.set('firstopen', 1, 20);	//标志暂存时间30秒
 		//console.log(store.get('firstopen'));
 //		
@@ -266,9 +255,23 @@
 	})
 	
 	document.addEventListener('initpage',function(e){
-		getdata();
-		$('#mytz').removeClass('user-new');
-		$('#llcz').removeClass('user-new-l');
+					$('#mytz').removeClass('user-new');
+					$('#llcz').removeClass('user-new-l');
+					
+					if(!store.get('mytzopen')){
+						$('#mytz').addClass('user-new');
+					}
+					if(!store.get('llczopen')){
+						$('#llcz').addClass('user-new-l');
+					}
+					mui("body").on('tap','#mytz',function(){
+						store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
+					})
+					mui("body").on('tap','#llcz',function(){
+						store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
+					})
+					getdata();
+		
 					request = {};
 					request.user_id = user.uid();
 //					user.loginbbs({'request':request},function(res){
