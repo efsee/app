@@ -95,9 +95,13 @@
 	
 	
 	mui.plusReady(function(){
+		
 		var wv=plus.webview.currentWebview();
 		// 侧滑返回后关闭webview
 		wv.setStyle({'popGesture':'close'});
+		
+		var parent = plus.webview.getWebviewById('user.html');
+		mui.fire(parent,'initpage');
 		
 		if(!store.get('llcz_mobile')){
 			llcz_mobile=store.get('username');

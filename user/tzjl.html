@@ -77,6 +77,8 @@
 			});
 			
 			mui.plusReady(function(){
+				var parent = plus.webview.getWebviewById('user.html');
+				mui.fire(parent,'initpage');
 				var _clicked = false;
 					mui("#tzjl-list").on('tap', 'li', function(e){
 						if(!_clicked) { _clicked = true; } else { return false; }
