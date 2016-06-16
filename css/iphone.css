@@ -607,10 +607,10 @@ input[type=text]
 			  top: 0; left: 0; bottom: 0; right: 0; 
 			  
 			  }
-.notes-moblie{ background: url(../images/find_icon.png) no-repeat -190px -40px;
+.notes-moblie{ background: url(../images/find_icon.png) no-repeat -190px -85px;
 			 display: block;
 			 width: 80px;
-			 height: 80px;
+			 height: 60px;
 			 background-size: 250px;
 			 margin: 0px auto;
 			 margin-top: 30px;			 
@@ -1025,8 +1025,27 @@ input[type=text]
                   
                   } 
  
- 
- 
- 
- 
- 				   					                        		               
+/*回款记录*/ 
+.hkjl-name{ padding: 15px; font-size: 14px;} 
+ .hkjl-cent li{ font-size: 14px;color: #565656; }
+.hkjl-name span{ float: right; } 
+.hkjl-right{ float: right;font-size: 14px;}
+.hkjl-money{ color: #f96268;font-size: 14px;} 		
+.hkjl-yuan{color: #565656; font-size: 14px;}	
+.hkjl-dai{color: #565656; 
+		   margin-left: 2px;
+		   font-size: 14px;
+		   
+		   }	 
+.hkjl-tittle{color: #bfbfbf; 
+			 margin-top: 5px; 
+			 font-size: 14px;
+			 padding-left: 16px;
+			 
+			 }
+.hkjl-tubiao{ background: url(../images/tubiao.png) no-repeat left;
+              display:inline-block;
+              width: 12px;
+              height: 12px;
+              background-size:8px;
+				}			 		     					                        		               
