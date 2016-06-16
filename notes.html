@@ -25,6 +25,7 @@
 				
 				
 			</ul>-->
+			
 	</div>
 </div>
 <script>
@@ -106,6 +107,16 @@
 							//console.log(time)
 							
 						})
+					}
+					else{
+						$('.mui-content').html('');
+						$('.mui-content').append(
+							'<div class="notes-box">'+
+					 	 		'<i class="notes-moblie"></i>'+
+					 	 		'<p class="no-records-size">暂无记录</p>'+
+					  		'</div>'
+						);
+						
 					}
 					
 				})
