@@ -370,6 +370,10 @@ var user = {
 	"Deletellcz" : function($data, callback){
 		var url = apiurl + '?module=user&action=Deletellcz';
 		ajax.post(url, $data, callback);
+	},
+	"GetllczPrice" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetllczPrice';
+		ajax.post(url, $data, callback);
 	}
 }
 

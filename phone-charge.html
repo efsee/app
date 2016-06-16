@@ -101,6 +101,7 @@
 		
 		if(!store.get('llcz_mobile')){
 			llcz_mobile=store.get('username');
+			store.set('llcz_mobile', llcz_mobile, 3600 * 24 * 365);
 			$('#mobile').val(llcz_mobile);
 		}else{
 			var mobile=store.get('llcz_mobile');
@@ -173,42 +174,61 @@
 		
 		initprice()
 		function initprice(){
-			request = {'user_id': user.uid()};
-			user.GetllczCount({'request':request},function(res){
+			var mobile=store.get('llcz_mobile');
+			var type=store.get('llcz_type');
+			request = {'type':type,'mobile':mobile,'user_id': user.uid()};
+			user.GetllczPrice({'request':request},function(res){
+				//console.log(JSON.stringify(res))
+				if(res.count<1){
+					$('.item').each(function(i,e){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').text(face_price*res.discount);
+						$(this).removeClass('phone-icoyh').addClass('phone-icosc');
+					});
+				}
+				else{
+					$('.item').each(function(){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').html(face_price*res.discount);
+					    //alert($(this).find('.sale_price').text());
+					  });
+				}
+				
+			})
+			/*user.GetllczCount({'request':request},function(res){
 				//console.log(JSON.stringify(res))
 				
 				if(!res){//首次充值
 					$('.item').each(function(i,e){
 						var face_price=$(this).find('.face_price').text();
-						$(this).find('.sale_price').text(face_price*0.9);
+						$(this).find('.sale_price').text(face_price*0.95);
 						$(this).removeClass('phone-icoyh').addClass('phone-icosc');
 					});
 					//console.log($('.item').find('.sale_price').text());
 				}
 				else{
 					user.GetllczMonthCount({'request':request},function(res){
-						/*console.log('month')
-						console.log(JSON.stringify(res))*/
+						
 						
 						if(res){//
 							if(res<3){
 								$('.item').each(function(){
 									var face_price=$(this).find('.face_price').text();
-									$(this).find('.sale_price').html(face_price*0.95);
+									$(this).find('.sale_price').html(face_price*0.98);
 								    //alert($(this).find('.sale_price').text());
 								  });
 								
 							}else{
 								$('.item').each(function(){
 									var face_price=$(this).find('.face_price').text();
-									$(this).find('.sale_price').html(face_price*0.98);
+									$(this).find('.sale_price').html(face_price*0.998);
 								    //alert($(this).find('.sale_price').text());
 								  });
 							}
 						}
 					})
 				}
-			})
+			})*/
 		}
 		
 		
