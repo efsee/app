@@ -25,7 +25,6 @@
 				
 				
 			</ul>-->
-			
 	</div>
 </div>
 <script>
@@ -37,8 +36,7 @@
 				user.GetllczList({'request':request},function(res){
 					var myDate = new Date();
 					
-					if(res){
-						
+					if(res!=''){
 						$('.mui-content').html('');
 						
 						$(res).each(function(i,e){
@@ -109,6 +107,7 @@
 						})
 					}
 					else{
+						
 						$('.mui-content').html('');
 						$('.mui-content').append(
 							'<div class="notes-box">'+
