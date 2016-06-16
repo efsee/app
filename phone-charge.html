@@ -262,6 +262,12 @@
 					//console.log($('#mobile').val().sTrim());
 					store.set('llcz_mobile', $('#mobile').val(), 3600 * 24 * 365);
 					
+					var result=testType($('#mobile').val());
+					str=result;
+					name='';
+					store.set('llcz_name', name, 3600 * 24 * 365);
+					store.set('llcz_type', str, 3600 * 24 * 365);
+					
 					var order_no=new Date().getTime() + "_" + user.uid();
 					//var account_no=$('#mobile').val().sTrim();
 					var account_no=$('#mobile').val();
