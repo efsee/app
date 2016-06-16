@@ -598,6 +598,30 @@ input[type=text]
                      }   
                      
 #myDIV{font-size:14px; color:#333; position: absolute; top:40px; left: 18px;}                                       
+.notes-box{  		
+			  width: 50%;  
+			  height: 50%; 			 
+			  overflow: auto;  
+			  margin: auto;  
+			  position: absolute;  
+			  top: 0; left: 0; bottom: 0; right: 0; 
+			  
+			  }
+.notes-moblie{ background: url(../images/find_icon.png) no-repeat -190px -40px;
+			 display: block;
+			 width: 80px;
+			 height: 80px;
+			 background-size: 250px;
+			 margin: 0px auto;
+			 margin-top: 30px;			 
+				
+			 }
+			 
+.notes-box p{ font-size: 16px; 
+			  margin-top: 10px;
+			  color: #bbb;
+			  
+			  } 				 
 /*完成样式*/
 .iphone-fin{ background: #f96268;
              border-radius:50% ; 
