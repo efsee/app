@@ -258,6 +258,7 @@
 			initprice();
 			if($('#mobile').val()){
 				if(mobileTest($('#mobile').val())){
+					
 					//console.log($('#mobile').val().sTrim());
 					store.set('llcz_mobile', $('#mobile').val(), 3600 * 24 * 365);
 					
@@ -275,10 +276,13 @@
 					var face_price=$(this).find('.face_price').text();
 					var sale_price=$(this).find('.sale_price').text();
 					
+					$('.click_dialog').on('click',function(){
+						document.querySelector('.ui_dialog').classList.add('show');
+					})
 					//console.log(sale_price)
 					
 					user.getInfo(function(res){
-						$('.click_dialog').off();
+						
 						if(res){
 							
 							if(parseFloat(res.balance)<parseFloat(sale_price)){
@@ -307,10 +311,8 @@
 							else{
 								$('.paypassword').val('');
 								
-								/*$('.click_dialog').on('click',function(){
-									document.querySelector('.ui_dialog').classList.add('show');
-								})*/
-								document.querySelector('.ui_dialog').classList.add('show');
+								
+								//document.querySelector('.ui_dialog').classList.add('show');
 								
 								
 								
@@ -357,14 +359,14 @@
 				}
 				else{
 					$('.click_dialog').off();
-					document.querySelector('.ui_dialog').classList.remove('show');
+					//document.querySelector('.ui_dialog').classList.remove('show');
 					mui.toast('请输入正确手机号');
 				}
 				
 			}
 			else{
 				$('.click_dialog').off();
-				document.querySelector('.ui_dialog').classList.remove('show');
+				//document.querySelector('.ui_dialog').classList.remove('show');
 				mui.toast('请输入正确手机号');
 			}
 			
