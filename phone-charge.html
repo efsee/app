@@ -48,7 +48,7 @@
 							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">30</span>元<p>售价<span class="sale_price">29.4</span>元</p></li>
 							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">50</span>元<p>售价<span class="sale_price">49</span>元</p></li>
 							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">100</span>元<p>售价<span class="sale_price">98</span>元</p></li>
-							<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">200</span>元<p>售价<span class="sale_price">196</span>元</p></li>		
+							<!--<li class="ui_button click_dialog item phone-icoyh"><span class="face_price">200</span>元<p>售价<span class="sale_price">196</span>元</p></li>-->		
 						
 						</ul>
 						
@@ -255,7 +255,6 @@
 			headerWebview.show('slide-in-right', 150);
 		});
 		$(document).on('tap','.item',function(){
-			$('.click_dialog').off();
 			initprice();
 			if($('#mobile').val()){
 				if(mobileTest($('#mobile').val())){
@@ -308,9 +307,10 @@
 							else{
 								$('.paypassword').val('');
 								
-								$('.click_dialog').on('click',function(){
+								/*$('.click_dialog').on('click',function(){
 									document.querySelector('.ui_dialog').classList.add('show');
-								})
+								})*/
+								document.querySelector('.ui_dialog').classList.add('show');
 								
 								
 								
@@ -357,12 +357,14 @@
 				}
 				else{
 					$('.click_dialog').off();
+					document.querySelector('.ui_dialog').classList.remove('show');
 					mui.toast('请输入正确手机号');
 				}
 				
 			}
 			else{
 				$('.click_dialog').off();
+				document.querySelector('.ui_dialog').classList.remove('show');
 				mui.toast('请输入正确手机号');
 			}
 			
