@@ -12,6 +12,9 @@
      <script src="js/jquery-1.11.2.min.js"></script>
     <script src="js/mui.min.js"></script>
     <script src="js/api.js"></script>
+   	<script src="js/common.js"></script>
+   	<script src="js/template.js"></script>
+	<script src="js/template.function.js"></script>
     
     
     <script type="text/javascript" charset="utf-8">
@@ -24,7 +27,7 @@
 	     <div class="iphone-fin-ico"></div>
 	   <h3 class="iphone-fin-font">话费马上到账</h3>
 	   <p class="iphone-fin-p">充值成功后会收到短信提醒</p>
-	   <div class="iphone-fin-botton mui-action-back">完 成</div>
+	   <div class="iphone-fin-botton">完 成</div>
 </div>
 <script type="text/javascript">
 	mui.init({
@@ -32,7 +35,31 @@
 	
 	
 	mui.plusReady(function(){
+		$('.iphone-fin-botton').on('click',function(e){
+			e.preventDefault();
+			//alert(href)
+			inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL('notes.html');
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '充值记录',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+			
+			/*contentWebview.addEventListener('loaded',function(){
+				mui.fire(contentWebview,'getczlist',{
+					phone:'15655115007'
+				});
+			});*/
+		})
 		request = {'user_id': user.uid()};
+		
 		user.UpdateCzlist({'request':request},function(res){
 			console.log(JSON.stringify(res))
 		})
