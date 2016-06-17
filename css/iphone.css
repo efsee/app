@@ -300,22 +300,22 @@ input[type=text]
                   display: inline-block;                                
                   border-radius: 5px;
                   border:1px solid #b3b3b3;
-                  margin-top: 10px;
-                  margin-left: 6px;
+                  margin-top: 10px;                
                   color: #b2b2b2;   
                   font-size: 20px;              
                 
                   }                  
 .iphone-space > li:nth-of-type(1),
-.iphone-space > li:nth-of-type(4){margin-left: 0px;}
+.iphone-space > li:nth-of-type(3){margin-left: 0px;}
 .iphone-space > li:active{background: #ccc; color: #fff;}  
 
 
 
-.iphone-green li{ width: 30.9%;
+.iphone-green li{ width: 32%;
                   height:60px;
                   padding:10px 0px ;                
-                  display: inline-block;                                
+                 /* display: inline-block; */
+                float: left;                               
                   border-radius: 5px;
                   border:1px solid #f96268 ;
                   margin-top: 10px;
@@ -326,8 +326,9 @@ input[type=text]
                   }     
 .iphone-green  li:active{background: #f96268; color: #fff;  }   
 .iphone-green  li:active p{color: #fff;}                           
-.iphone-green  li:nth-of-type(1),
-.iphone-green  li:nth-of-type(4){margin-left: 0px;}   
+.iphone-green  li:nth-of-type(1), 
+.iphone-green  li:nth-of-type(4){margin-left: 0px;} 
+.iphone-green  li:nth-of-type(3){ margin-right: 0px; float: right;}   
 .iphone-green  li p{   margin:0px;
                        padding:0px;
                        color:#f96268; 
@@ -339,17 +340,13 @@ input[type=text]
                         
 
                       
- .iphone-czjl { width: 100%;
-               text-align: center; 
-               margin: 0 auto;
-               /*position: fixed;
-               	z-index: 9999;
-				bottom: 20px;                      */             
+ .iphone-czjl {
+ 				width: 100%;
+               text-align: center;           
                font-size: 14px;
-               color: #333333;
-               height: 40px;               
-            
-                        
+               color: #333333;   
+             
+  
                } 
                
  .iphone-czjl a:active{  color: #333333;}                                 
@@ -468,8 +465,7 @@ input[type=text]
                              background:#FF6600;
                              color: #ffffff;
                              margin-left: 15px;
-                             position: absolute;
-                             
+                             position: absolute;                             
                               
                               }             
 .iphone-msdz{
@@ -480,10 +476,12 @@ input[type=text]
              right: 0px;
              
              }
-.iphone-czsb{float: right; 
-             font-size: 12px; 
-             width: 18%; 
+.iphone-czsb{
+             font-size: 12px;              
              color:#999999 ;
+             position: absolute;
+             top: 0px;
+             right: 0px;
              
              }
 .iphone-color{ background: #ff6600;}
@@ -568,7 +566,9 @@ input[type=text]
 		               margin: 0 auto; 	             
 		               color: #7d7d7d; 
 		               font-size: 12px;
-		               padding:0px 10px 10px 10px;
+		               padding:10px;
+		               clear: both;
+		             
 		                        
 	                        
 	               } 
