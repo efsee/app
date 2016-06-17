@@ -107,19 +107,29 @@
 			request = {'type':type,'mobile':mobile,'user_id': user.uid()};
 			user.GetllczPrice({'request':request},function(res){
 				console.log(JSON.stringify(res))
-				if(res.count<1){
+				if(res.status==1){
 					$('.item').each(function(i,e){
 						var face_price=$(this).find('.face_price').text();
 						$(this).find('.sale_price').text(face_price*res.discount);
 						$(this).addClass('phone-icosc');
 					});
 				}
+				else if(res.status==2){
+					$('.item').each(function(){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').html(face_price*res.discount);
+						if(res.status==2){
+							$(this).removeClass('phone-icosc').addClass('phone-icoyh');
+						}
+					    //alert($(this).find('.sale_price').text());
+					  });
+				}
 				else{
 					$('.item').each(function(){
 						var face_price=$(this).find('.face_price').text();
 						$(this).find('.sale_price').html(face_price*res.discount);
 						if(res.status==2){
-							$(this).addClass('phone-icoyh');
+							$(this).removeClass('phone-icosc').removeClass('phone-icoyh');
 						}
 					    //alert($(this).find('.sale_price').text());
 					  });
@@ -304,7 +314,8 @@
 													if(res.status>0){//从余额中扣款成功
 														request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price};
 														//console.log(JSON.stringify(request))
-														AddCharge(request);//充值话费
+														addresult=AddCharge(request);//充值话费
+														console.log(addresult);
 														document.querySelector('.ui_dialog').classList.remove('show');
 													}
 													else{
