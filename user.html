@@ -83,16 +83,16 @@
 						<div class="mui-media-body">个人中心</div>
 					</a>
 				</li>
-				<li id='mytz' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-				<a href="user/tzjl.html" class="tap" data='{"title":"我的投资"}'>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new">
+				<a href="user/tzjl.html" class="tap" data='{"title":"回款记录"}'>
 						<span class="icon icon-tz"></span>
-						<div class="mui-media-body">我的投资</div>
+						<div class="mui-media-body">回款记录</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">			
-					<a href="user/zjjl.html" class="tap" data='{"title":"资金明细"}'>
+					<a href="user/zjjl.html" class="tap" data='{"title":"投资记录"}'>
 						<span class="icon icon-zd"></span>
-						<div class="mui-media-body">资金明细</div>
+						<div class="mui-media-body">投资记录</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -114,19 +114,19 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-				<a href="#" class="tap" data='{"title":"积分兑换"}'>
+				<a href="#"  id="click_dialog2" data='{"title":"积分兑换"}'>
 						<span class="icon icon-hdjf"></span>
 						<div class="mui-media-body">积分兑换</div>
 					</a>
 				</li>
 				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
-				<a href="freephone.html" class="tap" data='{"title":"免费电话"}'>
+				<a href="#" id="click_dialog3" data='{"title":"免费电话"}'>
 						<span class="icon icon-dh"></span>
 						<div class="mui-media-body">免费电话</div>
 					</a>
 				</li>
 			
-				<li id='llcz' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+				<li id='llcz' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new-l">
 				   <a href="phone-charge.html" class="phonecharge" data='{"title":"手机充值"}' >
 						<span class="icon icon-cz"></span>
 						<div class="mui-media-body">手机充值</div>
@@ -144,7 +144,7 @@
             deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 });
 		   	</script>
-     <!--<div class="ui_dialog ui_dialog_demo1">
+     <div class="ui_dialog ui_dialog_demo1">
 	    		<div class="ui_dialog_con ui_dialog_con1">
 	    			
 					<p>敬请期待中...
@@ -153,29 +153,35 @@
 	    				<button>确  定</button>
 	    			</div>
 	    		</div>
-	    	</div>-->
+	    	</div>
 <script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/common.js"></script>
 <script src="js/api.js"></script>
 <script>
-	mui.plusReady(function(){
+	mui.plusReady(function(){		
+	document.getElementById("click_dialog2").addEventListener('tap', function() {
+				var btnArray = ['确定'];
+				mui.confirm(' ','敬请期待...', btnArray, function(e) {
+					if (e.index == 1) {
+//						window.location.href = 'weixin:WXSceneSession';	
+						return false;
+					} else {
+						return false;
+					}
+				})
+			});	
+	document.getElementById("click_dialog3").addEventListener('tap', function() {
+			var btnArray = ['确定'];
+			mui.confirm(' ','敬请期待...', btnArray, function(e) {
+				if (e.index == 1) {
+//						window.location.href = 'weixin:WXSceneSession';	
+					return false;
+				} else {
+					return false;
+				}
+			})
+		});		
 		
-		
-		//store.set('firstopen', 1, 20);	//标志暂存时间30秒
-		//console.log(store.get('firstopen'));
-//		
-//document.getElementById("click_dialog2").addEventListener('tap', function() {
-//				var btnArray = ['确定'];
-//				mui.confirm(' ','敬请期待...', btnArray, function(e) {
-//					if (e.index == 1) {
-////						window.location.href = 'weixin:WXSceneSession';	
-//return false;
-//					} else {
-//						return false;
-//					}
-//				})
-//			});	
-//		
 		getdata();
 
 		plus.webview.currentWebview().setStyle({scrollIndicator:"none"});

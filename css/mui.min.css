@@ -606,7 +606,7 @@ p {
 .mui-scroll {
 	position: absolute;
 	z-index: 1;
-	width: 100%;
+	width: 100%;	
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
 	-webkit-backface-visibility: hidden
@@ -2216,7 +2216,7 @@ input[type=submit]:enabled:active {
 
 .mui-grid-view.mui-grid-9 .mui-table-view-cell {
 	margin: 0;
-	padding: 15px 15px;
+	padding: 8.5px 15px;
 	vertical-align: top;
 	border-right: 0.5px solid #dcdcdc;
 	border-bottom: 0.5px solid #dcdcdc;

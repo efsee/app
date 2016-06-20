@@ -315,7 +315,7 @@ input[type=text]
                   height:60px;
                   padding:10px 0px ;                
                  /* display: inline-block; */
-                float: left;                               
+                 float: left;                               
                   border-radius: 5px;
                   border:1px solid #f96268 ;
                   margin-top: 10px;
@@ -341,11 +341,13 @@ input[type=text]
 
                       
  .iphone-czjl {
- 				width: 100%;
-               text-align: center;           
+ 				width: 109px;                    
                font-size: 14px;
-               color: #333333;   
-             
+               color: #333333;
+               position: absolute;
+               bottom: 5%; 
+               left: 50%;
+		        margin-left: -54.5px;                   
   
                } 
                
@@ -568,6 +570,9 @@ input[type=text]
 		               font-size: 12px;
 		               padding:10px;
 		               clear: both;
+		               position: relative;
+		               bottom: -5%;
+		               
 		             
 		                        
 	                        
