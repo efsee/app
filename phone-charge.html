@@ -266,7 +266,7 @@
 						
 						if(res){
 							
-							if(parseFloat(res.balance)>parseFloat(sale_price)){
+							if(parseFloat(res.balance)<parseFloat(sale_price)){
 								$('.click_dialog').off();
 								var btnArray = ['取消','确定'];
 								mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
