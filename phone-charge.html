@@ -259,16 +259,14 @@
 					var face_price=$(this).find('.face_price').text();
 					var sale_price=$(this).find('.sale_price').text();
 					
-					$('.click_dialog').on('click',function(){
-						document.querySelector('.ui_dialog').classList.add('show');
-					})
+					
 					//console.log(sale_price)
 					
 					user.getInfo(function(res){
 						
 						if(res){
 							
-							if(parseFloat(res.balance)<parseFloat(sale_price)){
+							if(parseFloat(res.balance)>parseFloat(sale_price)){
 								$('.click_dialog').off();
 								var btnArray = ['取消','确定'];
 								mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
@@ -294,7 +292,10 @@
 							else{
 								$('.paypassword').val('');
 								
-								
+								$('.click_dialog').off();
+								$('.click_dialog').on('click',function(){
+									document.querySelector('.ui_dialog').classList.add('show');
+								})
 								//document.querySelector('.ui_dialog').classList.add('show');
 								
 								
