@@ -41,8 +41,8 @@
 						
 						$(res).each(function(i,e){
 							time=getLocalTime(e.create_at);
-						 	tm=time.replace(/-/g,"/");
-                            var date = new Date(tm);
+                            var date = new Date(parseInt(e.create_at)*1000);
+                            //alert(date)
                             
                             if(myDate.getMonth()==date.getMonth()){
                                 yue="本月";
