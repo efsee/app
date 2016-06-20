@@ -50,13 +50,14 @@
 		borrow.GetRecoverList({'request':request},function(res){
 			//console.log(JSON.stringify(res))
 			dhkcount=0;
-			dhksum=0;
+			dhksum=0.00;
 			yhkcount=0;
-			yhksum=0;
+			yhksum=0.00;
 			$(res.list).each(function(i,e){
 				
 				if(e.recover_status==1){
 					yhkcount++;
+					console.log(e.recover_capital)
 					yhksum=yhksum+parseFloat(e.recover_capital);
 					$('.yhk .mui-table-view').append(
 						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
@@ -75,16 +76,18 @@
 						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
 						 	'<i class="hkjl-tubiao"></i>'+
 						 	 getLocalTime(e.recover_time) +
-						 	'<span class="hkjl-dai">已回款</span>'+
-						 	'<span class="hkjl-right">'+e.recover_capital+'<font class="hkjl-yuan">元</font>	</span>'+
+						 	'<span class="hkjl-dai">待回款</span>'+
+						 	'<span class="hkjl-money hkjl-right">'+e.recover_capital+'<font class="hkjl-yuan">元</font>	</span>'+
 						 	'<p class="hkjl-tittle">'+e.borrow_name+'</p>'+
 						 '</li>'
 					)
 					
 				}
 			})
-			//console.log(yhksum)
+			
+			
 			if(yhkcount){
+				yhksum=getFloatStr(yhksum)
 				$('.yhk .hkjl-name').html(
 					'已回款'+yhkcount+'笔<span>共计：'+yhksum+'元</span>'
 				)
@@ -98,6 +101,7 @@
 				)
 			}
 			if(dhkcount){
+				dhksum=getFloatStr(dhksum)
 				$('.dhk .hkjl-name').html(
 					'待回款'+dhkcount+'笔 <span>共计：<font class="hkjl-money">'+dhksum+'</font>元</span>'
 				)
@@ -148,6 +152,23 @@
 	function getLocalTime(nS) {     
        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, "").replace('GMT+8', "");      
     }
+	
+	//将传入数据转换为字符串,并清除字符串中非数字与.的字符  
+    //按数字格式补全字符串  
+	var getFloatStr = function(num){
+        num += '';  
+        num = num.replace(/[^0-9|\.]/g, ''); //清除字符串中的非数字非.字符  
+        
+        if(/^0+/) //清除字符串开头的0  
+            num = num.replace(/^0+/, '');  
+        if(!/\./.test(num)) //为整数字符串在末尾添加.00  
+            num += '.00';  
+        if(/^\./.test(num)) //字符以.开头时,在开头添加0  
+            num = '0' + num;  
+        num += '00';        //在字符串末尾补零  
+        num = num.match(/\d+\.\d{2}/)[0];  
+        return num;
+    };
 </script>
                        
 </body>
