@@ -41,8 +41,8 @@
 						
 						$(res).each(function(i,e){
 							time=getLocalTime(e.create_at);
-						 	tm=time.replace(/-/g,"/");
-                            var date = new Date(tm);
+                            var date = new Date(parseInt(e.create_at)*1000);
+                            //alert(date)
                             
                             if(myDate.getMonth()==date.getMonth()){
                                 yue="本月";
@@ -155,21 +155,25 @@
 					});
 				});
 				
-				$(document).on('tap', '.iphone-cont', function(event) {
+				$(document).on('tap', '.iphone-cont', function(e) {
+					e.stopPropagation();
 					var order_no = $(this).attr('data-order_no');
 					var account_no = $(this).attr('data-account_no');
 					var time = $(this).attr('data-time');
 					var sale_price = $(this).attr('data-sale_price');
 					var face_price = $(this).attr('data-face_price');
 					var status = $(this).attr('data-status');
-					//console.log(order_no);
+					//console.log(face_price);
 					
 					var	calling=plus.webview.create('notes_active.html','notes_active.html',{'popGesture':'close'});
 				
 					
 					//触发详情页面的newsId事件
 					plus.nativeUI.showWaiting();
+					
 					calling.addEventListener('loaded',function(){
+						mui.fire(calling,'readyfire',{
+						});
 						mui.fire(calling,'Getllcz',{
 							order_no:order_no,
 							account_no:account_no,
@@ -178,12 +182,10 @@
 							face_price:face_price,
 							status:status
 						});
-						
-						
 						setTimeout(function(){
-							calling.show("slide-in-right",200);
+							calling.show("slide-in-right",150);
 							plus.nativeUI.closeWaiting();
-						},300);
+						},100);
 					});
 				})
 				

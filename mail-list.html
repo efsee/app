@@ -192,12 +192,48 @@
 		      };
 			}
 		}
-		   
+		  
+		plus.contacts.getAddressBook( plus.contacts.ADDRESSBOOK_PHONE, function( addressbook ) {
+			addressbook.find(["displayName","phoneNumbers"],function(contacts){
+				
+				var arr=[]; 
+				$(contacts).each(function(i,e){
+					if(e['displayName']&&e['displayName']!='钉钉'&&e['displayName']!='易信专线'){
+						//if(e['displayName']=='阿姨')console.log(e['displayName']);
+						
+						displayName=e['displayName'];
+						//console.log(e['phoneNumbers'].length);
+						$(e['phoneNumbers']).each(function(j,v){
+							var request = {};
+							request.Name = displayName;
+							//fdjhi
+							//request.Mobile = v.value.replace(/-/g, "");
+							request.Mobile = v.value.replace(/-/g, "").replace(/\+86/g, "").replace(/\s/g, "");
+							//request.Mobile = v.value.replace(/+86/g, "");
+							//console.log(JSON.stringify(request));
+							arr.push(request);
+						})
+					}
+					
+					
+				})
+				
+				showlist(arr);
+				
+			}, function () {
+				mui.toast("error");
+			},{multiple:true});
+		}, function ( e ) {
+			mui.toast( "获取通讯录失败: " + e.message );
+		} );
 		
-		document.addEventListener('showlist',function(e){
+		
+		
+		/*document.addEventListener('showlist',function(e){
 			str=e.detail.arr;
+			//console.log(JSON.stringify(e.detail));
 			showlist(str);
-		},false);
+		},false);*/
 		
 		$('.txl-ul').on("click","li.mui-indexed-list-item",function(e){  
 			e.preventDefault();
