@@ -116,15 +116,7 @@
             }
 //            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
 	    }
-//		var home = mui.preload({
-//		      url:'home.html',
-//		      id:'home.html',
-//		      styles:{
-//		        top:'45px',
-//		        bottom:'50px'
-//		      }
-//		});
-//		home.show();
+
 
 			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
@@ -157,14 +149,7 @@
 			//plus.webview.currentWebview().hide();
 			document.getElementById("title").innerHTML = this.getAttribute('title');
 			
-			/*mui.openWindow({
-				id: url,
-				url: url,
-				styles: {},
-				waiting: {
-					autoShow: false
-				}
-			});*/
+			
 				
 			var sub = plus.webview.getWebviewById(url);
 //			if(sub == null){
@@ -239,23 +224,7 @@
 						autoShow: false
 					}
 				});
-				//通知模板修改标题，并显示隐藏右上角图标；
-				//inittemplate = getTemplate('usertemplate', 'template.html');
-					//获得共用父模板
-				//var headerWebview = inittemplate.header;
-					//获得共用子webview
-				//var contentWebview = inittemplate.content;
-				//contentWebview.loadURL('notice.html');
-				/*mui.fire(headerWebview, 'updateHeader', {
-					title: "公告",
-					showMenu: false,
-					right_btn:''
-				});
-				mui.fire(headerWebview, 'loading');*/
-				/*headerWebview.show('slide-in-right', 150);
-				document.querySelector('.header .badge').classList.add('mui-hidden');
-				var newnoticetime = store.get('newnoticetime');
-				if(newnoticetime) store.set('noticetime',newnoticetime);*/
+				
 		})
 		
 		setTimeout(function(){
@@ -268,6 +237,17 @@
 		
 		
 		
+		document.addEventListener('permission',function(e){
+			
+			if(!plus.storage.getItem('ssmms')){
+				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
+					if (e.index === 0) {
+						mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+					}
+				});
+			}
+			
+		},false);
 	});
 	
 			 //自定义事件，模拟点击“首页选项卡”
@@ -301,29 +281,6 @@
 				}
 			};
 			
-			/*var wgtVer=null;
-			
-			function plusReady(){
-			    // ......
-			    // 获取本地应用资源版本号
-			    plus.runtime.getProperty(plus.runtime.appid,function(inf){
-			        wgtVer=inf.version;
-			        console.log("当前应用版本："+wgtVer);
-			    });
-			}
-			if(window.plus){
-			    plusReady();
-			}else{
-			    document.addEventListener('plusready',plusReady,false);
-			}*/
-			
-			document.addEventListener('permission',function(e){
-				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
-					if (e.index === 0) {
-						mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-					}
-				});
-			},false);
 			
 			
 </script>
