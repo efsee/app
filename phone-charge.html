@@ -23,7 +23,7 @@
 		<div class="iphone-warp">
 			<div class="mui-scroll-wrapper">
 				<div class="mui-scroll" style="height:100%; overflow: hidden;">					
-					<div class="iphone-top"><img src="images/iphone-banner.png" style="max-width:100%"></div>
+					<div class="iphone-top"><a href="czhd.html"><img src="images/iphone-banner.png" style="max-width:100%"></a></div>
 					<div class="mui-input-row iphone-input">		
 						<input type="text" pattern="[0-9]*" maxlength="11" class=" iphone-text" id="mobile" name="mobile" placeholder="请输入手机号码" onfocus="xiaoshi()">	
 						<a class="txl-button" href=""><i class="iphone-ico">通讯录</i></a>
@@ -88,12 +88,20 @@
 <script src="js/common.js"></script>
 <script src="js/template.js"></script>
 <script src="js/template.function.js"></script>
+<script>
+	$(document).ready(function(){
+	  $("#mobile").focus(function(){
+	       	   $(".iphone-czjl").css("display","none");
+	  });
+		$("#mobile").blur(function(){
+		       $(".iphone-czjl").css("display","block");
+		});
+	});
 
+</script>
 <script type="text/javascript" charset="utf-8">
 	//mui初始化
 	mui.init();
-	
-	
 	mui.plusReady(function(){
 		
 		var wv=plus.webview.currentWebview();
