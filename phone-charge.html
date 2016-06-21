@@ -203,11 +203,17 @@
 						txl.show("slide-in-right",100);
 					},150);
 					//触发详情页面的newsId事件
-					txl.addEventListener('loaded',function(){
-						mui.fire(txl,'showlist',{
+					/*txl.addEventListener('loaded',function(){
+						mui.fire(txl,'start',{
 						arr:arr
 						});
-					});
+						setTimeout(function(){
+							mui.fire(txl,'showlist',{
+							arr:arr
+							});
+						},150);
+						
+					});*/
 				})
 			}, function () {
 				mui.toast("error");
