@@ -32,6 +32,14 @@
 				styles:{}
 			}]
 		});
+		
+		mui.plusReady(function(){
+			document.addEventListener('initpage',function(e){
+				var sub = plus.webview.getWebviewById('product_sub.html');
+				mui.fire(sub,'initpage');
+			},false);
+		})
+		
 	
 		
 	</script>

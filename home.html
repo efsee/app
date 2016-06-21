@@ -33,7 +33,12 @@
 			}]
 		});
 	
-		
+		mui.plusReady(function(){
+			document.addEventListener('initpage',function(e){
+				var sub = plus.webview.getWebviewById('home_sub.html');
+				mui.fire(sub,'initpage');
+			},false);
+		})
 	</script>
 
 </html>

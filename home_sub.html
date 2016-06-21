@@ -149,7 +149,7 @@
 	 * 下拉刷新具体业务实现
 	 */
 	function pulldownRefresh() {
-		
+		//console.log('refresh')
 		setTimeout(function() {
 			
 			var request = {'borrow_type':'','epage':1,'totalinfo':1};
@@ -160,6 +160,19 @@
 					res.newtime = new Date().getTime() / 1000;
 					var html = template('tpl-borrow-item',res);
 					document.getElementById("home-body").innerHTML = html;
+					
+					request = {'type_id':6};
+					articles.GetscrollpicList({'request':request},function(res){
+						res.host = host;
+						var html = template('tpl-pic-item',res);
+						document.getElementById("swiper-wrapper").innerHTML = html;
+					    var swiper = new Swiper('.swiper-container', {
+					        pagination: '.swiper-pagination',
+					        paginationClickable: true,
+					        autoplay: 4000,
+					        autoplayDisableOnInteraction: false
+					    });
+					})
 				}
 			});
 			
@@ -171,7 +184,10 @@
   	
   	mui.plusReady(function(){
   		
-		
+  		document.addEventListener('initpage',function(e){
+			mui('#pullrefresh').pullRefresh().pulldownLoading();
+		},false);
+  		
 		
 		request = {'type_id':6};
 		articles.GetscrollpicList({'request':request},function(res){
