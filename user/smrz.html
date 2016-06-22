@@ -167,7 +167,7 @@ mui.plusReady(function(){
 			console.log(JSON.stringify(res));
 			if(res.status == 1){
 				//alert("实名认证成功,请等待审核");
-				plus.nativeUI.alert( "实名认证成功,请等待审核!", function(){
+				plus.nativeUI.alert( "实名认证成功!", function(){
 							mui.fire(plus.webview.currentWebview().opener(), "reload");
 							setTimeout(function(){
 								mui.back();
