@@ -23,7 +23,7 @@
 		<div class="iphone-warp">
 			<div class="mui-scroll-wrapper">
 				<div class="mui-scroll" style="height:100%; overflow: hidden;">					
-					<div class="iphone-top"><a href="czhd.html"><img src="images/iphone-banner.png" style="max-width:100%"></a></div>
+					<div class="iphone-top"><a class="czhd" href="czhd.html"><img src="images/iphone-banner.png" style="max-width:100%"></a></div>
 					<div class="mui-input-row iphone-input">		
 						<input type="text" pattern="[0-9]*" maxlength="11" class=" iphone-text" id="mobile" name="mobile" placeholder="请输入手机号码" onfocus="xiaoshi()">	
 						<a class="txl-button" href=""><i class="iphone-ico">通讯录</i></a>
@@ -427,6 +427,30 @@
 			//var right_btn = data.right_btn || "";
 			mui.fire(headerWebview, 'updateHeader', {
 				title: '充值记录',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+			
+			/*contentWebview.addEventListener('loaded',function(){
+				mui.fire(contentWebview,'getczlist',{
+					phone:'15655115007'
+				});
+			});*/
+		})
+			$('.czhd').on('click',function(e){
+			e.preventDefault();
+			href=$(this).attr('href');
+			//alert(href)
+			inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(href);
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '活动详情',
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
