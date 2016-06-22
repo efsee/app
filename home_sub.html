@@ -57,7 +57,9 @@
 		overflow: auto;	
 		padding: 0px;
 	}
-	.pf-close{ width: 50px;
+	.pf-close{ 
+			display: none;
+			width: 50px;
 			  height: 50px;
 			  position: absolute;
 			  bottom: 5%;
@@ -102,7 +104,7 @@
 <div id="idx-box"></div>
 </body>
 	<div id="light2" class="rescan_main">
-		<a href="phone-charge.html">
+		<a href="#" id="pone_c">
 			<img src="images/pf-gg.png" style="width: 90%; height: 70%;">
 		</a>
 	</div>
@@ -116,6 +118,7 @@
 			document.getElementById('light').style.display = 'block';
 		} else {
 			document.getElementById('light2').style.display = 'block';
+			$(".pf-close").css("display","block");
 		}
 		document.getElementById('fade').style.display = 'block';
 	}
@@ -247,6 +250,18 @@
   		
   		document.addEventListener('initpage',function(e){
 			mui('#pullrefresh').pullRefresh().pulldownLoading();
+
+					if(!store.get('mytzopen')){
+								document.getElementById('light2').style.display = 'none';
+							$(".pf-close").css("display","none");
+					}
+					mui("body").on('tap','#pone_c',function(){
+						store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
+					})
+				
+			
+			
+			
 		},false);
   		
 		
@@ -349,6 +364,25 @@
 		}
 	};
   	
+  	
+  		document.getElementById("pone_c").addEventListener('tap',function(){
+				var webview_style = {
+					popGesture: "close"
+				};
+				mui.openWindow({
+					id: 'phone-charge.html',
+					url: 'phone-charge.html',
+					styles: webview_style,
+					waiting: {
+						autoShow: false
+					}
+				});
+				closeWindow('light2');
+				
+		})	
+		
+
+		
 </script>
 
 
