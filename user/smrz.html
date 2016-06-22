@@ -46,7 +46,7 @@
 						<label>证件号码</label>
 						<input type="text" class="mui-input-clear" id="card_id" name="card_id" placeholder="请输入身份证证件号码">
 					</div>
-					<div class="mui-input-row">
+					<!--<div class="mui-input-row">
 						<label>身份证正面</label>
 						<span id="span_card_pic1"></span>
 						<input type="hidden" id="card_pic1" name="card_pic1" readonly="readonly" style="width: 25%;" value="" />
@@ -62,7 +62,7 @@
 							上传
 						</button>
 						
-					</div>
+					</div>-->
 
 					<div class="mui-button-row">
 						<button type="button" id="btn_submit" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
@@ -80,8 +80,8 @@ function formck(){
 	var frm = document.forms['formx'];
 	var realname = frm.elements['realname'].value;
 	var card_id = frm.elements['card_id'].value;
-	 var card_pic1 = frm.elements['card_pic1'].value;
-	 var card_pic2 = frm.elements['card_pic2'].value;
+	 /*var card_pic1 = frm.elements['card_pic1'].value;
+	 var card_pic2 = frm.elements['card_pic2'].value;*/
 	var errorMsg = '';
 	
 	if (realname.length == 0 ) {
@@ -96,9 +96,9 @@ function formck(){
 		}
 	}
 	
-	if (card_pic1.length == 0 ) {
+	//if (card_pic1.length == 0 ) {
 //		errorMsg += '* 请上传身份证正面照片' + '\n';
-	}
+	//}
  
 	if (errorMsg.length > 0){
 		plus.nativeUI.alert(errorMsg); return false;
@@ -150,16 +150,16 @@ mui.plusReady(function(){
 	var frm = document.forms['formx'];
 	var realname = frm.elements['realname'].value;
 	var card_id = frm.elements['card_id'].value;
-	var card_pic1 = frm.elements['card_pic1'].value;
-	var card_pic2 = frm.elements['card_pic2'].value;
+	/*var card_pic1 = frm.elements['card_pic1'].value;
+	var card_pic2 = frm.elements['card_pic2'].value;*/
 	
 	var sex = document.getElementById("sex2").checked ? '女' : '男';
 	
 		var request = {'user_id' : user.uid()};		
 		request.realname = realname;
 		request.card_id = card_id;
-		request.card_pic1 = card_pic1;
-		request.card_pic2 = card_pic2;
+		/*request.card_pic1 = card_pic1;
+		request.card_pic2 = card_pic2;*/
 		request.sex = sex;
 		plus.nativeUI.showWaiting();
 		//console.log(request.realname)
