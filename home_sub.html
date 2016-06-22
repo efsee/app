@@ -75,7 +75,7 @@
 
     </style>
 </head>
-<body onLoad="openWindow(2)">
+<body>
 	<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
@@ -102,35 +102,20 @@
 		</div>
 
 <div id="idx-box"></div>
-</body>
+
+
 	<div id="light2" class="rescan_main">
-		<a href="#" id="pone_c">
-			<img src="images/pf-gg.png" style="width: 90%; height: 70%;">
+		<a href="#" id="pone_c" data-href="">
+			<img id="adimg" src="images/pf-gg.png" style="width: 90%; height: 70%;">
 		</a>
 	</div>
 	<div class="pf-close" onClick="closeWindow('light2')">
 		<img src="images/pf-close.png">
 	</div>
 	<div id="fade" class="black_overlay"></div>
-<script language="javascript">
-	function openWindow(scanLog) {
-		if (scanLog == 1) {
-			document.getElementById('light').style.display = 'block';
-		} else {
-			document.getElementById('light2').style.display = 'block';
-			$(".pf-close").css("display","block");
-		}
-		document.getElementById('fade').style.display = 'block';
-	}
-	function closeWindow(id) {
-		document.getElementById(id).style.display = 'none';
-		document.getElementById('fade').style.display = 'none';
-		$(".pf-close").css("display","none");
-		$("rescan_main").css("display","none");
+</body>
 
-	}
-	
-</script>
+
 <script id="tpl-borrow-item" type="text/html">
 	{{each list as item i}}
 	<div class="home-con">
@@ -213,7 +198,6 @@
 	 * 下拉刷新具体业务实现
 	 */
 	function pulldownRefresh() {
-		//console.log('refresh')
 		setTimeout(function() {
 			
 			var request = {'borrow_type':'','epage':1,'totalinfo':1};
@@ -248,18 +232,29 @@
   	
   	mui.plusReady(function(){
   		
-  		document.addEventListener('initpage',function(e){
+  		articles.GetAdBox({'request':request},function(res){
+  			console.log(JSON.stringify(res));
+			if(res){
+  				if(res.status){
+  					var timestamp=new Date().getTime();//毫秒
+  					if(res.starttime*1000<timestamp&&res.endtime*1000>timestamp){
+  						$('#adimg').attr('src',res.imgurl);
+  						$('#pone_c').attr('data-href',res.href);
+  						//href=res.href;
+  						if(!store.get('adbox')){
+							openWindow()
+							store.set('adbox', 1, 3600 * 24 * 365);
+						}
+  					}
+  				}
+  			}
+		})
+  		
+  		
+  		
+		document.addEventListener('initpage',function(e){
+  			//openWindow()
 			mui('#pullrefresh').pullRefresh().pulldownLoading();
-
-					if(!store.get('mytzopen')){
-								document.getElementById('light2').style.display = 'none';
-							$(".pf-close").css("display","none");
-					}
-					mui("body").on('tap','#pone_c',function(){
-						store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-					})
-				
-			
 			
 			
 		},false);
@@ -365,26 +360,51 @@
 	};
   	
   	
-  		document.getElementById("pone_c").addEventListener('tap',function(){
+  		$('#pone_c').on('click',function(e){
+  			e.stopPropagation();
+  			var url = $(this).attr('data-href');
+			if(url!='#'){
+				if(!user.uid()){
+					login();
+					return false;
+				}
+				
 				var webview_style = {
 					popGesture: "close"
 				};
 				mui.openWindow({
-					id: 'phone-charge.html',
-					url: 'phone-charge.html',
+					id: url,
+					url: url,
 					styles: webview_style,
 					waiting: {
 						autoShow: false
 					}
 				});
 				closeWindow('light2');
-				
-		})	
+			}
+			else{
+				return false;
+			}
+  		})
 		
 
 		
 </script>
 
+<script language="javascript">
+	function openWindow() {
+		document.getElementById('light2').style.display = 'block';
+		$(".pf-close").css("display","block");
+		document.getElementById('fade').style.display = 'block';
+	}
+	function closeWindow(id) {
+		document.getElementById(id).style.display = 'none';
+		document.getElementById('fade').style.display = 'none';
+		$(".pf-close").css("display","none");
+		$("rescan_main").css("display","none");
 
+	}
+	
+</script>
 
 </html>
