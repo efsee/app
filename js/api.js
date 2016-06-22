@@ -539,6 +539,10 @@ var articles = {
 	"GetscrollpicList" : function($data, callback){
 		var url = apiurl + '?module=articles&action=GetscrollpicList';
 		ajax.post(url, $data, callback);
+	},
+	"GetAdBox" : function($data, callback){
+		var url = apiurl + '?module=articles&action=GetAdBox';
+		ajax.post(url, $data, callback);
 	}	
 }
 
