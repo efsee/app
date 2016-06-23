@@ -64,6 +64,15 @@ header .mui-title { color: #ffffff; }
 				selfWV.show();
 			})
 			selfWV.append(headWV);
+			
+			document.addEventListener("recharge",function(e){
+				bodyWV.addEventListener('loaded',function(){
+					mui.fire(bodyWV,'recharge',{
+						sale_price:e.detail.sale_price
+					});
+				})
+				
+			},false);
 			//关闭页面
 			window.addEventListener('close', function(e) {
 				close();

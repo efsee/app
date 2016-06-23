@@ -342,6 +342,12 @@ header .mui-title { color: #333; }
       			pwv.close();
       		},false);
       		
+      		document.addEventListener("recharge",function(e){
+				
+				$('#money_order').val(e.detail.sale_price);
+				
+			},false);
+      		
 	});
 	
 $(function(){
