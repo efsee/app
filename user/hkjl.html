@@ -57,27 +57,29 @@
 				
 				if(e.recover_status==1){
 					yhkcount++;
-					console.log(e.recover_capital)
-					yhksum=yhksum+parseFloat(e.recover_capital);
+					//console.log(e.recover_capital)
+					yhksum=yhksum+parseFloat(e.recover_capital)+parseFloat(e.recover_interest);
+					recover=getFloatStr(parseFloat(e.recover_capital)+parseFloat(e.recover_interest));
 					$('.yhk .mui-table-view').append(
 						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
 						 	'<i class="hkjl-tubiao"></i>'+
 						 	 getLocalTime(e.recover_time) +
 						 	'<span class="hkjl-dai">已回款</span>'+
-						 	'<span class="hkjl-right">'+e.recover_capital+'<font class="hkjl-yuan">元</font>	</span>'+
+						 	'<span class="hkjl-right">'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 						 	'<p class="hkjl-tittle">'+e.borrow_name+'</p>'+
 						 '</li>'
 					)
 				}
 				else{
 					dhkcount++;
-					dhksum=dhksum+parseFloat(e.recover_capital);
+					dhksum=dhksum+parseFloat(e.recover_capital)+parseFloat(e.recover_interest);
+					recover=getFloatStr(parseFloat(e.recover_capital)+parseFloat(e.recover_interest));
 					$('.dhk .mui-table-view').append(
 						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
 						 	'<i class="hkjl-tubiao"></i>'+
 						 	 getLocalTime(e.recover_time) +
 						 	'<span class="hkjl-dai">待回款</span>'+
-						 	'<span class="hkjl-money hkjl-right">'+e.recover_capital+'<font class="hkjl-yuan">元</font>	</span>'+
+						 	'<span class="hkjl-money hkjl-right">'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 						 	'<p class="hkjl-tittle">'+e.borrow_name+'</p>'+
 						 '</li>'
 					)

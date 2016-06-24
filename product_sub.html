@@ -82,7 +82,7 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-										str2='<a href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></a>';
+										str2='<span href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -174,7 +174,7 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-											str2='<a href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></a>';
+										str2='<span href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -188,10 +188,10 @@
 									}
 									else{
 										if(item.borrow_account_scale==100){
-											str3=
-											'<div class="invest-right-hkz">'+
-								   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">还款中</a>'+
-								   			'</div>';
+										str3=
+										'<div class="invest-right-hkz">'+
+							   		         '<a href="javascript:;"  data-article_id="'+item.borrow_nid+'" data-id="'+item.id+'" data-has_repay="'+item.repay_account_yes+'" class="tap invest-hkz">还款中</a>'+
+							   			'</div>';
 										}
 										else{
 											str3=
@@ -293,7 +293,7 @@
 			
 			
 			
-			mui("#product-list").on('tap', 'a.img', function(e){
+			mui("#product-list").on('tap', 'span.img', function(e){
 					e.stopPropagation();
 					/*var article_id = eval("(" + this.getAttribute('data-article_id') + ")");
 					var id = eval("(" + this.getAttribute('data-id') + ")");
