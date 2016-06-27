@@ -1032,22 +1032,52 @@ input[type=text]
  
 /*回款记录*/ 
 .hkjl-name{ padding: 15px; font-size: 14px;} 
- .hkjl-cent li{ font-size: 14px;color: #565656; }
-.hkjl-name span{ float: right; } 
-.hkjl-right{ float: right;font-size: 14px;}
-.hkjl-money{ color: #f96268;font-size: 14px;} 		
-.hkjl-yuan{color: #565656; font-size: 14px;}	
-.hkjl-dai{color: #565656; 
+.hkjl-cent li{ font-size: 14px;color: #565656; }
+.hkjl-name span{ float: right; font-size: 12px; } 
+.hkjl-right{ float: right;font-size: 12px;}
+.hkjl-money{ color: #f96268;font-size: 12px;} 		
+.hkjl-yuan{color: #565656; font-size: 12px;}
+.hkjl-yc{color: #565656; font-size: 12px; margin-right: 5px;}	
+.hkjl-dai{color: #fff; 
 		   margin-left: 2px;
-		   font-size: 14px;
+		   font-size: 8px;
+		   background: #f96268;
+		   border-radius: 4px; 		   
+		   text-align: center;
+		   padding: 2px 4px;
+		   position: relative;
+		   top:-2px
 		   
-		   }	 
-.hkjl-tittle{color: #bfbfbf; 
-			 margin-top: 5px; 
-			 font-size: 14px;
-			 padding-left: 16px;
+		   }
+.hkjl-dai a{color: #fff;}
+		   	 
+.hkjl-tittle{color: #454545;			 
+			 font-size: 10px;
+			 
 			 
 			 }
+.hkjl-martop{ margin-top: 4px;}			 
+.hkjl-tittle span{ float: right; 
+					font-size: 10px;
+					
+					}	
+.hkjl-tzsj{ width: 2px;
+			display: inline-block; 
+			height:10px; 
+			background: #f5a623;
+			margin-right: 6px;
+			position: relative;
+			top:1.5px		
+			}	
+.hkjl-kksj{ width: 2px;
+			display: inline-block; 
+			height:10px; 
+			background: #7ed321;
+			margin-right: 6px;
+			position: relative;
+			top:1.5px
+					
+			}									 
 .hkjl-tubiao{ background: url(../images/tubiao.png) no-repeat left;
               display:inline-block;
               width: 12px;
