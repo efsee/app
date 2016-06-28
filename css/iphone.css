@@ -1038,19 +1038,19 @@ input[type=text]
 .hkjl-money{ color: #f96268;font-size: 12px;} 		
 .hkjl-yuan{color: #565656; font-size: 12px;}
 .hkjl-yc{color: #565656; font-size: 12px; margin-right: 5px;}	
-.hkjl-dai{color: #fff; 
+
+.hkjl-dai a{color: #fff; }
+.hkjl-bqys{color: #fff; 
 		   margin-left: 2px;
 		   font-size: 8px;
 		   background: #f96268;
 		   border-radius: 4px; 		   
 		   text-align: center;
-		   padding: 2px 4px;
+		   padding: 2px 8px;
 		   position: relative;
-		   top:-2px
-		   
-		   }
-.hkjl-dai a{color: #fff;}
-		   	 
+		   top:-3px;
+		   font-style: normal;
+		   }		   	 
 .hkjl-tittle{color: #454545;			 
 			 font-size: 10px;
 			 
