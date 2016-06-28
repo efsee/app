@@ -7,16 +7,56 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
-     <link href="css/mui.min.css" rel="stylesheet"/>     
-     <link href="css/iphone.css" rel="stylesheet"/>
-    <script src="js/mui.min.js"></script>
-    <script type="text/javascript" charset="utf-8">
+ <link href="css/mui.min.css" rel="stylesheet"/>     
+ <link href="css/iphone.css" rel="stylesheet"/>
+<script src="js/mui.min.js"></script>
+<script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
+<style>
 
+.item{
+      position: relative;
+    }
+    .hkjl-dai{
+      position: absolute;
+      z-index:2;
+      width: 18%;
+      height:20px;
+      font-size: 10px;
+      line-height: 20px;
+      top:150px;
+      padding-left: 5px;
+    }	
+	
+</style>
 </head>
 <body style=" background: #fff;">
 <div class="mui-content">
+ <div class="notes-box">
+ 	 <i class="notes-moblie"></i>
+ 	 <p class="no-records-size">暂无记录</p>
+  </div>
+		<div class="dhk">
+		<div class="hkjl-name">
+				待满标2笔 <span>共计：<font class="hkjl-money">54000.48</font>元</span>
+		</div>
+		<ul class="mui-table-view hkjl-cent">
+			 <li class="mui-table-view-cell">			 		 	 
+			 	 XCH20160523001A
+			 	<span class="hkjl-dai"><em class="hkjl-bqys">已保全</em></span>
+			 	<span class="hkjl-money hkjl-right"><font class="hkjl-yc">待回款</font>1000000.00<font class="hkjl-yuan">元</font></span>
+			 	<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：2016-06-14 09:23  <span>本金：3400.00元</span></p>
+			 </li>
+			 <li class="mui-table-view-cell">			 		 	 
+			 	 XCH20160523001A
+			 	<span class="hkjl-dai">已保全</span>
+			 	<span class="hkjl-money hkjl-right"><font class="hkjl-yc">待回款</font>3400.00<font class="hkjl-yuan">元</font></span>
+			 	<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：2016-06-14 09:23  <span>本金：3400.00元</span></p>
+			 </li>		         
+		</ul>
+	</div>
+	
 	<div class="dhk">
 		<div class="hkjl-name">
 				待回款2笔 <span>共计：<font class="hkjl-money">54000.48</font>元</span>
@@ -24,11 +64,10 @@
 		<ul class="mui-table-view hkjl-cent">
 			 <li class="mui-table-view-cell">			 		 	 
 			 	 XCH20160523001A
-			 	<span class="hkjl-dai"><a href="#">已保全</a></span>
+			 	<span class="hkjl-dai"><em class="hkjl-bqys">已保全</em></span>
 			 	<span class="hkjl-money hkjl-right"><font class="hkjl-yc">待回款</font>1000000.00<font class="hkjl-yuan">元</font></span>
 			 	<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：2016-06-14 09:23  <span>本金：3400.00元</span></p>
-			 	<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：2016-06-14 09:23  <span>收益：3.40元</span></p>
-			 	
+			 	<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：2016-06-14 09:23  <span>收益：3.40元</span></p>	
 			 </li>
 			 <li class="mui-table-view-cell">			 		 	 
 			 	 XCH20160523001A
@@ -82,6 +121,11 @@
 		</ul>
 	</div>
 </div>			
-			
+<script>
+	mui(".mui-content").on('tap', 'span.hkjl-dai', function(e){
+        e.stopPropagation();
+        alert(2222);
+      })
+</script>			
 </body>
 </html>
