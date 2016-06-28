@@ -82,7 +82,7 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-										str2='<span href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -157,6 +157,7 @@
 					var request = {'borrow_type':borrow_type,'page':count,'borrow_period':borrow_period,'dan':dan};
 					
 					product.list({'request':request},function(res){
+						console.log(JSON.stringify(res.list))
 						if(res){
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
@@ -174,7 +175,7 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-										str2='<span href="javascript:;"  data-href="http://www.ifcar99.com/yidong/ancun/index.html" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -300,6 +301,8 @@
 					var has_repay = eval("(" + this.getAttribute('data-has_repay') + ")");*/
 					var href = this.getAttribute('data-href');
 					
+					//console.log(222)
+					console.log(href)
 					//获得详情页面
 					//window.location.href=href;
 					if(href && href.substr(0,1) != "#"){      
