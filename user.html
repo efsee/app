@@ -159,6 +159,12 @@
 <script src="js/api.js"></script>
 <script>
 	mui.plusReady(function(){		
+	mui.preload({
+		url:'user/hkjl.html',
+		styles: {
+			popGesture: 'hide'
+		}
+	});
 	document.getElementById("click_dialog2").addEventListener('tap', function() {
 				var btnArray = ['确定'];
 				mui.confirm(' ','敬请期待...', btnArray, function(e) {
@@ -246,9 +252,17 @@
 					showMenu: false,
 					right_btn:right_btn
 				});
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
-
+				
+				
+				plus.nativeUI.showWaiting();
+					
+				contentWebview.addEventListener('loaded',function(){
+					setTimeout(function(){
+						mui.fire(headerWebview, 'loading');
+						headerWebview.show('slide-in-right', 150);
+						plus.nativeUI.closeWaiting();
+					},300);
+				});
 		})
 		
 		document.getElementById("recharge").addEventListener('tap',function(e){

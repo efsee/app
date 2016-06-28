@@ -68,7 +68,44 @@
 	mui.init();
 		
 	mui.plusReady(function(){
+		request = {'status':4,'type':'','user_id':user.uid(),'epage':10000};
+		borrow.GetTenderBorrowList({'request':request},function(res){
+			console.log(JSON.stringify(res))
+			dmbcount=0;
+			dmbsum=0.00;
+			$(res.list).each(function(i,e){
+					dmbcount++;
+					dmbsum=dmbsum+parseFloat(e.tender_account)+parseFloat(e.recover_interest);
+					recover=getFloatStr(parseFloat(e.tender_account)+parseFloat(e.recover_interest));
+					if(e.recordNo){
+						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
+					}
+					else{
+						str='';
+					}
+					$('.dmb .mui-table-view').append(
+						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
+						 	  e.name+
+						 	str+
+						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
+						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.tender_account+'元</span></p>'+
+						 	'<p class="hkjl-tittle"><span>收益：'+e.recover_interest+'元</span></p>'+
+						 '</li>'
+					)
+			})
 			
+			if(dmbcount){
+				dmbsum=getFloatStr(dmbsum)
+				$('.dmb .hkjl-name').html(
+					'待满标'+dmbcount+'笔<span>共计：'+dmbsum+'元</span>'
+				)
+			}
+			else{
+				$('.dmb').remove();
+			}
+			
+		});
+		
 		request = {'borrow_status':3,'user_id':user.uid(),'order':'repay_time','epage':10000};
 		
 		borrow.GetRecoverList({'request':request},function(res){
@@ -136,7 +173,7 @@
 			if(dhkcount){
 				dhksum=getFloatStr(dhksum)
 				$('.dhk .hkjl-name').html(
-					'待回款'+dhkcount+'笔 <span>共计：<font class="hkjl-money">'+dhksum+'</font>元</span>'
+					'待回款'+dhkcount+'笔 <span>共计：'+dhksum+'元</span>'
 				)
 			}
 			else{
@@ -145,43 +182,7 @@
 			
 		});
 		
-		request = {'status':4,'type':'','user_id':user.uid(),'epage':10000};
-		borrow.GetTenderBorrowList({'request':request},function(res){
-			console.log(JSON.stringify(res))
-			dmbcount=0;
-			dmbsum=0.00;
-			$(res.list).each(function(i,e){
-					dmbcount++;
-					dmbsum=dmbsum+parseFloat(e.tender_account)+parseFloat(e.recover_interest);
-					recover=getFloatStr(parseFloat(e.tender_account)+parseFloat(e.recover_interest));
-					if(e.recordNo){
-						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
-					}
-					else{
-						str='';
-					}
-					$('.dmb .mui-table-view').append(
-						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
-						 	  e.name+
-						 	str+
-						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.tender_account+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><span>收益：'+e.recover_interest+'元</span></p>'+
-						 '</li>'
-					)
-			})
-			
-			if(dmbcount){
-				dmbsum=getFloatStr(dmbsum)
-				$('.dmb .hkjl-name').html(
-					'待满标'+dmbcount+'笔<span>共计：'+dmbsum+'元</span>'
-				)
-			}
-			else{
-				$('.dmb').remove();
-			}
-			
-		});
+		
 		
 		if(!$('.mui-content').html()){
 			$('.mui-content').html(
