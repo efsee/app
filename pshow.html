@@ -32,7 +32,7 @@ a.ljtz-btn { color: #fff;}
 .biao_xxnr_shtb li { float: left; width: 25%; text-align: center; padding: 5px 0;}
 .biao_xxn_xmms_ms { padding: 10px 0px; min-height: 30px; }
 .ljtz-btn-ccc{ background: #999; }
-
+#ACWY{position: absolute;  right: 0px;top:60px;display: block; z-index:999 ; width: 70px; height: 40px; }
 </style>
 
 </head>
@@ -72,6 +72,7 @@ a.ljtz-btn { color: #fff;}
 <script id="tpl" type="text/html">
 <div class="pshow-info clearfix">
 <p class="name">年化收益</p>
+<a href="3.html" class="tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
 <p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
 <div class="info box-sizing" style="padding-right: 5px;border:none">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
 <!--<div class="info last box-sizing" style="padding-left: 5px;">
@@ -182,7 +183,9 @@ a.ljtz-btn { color: #fff;}
 
 
 </div>
+
 <div class="clear"></div>
+
 <nav class="bot-bar">
 	{{if borrow.borrow_account_scale == '100'}}
 		{{if BtenderDetail.has_repay < 1}}
@@ -237,7 +240,20 @@ a.ljtz-btn { color: #fff;}
 						detailWV.show('slide-in-right');
 					},300);
 		})
-		
+		mui('body').on('tap','#ACWY',function(e){
+				var data = this.getAttribute('data');
+				console.log(data);
+				edata = JSON.parse(data);
+//				data = eval("(" + data + ")");
+					var detailWV = plus.webview.create('3.html','tzjl-borrow');
+					detailWV.addEventListener('loaded',function(){
+						mui.fire(detailWV,"mui.view.show",edata);
+					})
+					
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},300);
+		})		
 		mui('body').on('tap','#ljtz-btn',function(){
 			uid = user.uid();
 			if(!uid){
