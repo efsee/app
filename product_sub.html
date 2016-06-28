@@ -82,7 +82,12 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-										str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										if(item.recordNo){
+											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										}
+										else{
+											str2='<span></span>';
+										}
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -175,7 +180,12 @@
 									}
 									
 									if(item.borrow_account_scale==100){
-										str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										if(item.recordNo){
+											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+										}
+										else{
+											str2='<span></span>';
+										}
 									}
 									else{
 										str2='可投金额 : <span class="invest-red">'+toThousands(parseInt(item.borrow_account_wait))+'元</span>';
@@ -302,7 +312,7 @@
 					var href = this.getAttribute('data-href');
 					
 					//console.log(222)
-					console.log(href)
+					//console.log(href)
 					//获得详情页面
 					//window.location.href=href;
 					if(href && href.substr(0,1) != "#"){      
