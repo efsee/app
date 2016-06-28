@@ -72,7 +72,9 @@ a.ljtz-btn { color: #fff;}
 <script id="tpl" type="text/html">
 <div class="pshow-info clearfix">
 <p class="name">年化收益</p>
-<a href="3.html" class="tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
+{{if borrow.recordNo}}
+    <a href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo={{borrow.recordNo}}" class="ancun tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
+{{/if}}
 <p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
 <div class="info box-sizing" style="padding-right: 5px;border:none">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
 <!--<div class="info last box-sizing" style="padding-left: 5px;">
@@ -240,19 +242,24 @@ a.ljtz-btn { color: #fff;}
 						detailWV.show('slide-in-right');
 					},300);
 		})
-		mui('body').on('tap','#ACWY',function(e){
-				var data = this.getAttribute('data');
-				console.log(data);
-				edata = JSON.parse(data);
-//				data = eval("(" + data + ")");
-					var detailWV = plus.webview.create('3.html','tzjl-borrow');
-					detailWV.addEventListener('loaded',function(){
-						mui.fire(detailWV,"mui.view.show",edata);
-					})
-					
-					setTimeout(function(){
-						detailWV.show('slide-in-right');
-					},300);
+		mui('body').on('tap','.ancun',function(e){
+				e.stopPropagation();
+				
+				var href = this.getAttribute('href');
+				//通知模板修改标题，并显示隐藏右上角图标；
+				inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href);
+				mui.fire(headerWebview, 'updateHeader', {
+					title: '无忧存证',
+					showMenu: false
+				});
+				
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
 		})		
 		mui('body').on('tap','#ljtz-btn',function(){
 			uid = user.uid();
@@ -311,7 +318,7 @@ a.ljtz-btn { color: #fff;}
 		var request = data;
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){
-//			console.log(JSON.stringify(res));
+			console.log(JSON.stringify(res));
 			if(res){
 			res.is_login = user.uid();
 			res.nowtime = new Date().getTime() / 1000;
