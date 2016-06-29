@@ -1043,12 +1043,13 @@ input[type=text]
 .hkjl-bqys{color: #fff; 
 		   margin-left: 2px;
 		   font-size: 8px;
+		   font-weight: bold;
 		   background: #f96268;
 		   border-radius: 4px; 		   
 		   text-align: center;
 		   padding: 2px 8px;
 		   position: relative;
-		   top:-3px;
+		   top:-1px;
 		   font-style: normal;
 		   }		   	 
 .hkjl-tittle{color: #454545;			 
