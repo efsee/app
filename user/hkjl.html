@@ -144,7 +144,6 @@
 				}
 					
 			})
-			
 			if(dmbcount){
 				dmbsum=getFloatStr(dmbsum)
 				$('.dmb .hkjl-name').html(
@@ -171,6 +170,14 @@
 			}
 			else{
 				$('.dhk').remove();
+			}
+			if(yhkcount==0&&dhkcount==0&&dmbcount==0){
+				$('.mui-content').html(
+					'<div class="notes-box">'+
+					'<i class="notes-moblie"></i>'+
+					'<p class="no-records-size">暂无记录</p>'+
+					'</div>'
+				)
 			}
 			
 		});
@@ -249,15 +256,9 @@
 		});*/
 		
 		
+		//alert(4214)
 		
-		if(!$('.mui-content').html()){
-			$('.mui-content').html(
-				'<div class="notes-box">'+
-				'<i class="notes-moblie"></i>'+
-				'<p class="no-records-size">暂无记录</p>'+
-				'</div>'
-			)
-		}
+		
 		var _clicked = false;
 			mui(".mui-content").on('tap', 'li.item', function(e){
 				if(!_clicked) { _clicked = true; } else { return false; }
