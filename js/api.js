@@ -461,7 +461,11 @@ var borrow = {
 	"AddAnJie" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=AddAnJie';
 		ajax.post(url, $data, callback);
-	}
+	},
+	"GetTenderLists" : function($data, callback){
+		var url = apiurl + '?module=borrow&action=GetTenderLists';
+		ajax.post(url, $data, callback);
+	},
 	
 
 }
