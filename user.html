@@ -84,7 +84,7 @@
 					</a>
 				</li>
 				<li id="mytz" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new">
-				<a href="user/hkjl.html" class="tap" data='{"title":"回款记录"}'>
+				<a href="user/hkjl.html" class="hkjl" data='{"title":"回款记录"}'>
 						<span class="icon icon-tz"></span>
 						<div class="mui-media-body">回款记录</div>
 					</a>
@@ -176,6 +176,7 @@
 					}
 				})
 			});	
+			
 	document.getElementById("click_dialog3").addEventListener('tap', function() {
 			var btnArray = ['确定'];
 			mui.confirm(' ','敬请期待...', btnArray, function(e) {
@@ -186,7 +187,9 @@
 					return false;
 				}
 			})
-		});		
+		});
+		
+		
 		
 		getdata();
 
@@ -213,6 +216,53 @@
 				arr:arr
 				});
 			});*/
+		})
+		
+		mui("body").on('tap','a.hkjl',function(){
+			uid = user.uid();
+			if(!uid){
+				login();
+				return;
+			}
+			if(this.classList.contains('noopen')){
+				return;
+			}
+				var url = this.getAttribute('href');
+				href = this.href;
+				
+				
+				var data = this.getAttribute('data');
+				data = eval("(" + data + ")");
+				
+				//通知模板修改标题，并显示隐藏右上角图标；
+				if(this.classList.contains('pullrefresh')){
+					template = getTemplate('pulltemplate', 'template.html');
+				}else{
+					template = getTemplate('usertemplate', 'template.html');
+				}
+				
+					//获得共用父模板
+				var headerWebview = template.header;
+					//获得共用子webview
+				var contentWebview = template.content;
+				contentWebview.loadURL(href);
+				var right_btn = data.right_btn || "";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: data.title,
+					showMenu: false,
+					right_btn:right_btn
+				});
+				
+				
+				//plus.nativeUI.showWaiting();
+					
+				contentWebview.addEventListener('loaded',function(){
+					setTimeout(function(){
+						mui.fire(headerWebview, 'loading');
+						headerWebview.show('slide-in-right', 150);
+						//plus.nativeUI.closeWaiting();
+					},400);
+				});
 		})
 		mui("body").on('tap','a.tap',function(){
 			uid = user.uid();
@@ -252,17 +302,9 @@
 					showMenu: false,
 					right_btn:right_btn
 				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
 				
-				
-				plus.nativeUI.showWaiting();
-					
-				contentWebview.addEventListener('loaded',function(){
-					setTimeout(function(){
-						mui.fire(headerWebview, 'loading');
-						headerWebview.show('slide-in-right', 150);
-						plus.nativeUI.closeWaiting();
-					},300);
-				});
 		})
 		
 		document.getElementById("recharge").addEventListener('tap',function(e){
@@ -275,6 +317,8 @@
 	})
 	
 	document.addEventListener('initpage',function(e){
+					console.log(store.get('mytzopen'))
+					
 					$('#mytz').removeClass('user-new');
 					$('#llcz').removeClass('user-new-l');
 					
