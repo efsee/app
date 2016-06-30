@@ -162,7 +162,7 @@
 					var request = {'borrow_type':borrow_type,'page':count,'borrow_period':borrow_period,'dan':dan};
 					
 					product.list({'request':request},function(res){
-						console.log(JSON.stringify(res.list))
+						//console.log(JSON.stringify(res.list))
 						if(res){
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
