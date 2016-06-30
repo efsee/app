@@ -1,9 +1,9 @@
 ﻿var utoken, uid;
-var host = 'http://test.ifcar99.com/';
-var apiurl = 'http://test.ifcar99.com/api.php';
-var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
-var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
+var host = 'http://www.ifcar99.com/';
+var apiurl = 'http://www.ifcar99.com/api.php';
+var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
+var chargeapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
+var queryapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_query_api.php';
 //var host = 'http://192.168.1.10/';
 
 var appinfo = {};
