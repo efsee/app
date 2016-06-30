@@ -114,7 +114,7 @@
 			var type=store.get('llcz_type');
 			request = {'type':type,'mobile':mobile,'user_id': user.uid()};
 			user.GetllczPrice({'request':request},function(res){
-				console.log(JSON.stringify(res))
+				//console.log(JSON.stringify(res))
 				if(res.status==1){
 					$('.item').each(function(i,e){
 						var face_price=$(this).find('.face_price').text();
@@ -271,90 +271,96 @@
 					//var account_no='15876018141';
 					var user_id=user.uid();
 					var face_price=$(this).find('.face_price').text();
-					var sale_price=$(this).find('.sale_price').text();
+					var sale_price=face_price*0.998;
+					request = {'type':type,'mobile':$('#mobile').val(),'user_id': user.uid()};
+					user.GetllczPrice({'request':request},function(res){
+						var sale_price=face_price*res.discount;
 					
-					
-					//console.log(sale_price)
-					
-					user.getInfo(function(res){
-						
-						if(res){
+						user.getInfo(function(res){
 							
-							if(parseFloat(res.balance)<parseFloat(sale_price)){
-								$('.click_dialog').off();
-								var btnArray = ['取消','确定'];
-								mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
-									if (e.index == 1) {
-										var	recharge=plus.webview.create('w_recharge_llcz.html','w_recharge_llcz.html',{'popGesture':'close'});
-					
-										setTimeout(function(){
-											recharge.show("slide-in-right",100);
-										},50);
-										
-										recharge.addEventListener('loaded',function(){
-											mui.fire(recharge,'recharge',{
-												sale_price:sale_price
-											});
-										});
-										return false;
-									} else {
-										
-										return false;
-									}
-								})
-							}
-							else{
-								$('.paypassword').val('');
+							if(res){
 								
-								$('.click_dialog').off();
-								$('.click_dialog').on('click',function(){
-									document.querySelector('.ui_dialog').classList.add('show');
-								})
-								//document.querySelector('.ui_dialog').classList.add('show');
-								
-								
-								
-								var submit = document.querySelectorAll('.ui_dialog_btn .submit');
-								[].forEach.call(submit,function(o){//支付密码框点击确定
-									o.onclick = function(){
-										if(!$('.paypassword').val()){
-											mui.toast('请输入支付密码');
-										}
-										else{
-											paypassword=$('.paypassword').val();
-											request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
-											account.Cost_llcz({'request':request},function(res){//扣款
-												//console.log(JSON.stringify(res))
-												if(res){
-													if(res.status>0){//从余额中扣款成功
-														request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price};
-														//console.log(JSON.stringify(request))
-														addresult=AddCharge(request);//充值话费
-														console.log(addresult);
-														document.querySelector('.ui_dialog').classList.remove('show');
-													}
-													else{
-														document.querySelector('.ui_dialog').classList.remove('show');
-														mui.toast(res.msg);
-													}
-												}
-											})
+								if(parseFloat(res.balance)<parseFloat(sale_price)){
+									$('.click_dialog').off();
+									var btnArray = ['取消','确定'];
+									mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
+										if (e.index == 1) {
+											var	recharge=plus.webview.create('w_recharge.html','w_recharge.html',{'popGesture':'close'});
+						
+											setTimeout(function(){
+												recharge.show("slide-in-right",100);
+											},50);
 											
+											recharge.addEventListener('loaded',function(){
+												mui.fire(recharge,'recharge',{
+													sale_price:sale_price
+												});
+											});
+											return false;
+										} else {
+											
+											return false;
 										}
-										
-										
-									};
-								});
-								
-								var cancel = document.querySelectorAll('.ui_dialog_btn .cancel');
-								[].forEach.call(cancel,function(o){
-									o.onclick = function(){
-										this.parentNode.parentNode.parentNode.classList.remove('show')
-									};
-								});
+									})
+								}
+								else{
+									$('.paypassword').val('');
+									
+									$('.click_dialog').off();
+									$('.click_dialog').on('click',function(){
+										document.querySelector('.ui_dialog').classList.add('show');
+									})
+									//document.querySelector('.ui_dialog').classList.add('show');
+									
+									
+									
+									var submit = document.querySelectorAll('.ui_dialog_btn .submit');
+									[].forEach.call(submit,function(o){//支付密码框点击确定
+										o.onclick = function(){
+											if(!$('.paypassword').val()){
+												mui.toast('请输入支付密码');
+											}
+											else{
+												paypassword=$('.paypassword').val();
+												request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
+												account.Cost_llcz({'request':request},function(res){//扣款
+													//console.log(JSON.stringify(res))
+													if(res){
+														if(res.status>0){//从余额中扣款成功
+															var time=new Date().getTime();
+															request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
+															//console.log(JSON.stringify(request))
+															addresult=AddCharge(request);//充值话费
+															
+															//console.log(addresult);
+															document.querySelector('.ui_dialog').classList.remove('show');
+														}
+														else{
+															document.querySelector('.ui_dialog').classList.remove('show');
+															mui.toast(res.msg);
+														}
+													}
+												})
+												
+											}
+											
+											
+										};
+									});
+									
+									var cancel = document.querySelectorAll('.ui_dialog_btn .cancel');
+									[].forEach.call(cancel,function(o){
+										o.onclick = function(){
+											this.parentNode.parentNode.parentNode.classList.remove('show')
+										};
+									});
+								}
 							}
-						}
-					});
+						});
+					})
+					
+					
+					
 				}
 				else{
 					$('.click_dialog').off();
@@ -386,7 +392,8 @@
 			user.AddCharge({'request':request},function(res){
 				//console.log(1111);
 				var w = plus.nativeUI.showWaiting();
-				//console.log(JSON.stringify(res));
+				//console.log(1111);
+				console.log(JSON.stringify(res));
 				if(res.result==1){
 					plus.nativeUI.closeWaiting();
 					//console.log(JSON.stringify(res));
@@ -405,12 +412,17 @@
 					});
 					mui.fire(headerWebview, 'loading');
 					headerWebview.show('slide-in-right', 150);
+					//console.log('添加充值成功');
+					return true;
 				}
 				else{
 					mui.toast(res.msg);
+					//console.log('添加充值失败');
+					return false;
 				}
 			
 			})
+			return true;
 		}
 		
 		

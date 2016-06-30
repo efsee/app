@@ -35,6 +35,12 @@
 	
 	
 	mui.plusReady(function(){
+		request = {'user_id': user.uid()};
+		
+		user.UpdateCzlist({'request':request},function(res){
+			//console.log(24124)
+			//console.log(JSON.stringify(res))
+		})
 		$('.iphone-fin-botton').on('click',function(e){
 			e.preventDefault();
 			//alert(href)
@@ -58,11 +64,7 @@
 				});
 			});*/
 		})
-		request = {'user_id': user.uid()};
 		
-		user.UpdateCzlist({'request':request},function(res){
-			console.log(JSON.stringify(res))
-		})
 	})
 	
 </script>
