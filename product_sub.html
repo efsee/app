@@ -83,7 +83,7 @@
 									
 									if(item.borrow_account_scale==100){
 										if(item.recordNo){
-											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-href2="'+item.ancun_url+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 										}
 										else{
 											str2='<span></span>';
@@ -181,7 +181,7 @@
 									
 									if(item.borrow_account_scale==100){
 										if(item.recordNo){
-											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
+											str2='<span href="javascript:;"  data-href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+item.recordNo+'" data-href2="'+item.ancun_url+'" data-title="无忧存证"  class="img"><img src="images/wuy.jpg" class="wuy"></span>';
 										}
 										else{
 											str2='<span></span>';
@@ -299,79 +299,50 @@
 					
 						
 				})
+				
+				mui("#product-list").on('tap', 'span.img', function(e){
+					e.stopPropagation();
+					if(plus.os.name=='iOS'){
+						var href = this.getAttribute('data-href');
+						if(href && href.substr(0,1) != "#"){      
+							if(href == "") return;
+							var title = this.getAttribute('data-title');
+							//console.log(JSON.stringify(data))
+							//console.log(href)
+							//通知模板修改标题，并显示隐藏右上角图标；
+							inittemplate = getTemplate('template', 'template.html');
+								//获得共用父模板
+							var headerWebview = inittemplate.header;
+								//获得共用子webview
+							var contentWebview = inittemplate.content;
+							contentWebview.loadURL(href);
+							
+							var right_btn = data.right_btn || "";
+							//console.log(data.title)
+							mui.fire(headerWebview, 'updateHeader', {
+								title: title,
+								showMenu: false,
+								right_btn:right_btn
+							});
+							
+							mui.fire(headerWebview, 'loading');
+							headerWebview.show('slide-in-right', 150);
+						}
+					}
+					else{
+						var href = this.getAttribute('data-href2');
+						//console.log(href)
+						plus.runtime.openURL(href);
+					}
+					
+					
+				})
 
 			});
 			
 			
 			
-			mui("#product-list").on('tap', 'span.img', function(e){
-					e.stopPropagation();
-					/*var article_id = eval("(" + this.getAttribute('data-article_id') + ")");
-					var id = eval("(" + this.getAttribute('data-id') + ")");
-					var has_repay = eval("(" + this.getAttribute('data-has_repay') + ")");*/
-					var href = this.getAttribute('data-href');
-					
-					//console.log(222)
-					//console.log(href)
-					//获得详情页面
-					//window.location.href=href;
-					if(href && href.substr(0,1) != "#"){      
-	    	
-	    		
-						if(href == "") return;
-						//var data = this.getAttribute('data');
-						var title = this.getAttribute('data-title');
-						//data = eval("(" + data + ")");
-						//console.log(JSON.stringify(data))
-						//console.log(href)
-						//通知模板修改标题，并显示隐藏右上角图标；
-						inittemplate = getTemplate('template', 'template.html');
-							//获得共用父模板
-						var headerWebview = inittemplate.header;
-							//获得共用子webview
-						var contentWebview = inittemplate.content;
-						contentWebview.loadURL(href);
-						var right_btn = data.right_btn || "";
-						//console.log(data.title)
-						mui.fire(headerWebview, 'updateHeader', {
-							title: title,
-							showMenu: false,
-							right_btn:right_btn
-						});
-						
-						mui.fire(headerWebview, 'loading');
-						headerWebview.show('slide-in-right', 150);
-						
-			      }
-					/*if(!detailPage){
-						if(has_repay){
-							var detailPage = mui.preload({url:'pshow_repay.html'});
-							setTimeout(function(){
-								detailPage.show("slide-in-right",100);
-							},300);
-						}
-						else{
-							var detailPage = plus.webview.create('pshow.html');
-							plus.nativeUI.showWaiting();
-							setTimeout(function(){
-								detailPage.show("slide-in-right",100);
-							},150);
-							//触发详情页面的newsId事件
-							detailPage.addEventListener('loaded',function(){
-								mui.fire(detailPage,'productId',{
-								article_id:article_id,
-								id:id,
-								has_repay:has_repay,
-								});
-							});
-							
-							
-						}
-						
-					}*/
-					
-						
-				})
+			
 			
 			
 		    

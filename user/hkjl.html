@@ -83,7 +83,7 @@
 					dmbsum=dmbsum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
 					recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
 					if(e.recordNo){
-						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
+						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 					}
 					else{
 						str='';
@@ -106,7 +106,7 @@
 						yhksum=yhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
 						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
 						if(e.recordNo){
-							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
+							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 						}
 						else{
 							str='';
@@ -126,7 +126,7 @@
 						dhksum=dhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
 						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
 						if(e.recordNo){
-							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
+							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 						}
 						else{
 							str='';
@@ -182,81 +182,6 @@
 			
 		});
 		
-		/*request = {'borrow_status':3,'user_id':user.uid(),'order':'repay_time','epage':10000};
-		
-		borrow.GetRecoverList({'request':request},function(res){
-			//console.log(JSON.stringify(res))
-			
-			$(res.list).each(function(i,e){
-				
-				if(e.recover_status==1){
-					yhkcount++;
-					//console.log(e.recover_capital)
-					yhksum=yhksum+parseFloat(e.recover_capital)+parseFloat(e.recover_interest);
-					recover=getFloatStr(parseFloat(e.recover_capital)+parseFloat(e.recover_interest));
-					if(e.recordNo){
-						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
-					}
-					else{
-						str='';
-					}
-					$('.yhk .mui-table-view').append(
-						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
-						 	  e.borrow_name+
-						 	str+
-						 	'<span class="hkjl-right"><font class="hkjl-yc">已回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.recover_capital+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+'<span>收益：'+e.recover_interest+'元</span></p>'+
-						 '</li>'
-					)
-				}
-				else{
-					dhkcount++;
-					dhksum=dhksum+parseFloat(e.recover_capital)+parseFloat(e.recover_interest);
-					recover=getFloatStr(parseFloat(e.recover_capital)+parseFloat(e.recover_interest));
-					if(e.recordNo){
-						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'"><a class="hkjl-bqys" >已保全</a></span>'
-					}
-					else{
-						str='';
-					}
-					$('.dhk .mui-table-view').append(
-						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_recover_account_yes+'">'+
-						 	  e.borrow_name+
-						 	str+
-						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.recover_capital+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+'<span>收益：'+e.recover_interest+'元</span></p>'+
-						 '</li>'
-					)
-					
-				}
-			})
-			
-			
-			if(yhkcount){
-				yhksum=getFloatStr(yhksum)
-				$('.yhk .hkjl-name').html(
-					'已回款'+yhkcount+'笔<span>共计：'+yhksum+'元</span>'
-				)
-			}
-			else{
-				$('.yhk').remove();
-			}
-			if(dhkcount){
-				dhksum=getFloatStr(dhksum)
-				$('.dhk .hkjl-name').html(
-					'待回款'+dhkcount+'笔 <span>共计：'+dhksum+'元</span>'
-				)
-			}
-			else{
-				$('.dhk').remove();
-			}
-			
-		});*/
-		
-		
-		//alert(4214)
 		
 		
 		var _clicked = false;
@@ -285,26 +210,33 @@
 			})
 			mui(".mui-content").on('tap', 'span.hkjl-dai', function(e){
 				e.stopPropagation();
+				if(plus.os.name=='iOS'){
+					var href = this.getAttribute('href');
+					//console.log(JSON.stringify(data))
+					console.log(href)
+					//通知模板修改标题，并显示隐藏右上角图标；
+					inittemplate = getTemplate('template', 'template.html');
+						//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					//var right_btn = data.right_btn || "";
+					//console.log(data.title)
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '无忧存证',
+						showMenu: false
+					});
+					
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				}
+				else{
+					var href = this.getAttribute('data-href2');
+					console.log(href)
+					plus.runtime.openURL(href);
+				}
 				
-				var href = this.getAttribute('href');
-				//console.log(JSON.stringify(data))
-				//console.log(href)
-				//通知模板修改标题，并显示隐藏右上角图标；
-				inittemplate = getTemplate('template', 'template.html');
-					//获得共用父模板
-				var headerWebview = inittemplate.header;
-					//获得共用子webview
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
-				//var right_btn = data.right_btn || "";
-				//console.log(data.title)
-				mui.fire(headerWebview, 'updateHeader', {
-					title: '无忧存证',
-					showMenu: false
-				});
-				
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
 			})
 			
 	})
