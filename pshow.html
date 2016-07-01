@@ -73,7 +73,7 @@ a.ljtz-btn { color: #fff;}
 <div class="pshow-info clearfix">
 <p class="name">年化收益</p>
 {{if borrow.recordNo}}
-    <a href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo={{borrow.recordNo}}" class="ancun tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
+    <a href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo={{borrow.recordNo}}" data-href2="{{borrow.ancun_url_full}}" class="ancun tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
 {{/if}}
 <p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
 <div class="info box-sizing" style="padding-right: 5px;border:none">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
@@ -244,22 +244,29 @@ a.ljtz-btn { color: #fff;}
 		})
 		mui('body').on('tap','.ancun',function(e){
 				e.stopPropagation();
+				if(plus.os.name=='iOS'){
+					var href = this.getAttribute('href');
+					//通知模板修改标题，并显示隐藏右上角图标；
+					inittemplate = getTemplate('template', 'template.html');
+						//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '无忧存证',
+						showMenu: false
+					});
+					
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				}
+				else{
+					var href = this.getAttribute('data-href2');
+					//console.log(href)
+					plus.runtime.openURL(href);plus.runtime.openURL(href);
+				}
 				
-				var href = this.getAttribute('href');
-				//通知模板修改标题，并显示隐藏右上角图标；
-				inittemplate = getTemplate('template', 'template.html');
-					//获得共用父模板
-				var headerWebview = inittemplate.header;
-					//获得共用子webview
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
-				mui.fire(headerWebview, 'updateHeader', {
-					title: '无忧存证',
-					showMenu: false
-				});
-				
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
 		})		
 		mui('body').on('tap','#ljtz-btn',function(){
 			uid = user.uid();
@@ -272,16 +279,6 @@ a.ljtz-btn { color: #fff;}
 				alert("此标的投资已满！");
 				return;
 			}
-//			var subWV = plus.webview.getWebviewById('subWV');
-//			data = {
-//				url: 'ljtz.html',
-//				title: '投资产品',
-//				aniShow: 'slide-in-right'
-//			}
-//			mui.fire(subWV, "openWindow", data);
-
-//					id = this.getAttribute('data-id');
-//					article_id = this.getAttribute('data-article_id');
 				var that = this;
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
