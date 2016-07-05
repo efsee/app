@@ -221,6 +221,11 @@ var user = {
 		ajax.post(url, $data, callback);
 	},
 	//发送验证码
+	'yycode': function($data, callback) {
+		var url = apiurl + '?module=user&action=yycode';
+		ajax.post(url, $data, callback);
+	},
+	//发送验证码
 	'anjiemobilecode': function($data, callback) {
 		var url = apiurl + '?module=user&action=anjiemobilecode';
 		ajax.post(url, $data, callback);
