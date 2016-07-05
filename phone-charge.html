@@ -83,7 +83,7 @@
 	</div>
 	</div>
 	
-	
+<script src="js/layer.js"></script>		
 <script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/mui.min.js"></script>
 <script src="js/api.js"></script>
@@ -219,23 +219,7 @@
 		
 		
 		
-		$('#wjmm').on('click',function(e){
-			e.preventDefault();
-			href=$(this).attr('href');
-			//alert(href)
-			inittemplate = getTemplate('template', 'template.html');
-			//获得共用父模板
-			var headerWebview = inittemplate.header;
-				//获得共用子webview
-			var contentWebview = inittemplate.content;
-			contentWebview.loadURL(href);
-			mui.fire(headerWebview, 'updateHeader', {
-				title: '忘记支付密码',
-				showMenu: false
-			});
-			mui.fire(headerWebview, 'loading');
-			headerWebview.show('slide-in-right', 150);
-		});
+		
 		$(document).on('tap','.item',function(){
 			initprice();
 			if($('#mobile').val()){
@@ -292,7 +276,7 @@
 									        '支付密码',
 											'text-align:center;padding-left:45px;margin:0;'
 									    ],
-									    content: '<input type="password" name="" class="paypassword"  placeholder="请输入支付密码"><div class="layer-wjmm"><a href="wjmmpay-2.html">忘记支付密码?</a></div>',
+									    content: '<input type="password" name="" class="paypassword"  placeholder="请输入支付密码"><div class="layer-wjmm" ><a id="wjmm" class="wjmm"  data-href="wjmmpay-2.html">忘记支付密码?</a></div>',
 									    btn: ['确认', '取消'],
 									    shadeClose: false,
 									    anim:true,
@@ -390,7 +374,22 @@
 			return true;
 		}
 		
-		
+		$(document).on('tap','#wjmm',function(e){
+			e.preventDefault();
+			href=$(this).attr('data-href');
+			inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(href);
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '忘记支付密码',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+		});
 		$('.note').on('click',function(e){
 			e.preventDefault();
 			href=$(this).attr('href');
@@ -491,6 +490,6 @@
 	
    	
 </script>
-<script type="text/javascript" src="js/layer.js"></script>		
+	
 </body>
 </html>
