@@ -10,6 +10,8 @@
      <link href="css/mui.min.css" rel="stylesheet"/>     
      <link href="css/iphone.css" rel="stylesheet"/>
      <link href="css/header.css" rel="stylesheet"/>
+     <link href="css/layer.css" rel="stylesheet"/>
+    <link href="css/mylayer.css" rel="stylesheet"/>
      <style>
      	.iphone-top{margin-top: 44px;}
      </style>
@@ -62,7 +64,7 @@
 					</div>
 				</div>
 				
-		    	<div class="ui_dialog">
+		    	<!--<div class="ui_dialog">
 		    		<div class="ui_dialog_con">
 		    			<h1>支付密码</h1>
 						<p>	<input class="paypassword" type="password" name=""  placeholder="请输入支付密码">
@@ -74,7 +76,7 @@
 		    			</div>
 		    		
 		    		</div>
-		    	</div>	
+		    	</div>-->	
 		    	
 		   </div>
 		</div>
@@ -190,11 +192,7 @@
 						$(e['phoneNumbers']).each(function(j,v){
 							var request = {};
 							request.Name = displayName;
-							//fdjhi
-							//request.Mobile = v.value.replace(/-/g, "");
 							request.Mobile = v.value.replace(/-/g, "").replace(/\+86/g, "").replace(/\s/g, "");
-							//request.Mobile = v.value.replace(/+86/g, "");
-							//console.log(JSON.stringify(request));
 							arr.push(request);
 						})
 					}
@@ -210,18 +208,6 @@
 					setTimeout(function(){
 						txl.show("slide-in-right",100);
 					},150);
-					//触发详情页面的newsId事件
-					/*txl.addEventListener('loaded',function(){
-						mui.fire(txl,'start',{
-						arr:arr
-						});
-						setTimeout(function(){
-							mui.fire(txl,'showlist',{
-							arr:arr
-							});
-						},150);
-						
-					});*/
 				})
 			}, function () {
 				mui.toast("error");
@@ -243,7 +229,6 @@
 				//获得共用子webview
 			var contentWebview = inittemplate.content;
 			contentWebview.loadURL(href);
-			//var right_btn = data.right_btn || "";
 			mui.fire(headerWebview, 'updateHeader', {
 				title: '忘记支付密码',
 				showMenu: false
@@ -256,7 +241,6 @@
 			if($('#mobile').val()){
 				if(mobileTest($('#mobile').val())){
 					
-					//console.log($('#mobile').val().sTrim());
 					store.set('llcz_mobile', $('#mobile').val(), 3600 * 24 * 365);
 					
 					var result=testType($('#mobile').val());
@@ -266,9 +250,7 @@
 					store.set('llcz_type', str, 3600 * 24 * 365);
 					
 					var order_no=new Date().getTime() + "_" + user.uid();
-					//var account_no=$('#mobile').val().sTrim();
 					var account_no=$('#mobile').val();
-					//var account_no='15876018141';
 					var user_id=user.uid();
 					var face_price=$(this).find('.face_price').text();
 					var sale_price=face_price*0.998;
@@ -281,7 +263,6 @@
 							if(res){
 								
 								if(parseFloat(res.balance)<parseFloat(sale_price)){
-									$('.click_dialog').off();
 									var btnArray = ['取消','确定'];
 									mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
 										if (e.index == 1) {
@@ -306,18 +287,18 @@
 								else{
 									$('.paypassword').val('');
 									
-									$('.click_dialog').off();
-									$('.click_dialog').on('click',function(){
-										document.querySelector('.ui_dialog').classList.add('show');
-									})
-									//document.querySelector('.ui_dialog').classList.add('show');
-									
-									
-									
-									var submit = document.querySelectorAll('.ui_dialog_btn .submit');
-									[].forEach.call(submit,function(o){//支付密码框点击确定
-										o.onclick = function(){
-											if(!$('.paypassword').val()){
+									var index = layer.open({
+										title: [
+									        '支付密码',
+											'text-align:center;padding-left:45px;margin:0;'
+									    ],
+									    content: '<input type="password" name="" class="paypassword"  placeholder="请输入支付密码"><div class="layer-wjmm"><a href="wjmmpay-2.html">忘记支付密码?</a></div>',
+									    btn: ['确认', '取消'],
+									    shadeClose: false,
+									    anim:true,
+									    yes: function(){
+									    	console.log($('.paypassword').val());
+									        if(!$('.paypassword').val()){
 												mui.toast('请输入支付密码');
 											}
 											else{
@@ -329,31 +310,26 @@
 														if(res.status>0){//从余额中扣款成功
 															var time=new Date().getTime();
 															request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
-															//console.log(JSON.stringify(request))
 															addresult=AddCharge(request);//充值话费
-															
-															//console.log(addresult);
-															document.querySelector('.ui_dialog').classList.remove('show');
+															layer.close(index);
 														}
 														else{
-															document.querySelector('.ui_dialog').classList.remove('show');
+															layer.close(index);
 															mui.toast(res.msg);
 														}
 													}
 												})
 												
 											}
-											
-											
-										};
+											//layer.open({content: '你点了确认', time: 1});
+									        
+									    }, no: function(){
+									        //layer.open({content: '你选择了取消', time: 1})
+									        layer.close(index);
+									    }
 									});
 									
-									var cancel = document.querySelectorAll('.ui_dialog_btn .cancel');
-									[].forEach.call(cancel,function(o){
-										o.onclick = function(){
-											this.parentNode.parentNode.parentNode.classList.remove('show')
-										};
-									});
+									
 								}
 							}
 						});
@@ -363,15 +339,11 @@
 					
 				}
 				else{
-					$('.click_dialog').off();
-					//document.querySelector('.ui_dialog').classList.remove('show');
 					mui.toast('请输入正确手机号');
 				}
 				
 			}
 			else{
-				$('.click_dialog').off();
-				//document.querySelector('.ui_dialog').classList.remove('show');
 				mui.toast('请输入正确手机号');
 			}
 			
@@ -390,14 +362,10 @@
 		
 		function AddCharge(request){
 			user.AddCharge({'request':request},function(res){
-				//console.log(1111);
 				var w = plus.nativeUI.showWaiting();
-				//console.log(1111);
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.result==1){
 					plus.nativeUI.closeWaiting();
-					//console.log(JSON.stringify(res));
-					//mui.toast(res.msg);
 					href='notes_fin.html';
 					inittemplate = getTemplate('template', 'template.html');
 					//获得共用父模板
@@ -405,19 +373,16 @@
 						//获得共用子webview
 					var contentWebview = inittemplate.content;
 					contentWebview.loadURL(href);
-					//var right_btn = data.right_btn || "";
 					mui.fire(headerWebview, 'updateHeader', {
 						title: '充值成功',
 						showMenu: false
 					});
 					mui.fire(headerWebview, 'loading');
 					headerWebview.show('slide-in-right', 150);
-					//console.log('添加充值成功');
 					return true;
 				}
 				else{
 					mui.toast(res.msg);
-					//console.log('添加充值失败');
 					return false;
 				}
 			
@@ -429,26 +394,18 @@
 		$('.note').on('click',function(e){
 			e.preventDefault();
 			href=$(this).attr('href');
-			//alert(href)
 			inittemplate = getTemplate('template', 'template.html');
 			//获得共用父模板
 			var headerWebview = inittemplate.header;
 				//获得共用子webview
 			var contentWebview = inittemplate.content;
 			contentWebview.loadURL(href);
-			//var right_btn = data.right_btn || "";
 			mui.fire(headerWebview, 'updateHeader', {
 				title: '充值记录',
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
 			headerWebview.show('slide-in-right', 150);
-			
-			/*contentWebview.addEventListener('loaded',function(){
-				mui.fire(contentWebview,'getczlist',{
-					phone:'15655115007'
-				});
-			});*/
 		})
 			$('.czhd').on('click',function(e){
 			e.preventDefault();
@@ -467,12 +424,6 @@
 			});
 			mui.fire(headerWebview, 'loading');
 			headerWebview.show('slide-in-right', 150);
-			
-			/*contentWebview.addEventListener('loaded',function(){
-				mui.fire(contentWebview,'getczlist',{
-					phone:'15655115007'
-				});
-			});*/
 		})
 		
 		
@@ -511,7 +462,6 @@
 	    inp.onkeyup= function(){
 		   var value =this.value;
 		   var result=testType(value);
-		   //console.log(result)
 		   if(result){
 		   	$('#myDIV').html(result);
 		   }
@@ -541,6 +491,6 @@
 	
    	
 </script>
-		
+<script type="text/javascript" src="js/layer.js"></script>		
 </body>
 </html>
