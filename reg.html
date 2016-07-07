@@ -10,20 +10,19 @@
 <link href="css/css.css" rel="stylesheet" type="text/css" />
 <style>
 .reg-txt{ color: #333; }	
-.yyyzm{ width: 100%; 
+.getYY{ width: 100%; 
 		height: 40px; 
 		margin: 25px 0px -8px 0px;
 		text-align: center;
 		color: #656565;
 		font-size: 12px;
 		}
-.yyyzm-no{ width: 100%; 
-		height: 40px; 
-		margin: 25px 0px -8px 0px;
-		text-align: center;
-		color: #757575;
-		font-size: 12px;
-		}		
+.getYY a{ display: inline-block; 
+		color:#e62600;
+		text-decoration: underline;
+		}
+.getYY a.gray_a{ color:#757575;
+		}
 </style>
 </head>
 <body>
@@ -35,8 +34,7 @@
 <ul class="reg-form clearfix">
 <li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" name="mobile" class="reg-txt" placeholder="手机号"></div></li>
 <li><div class="input-box yzm"><i class="ico-yzm ico24 icon"></i><input type="text" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码"><a href="javascript:" class="getyzm" id="getyzm">发送验证码</a></div></li>
-<div class="input-box yyyzm">长时间收不到验证码，可尝试<a href="javascript:" class="getyzm" id="yyyzm" style="display: inline-block; color:#e62600;text-decoration: underline;">语音接听验证码</a></div>
-<div class="input-box yyyzm-no">长时间收不到验证码，可尝试<span class="getyzm" id="yyyzm" style="display: inline-block; color:#757575;text-decoration: underline;">语音接听验证码</span></div>
+<div class="input-box getYY">长时间收不到验证码，可尝试 <a href="javascript:" class="get_yy_code yy_button" id="yyyzm">语音接听验证码</a></div>
 <li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="password" name="password" class="reg-txt" placeholder="输入密码"></div></li>
 <li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="confirm_password" name="confirm_password" class="reg-txt" placeholder="重复输入密码"></div></li>
 <li><div class="input-box"><i class="ico-yzm ico24 icon"></i><input type="text" id="invite_userid" name="invite_userid" class="reg-txt" placeholder="邀请码（选填）"></div></li>
@@ -72,6 +70,7 @@
 </script>
 
 <script type="text/javascript">
+var count=0;
 	$(function(){
 		$('#reg-btn').on('click',function(){
 			request = {};
@@ -129,28 +128,55 @@
 		})
 		
 		$('#getyzm').on('click',function(){
-			sendmobilecode()
+			if($(this).attr('disabled')){
+				return false;
+			}
+			else{
+				sendmobilecode()
+				$('.get_yy_code').removeClass('gray_a')
+				if(count==0){
+	              setTimeout(function(){
+	                  $('.getYY').show();
+	              }, 60000)
+	              
+	            }
+			}
+			
 		})
-		$('#yyyzm').on('click',function(){
-			sendyycode()
+		$('.get_yy_code').on('click',function(){
+			if($('#getyzm').attr('disabled')){
+				return false;
+			}
+			else{
+				sendyycode()
+				
+			}
+			
 		})
 	})
 </script>
 <script language="javascript" type="text/javascript">
-var times=60,cuttime,count=0;
+var times=60,cuttime;
 function getyzm(idn){
 	times--;
 	
 	if(times>0&&times<60){
 	$(idn).text(times+"秒后重新获取");
 	$(idn).addClass("fail");
+	$(idn).attr("disabled",'disabled');
+	$('.get_yy_code').addClass('gray_a')
+	$('.get_yy_code').removeAttr('href')
 	cuttime=setTimeout(function(){getyzm(idn)},1000);
+	
 	}
 	else{
 		$(idn).text("发送验证码");
 		times=60;
 		issend = true;
 		$(idn).removeClass("fail");
+		$(idn).removeAttr("disabled");
+		$('.get_yy_code').removeClass('gray_a')
+		$('.get_yy_code').attr("href","javascript:");
 		clearTimeout(cuttime);
 		}
 	}
@@ -173,44 +199,26 @@ function sendmobilecode(){
 			request = {'mobile': mobile,'type':'reg'};
 			//request.valicode = '';
 			user.mobilecode(request,function(res){
-				//console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
-					count++;
-					console.log(count);
-					if(count>2){
-						$('#yyyzm').show();
-					}
+					$('#yyyzm').show();
 					plus.nativeUI.toast("验证码短信已发送成功！");
 					issend = false;
 				}else{
 					console.log(res.msg);
-					alert(res.msg);
+					plus.nativeUI.toast(res.msg);
+					//alert(res.msg);
 					issend = true;
 				}
 			})
 		}
+		else{
+			alert("验证码短信已发送,请稍候重试！");
+		}
 		return false;
 }
 
-var yyissend = true;
-
-var yytimes=60,yycuttime;
-function getyyyzm(idn){
-	yytimes--;
-	if(yytimes>0&&yytimes<60){
-	$(idn).text(yytimes+"秒后重新获取");
-	$(idn).addClass("fail");
-	yycuttime=setTimeout(function(){getyyyzm(idn)},1000);
-	}
-	else{
-		$(idn).text("发送验证码");
-		yytimes=60;
-		yyissend = true;
-		$(idn).removeClass("fail");
-		clearTimeout(yycuttime);
-		}
-	}
 function sendyycode(){
 	var mobile = $("#mobile").val();
 	if(mobile == ""){
@@ -218,21 +226,21 @@ function sendyycode(){
 		return;
 	}
 	if(/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
-		if(yyissend && yytimes == 60){
-			yyissend = false;
+		if(issend && times == 60){
+			issend = false;
 			request = {'mobile': mobile,'type':'reg'};
 			//request.valicode = '';
 			user.yycode(request,function(res){
-				//console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res));
 				if(res.status == 1){
-					getyyyzm("#yyyzm");
+					getyzm("#getyzm");
 					plus.nativeUI.toast("语音验证码已发送成功！");
 					plus.nativeUI.toast(res.msg);
-					yyissend = false;
+					issend = false;
 				}else{
 					console.log(res.msg);
 					alert(res.msg);
-					yyissend = true;
+					issend = true;
 				}
 			})
 		}
