@@ -67,19 +67,7 @@
 					</div>
 				</div>
 				
-		    	<!--<div class="ui_dialog">
-		    		<div class="ui_dialog_con">
-		    			<h1>支付密码</h1>
-						<p>	<input class="paypassword" type="password" name=""  placeholder="请输入支付密码">
-						</p>
-						 <div class="ui-repaly"><a id="wjmm" href="wjmmpay-2.html">忘记支付密码?</a></div>
-		    			<div class="ui_dialog_btn">
-		    				<button class="cancel">取消</button>
-		    				<button class="submit">确定</button>
-		    			</div>
 		    		
-		    		</div>
-		    	</div>-->	
 		    	
 		   </div>
 		</div>
@@ -387,7 +375,7 @@
 			var contentWebview = inittemplate.content;
 			contentWebview.loadURL(href);
 			mui.fire(headerWebview, 'updateHeader', {
-				title: '忘记交易密码',
+				title: '修改交易密码',
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
