@@ -49,6 +49,11 @@
   
 	mui.plusReady(function(){
 		//注册按钮
+		loginusername=store.get('username');
+		$('#login-username').val(loginusername);
+		/*mui('body').on('tap', '#login-username', function() {
+			$('#login-username').val('');
+		})*/
 		
 		mui('body').on('tap', '.register-link', function() {
 			mui.openWindow({
@@ -66,7 +71,7 @@
 		
 		//忘记密码
 		mui('body').on('tap', '.wjmm-link', function() {
-			mui.openWindow({
+			/*mui.openWindow({
 				url:'wjmm.html',
 				show: {
 					autoShow: true,
@@ -76,6 +81,16 @@
 				waiting: {
 					autoShow: false
 				}
+			});*/
+			var wjmm = plus.webview.create('wjmm.html');
+			setTimeout(function(){
+				wjmm.show("slide-in-bottom",300);
+			},150);
+			//触发详情页面的newsId事件
+			wjmm.addEventListener('loaded',function(){
+				mui.fire(wjmm,'loginusername',{
+				loginusername:$('#login-username').val()
+				});
 			});
 		});
 		
