@@ -29,8 +29,8 @@
 
 <ul class="user-nav">
 <li><a href="" id="permission" class="tap" data='{"title":"手势密码"}'><i class="ico18 icon ico-dlmm"></i>管理手势密码<i class="ico-arrow icon"></i></a></li>
-<li><a href="dlmm.html" class="tap" data='{"title":"修改登陆密码"}'><i class="ico18 icon ico-dlmm"></i>修改登陆密码<i class="ico-arrow icon"></i></a></li>
-<li><a href="jymm.html" class="tap" data='{"title":"修改交易密码"}'><i class="ico18 icon ico-dlmm"></i>修改交易密码<i class="ico-arrow icon"></i></a></li>
+<li><a href="wjmm.html" class="tap" data=''><i class="ico18 icon ico-dlmm"></i>修改登陆密码<i class="ico-arrow icon"></i></a></li>
+<li><a href="wjmmpay.html" class="tap" data='{"title":"修改交易密码"}'><i class="ico18 icon ico-dlmm"></i>修改交易密码<i class="ico-arrow icon"></i></a></li>
 <li><a href="user/wdyhk.html" class="tap" data='{"title":"我的银行卡"}'><i class="ico18 icon ico-wdyhk"></i>我的银行卡<i class="ico-arrow icon"></i></a></li>
 <li><a href="user/zdtz.html" class="tap" data='{"title":"自动投资","right_btn":""}'><i class="ico18 icon ico-zdtz"></i>自动投资<i class="ico-arrow icon"></i></a></li>
 </ul>
@@ -43,6 +43,7 @@
 <div class="exit-opn"><button class="btn cancel" style="background: #e4393c ; margin-top: 25px;">退出</button></div>
 
 </div>
+<script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
@@ -130,22 +131,39 @@
 				href = this.href;
 				if(url == "") return;
 				var data = this.getAttribute('data');
-				data = eval("(" + data + ")");
-				//通知模板修改标题，并显示隐藏右上角图标；
-				inittemplate = getTemplate('userinfo_template', 'template.html');
-					//获得共用父模板
-				var headerWebview = inittemplate.header;
-					//获得共用子webview
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
-				var right_btn = data.right_btn || "";
-				mui.fire(headerWebview, 'updateHeader', {
-					title: data.title,
-					showMenu: false,
-					right_btn:right_btn
-				});
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
+				if(data){
+					data = eval("(" + data + ")");
+					//通知模板修改标题，并显示隐藏右上角图标；
+					inittemplate = getTemplate('userinfo_template', 'template.html');
+						//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					var right_btn = data.right_btn || "";
+					mui.fire(headerWebview, 'updateHeader', {
+						title: data.title,
+						showMenu: false,
+						right_btn:right_btn
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				}
+				else{
+					var wjmm = plus.webview.create('wjmm.html');
+					setTimeout(function(){
+						wjmm.show('slide-in-right', 150);
+					},150);
+					//触发详情页面的newsId事件
+					loginusername=store.get('username');
+					wjmm.addEventListener('loaded',function(){
+						mui.fire(wjmm,'loginusername',{
+						loginusername:loginusername
+						});
+					});
+					
+				}
+				
 		})
 		
 		
