@@ -159,17 +159,78 @@ input[type=number],input[type=text],select{
 					 background: #e12b32;
 					 
 					 }
-.recharge-ss{ width: 100%;
+.recharge-ss{ float: right;
+			  text-align: left; 
+			   width: 68%;
 			/*  height: 40px; */
 			  padding: 0px; 
-			  border: 0px;
-			  text-align: left;
+			  border: 0px;			
 			  background: none;
 			  font-size: 14px;
 			  
 			  }	
-.recharge-ss:hover{ background: none; border-radius: 0px;}		  
-.input-box{ width: 100%; border-radius: 0px;font-size: 14px;}	  
-.input-box:hover{ background: none; border-radius: 0px;}
+
+.recharge-kkyhk{color:#cccccc ;}
 .font-moey{ font-size: 16px; font-weight: bold;}
-.font-moey::-webkit-input-placeholder{ font-size: 14px; font-weight: normal;}					 	
+.font-moey::-webkit-input-placeholder{ font-size: 14px; font-weight: normal;}
+
+.mui-table-view-cell>.mui-btn{ position: absolute;
+								  top: 25px;
+								  height: 40px;
+								  right: 0px;
+								  line-height: 40px;
+								  
+								}
+
+.mui-table-view-cell>.mui-btn:hover{ background: none; 
+									border-radius: 0px;
+									color: #000000;
+									}		  
+
+
+.mui-input-row .mui-input-clear~.mui-icon-clear,
+.mui-input-row .mui-input-password~.mui-icon-eye,
+.mui-input-row .mui-input-speech~.mui-icon-speech {
+	font-size: 20px;
+	position: absolute;
+	z-index: 1;
+	top: 15px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	color: #999
+}
+.recharge-foot{ margin: 0 auto;
+				text-align: center; 			
+				width: 120px;
+				height: 28px;
+				position: absolute ;
+				bottom: 20px;
+				left: 50%;
+				margin-left: -60px;				
+				
+				}
+.recharge-foot a{font-size: 14px;
+				color: #656565;}
+.recharge-foot .footer-ico{ width: 20px; 
+							height: 20px;
+							display: inline-block; 
+							background: url(../images/my_icon.png) 0px -406px;
+							background-size: 220px;
+							position:relative;
+							top:5px;
+							right: 2px;
+							
+							}
+
+.re-cjwt li{  padding: 25px 15px 25px 15px;}
+.re-cjwt h4{ color: #000000;font-size: 16px; }
+
+.re-cjwt p{ margin-top: 10px;color: #7b7b7b;text-align: justify;}
+
+
+
+
+
+					 	
