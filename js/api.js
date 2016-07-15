@@ -400,6 +400,10 @@ var account = {
 		var url = apiurl + '?module=account&action=cardbing';
 		ajax.post(url, $data, callback);
 	},
+	"cardbin" : function($data, callback){
+		var url = apiurl + '?module=account&action=cardbin';
+		ajax.post(url, $data, callback);
+	},
 	"cash_new" : function($data, callback){
 		var url = apiurl + '?module=account&action=cash_new';
 		ajax.post(url, $data, callback);
