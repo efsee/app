@@ -11,21 +11,29 @@
 <link href="css/css.css" rel="stylesheet" type="text/css" />
 <link href="css/recharge.css" rel="stylesheet" type="text/css" />
 <link href="css/mui.picker.css" rel="stylesheet" />
-<link href="css/mui.poppicker.css" rel="stylesheet" />    
+<link href="css/mui.poppicker.css" rel="stylesheet" /> 
+<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
 <script src="js/mui.min.js"></script>
+
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
     <style>
     	button:hover{ background: #fff;}
+    	
     </style>
 </head>
 <body>
 <!--<header class="mui-bar mui-bar-nav header">
 	<a class="mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
-	<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+	<a id="top_right_btn" class="mui-pull-right" style="display: block">充值记录</a>
 	<h1 id="title" class="mui-title">充值</h1>
 </header>-->
+<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><br /></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display:block;">充值记录</a>
+			<h1 id="title" class="mui-title">充值</h1>
+</header>
 <div class="mui-content">
 	<div class="recharge-money">可用余额：<span>0.00</span>元</div>
     <div class="recharge-je">充值金额：<input class="recharge-input font-moey" type="number" pattern="[0-9]*" name="" placeholder="输入充值金额"></div>
@@ -77,10 +85,31 @@
 	<a class="recharge-find" href="#" id="card-btn">完成</a>
 
 </div>
- <script src="js/city.data1.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/city.data1.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/mui.picker.js"></script>
 <script src="js/mui.poppicker.js"></script>
+<script>
+	mui.init({
+		
+	})
+	mui.plusReady(function(){
+	
+		window.addEventListener('refresh',function(){
+		mui.alert("5")	
+		plus.webview.getWebviewById('czinfo').reload();
+		});
+		
+		document.addEventListener("top-right-btn",function(e){
+				e.preventDefault();
+				mui.openWindow({'url':'/user/czjl.html',styles:{"aniShow":"slide-in-right","popGesture":"close"},waiting:{"autoShow":false}});		
+			},false);	
+	
+	
+	})
+	
+</script>
     <script type="text/javascript">
+    	/*********************/
     		(function($, doc) {
 				$.ready(function() {
 					//-----------------------------------------
@@ -89,25 +118,23 @@
 							layer: 2
 						});
 						cityPicker.setData(cityData);
-					var showCityPickerButton = doc.getElementById('showCityPicker');
+						
+					var showCityPickerButton = document.getElementById('showCityPicker');
 					showCityPickerButton.addEventListener('tap', function(event) {
+						
 						cityPicker.show(function(items) {
-//							console.log(JSON.stringify(items));
-//							console.log(items[0].text + " " + items[1].text);
+							console.log(JSON.stringify(items));
 							showCityPickerButton.innerHTML = items[0].text + " " + items[1].text;
 							document.getElementById("province").value = items[0].value;
 							document.getElementById("city").value = items[1].value;
-							//cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
-							//返回 false 可以阻止选择框的关闭
-							//return false;
 						});
 					}, false);
-
 				});
 			})(mui, document);
     
     
     mui.plusReady(function(){
+    	
 //  	console.log(plus.android.invoke(plus.android.currentWebview(),"getHeight"));
     				//plus.navigator.setFullscreen(false);
 					plus.webview.currentWebview().setStyle({
@@ -138,7 +165,6 @@
     		}
     		account.cardbing(request,function(res){
     			if(res.status == 1){
-
     				mui.fire(plus.webview.currentWebview().opener(),'viewreload');
     				plus.nativeUI.alert('绑定成功');
     				setTimeout(function(){
@@ -149,13 +175,12 @@
     			}
     		});
     	})
-
-    })
-
+    	
 		document.addEventListener('senddata',function(e){
 			//console.log(e.detail.realname);
 			document.getElementById("realname").value = e.detail.realname;
-		},false);
+		},false);	
+		})	
     </script>
 </body>
 </html>

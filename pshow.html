@@ -213,15 +213,16 @@ a.ljtz-btn { color: #fff;}
 
 <script>
 	mui.plusReady(function(){
+
+		//ljzt.html传入的重载
+		window.addEventListener('refresh',function(){	
+		plus.webview.getWebviewById('pshow.html').reload(true);
+
+		});
+		
 		setInterval(function(){
 			showtime('.pshow-info .timeInterval');
 		},1000);
-		
-//		document.getElementById("share").addEventListener('tap', function(e) {
-//			e.stopPropagation();
-////			$("#blayer").toggleClass('active');
-////			$('#layer-bg').toggleClass('active');
-//		});
 
 		mui('#blayer').on('tap','.cancel',function(){
 			$("#blayer").removeClass('active');
@@ -269,7 +270,15 @@ a.ljtz-btn { color: #fff;}
 				
 		})		
 		mui('body').on('tap','#ljtz-btn',function(){
-			uid = user.uid();
+//			plus.webview.currentWebview().reload(true)
+			console.log("99"+JSON.stringify(wddata))
+			getdata(wddata);
+			turnLjtz()
+			
+			
+//			return false;
+			
+			/*uid = user.uid();
 			if(!uid){
 				login();
 				return;
@@ -293,28 +302,66 @@ a.ljtz-btn { color: #fff;}
 //					mui.fire(detailWV,"mui.view.show",data);
 					setTimeout(function(){
 						detailWV.show('slide-in-right');
-					},150);
+					},150);*/
 		})
-		
-
 	});
-	
+
+	function turnLjtz(){
+		var this2=document.getElementById("ljtz-btn")
+			uid = user.uid();
+			if(!uid){
+				login();
+				return;
+			}
+			scale = parseFloat(this2.getAttribute('data-scale'));
+			if(scale >= 100){
+				alert("此标的投资已满！");
+				return;
+			}
+				var that = this2;
+				var data = this2.getAttribute('data');
+				data = eval("(" + data + ")");
+				var detailWV = plus.webview.getWebviewById('ljtz.html');
+				if(detailWV == null){
+					detailWV = plus.webview.create('ljtz.html','ljtz.html');
+				}
+				
+				
+//				console.log(JSON.stringify(data));
+					detailWV.addEventListener( "loaded", function(){
+						mui.fire(detailWV,"ljtzId",wddata);
+						mui.fire(detailWV,"mui.view.show",data);
+					}, false );	
+//					mui.fire(detailWV,"mui.view.show",data);
+					setTimeout(function(){
+						detailWV.show('slide-in-right');
+					},150);
+		}
+	/*******投标成功后返回页面的data数据*********/
 		document.addEventListener("mui.view.show",function(e){
 			console.log(JSON.stringify(e.detail));
 			window.scrollTo(0,0);
 			var data = e.detail;
 			getdata(data);
 		},false);
+		
+		//该页面loaded完后执行事件
 		document.addEventListener("productId",function(e){
 			console.log(JSON.stringify(e.detail));
 			window.scrollTo(0,0);
 			var data = e.detail;
+			wddata=data;
+			
 			getdata(data);
+			
 		},false);
+		
+		
 	function getdata(data){
-		var request = data;
+		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){
+			
 			console.log(JSON.stringify(res));
 			if(res){
 			res.is_login = user.uid();
@@ -330,11 +377,16 @@ a.ljtz-btn { color: #fff;}
 			plus.nativeUI.closeWaiting();
 			var self = plus.webview.currentWebview();
 		})
+		
 	}
-	
+		
 		var old_back = mui.back;
 		mui.back = function(){
+			
 			plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+//			plus.webview.currentWebview().opener().reload(true);
+			var proSubSx=plus.webview.getWebviewById("product_sub.html")
+			mui.fire(proSubSx,"initpage")
 			old_back();
 			$('#bodybox').html("").hide();
 			$('#mui-loader').show();
@@ -342,6 +394,7 @@ a.ljtz-btn { color: #fff;}
 		}
 		
 $(function(){
+	
 	$("body").on("click","#pshow-bar li",function(){
 			var idx=$(this).index();
 			$(".pshow-tab").hide();
@@ -354,6 +407,7 @@ $(function(){
 </script>
 
 <script type="text/javascript">
+
 	function showtime(selector){
 		mui.each(document.querySelectorAll(selector), function(index, element) {
 					var nowTime = new Date().getTime();

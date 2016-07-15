@@ -70,7 +70,7 @@
 	mui.plusReady(function(){
 		request = {'type':'','user_id':user.uid(),'epage':10000};
 		borrow.GetTenderLists({'request':request},function(res){
-			//console.log(JSON.stringify(res))
+			console.log(JSON.stringify(res))
 			dmbcount=0;
 			dmbsum=0.00;
 			dhkcount=0;

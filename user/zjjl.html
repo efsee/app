@@ -70,7 +70,7 @@
 		<script src="../js/template.function.js"></script>
 		<script src="../js/api.js"></script>
 
-    <script type="text/javascript" charset="utf-8">
+<script type="text/javascript" charset="utf-8">  
     	var curr_page = 0;
 			mui.init({
 				pullRefresh: {
@@ -84,8 +84,7 @@
 						callback: pullupRefresh
 					}
 				}
-			});
-			
+			});			
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -128,8 +127,9 @@
 			function getdata(page){
 				request = {'type':'','user_id':user.uid(),'epage':10,'_where':' and balance>0 '};
 				request.page = page;
-				account.GetLogList({'request':request},function(res){
+				account.GetLogList({'request':request},function(res){//$data和回调函数
 					console.log(JSON.stringify(res));
+					
 					var html = template('tpl-item',res);
 					var ul = document.querySelector('#zjjl-list');
 					var upflag = res.page >= res.total_page ? true : false;
@@ -139,8 +139,6 @@
 						ul.innerHTML = html;
 					}
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					
-					
 					if(res.total == 0){
 						html = '<li class="mui-table-view-cell">没有记录</li>';
 						ul.innerHTML = html;

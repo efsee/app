@@ -60,7 +60,7 @@ var store = {
 
 	get: function(key) {
 		var obj = plus.storage;
-		var info = obj.getItem(key);
+		var info = obj.getItem(key);//单类模型获取对象方法（java）
 		var nowtime = new Date().getTime() / 1000;
 		var network = plus.networkinfo.getCurrentType();
 		if (!info) {
