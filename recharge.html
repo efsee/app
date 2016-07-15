@@ -372,6 +372,7 @@ header .mui-title { color: #333; }
       			user.UserInfo({'request':request},function(res){
 	      			console.log(JSON.stringify(res))
 	      			if(res.realname_status!=1){	//没有实名认证
+	      				console.log(9854989)
 	      				var money = $(".money_order").val();
 		      			if(!checkform1()){
 		      				return false;
@@ -397,7 +398,7 @@ header .mui-title { color: #333; }
       			
 			      			account.GetUsersBankOne({'request':request},function(bank_res){
 			      				//console.log(21515)
-				      			//console.log(JSON.stringify(bank_res));
+				      			console.log(JSON.stringify(bank_res));
 				 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 				 					
 									if(!checkform2()){
@@ -415,7 +416,7 @@ header .mui-title { color: #333; }
 										mobile=bank_res.mobile;
 										
 					 					account.cardbin(request,function(bin_res){
-					      					//console.log(JSON.stringify(bin_res))
+					      					console.log(JSON.stringify(bin_res))
 					      					if(bin_res.status==1){
 					      						
 					      						$("#bank_id").val($('.account').val());
@@ -429,7 +430,7 @@ header .mui-title { color: #333; }
 								      			$('#no_order').val(no_order);
 								      			
 					      						
-								      			//console.log($('#user_id').val())
+								      			console.log($("#acct_name").val())
 								      			risk_item = {};
 								  				risk_item.frms_ware_category = "2009";
 								  				risk_item.user_info_mercht_userno = username;
@@ -490,8 +491,8 @@ header .mui-title { color: #333; }
 	      				request = {"user_id":user.uid()};
       			
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      				//console.log(21515)
-			      			//console.log(JSON.stringify(bank_res));
+		      				console.log(21515)
+			      			console.log(JSON.stringify(bank_res));
 			 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 			 					
 								if(!checkform2()){
@@ -509,7 +510,8 @@ header .mui-title { color: #333; }
 									mobile=bank_res.mobile;
 									
 				 					account.cardbin(request,function(bin_res){
-				      					//console.log(JSON.stringify(bin_res))
+				 						console.log(225)
+				      					console.log(JSON.stringify(bin_res))
 				      					if(bin_res.status==1){
 				      						
 				      						$("#bank_id").val($('.account').val());
@@ -711,6 +713,7 @@ function checkform1(){
 			return false;
 		}
 	}
+	return true;
 }
 
 function checkform2(){
@@ -739,6 +742,7 @@ function checkform2(){
 			return false;
 		}
 	}
+	return true;
 }
 
 
