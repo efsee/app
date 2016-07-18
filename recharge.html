@@ -388,102 +388,104 @@ header .mui-title { color: #333; }
 								//console.log(JSON.stringify(res));
 								if(res.status == 1){
 									console.log("实名认证成功,请等待审核");
+									request = {"user_id":user.uid()};
+      			
+					      			account.GetUsersBankOne({'request':request},function(bank_res){
+					      				//console.log(21515)
+						      			console.log(JSON.stringify(bank_res));
+						 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+						 					
+											if(!checkform2()){
+												return false;
+											}
+											else{
+												request = {};
+												request.user_id = user.uid();
+												request.account = $('.account').val();
+												request.bank = $('.bank').val();
+												request.province = $('.province').val();
+												request.city = $('.city').val();
+												username=bank_res.username;
+												register_time=bank_res.register_time;
+												mobile=bank_res.mobile;
+												
+							 					account.cardbin(request,function(bin_res){
+							      					console.log(JSON.stringify(bin_res))
+							      					if(bin_res.status==1){
+							      						
+							      						$("#bank_id").val($('.account').val());
+										      			$("#bank").val($('.bank').val());
+										      			
+										      			$('#user_id').val(user.uid());
+										      			$('#card_no').val($('.account').val());
+										      			$("#id_no").val($('.card_id').attr('data-val'));
+										      			$("#acct_name").val($('.realname').attr('data-val'));
+										      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+										      			$('#no_order').val(no_order);
+										      			
+							      						
+										      			console.log($("#acct_name").val())
+										      			risk_item = {};
+										  				risk_item.frms_ware_category = "2009";
+										  				risk_item.user_info_mercht_userno = username;
+										  				risk_item.user_info_dt_register = register_time;
+										  				risk_item.user_info_full_name = $('.realname').val();
+										  				risk_item.user_info_id_no = $('.card_id').val();
+										  				risk_item.user_info_identify_type = "1";
+										  				risk_item.user_info_identify_state = "1";
+										  				risk_item.user_info_bind_phone = mobile;
+										//    				console.log(JSON.stringify(risk_item));
+										  				$("#risk_item").val(JSON.stringify(risk_item));
+								  						
+							      						$("form[name='llpayment']").submit();
+							      					}
+							      					else{
+							      						alert(bin_res.msg);
+							      						return false;
+							      					}
+									    		});
+											}
+											
+						 						
+						 					//return false;
+						 				}
+						 				else{
+					 						//console.log(JSON.stringify(bank_res))
+						 					$("#bank_id").val(bank_res.account);
+						 					$("#bank").val(bank_res.bank);
+							      			
+							      			$('#user_id').val(bank_res.user_id);
+							      			$('#card_no').val(bank_res.account);
+							      			$("#id_no").val(bank_res._realname.card_id);
+							      			$("#acct_name").val(bank_res.realname);
+							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+									      	$('#no_order').val(no_order);
+							      			//console.log(no_order)
+							      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
+						
+						      				risk_item = {};
+						      				risk_item.frms_ware_category = "2009";
+						      				risk_item.user_info_mercht_userno = bank_res.username;
+						      				risk_item.user_info_dt_register = bank_res.register_time;;
+						      				risk_item.user_info_full_name = bank_res.realname;
+						      				risk_item.user_info_id_no = bank_res._realname.card_id;
+						      				risk_item.user_info_identify_type = "1";
+						      				risk_item.user_info_identify_state = "1";
+						      				risk_item.user_info_bind_phone = bank_res.mobile;
+						//    				console.log(JSON.stringify(risk_item));
+						      				$("#risk_item").val(JSON.stringify(risk_item));
+						 					$("form[name='llpayment']").submit();
+						 					//return false;
+						 				}
+						 			})
 									
 								}else{
-									console.log(res.msg);
+									alert(res.msg);
+									return false;
 								}
 							})
 		      				
-		      				request = {"user_id":user.uid()};
-      			
-			      			account.GetUsersBankOne({'request':request},function(bank_res){
-			      				//console.log(21515)
-				      			console.log(JSON.stringify(bank_res));
-				 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
-				 					
-									if(!checkform2()){
-										return false;
-									}
-									else{
-										request = {};
-										request.user_id = user.uid();
-										request.account = $('.account').val();
-										request.bank = $('.bank').val();
-										request.province = $('.province').val();
-										request.city = $('.city').val();
-										username=bank_res.username;
-										register_time=bank_res.register_time;
-										mobile=bank_res.mobile;
-										
-					 					account.cardbin(request,function(bin_res){
-					      					console.log(JSON.stringify(bin_res))
-					      					if(bin_res.status==1){
-					      						
-					      						$("#bank_id").val($('.account').val());
-								      			$("#bank").val($('.bank').val());
-								      			
-								      			$('#user_id').val(user.uid());
-								      			$('#card_no').val($('.account').val());
-								      			$("#id_no").val($('.card_id').attr('data-val'));
-								      			$("#acct_name").val($('.realname').attr('data-val'));
-								      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
-								      			$('#no_order').val(no_order);
-								      			
-					      						
-								      			console.log($("#acct_name").val())
-								      			risk_item = {};
-								  				risk_item.frms_ware_category = "2009";
-								  				risk_item.user_info_mercht_userno = username;
-								  				risk_item.user_info_dt_register = register_time;
-								  				risk_item.user_info_full_name = $('.realname').val();
-								  				risk_item.user_info_id_no = $('.card_id').val();
-								  				risk_item.user_info_identify_type = "1";
-								  				risk_item.user_info_identify_state = "1";
-								  				risk_item.user_info_bind_phone = mobile;
-								//    				console.log(JSON.stringify(risk_item));
-								  				$("#risk_item").val(JSON.stringify(risk_item));
-						  						
-					      						$("form[name='llpayment']").submit();
-					      					}
-					      					else{
-					      						alert(bin_res.msg);
-					      						return false;
-					      					}
-							    		});
-									}
-									
-				 						
-				 					//return false;
-				 				}
-				 				else{
-			 						//console.log(JSON.stringify(bank_res))
-				 					$("#bank_id").val(bank_res.account);
-				 					$("#bank").val(bank_res.bank);
-					      			
-					      			$('#user_id').val(bank_res.user_id);
-					      			$('#card_no').val(bank_res.account);
-					      			$("#id_no").val(bank_res._realname.card_id);
-					      			$("#acct_name").val(bank_res.realname);
-					      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
-							      	$('#no_order').val(no_order);
-					      			//console.log(no_order)
-					      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
-				
-				      				risk_item = {};
-				      				risk_item.frms_ware_category = "2009";
-				      				risk_item.user_info_mercht_userno = bank_res.username;
-				      				risk_item.user_info_dt_register = bank_res.register_time;;
-				      				risk_item.user_info_full_name = bank_res.realname;
-				      				risk_item.user_info_id_no = bank_res._realname.card_id;
-				      				risk_item.user_info_identify_type = "1";
-				      				risk_item.user_info_identify_state = "1";
-				      				risk_item.user_info_bind_phone = bank_res.mobile;
-				//    				console.log(JSON.stringify(risk_item));
-				      				$("#risk_item").val(JSON.stringify(risk_item));
-				 					$("form[name='llpayment']").submit();
-				 					//return false;
-				 				}
-				 			})
+		      				
 		      			}
 	      				
 	      			}
