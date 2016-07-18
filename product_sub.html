@@ -257,7 +257,11 @@
 				document.addEventListener('initpage',function(e){
 					mui('#pullrefresh').pullRefresh().pulldownLoading();
 				},false);
-				
+//				document.addEventListener('initpage2',function(e){
+//					mui('#pullrefresh').pullRefresh().pulldownLoading();
+//					var thisIndex= plus.webview.getWebviewById('pshow.html');
+//					mui.fire(thisIndex,'refresh');
+//				},false);
 				
 				
 				var detailPage = null;
@@ -266,8 +270,6 @@
 					var article_id = eval("(" + this.getAttribute('data-article_id') + ")");
 					var id = eval("(" + this.getAttribute('data-id') + ")");
 					var has_repay = eval("(" + this.getAttribute('data-has_repay') + ")");
-					
-					
 					//获得详情页面
 					
 					if(!detailPage){
@@ -279,18 +281,24 @@
 						}
 						else{
 							var detailPage = plus.webview.create('pshow.html');
+							
+							
 							plus.nativeUI.showWaiting();
 							setTimeout(function(){
 								detailPage.show("slide-in-right",100);
 							},150);
 							//触发详情页面的newsId事件
 							detailPage.addEventListener('loaded',function(){
+								
+								
 								mui.fire(detailPage,'productId',{
 								article_id:article_id,
 								id:id,
 								has_repay:has_repay,
 								});
 							});
+							
+							
 							
 							
 						}

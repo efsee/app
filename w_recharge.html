@@ -51,6 +51,15 @@ header .mui-title { color: #ffffff; }
 			selfWV = plus.webview.currentWebview();
 			mainWV = plus.webview.currentWebview().opener();
 			mui.init({
+				beforeback: function(){
+				//获得a界面的webview
+				var ljtzBack= plus.webview.currentWebview().opener();
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+				mui.fire(ljtzBack,'ljback');
+				//返回true，继续页面关闭逻辑
+				return true;
+			},
+				
 				swipeBack: false,
 				gestureConfig: {
 					doubletap: true
