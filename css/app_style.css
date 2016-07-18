@@ -76,9 +76,52 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 }
 
 
-.zzc_syk{background-color: #fff;overflow: hidden;padding:0 20px;border-bottom:#dcdcdc solid 0.5px;}
-.zzc_syk li{float:left;padding:15px 0px;}
-.zzc_syk li:first-child{border-right:solid 0.5px #ccc; width:50%;}
+.zzc_syk{background: #fff;overflow: hidden;padding:0 20px;}
+.zzc_syk:after{	
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0px;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #dcdcdc;
+				}
+.zzc_syk li{float:left;padding:15px 0px; }
+.zzc_syk li:first-child{width:50%;display: inline-block;}
+.zzc_syk > li:first-child:after{	
+	position: absolute;
+	right: 0;
+	top:0px;
+	left: 50%;
+	height: 1px;
+	width: 1px;
+    height: 100%;
+	content: '';
+
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #dcdcdc;
+	
+				}
+.zzc_syk > li:first-child:before{	
+	position: absolute;
+	right: 0;
+	bottom:0px;
+	left: 50%;	
+	width: 1px;
+    height: 100%;
+	content: '';	
+
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #dcdcdc;
+	
+				}
+								
+				
+/*.zzc_syk li:first-child{border-right:solid 0.5px #ccc; width:50%;}*/
 .zzc_syk li:last-child{padding-left:20px;}	
 .zzc_syk > li:first-child:before,
 .zzc_syk > div:first-child:before {
@@ -118,7 +161,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 	display: none
 }
 
-.zhyek > div:before {
+.zhyek:before {
 	content: '';
 	display: block;
 	width: 100%;
@@ -126,7 +169,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 	background: #dcdcdc;
 	position: absolute;
 	left: 0px;
-	top:71px;
+	top:0px;
 	transform-origin: 0 0;
 	-webkit-transform-origin: 0 0;
 	transform: scaleY(.5);
@@ -152,7 +195,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 /**.zhye_zjk ul li a{display:block;border: solid 1px #f96268;line-height:30px;width:60px;text-align: center;border-radius:5px;font-size:18px;}	**/
 
 .zhyek .zjk2{margin-top:5px;float:right;}	
-.zhan{background: url(../images/my_icon.png) no-repeat 0 -131px; background-size:250px 250px;color:#C8C8C8;font-size:10px;text-indent:1.5em;width:165px; margin: 15px auto; overflow: hidden; }
+.zhan{background: url(../images/my_icon.png) no-repeat 0 -131px; background-size:250px 250px;color:#C8C8C8;font-size:10px;text-indent:1.5em;width:165px; margin: 15px auto; height: 19px; overflow: hidden; }
 
 .mui-table-view .mui-table-view-cell .icon{background:url(../images/my_icon.png) no-repeat;background-size:220px 220px;margin:auto;width:35px;height:35px;padding:10px 0;display: block;}                            
 .mui-table-view .mui-table-view-cell .icon-zx{background-position: 4px 0px;}  

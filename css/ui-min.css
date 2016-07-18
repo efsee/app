@@ -197,14 +197,19 @@ table {
 	position: relative; display: block;
 }
 /*发现栏目图标*/
-.ui_cell_img .icon_news{
-	background: url(../images/find_icon.png) no-repeat 0px 0px; width: 28px; height: 18px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+.find-top .icon_news{
+	background: url(../images/find_icon.png) no-repeat 0px 2px; width: 28px; height:28px; display:block; 
+ background-size:250px 250px;margin: 0 auto;
 	
 }
-.ui_cell_img .icon_activity{
-	background: url(../images/find_icon.png) no-repeat -35px 0px; width: 28px; height: 28px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+.find-top .icon_activity{
+	background: url(../images/find_icon.png) no-repeat -35px 2px; width: 28px; height: 28px; display:block; 
+ background-size:250px 250px;margin: 0 auto;	
+	
+}
+.find-top .icon_College{
+	background: url(../images/find_icon.png) no-repeat -114px -32px; width: 28px; height: 28px; display:block; 
+ background-size:250px 250px;margin: 0 auto;	
 	
 }
 .ui_cell_img .icon_jcts{

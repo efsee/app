@@ -2211,19 +2211,28 @@ input[type=submit]:enabled:active {
 
 .mui-grid-view.mui-grid-9:after {
 	clear: both;
-	position: static
+	/*position: static*/
 }
 
 .mui-grid-view.mui-grid-9 .mui-table-view-cell {
 	margin: 0;
-	padding: 8.5px 15px;
+	padding: 11px 15px;
 	vertical-align: top;
-	border-right: 0.5px solid #dcdcdc;
-	border-bottom: 0.5px solid #dcdcdc;
+	border-right: 1px solid #eee;
 
 }
-
-
+.mui-grid-view.mui-grid-9 .mui-table-view-cell:after {
+	position: absolute;
+	right: 0;
+	top:0px;
+	left: 0;	
+    height:1px;
+	content: '';
+	transform-origin: 0 0;
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #eee;
+}
 .mui-grid-view.mui-grid-9 .mui-table-view-cell.mui-active {
 	background-color: #eee
 }

@@ -208,11 +208,15 @@ input[type=number],input[type=text],select{
 				position: absolute ;
 				bottom: 20px;
 				left: 50%;
-				margin-left: -60px;				
+				margin-left: -60px;
+				overflow: hidden;d				
 				
 				}
 .recharge-foot a{font-size: 14px;
-				color: #656565;}
+				color: #656565;
+				
+				}
+				
 .recharge-foot .footer-ico{ width: 20px; 
 							height: 20px;
 							display: inline-block; 
