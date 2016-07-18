@@ -15,6 +15,21 @@
  .ui_item_cell{margin-top: 15px;}
  .mar_ui{margin-top: -1px;}
  .click_dialog{display: block;    position: relative;}
+  .find-top{background: #fff; margin-top: -1px; }
+ .find-top li{ width: 33.333%;
+ 			  float: left; 
+ 			  display: block; 
+ 			  text-align: center; 
+ 			  padding:20px 0px;
+ 			 
+ 			  
+ 			  }
+ 
+.find-top > li:before {
+    height: 0px;
+
+}			  
+		  
  </style>
 </head>
 
@@ -25,22 +40,29 @@
     	<div class="mui-scroll-wrapper">
 	<div class="mui-scroll">
     	<div class="ui_wrap_cell">
-       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active mar_ui">
+       <ul class="ui_item_cell find-top">
 		   		<li>
 		   			<a href="notice.html" open-type="common" class="tap" data='{"title":"消息通知"}'>		
 		   				<span class="icon_news"></span>
-		   				消息通知					
+		   				<p>消息通知</p>					
 		   			</a>
 		   		</li>
-		   	
-		    </ul> 
-		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
-		   		<li>
+		  	    <li>
 		   			<a href="active.html" class="tap" data='{"title":"精彩活动"}'>
 		   				<span class="icon_activity"></span>
 		   				精彩活动
 		   			</a>
 		   		</li>
+		   		<li>
+		   			<a href="8.html" class="tap" data='{"title":"聚车商学院"}'>		
+		   				<span class="icon_College"></span>
+		   				<p>聚车商学院</p>					
+		   			</a>
+		   		</li>
+		   	
+		    </ul> 
+		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
+		   	
 		   		<li class="ui-jcts">
 		   			<a href="guide.html" class="tap">
 		   				<span class="icon_jcts"></span>
