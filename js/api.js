@@ -420,6 +420,10 @@ var account = {
 		var url = apiurl + '?module=account&action=Cost_llcz';
 		ajax.post(url, $data, callback);
 	},
+	"GetRechargeList" : function($data, callback){
+		var url = apiurl + '?module=account&action=GetRechargeList';
+		ajax.post(url, $data, callback);
+	}
 }
 
 var borrow = {
