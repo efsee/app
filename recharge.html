@@ -340,8 +340,8 @@ header .mui-title { color: #333; }
       			else{
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      			//console.log(JSON.stringify(bank_res));
-		 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+		      			//console.log(JSON.stringify(!bank_res.status));
+		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 		 					
 		 					var html = template("tpl-bank3",res);
 		      				document.getElementById("userinfo").innerHTML = html;
@@ -393,7 +393,7 @@ header .mui-title { color: #333; }
 					      			account.GetUsersBankOne({'request':request},function(bank_res){
 					      				//console.log(21515)
 						      			console.log(JSON.stringify(bank_res));
-						 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 						 					
 											if(!checkform2()){
 												return false;
