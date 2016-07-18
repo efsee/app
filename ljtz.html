@@ -282,10 +282,11 @@ header .mui-title { color: #333; }
 //								mui.back();
 //							},150);
 							mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
-
 						}, "提示", "充值" );
 					}else{
-						plus.nativeUI.alert(res.msg);
+						plus.nativeUI.alert(res.msg,function(){
+							getdata(ljdata) 
+						});
 					}
 				}
 			})
@@ -412,6 +413,9 @@ header .mui-title { color: #333; }
 		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){
+			//
+			$('#borrow_account_wait').html(res.borrow.borrow_account_wait);
+			console.log(res.borrow.borrow_account_wait);
 			
 			console.log("b页面"+JSON.stringify(res));
 			if(res){
