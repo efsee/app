@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/recharge.css" rel="stylesheet" type="text/css" />
+  
+<script src="js/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+<style>
+
+.mui-table-view-cell:after {
+	position: absolute;
+	right: 15px;
+	bottom: 0;
+	left: 15px;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc
+}
+
+.mui-content>.mui-table-view:first-child{margin-top: 6px;}
+.bank-main{ margin-top: 6px; font-size: 14px;  font-weight: bold;}
+.black-moblie{ float: right;color: #bcbcbc;font-weight: normal;font-size: 12px; } 
+.black-cont{font-size: 14px; color: #535353;}
+.black-cont span{font-size: 14px; color: #000; font-weight: normal;}
+.black-bi{ float: left; width: 33.33%;}
+.black-ri{ float: left;width: 33.33%; 
+		   border-left: solid 1px #d8d8d8;
+		   border-right: solid 1px #d8d8d8; 
+		   text-align: center;
+		   
+		   }
+.black-yue{ float: right;width: 33.33%;
+            text-align:right ;
+            
+            }
+.black-detj{ width: 65px; 
+             padding: 1px 6px;			
+			 display: inline-block; 
+			 background: #f96268; 
+			 color: #fff; 
+			 border-radius: 10px;
+			 text-align: center;
+			 margin-left: 10px;
+			 font-size: 12px;
+			 font-weight: normal;
+			 
+			 
+			 }      
+ .black-icon-1{background: url(images/bank.png) no-repeat 0px 0px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-2{background: url(images/bank.png) no-repeat 0px -20px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-3{background: url(images/bank.png) no-repeat 0px -40px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-4{background: url(images/bank.png) no-repeat 0px -60px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-5{background: url(images/bank.png) no-repeat 0px -80px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-6{background: url(images/bank.png) no-repeat 0px -100px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-7{background: url(images/bank.png) no-repeat 0px -120px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-8{background: url(images/bank.png) no-repeat 0px -140px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }
+ .blank-icon-9{background: url(images/bank.png) no-repeat 0px -160px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-10{background: url(images/bank.png) no-repeat 0px -180px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-11{background: url(images/bank.png) no-repeat 0px -200px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-12{background: url(images/bank.png) no-repeat 0px -220px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-13{background: url(images/bank.png) no-repeat 0px -240px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-14{background: url(images/bank.png) no-repeat 0px -260px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-15{background: url(images/bank.png) no-repeat 0px -280px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-16{background: url(images/bank.png) no-repeat 0px -300px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-17{background: url(images/bank.png) no-repeat 0px -320px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-18{background: url(images/bank.png) no-repeat 0px -340px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-19{background: url(images/bank.png) no-repeat 0px -360px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:20px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }                                                                                                                                                                                                                                         
+</style>
+</head>
+<body>
+<!--<header class="mui-bar mui-bar-nav header">
+	<a class="mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+	<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+	<h1 id="title" class="mui-title">充值</h1>
+</header>-->
+<div class="mui-content">
+	<ul class="mui-table-view bank-main">
+			 <li class="mui-table-view-cell"><i class="black-icon-1"></i>中国银行
+			 	<span class="black-moblie">客服热线：95566</span>
+			 </li>
+	         <li class="mui-table-view-cell black-cont">
+	         	<div class="black-bi">单笔：<span>5万</span></div>
+	         	<div class="black-ri"> 单日：<span>20万</span></div>
+	         	<div class="black-yue"> 单月：<span>600万</span> </div>      	
+	         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+			 <li class="mui-table-view-cell"><i class="blank-icon-2"></i>建设银行
+			 	<span class="black-moblie">客服热线：95533</span>
+			 </li>
+	         <li class="mui-table-view-cell black-cont">
+	         	<div class="black-bi">单笔：<span>5万</span></div>
+	         	<div class="black-ri"> 单日：<span>10万</span></div>
+	         	<div class="black-yue"> 单月：<span>300万</span> </div>      	
+	         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-3"></i>工商银行
+		 	<span class="black-moblie">客服热线：95588</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>5万</span></div>
+         	<div class="black-yue"> 单月：<span>150万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-4"></i>农业银行
+		 	<span class="black-moblie">客服热线：95599</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>5万</span></div>
+         	<div class="black-yue"> 单月：<span>150万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-5"></i>广发银行
+		 	<div class="black-detj">大额推荐</div>
+		 	<span class="black-moblie">热线：400-830-8003</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>无限额</span></div>
+         	<div class="black-yue"> 单月：<span>无限额</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-6"></i>平安银行
+		 		<div class="black-detj">大额推荐</div>
+		 	<span class="black-moblie">客服热线：95511</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>100万</span></div>
+         	<div class="black-yue"> 单月：<span>3000万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-7"></i>中信银行
+		 		<div class="black-detj">大额推荐</div>
+		 	<span class="black-moblie">客服热线：95558</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>100万</span></div>
+         	<div class="black-yue"> 单月：<span>3000万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-8"></i>光大银行
+		 		<div class="black-detj">大额推荐</div>
+		 	<span class="black-moblie">客服热线：95595</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>100万</span></div>
+         	<div class="black-yue"> 单月：<span>3000万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-9"></i>华夏银行
+		 	<span class="black-moblie">客服热线：95577</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>100万</span></div>
+         	<div class="black-yue"> 单月：<span>3000万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-10"></i>民生银行
+		 	<span class="black-moblie">客服热线：95568</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>50万</span></div>
+         	<div class="black-ri"> 单日：<span>50万</span></div>
+         	<div class="black-yue"> 单月：<span>1500万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-11"></i>浦发银行
+		 	<span class="black-moblie">客服热线：95528</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>50万</span></div>
+         	<div class="black-yue"> 单月：<span>1500万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-12"></i>交通银行
+		 	<span class="black-moblie">客服热线：95559</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>20万</span></div>
+         	<div class="black-yue"> 单月：<span>600万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-13"></i>招商银行
+		 	<span class="black-moblie">客服热线：95555</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>5万</span></div>
+         	<div class="black-yue"> 单月：<span>150万</span> </div>      	
+         </li>	       
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-14"></i>兴业银行
+		 	<span class="black-moblie">客服热线：95561</span>
+		 </li>
+        <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>5万</span></div>
+         	<div class="black-yue"> 单月：<span>150万</span> </div>      	
+         </li>	        
+	</ul>	
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-15"></i>杭州银行
+		 	<span class="black-moblie">客服热线：95398</span>
+		 </li>
+       <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5万</span></div>
+         	<div class="black-ri"> 单日：<span>5万</span></div>
+         	<div class="black-yue"> 单月：<span>150万</span> </div>      	
+         </li>	         
+	</ul>
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-16"></i>北京银行
+		 	<span class="black-moblie">客服热线：95526</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>2万</span></div>
+         	<div class="black-ri"> 单日：<span>2万</span></div>
+         	<div class="black-yue"> 单月：<span>60万</span> </div>      	
+         </li>	       
+	</ul>	
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-17"></i>邮政银行
+		 	<span class="black-moblie">客服热线：95580</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5000元</span></div>
+         	<div class="black-ri"> 单日：<span>5000元</span></div>
+         	<div class="black-yue"> 单月：<span>15万</span> </div>      	
+         </li>	        
+	</ul>	
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-18"></i>上海银行
+		 	<span class="black-moblie">客服热线：95594</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5000元</span></div>
+         	<div class="black-ri"> 单日：<span>5000元</span></div>
+         	<div class="black-yue"> 单月：<span>15万</span> </div>      	
+         </li>	       
+	</ul>	
+	<ul class="mui-table-view bank-main">
+		 <li class="mui-table-view-cell"><i class="blank-icon-19"></i>浙商银行
+		 	<span class="black-moblie">客服热线：95527</span>
+		 </li>
+         <li class="mui-table-view-cell black-cont">
+         	<div class="black-bi">单笔：<span>5000元</span></div>
+         	<div class="black-ri"> 单日：<span>5000元</span></div>
+         	<div class="black-yue"> 单月：<span>15万</span> </div>      	
+         </li>	       
+	</ul>		
+</div>
+</body>
+</html>
