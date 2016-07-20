@@ -15,40 +15,90 @@
     </script>
     <style type="text/css">
     	.imgbox { float: left;}
+    	.bt{ line-height: 40px;}
+    	.p-money{ padding: 30px;
+    			 text-align: center; 
+    			 background: #e4393c;
+    			 color: #fff;
+    			 font-size: 16px;
+    			 }
+    	.p-money-m{ font-size: 28px; margin-top: 6px;}	
+    	.qetx-btn{background: #e4393c;
+    			  border-radius: 5px; 
+    			  height: 40px; 
+    			  line-height:40px ; 
+    			  margin-top: 10px;
+    			  margin-right: 15px;
+    			  }	
+    	.form-tab li .link { height: 56px;}
+    	.form-tab li .link .name{ font-size: 18px; margin-left: 6px; color: #000000; }
+   /* 	.form-tab li .link .name */
+    	.form-txt{ padding: 0px; padding: 18px 0px; font-size: 18px;width: 60%;}
+    	.btn.Large{ margin-top: 10px; height: 45px; line-height: 45px; } 
+    	.recharge-foot{ margin: 0 auto;
+				text-align: center; 			
+				width: 120px;
+				padding-top: 10px;
+				height: 35px;
+				
+				position:absolute;
+				bottom: 20px;
+				left: 50%;
+				margin-left: -60px;
+				overflow: hidden;			
+				
+				}
+		.recharge-foot a{font-size: 14px;
+						color: #656565;
+						
+						}
+						
+		.recharge-foot .footer-ico{ width: 20px; 
+									height: 20px;
+									display: inline-block; 
+									background: url(images/my_icon.png) 0px -406px;
+									background-size: 220px;
+									position:relative;
+									top:5px;
+									right: 2px;
+									
+									}
+		#top_right_btn{ color: #000;}	
+		#right_btn{ color: #000;}							
     </style>
 </head>
 <body>
 <div class="mui-content">
+<div class="p-money">账户可用余额(元)<p id="balance" class="p-money-m">0.00</p></div>
 <ul class="form-tab">
-<li id="box-bank">
+	<li id="box-bank">
+	
+	<li>
+		<div class="link"><span class="name">金额</span>
+			<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt"  id="txje">
+			<button type="button" class="qetx-btn" id="qetx">全部提现</button>
+		</div>
+	</li>
 
-</li>
-<li><div class="tab pl10">可提现余额<span class="dsp c5" id="balance">0.00</span></div></li>
-<li><div class="link"><span class="name">提现金额</span><input type="text" pattern="[0-9]*" id="money" name="money" class="form-txt" placeholder="请输入提现金额" id="txje"><button type="button" class="qetx-btn" id="qetx">全额提现</button></div></li>
-<li><div class="link"><span class="name">交易密码</span><input type="password" id="paypassword" name="paypassword" class="form-txt" placeholder="请输入交易密码"></div></li>
-<li><div class="tips tar"><a id="wjmm" data-href="wjmmpay.html" class="green fs1">忘记交易密码？</a></div></li>
-<li class="mlr10"><button type="button" class="btn Large" id="btn_submit">确认</button></li>
+	<li class="mlr10">
+		<button type="button" class="btn Large" id="btn_submit">确认</button>
+	</li>
 </ul>
 <input type="hidden" name="bank_id" id="bank_id" value="" />
 <input type="hidden" name="bank" id="bank" value="" />
-<div class="Warm-tip clearfix">
-<i class="ico-tip icon"></i>
-<p class="title">温馨提示：</p>
-<p>禁止信用卡套现</p>
-<p>请先填写您的银行账户后再申请提现！</p>
-<!--<p><a href="#" class="black">立即设置银行账号</a></p>-->
+<div class="recharge-foot" id="recFotId">
+	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
 </div>
-
 </div>
 
 <script type="text/html" id="tpl-bank">
 <div class="tab txyhk">
-<div class="imgbox"><img src="images/bank{{bank}}.png"></div>
-<div class="bank-info">
-<p class="bt">{{realname}}  {{branch}} 尾号{{account.substr(-4)}}</p>
-<p class="dsps">提现银行卡为绑定的投资银行卡</p>
+	<div class="imgbox"><img src="images/bank{{bank}}.png"></div>
+	<div class="bank-info">
+	<p class="bt">{{realname}}  {{branch}} ( 尾号{{account.substr(-4)}} )</p>
+	</div>
 </div>
-</div>
+
 </script>
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/common.js"></script>
@@ -56,7 +106,8 @@
 <script src="js/template.function.js"></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	mui.plusReady(function(){
+	mui.plusReady(function(){	
+
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
 //    			console.log(JSON.stringify(res));
@@ -138,7 +189,7 @@
 				return false;
 			}
 			account.cash_new(request, function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					//plus.webview.getWebviewById('user.html').evalJS("");
 					mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
@@ -149,11 +200,27 @@
 			})
 		})
 	})
+
 </script>
 
 
 <script type="text/javascript">
+	document.addEventListener("top-right-btn",function(e){
+			e.preventDefault();
 
+			mui.openWindow({'url':'user/txjl.html',styles:{"aniShow":"slide-in-right","popGesture":"close"},waiting:{"autoShow":false}});
+				
+		},false);
+	$(document).ready(function(){
+	  $("#money").focus(function(){	       	
+	       	$(".recharge-foot").css("position","relative");
+	       	$(".recharge-foot").css("margin-top","20px");
+	  });
+	  $("#money").blur(function(){
+	       $(".recharge-foot").css("position","absolute");
+	       
+	  });
+	});
 </script>
 
 </body>

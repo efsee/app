@@ -115,12 +115,14 @@ header .mui-title { color: #333; }
 			   color: #d0021b;		  	
 			  	
 			  	}			  	
-.recharge-finished{ padding: 13px; 
+.recharge-finished{ /*padding: 13px; */ 
+	 				height:45px ;
+					line-height: 45px;
 					width: 88%; 
 					background: #bcbcbc;
 					color: #fff;
 					margin: 20px auto;
-					border-radius: 6px;
+					border-radius: 5px;
 					text-align: center;
 					font-size: 16px;
 					display: block;
@@ -142,12 +144,13 @@ input[type=number],input[type=text],select{
   background: none;   
 }
 
-.recharge-find{ 	padding: 13px; 
+.recharge-find{ 	height:45px ;
+					line-height: 45px;
 					width: 88%; 
-					background: #f96268;
+					background: #f95453;
 					color: #fff;
 					margin: 20px auto;
-					border-radius: 6px;
+					border-radius: 5px;
 					text-align: center;
 					font-size: 16px;
 					display: block;
