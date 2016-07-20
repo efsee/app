@@ -69,12 +69,22 @@ header .mui-title { color: #333; }
 .content dd input{
 	width: 100px;
 }
-.mui-bar-nav~.mui-content{	
-}
+
 .yhLimit{
 	float: right;
 	color:#d10720;
 }
+
+ .banck-ico{width: 24px;
+       height: 23px;         
+       float: left;
+  }  
+.bank-yanz{ 
+	margin: 25px auto; text-align: center; font-size: 14px;display: none;
+	}
+.bank-yanz span{ 
+	color: #d3182f; font-weight: bold; padding: 0px 3px;
+	}
     </style>
 </head>
 <body>
@@ -173,7 +183,9 @@ header .mui-title { color: #333; }
                         <span>分钟为单位，默认为10080分钟（7天）</span>
                     </dd>
                     </dl>
-<div class="recharge-money">可用余额：<span class='balance'>0.00</span>元</div>                    
+<div class="bank-yanz">充值<span>1元</span>至您的账号以验证银行卡信息</div>
+<div class="recharge-money">可用余额：<span class='balance'>0.00</span>元</div>     
+<div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额"></div>
 <div id="userinfo" class="userinfo">
 	
 </div>    
@@ -203,8 +215,7 @@ header .mui-title { color: #333; }
 </script>
 
 <script type="text/html" id="tpl-bank2">
-    <div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额"></div>
-	<div class="recharge-money">持卡人信息</div>
+    <div class="recharge-money">持卡人信息</div>
 	<ul class="mui-table-view recharge-sfz">
 		 <li class="mui-table-view-cell">姓名
 		 	<input class="recharge-input realname" type="text" name="realname" placeholder="请输入真实姓名">
@@ -233,7 +244,11 @@ header .mui-title { color: #333; }
 					<option value="12">平安银行</option>
 					<option value="13">光大银行</option>
 					<option value="14">华夏银行</option>
-					<option value="15">广发银行</option>		
+					<option value="15">广发银行</option>
+					<option value="17">杭州银行</option>    
+			        <option value="18">北京银行</option>    
+			        <option value="19">上海银行</option>    
+			        <option value="20">浙商银行</option>
 				</select>
 		 </li>
          <li class="mui-table-view-cell">所在省市         	
@@ -253,7 +268,7 @@ header .mui-title { color: #333; }
 
 
 <script type="text/html" id="tpl-bank3">
-    <div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额"></div>
+   
 	<div class="recharge-money">持卡人信息</div>
 	<ul class="mui-table-view recharge-sfz">
          <li class="mui-table-view-cell">姓名
@@ -286,7 +301,11 @@ header .mui-title { color: #333; }
 					<option value="12">平安银行</option>
 					<option value="13">光大银行</option>
 					<option value="14">华夏银行</option>
-					<option value="15">广发银行</option>		
+					<option value="15">广发银行</option>
+					<option value="17">杭州银行</option>    
+			        <option value="18">北京银行</option>    
+			        <option value="19">上海银行</option>    
+			        <option value="20">浙商银行</option>
 				</select>
 		 </li>
          <li class="mui-table-view-cell">所在省市         	
@@ -306,7 +325,7 @@ header .mui-title { color: #333; }
 
 <script type="text/html" id="tpl-bank4">
 	
-    <div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额"></div>
+   
 	<ul class="mui-table-view recharge-sfz">
 		 <li class="mui-table-view-cell">身份信息
 		 	<div class="recharge-xx">{{realname.substr(0,1)}}*
@@ -315,12 +334,12 @@ header .mui-title { color: #333; }
 		 </li>
          <li class="mui-table-view-cell">银行卡
          	<div class="recharge-xx re-right">
-         		<i class="recharge-card-ico"></i>
-         		<span class="recharge-card">招商银行（尾号{{account.substr(-4)}}）</span>
+         		 <i class="banck-ico"><img src="bank/bank_{{bank}}.png" width="100%" height="100%"></i>
+         		<span class="recharge-card">{{bank_name}}（尾号{{account.substr(-4)}}）</span>
          	</div>
          </li>	       
 	</ul>
-	<div class="recharge-tins">限额：单笔1000，单日：5万，单月30万</div>
+	<div class="recharge-tins"></div>
 </script>
 
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
@@ -335,6 +354,25 @@ header .mui-title { color: #333; }
 
 <script type="text/javascript">
 	mui.plusReady(function(){
+			document.addEventListener("recharge",function(e){
+				//console.log(e.detail.sale_price)
+				if(e.detail.sale_price>0){
+					$('.money_order').val(e.detail.sale_price)
+					$('.money_order').attr('disabled','disabled')
+				}
+			},false);
+			
+			document.addEventListener("smrz",function(e){
+				//console.log(e.detail.sale_price)
+				if(e.detail.sale_price>0){
+					$('.money_order').val(e.detail.sale_price)
+					$('.money_order').attr('disabled','disabled')
+					$('.recharge-money').hide()
+					$('.recharge-je').hide()
+					$('.bank-yanz').show()
+				}
+			},false);
+			
       		request = {"user_id":user.uid()};
       		user.UserInfo({'request':request},function(res){
       			console.log(JSON.stringify(res))
@@ -360,14 +398,20 @@ header .mui-title { color: #333; }
 		 				}
 		 				else{	 					
 		 					res.account=bank_res.account;
+		 					res.bank_name=bank_res.bank_name;
+		 					res.bank=bank_res.bank;
+		 					//console.log(JSON.stringify(res))
 		 					var html = template("tpl-bank4",res);
 		      				document.getElementById("userinfo").innerHTML = html;
 		      				returnXe()
+		      				$('.recharge-tins').text(banklimit(parseInt(bank_res.bank)))
 		 				}
 		      		});
       			}
       			
       		})
+      		
+      		
       		
       		$(document).on('tap','#card-btn',function(e){
       			e.stopPropagation();
@@ -437,6 +481,7 @@ header .mui-title { color: #333; }
 										      			
 							      						
 										      			console.log($("#acct_name").val())
+										      			console.log($('#card_no').val())
 										      			risk_item = {};
 										  				risk_item.frms_ware_category = "2009";
 										  				risk_item.user_info_mercht_userno = username;
@@ -507,7 +552,7 @@ header .mui-title { color: #333; }
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
 		      				console.log("21515")
 			      			console.log(JSON.stringify(bank_res));
-			 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 			 					
 								if(!checkform2()){
 									return false;
@@ -782,6 +827,68 @@ function checkform2(){
 	return true;
 }
 
+function banklimit(bank){
+	switch(bank){
+		case 1:
+			return '限额：单笔50万，单日100万，单月3000万';
+			break;
+		case 2:
+			return '限额：单笔5万，单日10万，单月300万';
+			break;
+		case 3:
+			return '限额：单笔5万，单日5万，单月150万';
+			break;
+		case 4:
+			return '限额：单笔2万，单日5万，单月150万';
+			break;
+		case 5:
+			return '限额：单笔5万，单日5万，单月150万';
+			break;
+		case 6:
+			return '限额：单笔5万，单日20万，单月600万';
+			break;
+		case 7:
+			return '限额：单笔5万，单日20万，单月600万';
+			break;
+		case 8:
+			return '限额：单笔5万，单日5万，单月150万';
+			break;
+		case 9:
+			return '限额：单笔5万，单日50万，单月1500万';
+			break;
+		case 10:
+			return '限额：单笔50万，单日50万，单月1500万';
+			break;
+		case 11:
+			return '限额：单笔5000，单日5000，单月15万';
+			break;
+		case 12:
+			return '限额：单笔50万，单日100万，单月3000万';
+			break;
+		case 13:
+			return '限额：单笔50万，单日100万，单月3000万';
+			break;
+		case 14:
+			return '限额：单笔50万，单日100万，单月3000万';
+			break;
+		case 15:
+			return '限额：单笔50万，单日无限额，单月无限额';
+			break;
+		case 17:
+			return '限额：单笔5万，单日5万，单月150万';
+			break;
+		case 18:
+			return '限额：单笔2万，单日2万，单月60万';
+			break;
+		case 19:
+			return '限额：单笔5000，单日5000，单月15万';
+			break;
+		case 20:
+			return '限额：单笔5000，单日5000，单月15万';
+			break;
+	}
+	
+}
 
 </script>
 </body>

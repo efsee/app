@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<title>聚车金融</title>
+	<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/recharge.css" rel="stylesheet" type="text/css" />
+	<script src="js/mui.min.js"></script>
+	
+	<style>
+	.mui-media-body{ font-size: 14px; white-space: normal;}
+	.mui-ellipsis{text-align: right; 			  
+				  font-size: 12px;
+			
+				  }	
+	.mui-ellipsis-ico{ background: url(images/find_icon.png) no-repeat -68px -36px; 
+						display: inline-block;
+						width: 18px;
+						height: 18px;
+						background-size:150px ;
+						position: relative;
+						top: 3px;
+						right: 5px;
+						}	
+	.mui-table-view .mui-media-object {
+	    line-height: 50px;
+	    max-width: 50px;
+	    height: 50px;
+	} 
+	.f-margin{ margin-top: -15px;}				
+	</style>
+</head>
+<body>
+<div class="mui-content">
+	<!--下拉刷新容器-->
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul id="article-list" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+<script type="text/html" id="tpl-list">
+	{{if list.length > 0}}
+	{{each list as item i}}
+    <li class="mui-table-view-cell mui-media">
+		<a class="tap" href="javascript:;" title="{{item.name}}" data-id="{{item.id}}">
+			<img class="mui-media-object mui-pull-left" src="http://www.ifcar99.com{{item.fileurl}}">
+			<div class="mui-media-body">
+				{{item.name}}
+				<p class='mui-ellipsis'><span class="mui-ellipsis-ico"></span>{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>
+			</div>
+		</a>
+	</li>
+	{{/each}}
+	{{else}}
+	<li class="mui-table-view-cell">
+		<p>没有记录</p>
+	</li>
+	{{/if}}
+</script>
+
+
+
+<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js"></script>
+<script src="js/template.function.js"></script>
+<script type="text/javascript" charset="utf-8">  
+    	var curr_page = 0;
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						contentnomore: '',
+						callback: pullupRefresh
+					}
+				}
+			});			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					curr_page = 1;
+					getdata(curr_page);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 150);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+					curr_page = curr_page + 1;
+					getdata(curr_page);
+				}, 150);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+      	
+			mui.plusReady(function(){
+//				getdata(1);
+				var detailPage=null;
+				mui("#article-list").on('tap', 'a.tap', function(e){
+					e.stopPropagation();
+					var id = this.getAttribute('data-id');
+					var title =  this.getAttribute('title');
+					//获得详情页面
+					
+					if(!detailPage){
+							var detailPage = plus.webview.create('sxy_article.html');
+							plus.nativeUI.showWaiting();
+							setTimeout(function(){
+								detailPage.show("slide-in-right",100);
+							},150);
+							//触发详情页面的newsId事件
+							detailPage.addEventListener('loaded',function(){
+								mui.fire(detailPage,'articleId',{
+									id:id,
+									title:title
+								});
+							});
+					}
+				})
+			});
+//			
+			function getdata(page){
+				request = {'type_id':44,'epage':10};
+				request.page = page;
+				articles.GetList({'request':request},function(res){//$data和回调函数
+					console.log(JSON.stringify(res));
+					
+					var html = template('tpl-list',{'list' : res.list});
+					var ul = document.querySelector('#article-list');
+					var upflag = res.page >= res.total_page ? true : false;
+					if(page > 1){
+						ul.innerHTML = ul.innerHTML + html;
+					}else{
+						ul.innerHTML = html;
+					}
+			
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+					/*if(res.total == 0){
+						html = '<li class="mui-table-view-cell">没有记录</li>';
+						ul.innerHTML = html;
+						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					}*/
+				});
+			}
+			
+			
+    </script>
+
+</html>
