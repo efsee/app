@@ -66,7 +66,11 @@
 					{{else}}
 			        <h4>{{item.payment_name}}</h4>
 			        {{/if}}
-			        
+			        {{if bank_name=="无"}}
+			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 
+			        {{else}}
+			        <h5 style="line-height: 25px;">{{bank_name}}({{account}})</h5> 
+			        {{/if}}
 			    </div>
 			</div>
 		</li>
@@ -144,17 +148,30 @@
 			});
 //			
 			function getdata(page){
+				
 				request = {'user_id':user.uid()};
+				request.page = page;
 				account.GetRechargeList({'request':request},function(res){//$data和回调函数
+					console.log(JSON.stringify(res));
 					console.log(JSON.stringify(res.list));
-					
+					account.GetUsersBankOne({'request':request},function(bank_res){
+			      	console.log(JSON.stringify(bank_res));
+			      	if(bank_res.bank_name!=null){
+			      		res.list.bank_name=bank_res.bank_name;
+			      		var strLen=bank_res.account.length-4	
+					    res.list.account=bank_res.account.substring(strLen);
+			      	}else{
+			      		res.list.bank_name="无";
+			      		res.list.account="无";
+			      	}
+
 					var html = template('tpl-item',res.list);
 					var ul = document.querySelector('#zjjl-list');
 					var upflag = res.page >= res.total_page ? true : false;
 					if(page > 1){
 					ul.innerHTML = ul.innerHTML + html;
 					}else{
-						ul.innerHTML = html;
+						ul.innerHTML =html;
 					}
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
 					if(res.total == 0){
@@ -162,7 +179,9 @@
 						ul.innerHTML = html;
 						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
 					}
+					})
 				});
+		      	
 			}
     </script>
                        

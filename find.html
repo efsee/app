@@ -230,6 +230,8 @@ mui.plusReady(function(){
 						autoShow: false
 					}
 				});
+				var subnews = plus.webview.getWebviewById(id);
+				mui.fire(subnews,'initpage');
 			}
 			else{
 				var url = this.getAttribute('href');
@@ -253,6 +255,7 @@ mui.plusReady(function(){
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 150);
 			}
+			
 				
 		})
 		
