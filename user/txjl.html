@@ -37,7 +37,7 @@
 <body>
 <header class="mui-bar mui-bar-nav header">
 	<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left"></a>
-	<h1 id="title" class="mui-title">充值记录</h1>
+	<h1 id="title" class="mui-title">提现记录</h1>
 </header>
 <div class="mui-content">
 	<!--下拉刷新容器-->
@@ -88,7 +88,7 @@
 			mui.init({
 				beforeback: function(){
 				//获得a界面的webview
-				var thisIndex= plus.webview.getWebviewById('user.html');
+				var thisIndex= plus.webview.getWebviewById('withdraw.html');
 //				//触发a的自定义事件（refresh）,从而进行数据刷新
 				mui.fire(thisIndex,'refresh');
 				//返回true，继续页面关闭逻辑
@@ -183,6 +183,7 @@
 				});
 		      	
 			}
+
     </script>
                        
 </body>

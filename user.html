@@ -56,7 +56,7 @@
 	    	<div class="zhye_zjk zjk2">
 	    		<ul>
                   <li>
-                  	<a href="withdraw.html" class="tap mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现"}'>提现</a>
+                  	<a href="withdraw.html" class="tap mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现","right_btn":"提现记录"}'>提现</a>
 
                   	<!--<a class="mdialog1" href="javascript:;">
                   		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">
@@ -101,7 +101,7 @@
 						<div class="mui-media-body">我要按揭</div>
 					</a>
 				</li>
-				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 				<a href="user/wdhb.html" class="tap" data='{"title":"我的红包"}'>
 						<span class="icon icon-jf"></span>
 						<div class="mui-media-body">我的红包</div>
@@ -404,6 +404,7 @@
       			data = {"title":"邀请有礼"};
       			data.right_btn = "好友(" + res.total + ")";
       			document.getElementById("user_yqyl").setAttribute('data',JSON.stringify(data));
+      			
       		});
 
 //		account.GetOne({'request':request},function(res){
