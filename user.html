@@ -29,8 +29,8 @@
     </style>
 </head>
 
-<body>
-    	<div class="mui-scroll-wrapper">
+<body>	
+    	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 	<div class="mui-scroll">
     <!--内容-->
       <div class="nrk">
@@ -65,7 +65,7 @@
                   	</a>
                   </li>
                   <li>
-                  	<a href="w_recharge.html" id="recharge" class="tap mui-btn mui-btn-danger noopen" data='{"title":"充值"}'>充值</a>
+                  	<a href="w_recharge.html" id="recharge" class="tap mui-btn mui-btn-danger noopen" data='{"title":"充值","right_btn":"充值记录"}'>充值</a>
                   	<!--<a class="mdialog2" href="javascript:;">
                   	  <button type="button" class="mui-btn mui-btn-danger ">
 					    充值
@@ -158,6 +158,22 @@
 <script src="js/common.js"></script>
 <script src="js/api.js"></script>
 <script>
+	mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					 
+					callback: pulldownRefresh
+				}
+			}
+		});
+	function pulldownRefresh() {
+		setTimeout(function() {
+			getdata()
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}, 400);
+		
+	}
 	mui.plusReady(function(){		
 	mui.preload({
 		url:'user/hkjl.html',
@@ -165,8 +181,9 @@
 			popGesture: 'hide'
 		}
 	});
+	//返回页面重载
 	window.addEventListener('refresh',function(){
-		mui.alert("5")	
+			
 		plus.webview.getWebviewById('user.html').reload(true);
 		});
 	
@@ -312,7 +329,7 @@
 		
 		document.getElementById("recharge").addEventListener('tap',function(e){
 			//console.log("recharge");
-			mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
+			mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right"},'show':{'autoShow':false},'waiting':{'autoShow':false}});
 		})
 		document.addEventListener('mui.view.refresh',function(){
 			getdata();
@@ -320,6 +337,7 @@
 	})
 	
 	document.addEventListener('initpage',function(e){
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
 					//console.log(store.get('mytzopen'))
 					
 					$('#mytz').removeClass('user-new');
@@ -337,7 +355,7 @@
 					mui("body").on('tap','#llcz',function(){
 						store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 					})
-					getdata();
+					
 		
 					request = {};
 					request.user_id = user.uid();

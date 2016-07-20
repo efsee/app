@@ -42,6 +42,11 @@
 	content:"";
 	font-size:0;
 	}
+#top_right_btn{
+	color:#999;
+	font-size: 14px;
+	line-height: 44px;
+}
 header .mui-icon { color: #999; font-size: 14px; }
 header .mui-title { color: #333; }
     	#main-box img { max-width: 100%;}
@@ -50,7 +55,7 @@ header .mui-title { color: #333; }
 <body>
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
-			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: block;">充值记录</a>
 			<h1 id="title" class="mui-title">充值</h1>
 		</header>
 <div class="mui-content">
@@ -59,6 +64,13 @@ header .mui-title { color: #333; }
 
 <script type="text/javascript">
 	mui.plusReady(function(){
+		document.getElementById("top_right_btn").addEventListener("tap",function(){
+			mui.openWindow({
+				url:"user/czjl.html",
+				id:"czjl",
+				styles:{"aniShow":"slide-in-right","popGesture":"close"}
+			})
+		})
       		document.getElementById("back").addEventListener('tap',function(e){
       			var pwv = plus.webview.currentWebview().opener();
       			pwv.close();

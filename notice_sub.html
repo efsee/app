@@ -137,8 +137,10 @@
 			}
 			
 			mui.plusReady(function() {
-				
-				
+				document.addEventListener('initpage',function(e){
+					
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
+				},false);
 				setTimeout(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				}, 200);

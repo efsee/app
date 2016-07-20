@@ -204,12 +204,14 @@ input[type=number],input[type=text],select{
 .recharge-foot{ margin: 0 auto;
 				text-align: center; 			
 				width: 120px;
-				height: 28px;
-				position: absolute ;
+				padding-top: 10px;
+				height: 35px;
+				
+				position:absolute;
 				bottom: 20px;
 				left: 50%;
 				margin-left: -60px;
-				overflow: hidden;d				
+				overflow: hidden;			
 				
 				}
 .recharge-foot a{font-size: 14px;

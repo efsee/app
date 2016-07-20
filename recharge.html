@@ -69,6 +69,12 @@ header .mui-title { color: #333; }
 .content dd input{
 	width: 100px;
 }
+.mui-bar-nav~.mui-content{	
+}
+.yhLimit{
+	float: right;
+	color:#d10720;
+}
     </style>
 </head>
 <body>
@@ -182,8 +188,7 @@ header .mui-title { color: #333; }
 </ul>-->
 
 </form>
-
-<div class="recharge-foot">
+<div class="recharge-foot" id="recFotId">
 	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
 </div>
 </div>
@@ -209,7 +214,7 @@ header .mui-title { color: #333; }
          </li>	       
 	</ul>
 	<div class="recharge-ts">请填写本人真实信息，核实后不能更改</div>
-	<div class="recharge-money">银行卡信息</div>
+	<div class="recharge-money">银行卡信息<a data-href="bank-limit.html" style="color:#d10720;" class="yhLimit">银行限额</a></div>
 	<ul class="mui-table-view recharge-sfz">
 		 <li class="mui-table-view-cell">开户银行
 		 	<select id="input_bank" class="recharge-input bank" name="bank">
@@ -262,7 +267,7 @@ header .mui-title { color: #333; }
          	</div>
          </li>
 	</ul>
-	<div class="recharge-money">银行卡信息</div>
+	<div class="recharge-money">银行卡信息<a data-href="bank-limit.html" style="color:#d10720;" class="yhLimit">银行限额</a></div>
 	<ul class="mui-table-view recharge-sfz">
 		 <li class="mui-table-view-cell">开户银行
 		 	<select id="input_bank" class="recharge-input bank" name="bank">
@@ -326,31 +331,38 @@ header .mui-title { color: #333; }
 <script src="js/mui.picker.js"></script>
 <script src="js/mui.poppicker.js"></script>
 
+
+
 <script type="text/javascript">
 	mui.plusReady(function(){
       		request = {"user_id":user.uid()};
       		user.UserInfo({'request':request},function(res){
-      			//console.log(JSON.stringify(res))
+      			console.log(JSON.stringify(res))
       			$('.balance').text(res.balance);
       			if(res.realname_status!=1){//还没有实名认证
+      				document.getElementById("recFotId").style.position="relative"
       				var html = template("tpl-bank2",res);
 		      		document.getElementById("userinfo").innerHTML = html;
 		      		multiselect()
+		      		returnXe()
       			}
       			else{
+      				
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
 		      			//console.log(JSON.stringify(!bank_res.status));
 		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
-		 					
+		 					document.getElementById("recFotId").style.position="relative"
 		 					var html = template("tpl-bank3",res);
 		      				document.getElementById("userinfo").innerHTML = html;
 		      				multiselect()
+		      				returnXe()
 		 				}
-		 				else{
+		 				else{	 					
 		 					res.account=bank_res.account;
 		 					var html = template("tpl-bank4",res);
 		      				document.getElementById("userinfo").innerHTML = html;
+		      				returnXe()
 		 				}
 		      		});
       			}
@@ -493,7 +505,7 @@ header .mui-title { color: #333; }
 	      				request = {"user_id":user.uid()};
       			
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      				console.log(21515)
+		      				console.log("21515")
 			      			console.log(JSON.stringify(bank_res));
 			 				if(!bank_res.status||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 			 					
@@ -608,6 +620,7 @@ $(function(){
 	
 
 	$(".recharge-foot").on('tap',' a',function(e){
+		console.log("a")
 			e.stopPropagation();
 			var url = this.getAttribute('data-href');
 			if(url == "") return;
@@ -625,6 +638,8 @@ $(function(){
 			mui.fire(headerWebview, 'loading');
 			headerWebview.show('slide-in-right', 200);
 	});
+	
+	
 
 });		
 
@@ -662,7 +677,27 @@ function multiselect(){
 		});
 	})(mui, document);
 }
-
+function returnXe(){
+	$(".recharge-money").on('tap',' a',function(e){
+		console.log("a")
+			e.stopPropagation();
+			var url = this.getAttribute('data-href');
+			if(url == "") return;
+			//通知模板修改标题，并显示隐藏右上角图标；
+			inittemplate = getTemplate('template', 'template.html');
+				//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(url);
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '银行限额',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 200);
+	});
+}
 function checkform1(){
 	test_realname=$('.realname').val();
 	test_sfz=$('.card_id').val();

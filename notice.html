@@ -46,6 +46,12 @@
 			}
 			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
 		});
+		mui.plusReady(function(){
+			document.addEventListener('initpage',function(e){
+				var subnews2 = plus.webview.getWebviewById('notice_sub.html');
+				mui.fire(subnews2,'initpage');
+			},false);
+		})
 	</script>
 
 </html>
