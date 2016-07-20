@@ -70,32 +70,46 @@
       			request = {"user_id":user.uid()};
       			user.UserInfo({'request':request},function(res){
 //    				console.log(JSON.stringify(res));
-      				if(res.realname_status != 1){
+      				if(res.realname_status == 1){
       					//alert("你还没实名认证，请先进行实名认证");
 						// 弹出系统提示对话框
-						plus.nativeUI.alert( "你还没实名认证，请先进行实名认证!", function(){
-							var subWV = plus.webview.getWebviewById('subWV');
-							data = {
-								url: '/user/smrz.html',
-								title: '实名认证',
-								aniShow: 'slide-in-right'
+						var btnArray = ['取消','确定'];
+						mui.confirm('你还没实名认证，请先进行实名认证并绑定银行卡，需充值1元','', btnArray, function(e) {
+							if (e.index == 1) {
+								var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+			
+								setTimeout(function(){
+									recharge.show("slide-in-right",100);
+								},50);
+								
+								recharge.addEventListener('loaded',function(){
+									mui.fire(recharge,'recharge',{
+										sale_price:1
+									});
+								});
+								return false;
+							} else {
+								
+								return false;
 							}
-							mui.fire(subWV, "openWindow", data);
-						}, "提示", "实名认证" );
+						})
       					
       				}else{
 //					var detailWV = plus.webview.getWebviewById('card-bind.html');
 //					if(detailWV == null){
-						detailWV = plus.webview.create('/user/card-bind.html','card-bind.html');
+						/*detailWV = plus.webview.create('/w_recharge.html','w_recharge.html');
 //					}
 					detailWV.addEventListener('loaded',function(){
-						mui.fire(detailWV, "senddata", {'realname':res.realname});
+						//mui.fire(detailWV, "senddata", {'realname':res.realname});
+						mui.fire(detailWV,'recharge',{
+							sale_price:1
+						});
 					});
 					
 
 					setTimeout(function(){
 						detailWV.show('slide-in-right');
-					},150);
+					},150);*/
 //						var subWV = plus.webview.getWebviewById('subWV');
 //						data = {
 //							url: '/user/card-bind.html',
@@ -103,6 +117,27 @@
 //							aniShow: 'slide-in-right'
 //						}
 //						mui.fire(subWV, "openWindow", data);
+
+						var btnArray = ['取消','确定'];
+						mui.confirm('你还没绑定银行卡，请先绑定银行卡，需充值1元','', btnArray, function(e) {
+							if (e.index == 1) {
+								var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+			
+								setTimeout(function(){
+									recharge.show("slide-in-right",100);
+								},50);
+								
+								recharge.addEventListener('loaded',function(){
+									mui.fire(recharge,'recharge',{
+										sale_price:1
+									});
+								});
+								return false;
+							} else {
+								
+								return false;
+							}
+						})
       				}
       			});
       		})

@@ -28,11 +28,11 @@
 </div>
 
 <ul class="user-nav">
-<li><a href="" id="permission" class="tap" data='{"title":"手势密码"}'><i class="ico18 icon ico-dlmm"></i>管理手势密码<i class="ico-arrow icon"></i></a></li>
-<li><a href="wjmm.html" class="tap" data=''><i class="ico18 icon ico-dlmm"></i>修改登陆密码<i class="ico-arrow icon"></i></a></li>
-<li><a href="wjmmpay.html" class="tap" data='{"title":"修改交易密码"}'><i class="ico18 icon ico-dlmm"></i>修改交易密码<i class="ico-arrow icon"></i></a></li>
-<li><a href="user/wdyhk.html" class="tap" data='{"title":"我的银行卡"}'><i class="ico18 icon ico-wdyhk"></i>我的银行卡<i class="ico-arrow icon"></i></a></li>
-<li><a href="user/zdtz.html" class="tap" data='{"title":"自动投资","right_btn":""}'><i class="ico18 icon ico-zdtz"></i>自动投资<i class="ico-arrow icon"></i></a></li>
+<li><a href="" id="permission" class="tap temp" data='{"title":"手势密码"}'><i class="ico18 icon ico-dlmm"></i>管理手势密码<i class="ico-arrow icon"></i></a></li>
+<li><a href="wjmm.html" class="tap temp" data=''><i class="ico18 icon ico-dlmm"></i>修改登陆密码<i class="ico-arrow icon"></i></a></li>
+<li><a href="wjmmpay.html" class="tap temp" data='{"title":"修改交易密码"}'><i class="ico18 icon ico-dlmm"></i>修改交易密码<i class="ico-arrow icon"></i></a></li>
+<li><a href="user/wdyhk.html" id="wdyhk" class="tap" data='{"title":"我的银行卡"}'><i class="ico18 icon ico-wdyhk"></i>我的银行卡<i class="ico-arrow icon"></i></a></li>
+<li><a href="user/zdtz.html" class="tap temp" data='{"title":"自动投资","right_btn":""}'><i class="ico18 icon ico-zdtz"></i>自动投资<i class="ico-arrow icon"></i></a></li>
 </ul>
 
 <!--<div class="tel-info">
@@ -89,21 +89,28 @@
 		})
 		
 		mui('body').on('tap','.zhxx',function(){
+				uid = user.uid();
+				if(!uid){
+					login();
+					return;
+				}
       			request = {"user_id":user.uid()};
       			user.UserInfo({'request':request},function(res){
     				//console.log(JSON.stringify(res));
       				if(res.realname_status != 1){
-      					//alert("你还没实名认证，请先进行实名认证");
 						// 弹出系统提示对话框
-						plus.nativeUI.alert( "你还没实名认证，请先进行实名认证!", function(){
-							var subWV = plus.webview.getWebviewById('subWV');
-							data = {
-								url: '/user/smrz.html',
-								title: '实名认证',
-								aniShow: 'slide-in-right'
-							}
-							mui.fire(subWV, "openWindow", data);
-						}, "提示", "实名认证" );
+						var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+	
+						setTimeout(function(){
+							recharge.show("slide-in-right",100);
+						},50);
+						
+						recharge.addEventListener('loaded',function(){
+							mui.fire(recharge,'smrz',{
+								sale_price:1
+							});
+						});
+						return false;
       					
       				}
       			});
@@ -121,7 +128,7 @@
 		},false);
 		
 		var inittemplate = getTemplate('userinfo_template', 'template.html');
-		mui("body").on('tap','a.tap',function(){
+		mui("body").on('tap','a.temp',function(){
 			uid = user.uid();
 			if(!uid){
 				login();
@@ -165,6 +172,78 @@
 				}
 				
 		})
+		
+		mui('body').on('tap','#wdyhk',function(e){
+				e.stopPropagation();
+				uid = user.uid();
+				if(!uid){
+					login();
+					return;
+				}
+      			request = {"user_id":user.uid()};
+      			user.UserInfo({'request':request},function(res){
+//    				console.log(JSON.stringify(res));
+      				if(res.realname_status != 1){
+						// 弹出系统提示对话框
+						var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+	
+						setTimeout(function(){
+							recharge.show("slide-in-right",100);
+						},50);
+						
+						recharge.addEventListener('loaded',function(){
+							mui.fire(recharge,'smrz',{
+								sale_price:1
+							});
+						});
+						return false;
+	      			}else{
+	      				account.GetUsersBankOne({'request':request},function(bank_res){
+		      			//console.log(JSON.stringify(!bank_res.status));
+			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+			 					var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+	
+								setTimeout(function(){
+									recharge.show("slide-in-right",100);
+								},50);
+								
+								recharge.addEventListener('loaded',function(){
+									mui.fire(recharge,'smrz',{
+										sale_price:1
+									});
+								});
+								return false;
+			 				}
+			 				else{
+			 					var url = $('#wdyhk').attr('href');
+								href = $('#wdyhk').attr('href');
+								if(url == "") return;
+								var data = $('#wdyhk').attr('data');
+								if(data){
+									data = eval("(" + data + ")");
+									//通知模板修改标题，并显示隐藏右上角图标；
+									inittemplate = getTemplate('userinfo_template', 'template.html');
+										//获得共用父模板
+									var headerWebview = inittemplate.header;
+										//获得共用子webview
+									var contentWebview = inittemplate.content;
+									contentWebview.loadURL(href);
+									var right_btn = data.right_btn || "";
+									mui.fire(headerWebview, 'updateHeader', {
+										title: data.title,
+										showMenu: false,
+										right_btn:right_btn
+									});
+									mui.fire(headerWebview, 'loading');
+									headerWebview.show('slide-in-right', 150);
+								}
+			 				}
+		 				})
+					}
+							
+  			});
+  			return false;
+  		})
 		
 		
 		//更换头像
