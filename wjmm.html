@@ -61,7 +61,7 @@
 //			mui.back();
 //		})
 		document.addEventListener("loginusername",function(e){
-			console.log(JSON.stringify(e.detail));
+			//console.log(JSON.stringify(e.detail));
 			$('#mobile').val(e.detail.loginusername);
 		},false);
 	})
@@ -123,12 +123,12 @@
 			else{
 				sendmobilecode()
 				$('.get_yy_code').removeClass('gray_a')
-				if(count==0){
+				//if(count==0){
 	              setTimeout(function(){
 	                  $('.getYY').show();
 	              }, 60000)
 	              
-	            }
+	            //}
 			}
 			
 		})
@@ -174,7 +174,7 @@ function getyzm(idn){
 
 var issend = true;
 function sendmobilecode(){
-	console.log('send');
+	//console.log('send');
 	var mobile = $("#mobile").val();
 	if(mobile == ""){
 		alert("请输入手机号码！");
@@ -192,7 +192,7 @@ function sendmobilecode(){
 			//request.valicode = '';
 			//getyzm("#getyzm");
 			user.mobilecode(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
 					$('#yyyzm').show();
@@ -218,22 +218,22 @@ function sendyycode(){
 		alert("请输入手机号码！");
 		return;
 	}
-	console.log(issend)
+	//console.log(issend)
 	if(/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
 		if(issend && times == 60){
 			issend = false;
 			request = {'mobile': mobile};
 			//request.valicode = '';
 			user.yycode(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
 					plus.nativeUI.toast("语音验证码已发送成功！");
-					plus.nativeUI.toast(res.msg);
+					//plus.nativeUI.toast(res.msg);
 					issend = false;
 				}else{
-					console.log(res.msg);
-					alert(res.msg);
+					//console.log(res.msg);
+					plus.nativeUI.toast(res.msg);
 					issend = true;
 				}
 			})

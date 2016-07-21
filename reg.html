@@ -100,7 +100,7 @@ var count=0;
 			
 			$("input:focus").blur();
 			user.register(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					plus.nativeUI.toast("注册成功！");
 					if(res.uid){
@@ -199,14 +199,14 @@ function sendmobilecode(){
 			request = {'mobile': mobile,'type':'reg'};
 			//request.valicode = '';
 			user.mobilecode(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
 					$('#yyyzm').show();
 					plus.nativeUI.toast("验证码短信已发送成功！");
 					issend = false;
 				}else{
-					console.log(res.msg);
+					//console.log(res.msg);
 					plus.nativeUI.toast(res.msg);
 					//alert(res.msg);
 					issend = true;
@@ -231,15 +231,15 @@ function sendyycode(){
 			request = {'mobile': mobile,'type':'reg'};
 			//request.valicode = '';
 			user.yycode(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
 					plus.nativeUI.toast("语音验证码已发送成功！");
-					plus.nativeUI.toast(res.msg);
+					//plus.nativeUI.toast(res.msg);
 					issend = false;
 				}else{
-					console.log(res.msg);
-					alert(res.msg);
+					//console.log(res.msg);
+					plus.nativeUI.toast(res.msg);
 					issend = true;
 				}
 			})
