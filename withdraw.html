@@ -8,8 +8,9 @@
 <meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
 <link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/layer.css" rel="stylesheet"/>
+<link href="css/mylayer.css" rel="stylesheet"/>
     <script src="js/mui.min.js"></script>
-
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
@@ -64,7 +65,24 @@
 									
 									}
 		#top_right_btn{ color: #000;}	
-		#right_btn{ color: #000;}							
+		#right_btn{ color: #000;}	
+		.layermcont input {
+			width: 90%;
+			padding: 15px 5%;
+		}	
+		.aleTelNum{
+				margin-top:-10px;
+			}
+		.aleTelPri{
+			height:50px;
+			line-height: 50px;				
+			}
+		.txPro{
+			display: block;
+			height:35px;
+			line-height: 35px;
+		}			
+				
     </style>
 </head>
 <body>
@@ -87,7 +105,7 @@
 <input type="hidden" name="bank_id" id="bank_id" value="" />
 <input type="hidden" name="bank" id="bank" value="" />
 <div class="recharge-foot" id="recFotId">
-	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
+	<a class="txPro" data-href="recharge_qaq.html"><i class="footer-ico"></i>提现常见问题</a>
 </div>
 </div>
 
@@ -95,12 +113,14 @@
 <div class="tab txyhk">
 	<div class="imgbox"><img src="images/bank{{bank}}.png"></div>
 	<div class="bank-info">
-	<p class="bt">{{realname}}  {{branch}} ( 尾号{{account.substr(-4)}} )</p>
+	<p class="bt">{{bank_name}}&nbsp;( 尾号{{account.substr(-4)}} )</p>
 	</div>
 </div>
 
 </script>
+<script src="js/layer.js"></script>	
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/jQuery.md5.js" ></script>
 <script src="js/common.js"></script>
 <script src="js/template.js"></script>
 <script src="js/template.function.js"></script>
@@ -148,7 +168,7 @@
 			}
 		});
 		
-		$(document).on('tap','#wjmm',function(e){
+		$(document).on('tap','.txPro',function(e){
 			e.preventDefault();
 			href=$(this).attr('data-href');
 			inittemplate = getTemplate('template', 'template.html');
@@ -158,7 +178,7 @@
 			var contentWebview = inittemplate.content;
 			contentWebview.loadURL(href);
 			mui.fire(headerWebview, 'updateHeader', {
-				title: '忘记交易密码',
+				title: '提现常见问题',
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
@@ -172,7 +192,7 @@
 		document.getElementById("btn_submit").addEventListener('tap',function(){
 			request = {};
 			request.money = $('#money').val();
-			request.paypassword = $('#paypassword').val();
+			
 			request.bank = $('#bank').val();
 			request.bank_id = $('#bank_id').val();
 			request.user_id = user.uid();
@@ -184,25 +204,56 @@
 				alert("提现金额大于可提现金额");
 				return false;
 			}
-			if(request.paypassword == ""){
-				alert("请输入交易密码");
-				return false;
-			}
-			account.cash_new(request, function(res){
-				//console.log(JSON.stringify(res));
-				if(res.status == 1){
-					//plus.webview.getWebviewById('user.html').evalJS("");
-					mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
-					mui.back();
-					//$('#balance').html(parseFloat($('#balance').html()) - parseFloat($('#money').val()));
-				}
-				alert(res.msg);
-			})
+			
+			//此处写入弹窗need to do（需要提现api）
+			
+				pwRequest = {'user_id':user.uid()}; 
+				user.GetUsers({'request':pwRequest},function(pw){
+					upayWord=pw.paypassword;
+					})
+				$('.paypassword').val('');									
+				var index =layer.open({
+					title: [
+							'请输入交易密码',
+							'text-align:center;padding-left:45px;margin:0;'
+							],
+					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+$('#money').val()+'.00</p><input type="password" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+					// content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+				btn: ['确认', '取消'],
+				shadeClose: false,
+				anim:true,
+				yes: function(){
+						console.log($('.paypassword').val());
+						if(!$('.paypassword').val()){
+							mui.toast('请输入交易密码');
+						}
+							else{
+								paypassword=$.md5($('.paypassword').val());
+								if(paypassword==upayWord){
+									console.log("密码正确")
+									request.paypassword =$('.paypassword').val();
+									account.cash_new(request, function(res){
+										console.log(JSON.stringify(res));
+										mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
+										mui.back();
+									})
+								}
+								else{
+									layer.close(index);
+									mui.alert("密码错误",function(){
+										plus.webview.currentWebview().reload(true)
+									})
+								}		
+							}
+											//layer.open({content: '你点了确认', time: 1});  
+					}, no: function(){      //layer.open({content: '你选择了取消', time: 1})
+									 layer.close(index);
+									    }
+				});
 		})
 	})
 
 </script>
-
 
 <script type="text/javascript">
 	document.addEventListener("top-right-btn",function(e){

@@ -29,8 +29,8 @@
     </style>
 </head>
 
-<body>	
-    	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+<body>
+    	<div class="mui-scroll-wrapper">
 	<div class="mui-scroll">
     <!--内容-->
       <div class="nrk">
@@ -101,7 +101,7 @@
 						<div class="mui-media-body">我要按揭</div>
 					</a>
 				</li>
-				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
 				<a href="user/wdhb.html" class="tap" data='{"title":"我的红包"}'>
 						<span class="icon icon-jf"></span>
 						<div class="mui-media-body">我的红包</div>
@@ -158,22 +158,6 @@
 <script src="js/common.js"></script>
 <script src="js/api.js"></script>
 <script>
-	mui.init({
-			pullRefresh: {
-				container: '#pullrefresh',
-				down: {
-					 
-					callback: pulldownRefresh
-				}
-			}
-		});
-	function pulldownRefresh() {
-		setTimeout(function() {
-			getdata()
-			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-		}, 400);
-		
-	}
 	mui.plusReady(function(){		
 	mui.preload({
 		url:'user/hkjl.html',
@@ -337,7 +321,6 @@
 	})
 	
 	document.addEventListener('initpage',function(e){
-					mui('#pullrefresh').pullRefresh().pulldownLoading();
 					//console.log(store.get('mytzopen'))
 					
 					$('#mytz').removeClass('user-new');
@@ -355,7 +338,7 @@
 					mui("body").on('tap','#llcz',function(){
 						store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 					})
-					
+					getdata();
 		
 					request = {};
 					request.user_id = user.uid();
@@ -404,7 +387,6 @@
       			data = {"title":"邀请有礼"};
       			data.right_btn = "好友(" + res.total + ")";
       			document.getElementById("user_yqyl").setAttribute('data',JSON.stringify(data));
-      			
       		});
 
 //		account.GetOne({'request':request},function(res){

@@ -216,8 +216,8 @@ a.ljtz-btn { color: #fff;}
 
 		//ljzt.html传入的重载
 		window.addEventListener('refresh',function(){	
-		plus.webview.getWebviewById('pshow.html').reload(true);
-
+		//plus.webview.getWebviewById('pshow.html').reload(true);
+		plus.webview.currentWebview().reload(true);
 		});
 		
 		setInterval(function(){
@@ -271,8 +271,8 @@ a.ljtz-btn { color: #fff;}
 		})		
 		mui('body').on('tap','#ljtz-btn',function(){
 //			plus.webview.currentWebview().reload(true)
-			console.log("99"+JSON.stringify(wddata))
-			getdata(wddata);
+			//console.log("99"+JSON.stringify(wddata))
+			//getdata(wddata);
 			turnLjtz()
 			
 			
@@ -342,6 +342,7 @@ a.ljtz-btn { color: #fff;}
 			console.log(JSON.stringify(e.detail));
 			window.scrollTo(0,0);
 			var data = e.detail;
+			wddata=data;
 			getdata(data);
 		},false);
 		

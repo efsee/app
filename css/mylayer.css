@@ -1,7 +1,10 @@
 .layermanim h3 {
 	font-size: 16px;
 }
-
+.aleTelPri{
+	color: red;
+	font-size: 20px;
+}
 .layermcont input {
 	padding: 24px 15px;
 	font-size: 20px;
