@@ -34,7 +34,7 @@
 	<div class="mui-scroll">
     <!--内容-->
       <div class="nrk">
-	    <div class="zzck">
+	    <div class="zzck" id="zzck">
 	      <h2>总资产（元）</h2>	
 	      <h1 id="total">0.00</h1>
 	    </div>
@@ -170,6 +170,19 @@
 			
 		plus.webview.getWebviewById('user.html').reload(true);
 		});
+	
+	document.getElementById("zzck").addEventListener('tap', function() {
+		var zcmx = plus.webview.create('zcmx.html');
+		
+		zcmx.addEventListener('loaded',function(){
+			mui.fire(zcmx,'initpage',{
+				
+			});
+			setTimeout(function(){
+				zcmx.show("slide-in-right",100);
+			},150);
+		});
+	})
 	
 	document.getElementById("click_dialog2").addEventListener('tap', function() {
 				var btnArray = ['确定'];

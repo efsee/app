@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<script src="js/mui.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    <style type="text/css">
+    
+      
+    	.p-money{ padding: 30px;
+    			 text-align: center; 
+    			 background: #fff;
+    			 color: #000;
+    			 font-size: 16px;
+    			 border-bottom: 1px solid #e1e1e1;
+    			 }
+    	.p-money-m{ font-size: 28px; 
+    				margin-top: 20px; 
+    				color: #e4393c;
+    				font-weight: bold;
+    				
+    				}		
+    	.meny-zong{ margin-top: 10px; 
+    				font-size: 14px; 
+    				color: #000000;
+    				
+    				}	
+    	.meny-zong .mui-table-view-cell {
+    							   
+					    padding: 15px 15px;
+					    
+					    }	
+		.mui-table-view-cell:after {
+								    position: absolute;
+								    right: 15px;
+								    bottom: 0;
+								    left: 15px;
+								    height: 1px;
+								    content: '';
+								    -webkit-transform: scaleY(.5);
+								    transform: scaleY(.5);
+								    background-color: #c8c7cc;			
+								    
+								    }    
+								    
+		.meny-xian:after {
+								    position: absolute;
+								    right: 0;
+								    bottom: 0;
+								    left: 0;
+								    height: 1px;
+								    content: '';
+								    -webkit-transform: scaleY(.5);
+								    transform: scaleY(.5);
+								    background-color: #c8c7cc;			
+								    
+								    }    						    				
+   		.mey-qian{  float: right; color: #e4393c;}
+		.ico-dong{ width: 6px; height:13px;
+				  background: #f6b42a; 				  
+				  float: left;
+				  margin-right: 8px;
+				  margin-top: 3px;
+				   }
+		.ico-ke{ width: 6px; height:13px;
+				  background: #f95353; 				 
+				  float: left;
+				  margin-right: 8px;
+				   margin-top: 3px;
+				   }
+		.ico-dai{ width: 6px; height:13px;
+				  background: #2ed11e; 				 
+				  float: left;
+				  margin-right: 8px;
+				 margin-top: 3px;
+				   }
+		.ico-ben{ width: 6px; height:13px;
+				  background: #318bd7; 				
+				  float: left;
+				  margin-right: 8px;
+				margin-top: 3px;
+				   }
+		.ico-lix{ width: 6px; height:13px;
+				  background: #26dbbc; 
+				  display:block;
+				  float: left;
+				  margin-right: 8px;
+				 margin-top: 3px;
+				   }		   		   		   			   	
+    </style>
+</head>
+<body>
+<div class="mui-content">
+    <div class="p-money">当前总资产(元)
+    	<p class="p-money-m">756821.00</p>
+    </div>
+	<ul class="mui-table-view meny-zong">
+		 <li class="mui-table-view-cell">				
+			 <i class="ico-dong"></i>冻结资金 <span class="mey-qian">0.00元</span>
+		 </li>
+		  <li class="mui-table-view-cell">				
+			  <i class="ico-ke"></i>可用资金 <span class="mey-qian">100.00元</span>
+		 </li>
+		  <li class="mui-table-view-cell meny-xian">				
+			  <i class="ico-dai"></i>待收总额 <span class="mey-qian">3030.00元</span>
+		 </li>
+		  <li class="mui-table-view-cell meny-xian">				
+			  <i class="ico-ben"></i>待收本金 <span class="mey-qian">3000.00元</span>
+		 </li>
+		  <li class="mui-table-view-cell meny-xian">				
+			  <i class="ico-lix"></i>待收利息 <span class="mey-qian">30.00元</span>
+		 </li>
+		 
+	</ul>
+
+</div>
+
+
+</body>
+</html>
