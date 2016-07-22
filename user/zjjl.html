@@ -94,7 +94,7 @@
 					getdata(curr_page);
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
 					//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
+				}, 100);
 			}
 			var count = 0;
 			/**
@@ -105,7 +105,7 @@
 					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
 					curr_page = curr_page + 1;
 					getdata(curr_page);
-				}, 1500);
+				}, 100);
 			}
 			if (mui.os.plus) {
 				mui.plusReady(function() {
