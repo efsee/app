@@ -64,7 +64,7 @@
 		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
 		   	
 		   		<li class="ui-jcts">
-		   			<a href="guide.html" class="tap">
+		   			<a href="guide-show.html" class="tap">
 		   				<span class="icon_jcts"></span>
 		   				聚车特色
 		   			</a>
@@ -139,7 +139,7 @@
 mui('.ui-jcts').on('tap', 'a.tap', function(e){
 		e.stopPropagation();
 		href = this.getAttribute('href');
-	    mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
+	    mui.openWindow({url:'guide-show.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 	
 	
 })
@@ -168,7 +168,57 @@ mui.plusReady(function(){
 					} else {
 					}
 				})
-			});			
+			});	
+			
+		document.getElementById("bbh").addEventListener('tap', function() {
+			
+				var appinfo={};
+				plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+					//appid属性
+					appinfo.appid = wgtinfo.appid;
+					//version属性
+					appinfo.version = wgtinfo.version;
+					//name属性
+					appinfo.name = wgtinfo.name;
+					
+					var request = {};
+					
+					product.getversion({"request":request},function(res){
+						
+						if(res){
+							if(appinfo.version<res.version){
+								var content='';
+								$.each(res.content, function(i, item) {
+									content+='\r\n'+item;
+								});
+								
+								store.set('diffrent', 1, res.time);	//标志暂存时间30秒
+								var btnArray = ['取    消', '立即更新'];
+								mui.confirm(content,res.title, btnArray, function(e) {
+									if (e.index == 1) {
+										/*if(plus.os.name=='iOS'){
+											url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
+											plus.runtime.openURL(url);
+										}
+										else{
+											url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
+											plus.runtime.openURL(url);
+										}*/
+										url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
+										plus.runtime.openURL(url);
+										
+									} else {
+									}
+								})
+							}	
+						}
+						
+					})
+					
+				})
+				
+			
+		});
 	
 		
 		preload ();

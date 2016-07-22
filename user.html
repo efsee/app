@@ -158,7 +158,16 @@
 <script src="js/common.js"></script>
 <script src="js/api.js"></script>
 <script>
-	mui.plusReady(function(){		
+	mui.plusReady(function(){
+	$('#mytz').removeClass('user-new');
+	$('#llcz').removeClass('user-new-l');
+	
+	if(!store.get('mytzopen')){
+		$('#mytz').addClass('user-new');
+	}
+	if(!store.get('llczopen')){
+		$('#llcz').addClass('user-new-l');
+	}
 	mui.preload({
 		url:'user/hkjl.html',
 		styles: {
