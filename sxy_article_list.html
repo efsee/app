@@ -11,28 +11,30 @@
 	<link href="css/recharge.css" rel="stylesheet" type="text/css" />
 	<script src="js/mui.min.js"></script>
 	
-	<style>
-	.mui-media-body{ font-size: 14px; white-space: normal;}
-	.mui-ellipsis{text-align: right; 			  
-				  font-size: 12px;
-			
-				  }	
-	.mui-ellipsis-ico{ background: url(images/find_icon.png) no-repeat -68px -36px; 
-						display: inline-block;
-						width: 18px;
-						height: 18px;
-						background-size:150px ;
-						position: relative;
-						top: 3px;
-						right: 5px;
-						}	
-	.mui-table-view .mui-media-object {
-	    line-height: 50px;
-	    max-width: 50px;
-	    height: 50px;
-	} 
-	.f-margin{ margin-top: -15px;}				
-	</style>
+<style>
+.mui-media-body{ font-size: 14px; white-space: normal;}
+.mui-ellipsis{text-align: right; 			  
+			  font-size: 12px;
+		      margin-right: 8px;
+			  }	
+.mui-ellipsis-ico{ background: url(images/find_icon.png) no-repeat -68px -36px; 
+					display: inline-block;
+					width: 18px;
+					height: 18px;
+					background-size:150px ;
+					position: relative;
+					top: 2px;
+					right: 5px;
+					}
+.mui-media-title{ height: 35px; line-height: 20px;}						
+.mui-table-view .mui-media-object {
+    line-height: 60px;
+    max-width: 60px;
+    height: 60px;
+    border-radius: 5px;
+} 
+.f-margin{ margin-top: -15px;}				
+</style>
 </head>
 <body>
 <div class="mui-content">
@@ -53,7 +55,7 @@
 		<a class="tap" href="javascript:;" title="{{item.name}}" data-id="{{item.id}}">
 			<img class="mui-media-object mui-pull-left" src="http://www.ifcar99.com{{item.fileurl}}">
 			<div class="mui-media-body">
-				{{item.name}}
+				<div class="mui-media-title">{{item.name}}</div>
 				<p class='mui-ellipsis'><span class="mui-ellipsis-ico"></span>{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>
 			</div>
 		</a>
