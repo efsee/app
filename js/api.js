@@ -420,6 +420,7 @@ var account = {
 		var url = apiurl + '?module=account&action=Cost_llcz';
 		ajax.post(url, $data, callback);
 	},
+	//充值记录api
 	"GetRechargeList" : function($data, callback){
 		var url = apiurl + '?module=account&action=GetRechargeList';
 		ajax.post(url, $data, callback);
