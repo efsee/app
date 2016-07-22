@@ -72,7 +72,12 @@ header .mui-title { color: #333; }
 			.aleTelPri{
 				height:50px;
 				line-height: 50px;
-				
+			}
+			.layermend {
+				 display: ;
+			}
+			.layer-wjmm{
+				margin-bottom: 20px;
 			}
     </style>
 <body>
@@ -176,6 +181,62 @@ header .mui-title { color: #333; }
 
 <script type="text/javascript" charset="utf-8">
   	mui.init({swipeBack: false});
+  	/****自动获取焦点弹窗native.js****/
+  	var nativeWebview, imm, InputMethodManager;
+	var initNativeObjects = function() {
+	    if (mui.os.android) {
+	        var main = plus.android.runtimeMainActivity();
+	        var Context = plus.android.importClass("android.content.Context");
+	        InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+	        imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+	    } else {
+	        nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    }
+	};
+	var showSoftInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('#money');
+	              inputElem.focus(); 
+	    }, 300);
+	};
+	//弹窗软键盘
+	var showTcInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('.paypassword');
+	              inputElem.focus(); 
+	    }, 300);
+	};
+	
+	mui.plusReady(function() {
+	    initNativeObjects();
+	    showSoftInput();
+	});
+  	
+  	
 </script>
 
 <!--创建可投金额模板-->
@@ -203,6 +264,7 @@ header .mui-title { color: #333; }
 		/**********忘记密码页面跳转**********/
 		$(document).on('tap','#wjmm',function(e){
 			e.preventDefault();
+			layer.close(index)
 			href=$(this).attr('data-href');
 			inittemplate = getTemplate('template', 'template.html');
 			//获得共用父模板
@@ -219,6 +281,9 @@ header .mui-title { color: #333; }
 		});
 		//		/*******支付页面返回刷新*******/
 		document.addEventListener('ljback',function(){
+			plus.webview.currentWebview().reload(true)
+		})
+		document.addEventListener('refresh2',function(){
 			plus.webview.currentWebview().reload(true)
 		})
 		
@@ -316,132 +381,102 @@ header .mui-title { color: #333; }
 										upayWord=pw.paypassword;
 									})
 									$('.paypassword').val('');
-									
-									var index =layer.open({
+									function closelayer(){
+										layer.close(index)
+									}
+									index =layer.open({
 										title: [
 									        '请输入交易密码',
 											'text-align:center;padding-left:45px;margin:0;'
 									    ],
-									    content: '<p class="aleTelNum">'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00</p><input type="password" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
-									  // content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
-									    btn: ['确认', '取消'],
+									    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00</p><input type="password" pattern="[0-9]*" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 									    shadeClose: false,
 									    anim:true,
-									    yes: function(){
-									    	console.log($('.paypassword').val());
-									        if(!$('.paypassword').val()){
-												mui.toast('请输入交易密码');
-											}
-											else{
-												paypassword=$.md5($('.paypassword').val());
-												if(paypassword==upayWord){
-													console.log("密码正确")
-													borrow.tender(request,function(res){
-													console.log("9"+JSON.stringify(res));
-													plus.nativeUI.showWaiting();
-													if(res.status == 1){
-														//alert("投标成功");
-															plus.nativeUI.closeWaiting();
-															plus.nativeUI.alert( "投标成功!", function(){
-																data = {'article_id': borrow_nid};
-																mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
-																try{
-																	mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
-																}catch(e){}
-																setTimeout(function(){
-																	mui.back();
-																},150);
-															}, "提示", "关闭" );
-													}else{
-														
-														plus.nativeUI.closeWaiting();
-														if(res.status == -2){
-															//返回这个页面时调用getdata()
-															//提示余额不足，请充值
-									//						alert(res.msg + '-2');
-															plus.nativeUI.alert(res.msg, function(){
-									//							mui.fire(plus.webview.currentWebview().opener(), "reload");
-									//							setTimeout(function(){
-									//								mui.back();
-									//							},150);
-																mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
-															}, "提示", "充值" );
+									    success:function(layero, index){
+												initNativeObjects();
+		   										showTcInput();
+		   										$(".paypassword").keyup(function(){
+										    	    pwlength=$(this).val().length;
+										    		console.log(pwlength)
+												    if(pwlength>=6){
+												    	paypassword=$.md5($('.paypassword').val());
+														if(paypassword==upayWord){
+															console.log("密码正确")
+															borrow.tender(request,function(res){
+															//console.log("9"+JSON.stringify(res));
+															plus.nativeUI.showWaiting();
+															if(res.status == 1){
+																//alert("投标成功");
+																	plus.nativeUI.closeWaiting();
+																	data = {'article_id': borrow_nid};
+																	//跳转成功页面
+																	var tzcg=mui.openWindow({
+																		url:"tzcg.html",
+																		id:"tzcg.html",
+																		styles:{"aniShow":"slide-in-right","popGesture":"close"},
+																		waiting:{"autoShow":false},
+																		extras:{
+																			
+																			article_id: ljdata
+																			
+																		}
+																	})
+																	
+																	
+																	/*href="tzcg.html";
+																	
+																	inittemplate = getTemplate('template', 'template.html');
+																	//获得共用父模板
+																	var headerWebview = inittemplate.header;
+																		//获得共用子webview
+																	var contentWebview = inittemplate.content;
+																	contentWebview.loadURL(href);
+																	mui.fire(headerWebview, 'updateHeader', {
+																		title: '投资成功',
+																		showMenu: false
+																	});
+																	
+																	mui.fire(headerWebview, 'loading');
+																	headerWebview.show('slide-in-right', 150);*/
+																	mui.fire(plus.webview.getWebviewById("tzcg.html"), "mui.view.show",data);
+																	closelayer()
+															}else{
+																plus.nativeUI.closeWaiting();
+																if(res.status == -2){
+																	//返回这个页面时调用getdata()
+																	//提示余额不足，请充值
+											//						alert(res.msg + '-2');
+																	plus.nativeUI.alert(res.msg, function(){
+											//							mui.fire(plus.webview.currentWebview().opener(), "reload");
+																		mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
+																	}, "提示", "充值" );
+																}else{
+																	plus.nativeUI.alert(res.msg,function(){
+																		getdata(ljdata)
+																	});
+																}
+															}
+														})
+															
 														}else{
-															plus.nativeUI.alert(res.msg,function(){
-																getdata(ljdata)
-															});
+															closelayer()
+															mui.alert("密码错误",function(){
+																plus.webview.currentWebview().reload(true)
+															})
 														}
-													}
-												})
-													
-												}else{
-													layer.close(index);
-													mui.alert("密码错误",function(){
-														plus.webview.currentWebview().reload(true)
-													})
-												}		
+											    	}
+											    })
 											}
-											//layer.open({content: '你点了确认', time: 1});  
-									    }, no: function(){
-									        //layer.open({content: '你选择了取消', time: 1})
-									        layer.close(index);
-									    }
-									});
-									
-									
+										})
+									}
 								}
-							}
+							});
 						});
-			
-			
-	/*	borrow.tender(request,function(res){
-				console.log("9"+JSON.stringify(res));
-				plus.nativeUI.showWaiting();
-				if(res.status == 1){
-					//alert("投标成功");
-						plus.nativeUI.closeWaiting();
-						plus.nativeUI.alert( "投标成功!", function(){
-							data = {'article_id': borrow_nid};
-							mui.fire(plus.webview.currentWebview().opener(), "mui.view.show",data);
-							try{
-								mui.fire(plus.webview.currentWebview().opener().opener(), "reloadpage");
-							}catch(e){}
-							setTimeout(function(){
-								mui.back();
-							},150);
-						}, "提示", "关闭" );
-				}else{
-					
-					plus.nativeUI.closeWaiting();
-					if(res.status == -2){
-						//返回这个页面时调用getdata()
-						//提示余额不足，请充值
-//						alert(res.msg + '-2');
-						plus.nativeUI.alert(res.msg, function(){
-//							mui.fire(plus.webview.currentWebview().opener(), "reload");
-//							setTimeout(function(){
-//								mui.back();
-//							},150);
-							mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
-						}, "提示", "充值" );
-					}else{
-						plus.nativeUI.alert(res.msg,function(){
-							getdata(ljdata) 
-						});
-					}
-				}
-			})*/
-
-        
-        
-		});
 		document.addEventListener('tap',function(event){
 			if(document.activeElement == document.getElementById("money") && event.target.id != 'money'){
 				$('#money').blur();
 			}
 		})
-		
-		
  			//侧滑容器父节点
 			var offCanvasWrapper = mui('#offCanvasWrapper');
 			 //主界面容器
@@ -481,7 +516,6 @@ header .mui-title { color: #333; }
 			var account_wait = parseInt($("#borrow_account_wait").html());
 			var moneyb = parseInt(money/100);		
             var moneyd = moneyb*100;	
-          
 			if(money>100){
 				if (money>account_wait){				
 			        $("#money").val(account_wait);			      

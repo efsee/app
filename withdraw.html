@@ -14,17 +14,17 @@
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
-    <style type="text/css">
+   <style type="text/css">
     	.imgbox { float: left;}
     	.bt{ line-height: 40px;}
     	.p-money{ padding: 30px;
     			 text-align: center; 
-    			 background: #e4393c;
+    			 background: #f95453;
     			 color: #fff;
     			 font-size: 16px;
     			 }
     	.p-money-m{ font-size: 28px; margin-top: 6px;}	
-    	.qetx-btn{background: #e4393c;
+    	.qetx-btn{background: #f95453;
     			  border-radius: 5px; 
     			  height: 40px; 
     			  line-height:40px ; 
@@ -35,13 +35,13 @@
     	.form-tab li .link .name{ font-size: 18px; margin-left: 6px; color: #000000; }
    /* 	.form-tab li .link .name */
     	.form-txt{ padding: 0px; padding: 18px 0px; font-size: 18px;width: 60%;}
-    	.btn.Large{ margin-top: 10px; height: 45px; line-height: 45px; } 
+    	.btn.Large{ margin-top: 10px; height: 45px; line-height: 45px; background: #f95453; } 
+    	.btn.Large:hover{ background: #e4393c}
     	.recharge-foot{ margin: 0 auto;
 				text-align: center; 			
 				width: 120px;
 				padding-top: 10px;
-				height: 35px;
-				
+				height: 35px;				
 				position:absolute;
 				bottom: 20px;
 				left: 50%;
@@ -82,8 +82,10 @@
 			height:35px;
 			line-height: 35px;
 		}			
-				
-    </style>
+		.layer-wjmm{
+				margin-bottom: 15px;
+			}	
+   </style>
 </head>
 <body>
 <div class="mui-content">
@@ -93,7 +95,7 @@
 	
 	<li>
 		<div class="link"><span class="name">金额</span>
-			<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt"  id="txje">
+			<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt">
 			<button type="button" class="qetx-btn" id="qetx">全部提现</button>
 		</div>
 	</li>
@@ -126,7 +128,60 @@
 <script src="js/template.function.js"></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	mui.plusReady(function(){	
+/****自动获取焦点弹窗native.js****/
+  	var nativeWebview, imm, InputMethodManager;
+	var initNativeObjects = function() {
+	    if (mui.os.android) {
+	        var main = plus.android.runtimeMainActivity();
+	        var Context = plus.android.importClass("android.content.Context");
+	        InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+	        imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+	    } else {
+	        nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    }
+	};
+	var showSoftInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('#money');
+	              inputElem.focus(); 
+	    }, 300);
+	};
+	//弹窗软键盘
+	var showTcInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('.paypassword');
+	              inputElem.focus(); 
+	    }, 300);
+	};
+	mui.plusReady(function(){
+		//自动弹出键盘
+		initNativeObjects();
+	    showSoftInput();
+	    
 
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
@@ -211,45 +266,57 @@
 				user.GetUsers({'request':pwRequest},function(pw){
 					upayWord=pw.paypassword;
 					})
-				$('.paypassword').val('');									
-				var index =layer.open({
+				$('.paypassword').val('');		
+				function closelayer(){
+					layer.close(index)
+				}
+				index =layer.open({
 					title: [
 							'请输入交易密码',
 							'text-align:center;padding-left:45px;margin:0;'
 							],
-					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+$('#money').val()+'.00</p><input type="password" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+$('#money').val()+'.00</p><input type="password" name="" class="paypassword" pattern="[0-9]*" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div></div>',
 					// content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
-				btn: ['确认', '取消'],
+				//btn: ['确认', '取消'],
 				shadeClose: false,
 				anim:true,
-				yes: function(){
-						console.log($('.paypassword').val());
-						if(!$('.paypassword').val()){
-							mui.toast('请输入交易密码');
+				success:function(layero, index){
+					initNativeObjects();
+		   			showTcInput();
+		   			$(".paypassword").keyup(function(){
+					pwlength=$(this).val().length;
+					console.log(pwlength)
+					if(pwlength>=6){
+					paypassword=$.md5($('.paypassword').val());
+					if(paypassword==upayWord){
+						console.log("密码正确")
+						request.paypassword =$('.paypassword').val();
+						account.cash_new(request, function(res){
+							console.log(JSON.stringify(res));
+							mui.openWindow({
+								url:"txtj.html",
+								id:"txtj.html",
+								styles:{"aniShow":"slide-in-right","popGesture":"close"},
+								waiting:{"autoShow":false}
+							})
+							mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
+							closelayer()
+								/*mui.back();*/
+							})
 						}
-							else{
-								paypassword=$.md5($('.paypassword').val());
-								if(paypassword==upayWord){
-									console.log("密码正确")
-									request.paypassword =$('.paypassword').val();
-									account.cash_new(request, function(res){
-										console.log(JSON.stringify(res));
-										mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
-										mui.back();
-									})
-								}
-								else{
-									layer.close(index);
-									mui.alert("密码错误",function(){
-										plus.webview.currentWebview().reload(true)
-									})
-								}		
-							}
-											//layer.open({content: '你点了确认', time: 1});  
-					}, no: function(){      //layer.open({content: '你选择了取消', time: 1})
-									 layer.close(index);
-									    }
-				});
+						else{
+							closelayer()
+							layer.close(index);
+							mui.alert("密码错误",function(){
+							plus.webview.currentWebview().reload(true)
+							})
+						}
+					
+					
+					}
+					})
+				}
+			});
 		})
 	})
 

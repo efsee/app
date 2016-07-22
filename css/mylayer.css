@@ -2,8 +2,13 @@
 	font-size: 16px;
 }
 .aleTelPri{
-	color: red;
+	color: #E11C25;
 	font-size: 20px;
+	margin-top: -5px;
+}
+.aleTelNum{
+	color:#333;
+ 	margin-top:-10px;	
 }
 .layermcont input {
 	padding: 24px 15px;
@@ -22,10 +27,13 @@
 }
 
 .layer-wjmm {
+	float: right;
+	display: block;
 	margin-top: 5px;
 	text-align: right;
 	color: #555;
-	text-decoration: underline;
+	border-bottom: 1px solid #FCB5B9;
+	/*text-decoration: underline;*/
 }
 
 .layermbtn {
