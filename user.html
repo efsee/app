@@ -326,7 +326,10 @@
 		
 		document.getElementById("recharge").addEventListener('tap',function(e){
 			//console.log("recharge");
-			mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right"},'show':{'autoShow':false},'waiting':{'autoShow':false}});
+			mui.openWindow({
+				'url':'w_recharge.html','id':'w_recharge.html', 
+				'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
+				'show':{'autoShow':true},'waiting':{'autoShow':false}});
 		})
 		document.addEventListener('mui.view.refresh',function(){
 			getdata();
