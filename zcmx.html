@@ -149,8 +149,8 @@
 <script src="js/template.function.js"></script>
 
 <script type="text/javascript">
-	mui.plusReady(function(){
-		document.addEventListener("initpage",function(e){
+	
+	document.addEventListener("initpage",function(e){
 			user.getInfo(function(res){
 				if(res){
 					console.log(JSON.stringify(res));
@@ -161,6 +161,5 @@
 				}
 			});
 		},false);
-	})
 </script>
 </html>
