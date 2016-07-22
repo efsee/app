@@ -424,6 +424,10 @@ var account = {
 	"GetRechargeList" : function($data, callback){
 		var url = apiurl + '?module=account&action=GetRechargeList';
 		ajax.post(url, $data, callback);
+	},
+	"GetCashList" : function($data, callback){
+		var url = apiurl + '?module=account&action=GetCashList';
+		ajax.post(url, $data, callback);
 	}
 }
 

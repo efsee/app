@@ -119,7 +119,7 @@
 					curr_page = 1;
 					getdata(curr_page);
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-				}, 1500);
+				}, 100);
 			}
 			var count = 0;
 			/**
@@ -129,7 +129,7 @@
 				setTimeout(function() {
 					curr_page = curr_page + 1;
 					getdata(curr_page);
-				}, 1500);
+				}, 100);
 			}
 			if (mui.os.plus) {
 				mui.plusReady(function() {
@@ -145,6 +145,11 @@
       	
 			mui.plusReady(function(){
 //				getdata(1);
+				request = {'user_id':user.uid()};
+				account.GetCashList({'request':request},function(res){
+					console.log(2116)
+					console.log(JSON.stringify(res));
+				})
 			});
 //			
 			function getdata(page){
