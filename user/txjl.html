@@ -60,16 +60,16 @@
 			    </div>
 				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
 					{{if item.status==0}}
-					<h4>待审核</h4>
+					<h4 style="font-size: 16px;">待审核</h4>
 					{{else if item.status==2}}
-					<h4>提现成功</h4>
+					<h4 style="font-size: 16px;">提现成功</h4>
 					{{else}}
-			        <h4>提现失败</h4>
+			        <h4 style="font-size: 16px;">提现失败</h4>
 			        {{/if}}
 			        {{if item.bank=="无"}}
 			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 
 			        {{else}}
-			        <h5 style="line-height: 25px;">{{item.bank}}({{item.bank_id.substr(-4)}})</h5> 
+			        <h5 style="line-height: 25px;">{{item.bank.substr(0,4)}}&nbsp;({{item.bank_id.substr(-4)}})</h5> 
 			        {{/if}}
 			    </div>
 			</div>
