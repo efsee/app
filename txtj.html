@@ -75,7 +75,7 @@
 </head>
 <body>
 	<header class="mui-bar mui-bar-nav header">
-		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
 		<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
 		<h1 id="title" class="mui-title">提现成功</h1>
 	</header>
@@ -91,7 +91,50 @@
 	    	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
     	</div>
 	</div>
+	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/mui.min.js"></script>
 	<script src="js/common.js"></script>
+	<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+	mui.init({
+		swipeBack:false
+	})
+		//充值问题跳转
+		mui.plusReady(function(){
+			var selfPage=plus.webview.currentWebview()
+			//跳转我的
+			mui("body").on('tap','.iphone-fin-botton',function(){
+			mui.fire(plus.webview.getLaunchWebview(),'gouser');
+			plus.webview.getLaunchWebview().show()
+			selfPage.close()
+			//selfPage.opener().close()
+			})
+			
+			mui(".recharge-foot").on('tap',' a',function(e){
+			console.log("55");
+			e.stopPropagation();
+			var url = this.getAttribute('data-href');
+			if(url == "") return;
+			//通知模板修改标题，并显示隐藏右上角图标；
+			inittemplate = getTemplate('template', 'template.html');
+				//获得共用父模板
+			var headerWebview = inittemplate.header;
+				//获得共用子webview
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL(url);
+			mui.fire(headerWebview, 'updateHeader', {
+				title: '充值常见问题',
+				showMenu: false
+			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 200);
+			});	
+			
+		})
+			
+		
+		
+	
+	</script>
 </body>
 </html>

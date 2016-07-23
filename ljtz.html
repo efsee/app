@@ -228,7 +228,7 @@ header .mui-title { color: #333; }
 	       //此处可写具体逻辑设置获取焦点的input
 	       var inputElem = document.querySelector('.paypassword');
 	              inputElem.focus(); 
-	    }, 300);
+	    }, 400);
 	};
 	
 	mui.plusReady(function() {
@@ -326,6 +326,12 @@ header .mui-title { color: #333; }
 			var borrow_style  = $("#borrow_style").val();
 			var money  = $("#money").val();
 			var hmoney = $("#hmoney").val();
+			var hongbao;
+			if(hmoney==0){
+				hongbao="";
+			}else{
+				hongbao="（含"+hmoney.substr(6)+"元红包）"
+			}
 			request = {};
 			request.borrow_nid = borrow_nid;
 			request.borrow_apr = borrow_apr;
@@ -386,7 +392,7 @@ header .mui-title { color: #333; }
 									        '请输入交易密码',
 											'text-align:center;padding-left:45px;margin:0;'
 									    ],
-									    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00</p><input type="password" pattern="[0-9]*" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+									    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00<span style="font-size:12px">'+hongbao+'</span></p><input type="password" pattern="[0-9]*" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 									    shadeClose: false,
 									    anim:true,
 									    success:function(layero, index){
