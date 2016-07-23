@@ -283,9 +283,6 @@ header .mui-title { color: #333; }
 		document.addEventListener('ljback',function(){
 			plus.webview.currentWebview().reload(true)
 		})
-		document.addEventListener('refresh2',function(){
-			plus.webview.currentWebview().reload(true)
-		})
 		
 		request = {'user_id':user.uid()};
 		account.GetOne({'request':request},function(res){
@@ -416,8 +413,9 @@ header .mui-title { color: #333; }
 																		styles:{"aniShow":"slide-in-right","popGesture":"close"},
 																		waiting:{"autoShow":false},
 																		extras:{
-																			
-																			article_id: ljdata
+																			money:money,
+																			article_id: ljdata,
+																			nowtime :new Date().getTime() / 1000
 																			
 																		}
 																	})
@@ -553,6 +551,7 @@ header .mui-title { color: #333; }
 	
 	/*****根据psshow页面传入的监听事件。是、其中传入data中含有borrow_account_wait值*****/
 		document.addEventListener("ljtzId",function(e){
+			
 			console.log(JSON.stringify(e.detail));
 			window.scrollTo(0,0);
 			var data = e.detail;

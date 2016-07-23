@@ -8,29 +8,41 @@
 <meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
      <link href="css/mui.min.css" rel="stylesheet"/>     
-     <link href="css/iphone.css" rel="stylesheet"/>
-     <link rel="stylesheet" href="css/css.css" />
+     <link rel="stylesheet" type="text/css" href="css/css.css"/>
  <style>
  body{ background: #fff;}  
 .prod-warp{background: #fff; border-bottom: 1px solid #e1e1e1;} 
 .mui-content {background: #fff; }
+.iphone-fin-ico {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
+    background: url(images/my_icon.png) no-repeat -137px -35px;
+    display: block;
+    background-size: 200px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
 .iphone-fin-font{ margin: 0 auto; 
               text-align: center;                   
 			  width: 100%;
-			  font-size: 1.5em;
+			  font-size: 26px;
 			  font-weight: bold;
 			  margin-bottom: 30px;
 			  background: #fff;
+			  
 
 			}	           
 .prod-button{ 	  			 	 
 	              text-align: center;	             
-	              width: 100%;
-	              margin-top: 40px;
-	              background: #fff;
-          	  	   height: 140px;
+	              width: 98%;	                         
+          	  	  height: 140px;
+          	  	  padding: 20px;
+          	  	  margin: 0 auto;
+          	  	  margin-top: 20px;	
 			  } 
-.prod-went{ width: 90%; 
+.prod-went{ width: 100%; 
             margin: 0 auto;
             height: 45px;            
             display: block;
@@ -38,10 +50,11 @@
             background: #f95453;
             border-radius: 5px;
             color: #fff;
+            font-size: 16px;
           
             }	
-.prod-went:hover{ background:#e4393c ;}                 
-.prod-see{ width: 90%; 
+.prod-went:hover{ background:#E13A39 ;color: #fff;}                 
+.prod-see{ width: 100%; 
             margin: 0 auto;
             height: 45px;            
             display: block;
@@ -49,23 +62,27 @@
             border: 1px solid #c4c4c4;
             border-radius: 5px;
             color: #000;
-             margin-top: 20px;
+             margin-top: 20px; 
+              font-size: 16px;
           
             }	
 .prod-see:active{    background: #f95453;
                      border: none;
+                     color: #fff;
              }	
 .prod-details{ padding: 4px;
 			   font-size: 0.6em; 			 
 			   background: #f0eff5;	
 			  
 			  	}
-.prod-title{ text-align: center; font-size: 1.2em;margin-bottom: 15px; margin-top: -10px; color:#f95553 ;}			  	         
+.prod-title{ text-align: center; font-size: 16px;margin-bottom: 15px; margin-top: -15px; color:#f95553 ;}			  	         
 .prod-zong{ margin-top: 10px; 
-    		font-size: 14px; 
+    		font-size: 12px; 
     		color: #7c7c7c;
     		margin: 0px;
     		border-bottom: none;
+    		padding-left: 15px;
+    		padding-right: 15px;
     
     		
     				}	
@@ -76,21 +93,22 @@
 					    }	
 .prod-zong .mui-table-view-cell:after {
 								    position: absolute;
-								    right: 15px;
+								    right: 10px;
 								    bottom: 0;
-								    left: 15px;
+								    left: 10px;
 								    height: 1px;
 								    content: '';
 								    -webkit-transform: scaleY(.5);
 								    transform: scaleY(.5);
 								    background-color: #c8c7cc;			
 								    
-								    }    				    
+								    }   
+								     				    
 .mui-table-view:after {
     position: absolute;
-    right: 15px;
+    right: 25px;
     bottom: 0;
-    left: 15px;
+    left: 25px;
     height: 1px;
     content: '';
     -webkit-transform: scaleY(.5);
@@ -99,37 +117,111 @@
 }
 					        							  	    
 .prod-qian{  float: right; color: #f95453;} 
-.prod-date{  float: right; color: #000;}
+.prod-date{  float: right; color: #000;}                        
 header .mui-icon {
     color: #999;
 }                        
      </style>
 </head>
 <body>
-	<header class="mui-bar mui-bar-nav">
-	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-	    <h1 class="mui-title">投资成功</h1>
+	<header class="mui-bar mui-bar-nav header">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+		<h1 id="title" class="mui-title">投资成功</h1>
 	</header>
 	<div class="mui-content">
 		<div class="prod-warp">	
 		   <div class="iphone-fin-ico"></div>
 		   <div class="prod-title">投资成功</div>
-		   <h3 class="iphone-fin-font">250000.00</h3>	
+		   <h3 class="iphone-fin-font" id="tzMoney"></h3>	
 		</div>
 		<div class="prod-details"></div>
 		<ul class="mui-table-view prod-zong">
 		 	<li class="mui-table-view-cell">				
-				<i class="ico-dong"></i>账户余额 <span class="prod-date">15000.00元</span>
+				<i class="ico-dong"></i>账户余额 <span class="prod-date" id="balanceMoney">0元</span>
 			</li>
 		
 			<li class="mui-table-view-cell">				
-				<i class="ico-dong"></i>投资时间 <span class="prod-date">2016-07-21 15:36</span>
+				<i class="ico-dong"></i>投资时间 <span class="prod-date" id="tzTime">2016-07-21 15:36</span>
 			</li>
 		</ul>
 		<div class="prod-button" >
-			<a href="#" class="prod-went">继续投资</a>
-		    <a href="#" class="prod-see">查看我的账户</a>
+			<a  class="prod-went">继续投资</a>
+		    <a  class="prod-see">查看我的账户</a>
 		</div>
 	</div>
+<script src="js/mui.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/api.js" ></script>
+<script>
+	mui.init({
+		
+	})
+	mui.plusReady(function(){
+		var selfPage=plus.webview.currentWebview()
+		//返回产品页
+		mui.back = function(){
+            plus.webview.getLaunchWebview("product.html").show()
+            selfPage.close()
+            selfPage.opener().close()
+       		mui.fire(plus.webview.getWebviewById("product_sub.html"),"initpage")	
+       }
+	//s数据读取开始
+		//var request=plus.webview.currentWebview().article_id;
+		document.getElementById("tzMoney").innerHTML=plus.webview.currentWebview().money+".00"
+		console.log(user.uid());
+		var request={};
+		request.user_id=user.uid()
+		account.GetOne({'request':request},function(res){
+			console.log(JSON.stringify(res));	
+			document.getElementById("balanceMoney").innerHTML=res.balance+"元"
+		})
+		var tzTime=plus.webview.currentWebview().nowtime;
+		document.getElementById("tzTime").innerHTML=getTime(tzTime, "yyyy-MM-dd hh:mm")
+		//时间函数
+		function  getTime(date, format) {
+			    date = new Date(date * 1000);
+			    var map = {
+			        "M": date.getMonth() + 1, //月份 
+			        "d": date.getDate(), //日 
+			        "h": date.getHours(), //小时 
+			        "m": date.getMinutes(), //分 
+			        "s": date.getSeconds(), //秒 
+			        "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+			        "S": date.getMilliseconds() //毫秒 
+			    };
+			    format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+			        var v = map[t];
+			        if(v !== undefined){
+			            if(all.length > 1){
+			                v = '0' + v;
+			                v = v.substr(v.length-2);
+			            }
+			            return v;
+			        }
+			        else if(t === 'y'){
+			            return (date.getFullYear() + '').substr(4 - all.length);
+			        }
+			        return all;
+			    });
+			    return format;
+		}
+		//读取结束
+		//继续投资和返回我的用户
+		mui("body").on('tap','.prod-went',function(){
+			console.log("a")
+			mui.back()
+		})
+		mui("body").on('tap','.prod-see',function(){
+			mui.fire(plus.webview.getLaunchWebview(),'gouser');
+			plus.webview.getLaunchWebview().show()
+			selfPage.close()
+			selfPage.opener().close()
+		})
+
+	})
+</script>	
+
+
 </body>
 </html>

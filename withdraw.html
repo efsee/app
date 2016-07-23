@@ -180,9 +180,7 @@
 	    }, 300);
 	};
 	mui.plusReady(function(){
-		//自动弹出键盘
-		initNativeObjects();
-	    showSoftInput();
+		
 	    
 
       		request = {"user_id":user.uid()};
@@ -191,15 +189,6 @@
      			
       			if(!res.account || !res.bank){
 						plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
-//							var detailWV = plus.webview.getWebviewById('card-bind.html');
-//							if(detailWV == null){
-//								detailWV = plus.webview.create('/user/card-bind.html','card-bind.html');
-//							}
-//							mui.fire(detailWV, "senddata", {'realname':res.realname});
-//		//					console.log(data);
-//							setTimeout(function(){
-//								detailWV.show('slide-in-right');
-//							},150);
 							data = {"title":"我的银行卡"};
 							var contentWebview = plus.webview.currentWebview();
 							contentWebview.loadURL('/user/wdyhk.html');
@@ -210,6 +199,9 @@
 							});
 						}, "提示", "绑定银行卡" );
       			}else{
+			      				//自动弹出键盘
+					initNativeObjects();
+				    showSoftInput();
 	      			var html = template("tpl-bank",res);
 	      			document.getElementById("box-bank").innerHTML = html;
 	      			
