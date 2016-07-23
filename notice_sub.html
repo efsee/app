@@ -137,13 +137,7 @@
 			}
 			
 			mui.plusReady(function() {
-				document.addEventListener('initpage',function(e){
-					
-					mui('#pullrefresh').pullRefresh().pulldownLoading();
-				},false);
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().pullupLoading();
-				}, 200);
+				
 				var detailPage = null;
 				mui("#news-list").on('tap', 'a.tap', function(e){
 					e.stopPropagation();
@@ -167,6 +161,9 @@
 				})
 
 			});
+			document.addEventListener('initpage',function(e){
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+			},false);
 			
 			function getLocalTime(nS) {     
 		       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace('GMT+8', "");      
