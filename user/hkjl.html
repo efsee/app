@@ -23,10 +23,17 @@
 	      top:13px;
 	      padding-left: 5px;
 	    }  
+	    header{
+	    	background: #fff;
+	    }
 	</style>
 </head>
 <body>
-
+<header class="mui-bar mui-bar-nav header">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<!--<a class="mui-pull-right" style="padding-top: 10px;" id="share"><i class="icon ico-share"></i></a>-->
+	<h1 class="mui-title name" id="title">回款记录</h1>
+</header>
 <div class="mui-content">
 	 
 	<div class="dmb">
@@ -65,7 +72,17 @@
 
 <script type="text/javascript" charset="utf-8">
 	
-	mui.init();
+	mui.init({
+		beforeback: function(){
+			//获得a界面的webview
+			var thisIndex= plus.webview.getWebviewById('user.html');
+			//var thisIndex= plus.webview.currentWebview().opener();
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+			mui.fire(thisIndex,'refresh');
+			//返回true，继续页面关闭逻辑
+			return true;
+		}
+	});
 		
 	mui.plusReady(function(){
 		request = {'type':'','user_id':user.uid(),'epage':10000};
