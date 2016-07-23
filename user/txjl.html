@@ -55,21 +55,21 @@
    		<li class="mui-table-view-cell">
 			<div class="mui-table">
 			    <div class="mui-table-cell mui-col-xs-6">
-			        <h4>+{{item.money}}</h4>
+			        <h4>-{{item.credited}}</h4>
 			        <h5 style="line-height: 25px;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
 			    </div>
 				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
-					{{if item.payment==99}}
-					<h4>连连支付</h4>
-					{{else if item.payment_name==null}}
-					<h4>手动支付</h4>
+					{{if item.status==0}}
+					<h4>待审核</h4>
+					{{else if item.status==2}}
+					<h4>提现成功</h4>
 					{{else}}
-			        <h4>{{item.payment_name}}</h4>
+			        <h4>提现失败</h4>
 			        {{/if}}
-			        {{if bank_name=="无"}}
+			        {{if item.bank=="无"}}
 			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 
 			        {{else}}
-			        <h5 style="line-height: 25px;">{{bank_name}}({{account}})</h5> 
+			        <h5 style="line-height: 25px;">{{item.bank}}({{item.bank_id.substr(-4)}})</h5> 
 			        {{/if}}
 			    </div>
 			</div>
@@ -119,7 +119,7 @@
 					curr_page = 1;
 					getdata(curr_page);
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-				}, 100);
+				}, 400);
 			}
 			var count = 0;
 			/**
@@ -156,20 +156,8 @@
 				
 				request = {'user_id':user.uid()};
 				request.page = page;
-				account.GetRechargeList({'request':request},function(res){//$data和回调函数
-					console.log(JSON.stringify(res));
-					console.log(JSON.stringify(res.list));
-					account.GetUsersBankOne({'request':request},function(bank_res){
-			      	console.log(JSON.stringify(bank_res));
-			      	if(bank_res.bank_name!=null){
-			      		res.list.bank_name=bank_res.bank_name;
-			      		var strLen=bank_res.account.length-4	
-					    res.list.account=bank_res.account.substring(strLen);
-			      	}else{
-			      		res.list.bank_name="无";
-			      		res.list.account="无";
-			      	}
-
+				account.GetCashList({'request':request},function(res){//$data和回调函数
+					console.log("9"+JSON.stringify(res));
 					var html = template('tpl-item',res.list);
 					var ul = document.querySelector('#zjjl-list');
 					var upflag = res.page >= res.total_page ? true : false;
@@ -185,7 +173,7 @@
 						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
 					}
 					})
-				});
+				//});
 		      	
 			}
 

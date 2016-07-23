@@ -425,6 +425,7 @@ var account = {
 		var url = apiurl + '?module=account&action=GetRechargeList';
 		ajax.post(url, $data, callback);
 	},
+	//提现记录
 	"GetCashList" : function($data, callback){
 		var url = apiurl + '?module=account&action=GetCashList';
 		ajax.post(url, $data, callback);

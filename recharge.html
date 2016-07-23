@@ -11,7 +11,9 @@
 <link href="css/css.css" rel="stylesheet" type="text/css" />
 <link href="css/recharge.css" rel="stylesheet" type="text/css" />
 <link href="css/mui.picker.css" rel="stylesheet" />
-<link href="css/mui.poppicker.css" rel="stylesheet" />  
+<link href="css/mui.poppicker.css" rel="stylesheet" /> 
+<link href="css/layer.css" rel="stylesheet"/>
+<link href="css/mylayer.css" rel="stylesheet"/>
     <script src="js/mui.min.js"></script>
     <script src="js/common.js"></script>
 
@@ -85,6 +87,16 @@ header .mui-title { color: #333; }
 .bank-yanz span{ 
 	color: #d3182f; font-weight: bold; padding: 0px 3px;
 	}
+			.aleTelNum{
+				margin-top:-10px;
+			}
+			.aleTelPri{
+				height:50px;
+				line-height: 50px;
+			}
+			.layer-wjmm{
+				margin-bottom: 20px;
+			}
     </style>
 </head>
 <body>
@@ -341,10 +353,10 @@ header .mui-title { color: #333; }
 	</ul>
 	<div class="recharge-tins"></div>
 </script>
-
+<script src="js/layer.js"></script>	
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/template.js" type="text/javascript" charset="utf-8"></script>
-
+<script type="text/javascript" src="js/jQuery.md5.js" ></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
  <script src="js/city.data1.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/mui.picker.js"></script>
@@ -353,6 +365,64 @@ header .mui-title { color: #333; }
 
 
 <script type="text/javascript">
+/****自动获取焦点弹窗native.js****/
+  	var nativeWebview, imm, InputMethodManager;
+	var initNativeObjects = function() {
+	    if (mui.os.android) {
+	        var main = plus.android.runtimeMainActivity();
+	        var Context = plus.android.importClass("android.content.Context");
+	        InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+	        imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+	    } else {
+	        nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    }
+	};
+	var showSoftInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('.money_order');
+	              inputElem.focus(); 
+	    }, 300);
+	};
+	//弹窗软键盘
+	var showTcInput = function() {
+		var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+	    if (mui.os.android) {
+	    	//强制当前webview获得焦点
+	        plus.android.importClass(nativeWebview);
+	        nativeWebview.requestFocus();
+	        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+	    } else {
+	        nativeWebview.plusCallMethod({
+	            "setKeyboardDisplayRequiresUserAction": false
+	        });
+	    }
+	    setTimeout(function() {
+	       //此处可写具体逻辑设置获取焦点的input
+	       var inputElem = document.querySelector('.paypassword');
+	              inputElem.focus(); 
+	    }, 400);
+	};
+	
+	mui.plusReady(function() {
+	    initNativeObjects();
+	    showSoftInput();
+	});
+
+
+
+
 	mui.plusReady(function(){
 			document.addEventListener("recharge",function(e){
 				//console.log(e.detail.sale_price)
@@ -412,18 +482,282 @@ header .mui-title { color: #333; }
       		})
       		
       		
-      		
+      		//完成提交
       		$(document).on('tap','#card-btn',function(e){
       			e.stopPropagation();
       			//console.log($(".money_order").val())
-      			var money = $(".money_order").val();
+      			var money = $(".money_order").val();//充值金额
       			if(money == "" || isNaN(money) || money <= 0){
       				alert("请输入正确的充值金额！");
       				return false;
       			}
       			
+      			pwRequest = {'user_id':user.uid()}; 
+									user.GetUsers({'request':pwRequest},function(pw){
+										upayWord=pw.paypassword;
+									})
+      			$('.paypassword').val('');
+					function closelayer(){
+						layer.close(index)
+						}
+					index =layer.open({
+						title: [
+							'请输入交易密码',
+							'text-align:center;padding-left:45px;margin:0;'
+								],
+						content: '<p class="aleTelNum">账户充值</p><p class="aleTelPri">￥'+money+'.00</p><input type="password" pattern="[0-9]*" name="" class="paypassword" maxlength="6"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+						shadeClose: false,
+						anim:true,
+						success:function(layero, index){
+							initNativeObjects();
+		   					showTcInput();
+		   					$(".paypassword").keyup(function(){
+							pwlength=$(this).val().length;
+							//console.log(pwlength)
+							if(pwlength>=6){
+							
+							paypassword=$.md5($('.paypassword').val());
+							closelayer()
+							if(paypassword==upayWord){
+								console.log("密码正确")
+								request = {"user_id":user.uid()};
       			
-      			request = {"user_id":user.uid()};
+      			user.UserInfo({'request':request},function(res){
+	      			console.log(JSON.stringify(res))
+	      			if(res.realname_status!=1){	//没有实名认证
+	      				console.log(9854989)
+	      				var money = $(".money_order").val();
+		      			if(!checkform1()){
+		      				return false;
+		      			}
+		      			else{
+		      				var request = {};		
+							request.user_id = user.uid();
+							request.realname = $('.realname').val();
+							request.card_id = $('.card_id').val();
+							realname = $('.realname').val();
+							card_id = $('.card_id').val();
+		      				user.realname(request,function(res){
+								//console.log(JSON.stringify(res));
+								if(res.status == 1){
+									console.log("实名认证成功,请等待审核");
+									request = {"user_id":user.uid()};
+      			
+					      			account.GetUsersBankOne({'request':request},function(bank_res){
+					      				//console.log(21515)
+						      			console.log(JSON.stringify(bank_res));
+						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+						 					
+											if(!checkform2()){
+												return false;
+											}
+											else{//此处会有提交need to do
+												request = {};
+												request.user_id = user.uid();
+												request.account = $('.account').val();
+												request.bank = $('.bank').val();
+												request.province = $('.province').val();
+												request.city = $('.city').val();
+												username=bank_res.username;
+												register_time=bank_res.register_time;
+												mobile=bank_res.mobile;
+												
+							 					account.cardbin(request,function(bin_res){
+							      					console.log(JSON.stringify(bin_res))
+							      					if(bin_res.status==1){//?????
+							      						
+							      						$("#bank_id").val($('.account').val());
+										      			$("#bank").val($('.bank').val());
+										      			
+										      			$('#user_id').val(user.uid());
+										      			$('#card_no').val($('.account').val());
+										      			$("#id_no").val($('.card_id').attr('data-val'));
+										      			$("#acct_name").val($('.realname').attr('data-val'));
+										      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+										      			$('#no_order').val(no_order);
+										      			
+							      						
+										      			console.log($("#acct_name").val())
+										      			console.log($('#card_no').val())
+										      			risk_item = {};
+										  				risk_item.frms_ware_category = "2009";
+										  				risk_item.user_info_mercht_userno = username;
+										  				risk_item.user_info_dt_register = register_time;
+										  				risk_item.user_info_full_name = $('.realname').val();
+										  				risk_item.user_info_id_no = $('.card_id').val();
+										  				risk_item.user_info_identify_type = "1";
+										  				risk_item.user_info_identify_state = "1";
+										  				risk_item.user_info_bind_phone = mobile;
+										//    				console.log(JSON.stringify(risk_item));
+										  				$("#risk_item").val(JSON.stringify(risk_item));
+								  						
+							      						$("form[name='llpayment']").submit();
+							      					}
+							      					else{
+							      						alert(bin_res.msg);
+							      						return false;
+							      					}
+									    		});
+											}
+											
+						 						
+						 					//return false;
+						 				}
+						 				else{//need to do
+					 						//console.log(JSON.stringify(bank_res))
+						 					$("#bank_id").val(bank_res.account);
+						 					$("#bank").val(bank_res.bank);
+							      			
+							      			$('#user_id').val(bank_res.user_id);
+							      			$('#card_no').val(bank_res.account);
+							      			$("#id_no").val(bank_res._realname.card_id);
+							      			$("#acct_name").val(bank_res.realname);
+							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+									      	$('#no_order').val(no_order);
+							      			//console.log(no_order)
+							      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
+						
+						      				risk_item = {};
+						      				risk_item.frms_ware_category = "2009";
+						      				risk_item.user_info_mercht_userno = bank_res.username;
+						      				risk_item.user_info_dt_register = bank_res.register_time;;
+						      				risk_item.user_info_full_name = bank_res.realname;
+						      				risk_item.user_info_id_no = bank_res._realname.card_id;
+						      				risk_item.user_info_identify_type = "1";
+						      				risk_item.user_info_identify_state = "1";
+						      				risk_item.user_info_bind_phone = bank_res.mobile;
+						//    				console.log(JSON.stringify(risk_item));
+						      				$("#risk_item").val(JSON.stringify(risk_item));
+						 					$("form[name='llpayment']").submit();
+						 					//return false;
+						 				}
+						 			})
+									
+								}else{//实名认证失败
+									alert(res.msg);
+									return false;
+								}
+							})
+		      				
+		      				
+		      			}
+	      				
+	      			}
+	      			else{//已经实名认证
+	      				request = {"user_id":user.uid()};
+      			
+		      			account.GetUsersBankOne({'request':request},function(bank_res){
+		      				console.log("21515")
+			      			console.log(JSON.stringify(bank_res));
+			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+			 					
+								if(!checkform2()){//？？？
+									return false;
+								}
+								else{
+									request = {};
+									request.user_id = user.uid();
+									request.account = $('.account').val();
+									request.bank = $('.bank').val();
+									request.province = $('.province').val();
+									request.city = $('.city').val();
+									username=bank_res.username;
+									register_time=bank_res.register_time;
+									mobile=bank_res.mobile;
+									
+				 					account.cardbin(request,function(bin_res){
+				 						console.log(225)
+				      					console.log(JSON.stringify(bin_res))
+				      					if(bin_res.status==1){
+				      						
+				      						$("#bank_id").val($('.account').val());
+							      			$("#bank").val($('.bank').val());
+							      			
+							      			$('#user_id').val(user.uid());
+							      			$('#card_no').val($('.account').val());
+							      			$("#id_no").val($('.card_id').attr('data-val'));
+							      			$("#acct_name").val($('.realname').attr('data-val'));
+							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+							      			$('#no_order').val(no_order);
+							      			
+				      						
+							      			//console.log($('#user_id').val())
+							      			risk_item = {};
+							  				risk_item.frms_ware_category = "2009";
+							  				risk_item.user_info_mercht_userno = username;
+							  				risk_item.user_info_dt_register = register_time;
+							  				risk_item.user_info_full_name = $('.realname').val();
+							  				risk_item.user_info_id_no = $('.card_id').val();
+							  				risk_item.user_info_identify_type = "1";
+							  				risk_item.user_info_identify_state = "1";
+							  				risk_item.user_info_bind_phone = mobile;
+							//    				console.log(JSON.stringify(risk_item));
+							  				$("#risk_item").val(JSON.stringify(risk_item));
+					  						
+				      						$("form[name='llpayment']").submit();
+				      					}
+				      					else{
+				      						alert(bin_res.msg);
+				      						return false;
+				      					}
+						    		});
+								}
+								
+			 						
+			 					//return false;
+			 				}
+			 				else{//实名且绑定银行卡
+			 					
+		 						console.log("+"+JSON.stringify(bank_res))
+			 					$("#bank_id").val(bank_res.account);
+			 					$("#bank").val(bank_res.bank);
+				      			
+				      			$('#user_id').val(bank_res.user_id);
+				      			$('#card_no').val(bank_res.account);
+				      			$("#id_no").val(bank_res._realname.card_id);
+				      			$("#acct_name").val(bank_res.realname);
+				      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
+						      	$('#no_order').val(no_order);
+				      			//console.log(no_order)
+				      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
+			
+			      				risk_item = {};
+			      				risk_item.frms_ware_category = "2009";
+			      				risk_item.user_info_mercht_userno = bank_res.username;
+			      				risk_item.user_info_dt_register = bank_res.register_time;;
+			      				risk_item.user_info_full_name = bank_res.realname;
+			      				risk_item.user_info_id_no = bank_res._realname.card_id;
+			      				risk_item.user_info_identify_type = "1";
+			      				risk_item.user_info_identify_state = "1";
+			      				risk_item.user_info_bind_phone = bank_res.mobile;
+			//    				console.log(JSON.stringify(risk_item));
+			      				$("#risk_item").val(JSON.stringify(risk_item));
+			 					$("form[name='llpayment']").submit();
+			 					//return false;
+			 				}
+			 			})
+	      			}
+      			})
+								
+								
+								
+							}
+							else{
+							closelayer()
+							mui.alert("密码错误",function(){
+								plus.webview.currentWebview().reload(true)
+								})
+						}
+							
+							}
+						
+						})
+					}
+      	})
+      			
+      			
+      			/**tingzhi*/
+      		/*	request = {"user_id":user.uid()};
       			
       			user.UserInfo({'request':request},function(res){
 	      			console.log(JSON.stringify(res))
@@ -546,7 +880,7 @@ header .mui-title { color: #333; }
 		      			}
 	      				
 	      			}
-	      			else{
+	      			else{//已经实名认证
 	      				request = {"user_id":user.uid()};
       			
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
@@ -610,7 +944,8 @@ header .mui-title { color: #333; }
 			 					//return false;
 			 				}
 			 				else{
-		 						//console.log(JSON.stringify(bank_res))
+			 					
+		 						console.log("+"+JSON.stringify(bank_res))
 			 					$("#bank_id").val(bank_res.account);
 			 					$("#bank").val(bank_res.bank);
 				      			
@@ -639,7 +974,7 @@ header .mui-title { color: #333; }
 			 				}
 			 			})
 	      			}
-      			})
+      			})*/
       			
       			
       			

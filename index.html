@@ -44,7 +44,7 @@
 <a href="home.html" id="home" class="tab active" title="聚车金融"><i class="ico-Home icon"></i><p>首页</p></a>
 <a href="product.html" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
 <a href="find.html" class="tab" title="发现"><i class="ico-Assets icon"></i><p>发现</p></a>
-<a href="user.html" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
+<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 </nav>
 </body>
 <script>
@@ -118,6 +118,11 @@
 	    }
 
 /**********************************底部导航子页面webview实现****************************************/
+			document.addEventListener("turnUser",function(){
+				var $botNav=$(".bot-nav a")
+				$botNav.eq(3).tap()
+				
+			})
 
 			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
@@ -256,6 +261,19 @@
 				console.log('home')
 				var defaultTab = document.getElementById("home");
 				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".bot-nav>.tab.active");
+				if (defaultTab !== current) {
+					current.classList.remove('active');
+					defaultTab.classList.add('active');
+				}
+			});
+			
+			 //自定义事件，模拟点击“我的”
+			document.addEventListener('gouser', function() {
+				var defaultTab = document.getElementById("user");
+				//模拟user点击
 				mui.trigger(defaultTab, 'tap');
 				//切换选项卡高亮
 				var current = document.querySelector(".bot-nav>.tab.active");
