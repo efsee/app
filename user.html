@@ -176,9 +176,8 @@
 	});
 	//返回页面重载
 	window.addEventListener('refresh',function(){
-			
 		plus.webview.getWebviewById('user.html').reload(true);
-		});
+	});
 	
 	document.getElementById("zzck").addEventListener('tap', function() {
 		var zcmx = plus.webview.create('zcmx.html');
@@ -252,10 +251,17 @@
 				login();
 				return;
 			}
-			if(this.classList.contains('noopen')){
-				return;
-			}
-				var url = this.getAttribute('href');
+			var hkjl = plus.webview.create('user/hkjl.html');
+		
+			hkjl.addEventListener('loaded',function(){
+				mui.fire(hkjl,'initpage',{
+					
+				});
+				setTimeout(function(){
+					hkjl.show("slide-in-right",100);
+				},150);
+			});
+				/*var url = this.getAttribute('href');
 				href = this.href;
 				
 				
@@ -288,7 +294,7 @@
 						headerWebview.show('slide-in-right', 150);
 						//plus.nativeUI.closeWaiting();
 					},400);
-				});
+				});*/
 		})
 		mui("body").on('tap','a.tap',function(){
 			uid = user.uid();
