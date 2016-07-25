@@ -147,6 +147,8 @@
 //			});
 			var contentWebview = null;
 			mui.back = function() {
+				var userPage=plus.webview.getWebviewById("user.html")
+				mui.fire(userPage,"initpage")
 				var current = plus.webview.currentWebview();
 				current.hide('auto');
 				setTimeout(function() {

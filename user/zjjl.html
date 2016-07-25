@@ -146,7 +146,20 @@
 					}
 				});
 			}
-			
+			oldback = mui.back;
+			mui.back = function(){
+				console.log("as");
+				var userPage=plus.webview.getWebviewById("user.html")
+				mui.fire(userPage,"initpage")
+				
+				/*inittemplate = getTemplate('userinfo_template', 'template.html');
+							//获得共用父模板
+						var headerWebview = inittemplate.header;
+							//获得共用子webview
+						var contentWebview = inittemplate.content;
+						mui.closeAll(headerWebview);*/
+						oldback();
+			}
 //			mui.back = function(){
 //				
 //			}

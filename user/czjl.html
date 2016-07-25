@@ -32,6 +32,9 @@
 			width: 94%;
 			left: 3%;
 		}
+		.mui-bar-nav.mui-bar .mui-icon{
+			color: #999;
+		}
     </style>
 </head>
 <body>
@@ -60,11 +63,11 @@
 			    </div>
 				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
 					{{if item.payment==99}}
-					<h4>连连支付</h4>
+					<h4 style="font-size: 16px;">连连支付</h4>
 					{{else if item.payment_name==null}}
-					<h4>手动支付</h4>
+					<h4 style="font-size: 16px;">手动支付</h4>
 					{{else}}
-			        <h4>{{item.payment_name}}</h4>
+			        <h4 style="font-size: 16px;">{{item.payment_name}}</h4>
 			        {{/if}}
 			        {{if bank_name=="无"}}
 			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 

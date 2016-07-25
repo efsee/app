@@ -425,23 +425,6 @@ header .mui-title { color: #333; }
 																			
 																		}
 																	})
-																	
-																	
-																	/*href="tzcg.html";
-																	
-																	inittemplate = getTemplate('template', 'template.html');
-																	//获得共用父模板
-																	var headerWebview = inittemplate.header;
-																		//获得共用子webview
-																	var contentWebview = inittemplate.content;
-																	contentWebview.loadURL(href);
-																	mui.fire(headerWebview, 'updateHeader', {
-																		title: '投资成功',
-																		showMenu: false
-																	});
-																	
-																	mui.fire(headerWebview, 'loading');
-																	headerWebview.show('slide-in-right', 150);*/
 																	mui.fire(plus.webview.getWebviewById("tzcg.html"), "mui.view.show",data);
 																	closelayer()
 															}else{
@@ -594,10 +577,10 @@ header .mui-title { color: #333; }
 		product.detail({"request":request},function(res){
 			//
 			$('#borrow_account_wait').html(res.borrow.borrow_account_wait);
-			console.log(res.borrow.borrow_account_wait);
+			//console.log(res.borrow.borrow_account_wait);
 			biaoName=res.borrow.name;
-			console.log("b页面"+JSON.stringify(res));
-			console.log(biaoName);
+			console.log("9"+JSON.stringify(res));
+			//console.log(biaoName);
 			if(res){
 			res.is_login = user.uid();
 			res.nowtime = new Date().getTime() / 1000;

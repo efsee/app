@@ -175,9 +175,9 @@
 		}
 	});
 	//返回页面重载
-	window.addEventListener('refresh',function(){
+	/*window.addEventListener('refresh',function(){
 		plus.webview.getWebviewById('user.html').reload(true);
-	});
+	});*/
 	
 	document.getElementById("zzck").addEventListener('tap', function() {
 		var zcmx = plus.webview.create('zcmx.html');
@@ -352,8 +352,9 @@
 	})
 	
 	document.addEventListener('initpage',function(e){
+					console.log("ss")
 					//console.log(store.get('mytzopen'))
-					
+					//window.scrollTo(0,0);
 					$('#mytz').removeClass('user-new');
 					$('#llcz').removeClass('user-new-l');
 					
@@ -370,7 +371,7 @@
 						store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 					})
 					getdata();
-		
+					//console.log("as")
 					request = {};
 					request.user_id = user.uid();
 //					user.loginbbs({'request':request},function(res){
@@ -419,7 +420,7 @@
       			data.right_btn = "好友(" + res.total + ")";
       			document.getElementById("user_yqyl").setAttribute('data',JSON.stringify(data));
       		});
-
+      		
 //		account.GetOne({'request':request},function(res){
 //			console.log(store.get('username'));
 //			$('#total').html(res.total);			
