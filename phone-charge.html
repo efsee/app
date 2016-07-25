@@ -318,6 +318,11 @@
 	   										showSoftInput();
 	   										$(".paypassword").keyup(function(){
 									    	    pwlength=$(this).val().length;
+									    	   /* var pstr="";
+									    	    for(var i=0;i<pwlength;i++){
+									    	    	pstr+="*"
+									    	    	$(this).val(pstr)
+									    	    }*/ 
 									    		console.log(pwlength)
 											    if(pwlength>=6){
 												paypassword=$('.paypassword').val();

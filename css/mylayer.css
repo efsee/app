@@ -35,7 +35,9 @@
 	border-bottom: 1px solid #FCB5B9;
 	/*text-decoration: underline;*/
 }
-
+.layer-wjmm:active{
+	border-bottom: none;
+}
 .layermbtn {
 	height: 45px;
 	line-height: 45px;
