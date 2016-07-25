@@ -537,8 +537,9 @@ header .mui-title { color: #333; }
 							request.card_id = $('.card_id').val();
 							realname = $('.realname').val();
 							card_id = $('.card_id').val();
+							console.log(request)
 		      				user.realname(request,function(res){
-								//console.log(JSON.stringify(res));
+								console.log(JSON.stringify(res));
 								if(res.status == 1){
 									console.log("实名认证成功,请等待审核");
 									request = {"user_id":user.uid()};
@@ -546,7 +547,7 @@ header .mui-title { color: #333; }
 					      			account.GetUsersBankOne({'request':request},function(bank_res){
 					      				//console.log(21515)
 						      			console.log(JSON.stringify(bank_res));
-						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//没有实名认证也没有绑定银行卡
 						 					
 											if(!checkform2()){
 												return false;
@@ -571,14 +572,14 @@ header .mui-title { color: #333; }
 										      			
 										      			$('#user_id').val(user.uid());
 										      			$('#card_no').val($('.account').val());
-										      			$("#id_no").val($('.card_id').attr('data-val'));
-										      			$("#acct_name").val($('.realname').attr('data-val'));
+										      			$("#id_no").val($('.card_id').val());
+										      			$("#acct_name").val($('.realname').val());
 										      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 										      			$('#no_order').val(no_order);
 										      			
-							      						
-										      			console.log($("#acct_name").val())
-										      			console.log($('#card_no').val())
+							      						console.log('未实名也未绑定')
+										      			console.log($('.card_id').val())
+										      			console.log($('.realname').val())
 										      			risk_item = {};
 										  				risk_item.frms_ware_category = "2009";
 										  				risk_item.user_info_mercht_userno = username;
