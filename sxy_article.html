@@ -84,17 +84,20 @@ color: #000000;
 <script src="js/template.function.js"></script>
 <script type="text/javascript">
 	mui.plusReady(function(){
-		document.addEventListener("articleId",function(e){
-			console.log(111244)
-			console.log(JSON.stringify(e.detail));
+		
+	})
+	
+	document.addEventListener("articleId",function(e){
+			//console.log(111244)
+			//console.log(JSON.stringify(e.detail));
 			//$('#title').text(e.detail.title)
 			plus.nativeUI.closeWaiting();
 			request = {'id':e.detail.id};
 			articles.detail({'request':request},function(res){
-				console.log(JSON.stringify(res))
-				console.log(res.name)
-				console.log(res.title)
-				console.log(res.contents)
+				//console.log(JSON.stringify(res))
+				//console.log(res.name)
+				//console.log(res.title)
+				//console.log(res.contents)
 				$('.academy-title').append(res.name)
 				$('.academy-date').prepend(Formatdate(res.addtime, 'yyyy-MM-dd hh:mm'))
 				
@@ -106,7 +109,6 @@ color: #000000;
 				$('.academy-dimension').append(rep)
 			})
 		},false);
-	})
 	
 	function Formatdate(date, format) {
 	    date = new Date(date * 1000);
