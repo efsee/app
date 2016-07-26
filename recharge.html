@@ -295,34 +295,35 @@ header .mui-title { color: #333; }
 	<div class="recharge-money">银行卡信息<a data-href="bank-limit.html" style="color:#d10720;" class="yhLimit">银行限额</a></div>
 	<ul class="mui-table-view recharge-sfz">
 		 <li class="mui-table-view-cell">开户银行
-		 	<select id="input_bank" class="recharge-input bank" name="bank">
+		 	<select id="input_bank" class="recharge-input bank" name="bank" value="{{bank}}">
+		 		
 					<option value="1">请选择开户银行</option>
-					<option value="1">中信银行</option>
-					<option value="2">建设银行</option>
-					<option value="3">工商银行</option>
-					<option value="4">农业银行</option>
-					<option value="5">招商银行</option>
-					<option value="6">交通银行</option>
-					<option value="7">中国银行</option>
-					<option value="8">兴业银行</option>
-					<option value="9">浦发银行</option>
-					<option value="10">民生银行</option>
-					<option value="11">邮政银行</option>
-					<option value="12">平安银行</option>
-					<option value="13">光大银行</option>
-					<option value="14">华夏银行</option>
-					<option value="15">广发银行</option>
-					<option value="17">杭州银行</option>    
-			        <option value="18">北京银行</option>    
-			        <option value="19">上海银行</option>    
-			        <option value="20">浙商银行</option>
+					<option value="1" {{if bank == '1'}}selected{{/if}}>中信银行</option>
+					<option value="2" {{if bank == '2'}}selected{{/if}}>建设银行</option>
+					<option value="3" {{if bank == '3'}}selected{{/if}}>工商银行</option>
+					<option value="4" {{if bank == '4'}}selected{{/if}}>农业银行</option>
+					<option value="5" {{if bank == '5'}}selected{{/if}}>招商银行</option>
+					<option value="6" {{if bank == '6'}}selected{{/if}}>交通银行</option>
+					<option value="7" {{if bank == '7'}}selected{{/if}}>中国银行</option>
+					<option value="8" {{if bank == '8'}}selected{{/if}}>兴业银行</option>
+					<option value="9" {{if bank == '9'}}selected{{/if}}>浦发银行</option>
+					<option value="10" {{if bank == '10'}}selected{{/if}}>民生银行</option>
+					<option value="11" {{if bank == '11'}}selected{{/if}}>邮政银行</option>
+					<option value="12" {{if bank == '12'}}selected{{/if}}>平安银行</option>
+					<option value="13" {{if bank == '13'}}selected{{/if}}>光大银行</option>
+					<option value="14" {{if bank == '14'}}selected{{/if}}>华夏银行</option>
+					<option value="15" {{if bank == '15'}}selected{{/if}}>广发银行</option>
+					<option value="17" {{if bank == '17'}}selected{{/if}}>杭州银行</option>    
+			        <option value="18" {{if bank == '18'}}selected{{/if}}>北京银行</option>    
+			        <option value="19" {{if bank == '19'}}selected{{/if}}>上海银行</option>    
+			        <option value="20" {{if bank == '20'}}selected{{/if}}>浙商银行</option>
 				</select>
 		 </li>
          <li class="mui-table-view-cell">所在省市         	
          	<button id='showCityPicker' class="mui-btn recharge-ss" type='button'>请选择省市</button>
          </li>	     
 	  	 <li class="mui-table-view-cell">银行卡号         	
-         	<input class="recharge-input account" type="number" pattern="[0-9]*" name="account" placeholder="请输入银行卡号">	
+         	<input class="recharge-input account" type="number" pattern="[0-9]*" name="account" placeholder="请输入银行卡号" value="{{account}}">	
          </li>	  
 		<input type="hidden" class="province" id="province" name="province" value="0" />
 		<input type="hidden" class="city" id="city" name="city" value="0" />
@@ -423,7 +424,7 @@ header .mui-title { color: #333; }
 
 	mui.plusReady(function(){
 			document.addEventListener("recharge",function(e){
-				//console.log(e.detail.sale_price)
+				////console.log(e.detail.sale_price)
 				if(e.detail.sale_price>0){
 					$('.money_order').val(e.detail.sale_price)
 					$('.money_order').attr('disabled','disabled')
@@ -431,7 +432,7 @@ header .mui-title { color: #333; }
 			},false);
 			
 			document.addEventListener("smrz",function(e){
-				//console.log(e.detail.sale_price)
+				////console.log(e.detail.sale_price)
 				if(e.detail.sale_price>0){
 					$('.money_order').val(e.detail.sale_price)
 					$('.money_order').attr('disabled','disabled')
@@ -443,34 +444,50 @@ header .mui-title { color: #333; }
 			
       		request = {"user_id":user.uid()};
       		user.UserInfo({'request':request},function(res){
-      			console.log(JSON.stringify(res))
+      			//console.log(JSON.stringify(res))
       			$('.balance').text(res.balance);
       			if(res.realname_status!=1){//还没有实名认证
-      				document.getElementById("recFotId").style.position="relative"
-      				var html = template("tpl-bank2",res);
-		      		document.getElementById("userinfo").innerHTML = html;
-		      		multiselect()
-		      		returnXe()
+      				
+		      		request = {"user_id":user.uid()};
+	      			account.GetUsersBankOne({'request':request},function(bank_res){
+	      				//console.log(bank_res)
+	      				console.log(JSON.stringify(bank_res));
+	      				res.bank=bank_res.bank;
+	      				res.account=bank_res.account;
+		      			document.getElementById("recFotId").style.position="relative"
+		 					var html = template("tpl-bank3",res);
+		      				document.getElementById("userinfo").innerHTML = html;
+		      				multiselect()
+		      				returnXe()
+		      		});
+		      		
+		      		
       			}
       			else{
       				
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      			//console.log(JSON.stringify(!bank_res.status));
+		      			////console.log(JSON.stringify(!bank_res.status));
 		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+		 					res.bank=bank_res.bank;
+	      					res.account=bank_res.account;
 		 					document.getElementById("recFotId").style.position="relative"
 		 					var html = template("tpl-bank3",res);
 		      				document.getElementById("userinfo").innerHTML = html;
 		      				multiselect()
 		      				returnXe()
+		      				
+		      				
 		 				}
 		 				else{	 					
 		 					res.account=bank_res.account;
 		 					res.bank_name=bank_res.bank_name;
 		 					res.bank=bank_res.bank;
-		 					//console.log(JSON.stringify(res))
+		 					////console.log(JSON.stringify(res))
 		 					var html = template("tpl-bank4",res);
 		      				document.getElementById("userinfo").innerHTML = html;
+		      				
+		      				
 		      				returnXe()
 		      				$('.recharge-tins').text(banklimit(parseInt(bank_res.bank)))
 		 				}
@@ -483,7 +500,7 @@ header .mui-title { color: #333; }
       		//完成提交
       		$(document).on('tap','#card-btn',function(e){
       			e.stopPropagation();
-      			//console.log($(".money_order").val())
+      			////console.log($(".money_order").val())
       			var money = $(".money_order").val();//充值金额
       			if(money == "" || isNaN(money) || money <= 0){
       				alert("请输入正确的充值金额！");
@@ -511,19 +528,19 @@ header .mui-title { color: #333; }
 		   					showTcInput();
 		   					$(".paypassword").keyup(function(){
 							pwlength=$(this).val().length;
-							//console.log(pwlength)
+							////console.log(pwlength)
 							if(pwlength>=6){
 							
 							paypassword=$.md5($('.paypassword').val());
 							closelayer()
 							if(paypassword==upayWord){
-								console.log("密码正确")
+								//console.log("密码正确")
 								request = {"user_id":user.uid()};
       			
       			user.UserInfo({'request':request},function(res){
-	      			console.log(JSON.stringify(res))
+	      			//console.log(JSON.stringify(res))
 	      			if(res.realname_status!=1){	//没有实名认证
-	      				console.log(9854989)
+	      				//console.log(9854989)
 	      				var money = $(".money_order").val();
 		      			if(!checkform1()){
 		      				return false;
@@ -535,16 +552,17 @@ header .mui-title { color: #333; }
 							request.card_id = $('.card_id').val();
 							realname = $('.realname').val();
 							card_id = $('.card_id').val();
-							console.log(request)
+							//console.log(JSON.stringify(request))
 		      				user.realname(request,function(res){
-								console.log(JSON.stringify(res));
+		      					//console.log('认证');
+								//console.log(JSON.stringify(res));
 								if(res.status == 1){
-									console.log("实名认证成功,请等待审核");
+									//console.log("实名认证成功,请等待审核");
 									request = {"user_id":user.uid()};
       			
 					      			account.GetUsersBankOne({'request':request},function(bank_res){
-					      				//console.log(21515)
-						      			console.log(JSON.stringify(bank_res));
+					      				////console.log(21515)
+						      			//console.log(JSON.stringify(bank_res));
 						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//没有实名认证也没有绑定银行卡
 						 					
 											if(!checkform2()){
@@ -562,7 +580,7 @@ header .mui-title { color: #333; }
 												mobile=bank_res.mobile;
 												
 							 					account.cardbin(request,function(bin_res){
-							      					console.log(JSON.stringify(bin_res))
+							      					//console.log(JSON.stringify(bin_res))
 							      					if(bin_res.status==1){//?????
 							      						
 							      						$("#bank_id").val($('.account').val());
@@ -575,9 +593,9 @@ header .mui-title { color: #333; }
 										      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 										      			$('#no_order').val(no_order);
 										      			
-							      						console.log('未实名也未绑定')
-										      			console.log($('.card_id').val())
-										      			console.log($('.realname').val())
+							      						//console.log('未实名也未绑定')
+										      			//console.log($('.card_id').val())
+										      			//console.log($('.realname').val())
 										      			risk_item = {};
 										  				risk_item.frms_ware_category = "2009";
 										  				risk_item.user_info_mercht_userno = username;
@@ -587,7 +605,7 @@ header .mui-title { color: #333; }
 										  				risk_item.user_info_identify_type = "1";
 										  				risk_item.user_info_identify_state = "1";
 										  				risk_item.user_info_bind_phone = mobile;
-										//    				console.log(JSON.stringify(risk_item));
+										//    				//console.log(JSON.stringify(risk_item));
 										  				$("#risk_item").val(JSON.stringify(risk_item));
 								  						
 							      						$("form[name='llpayment']").submit();
@@ -603,7 +621,7 @@ header .mui-title { color: #333; }
 						 					//return false;
 						 				}
 						 				else{//need to do
-					 						//console.log(JSON.stringify(bank_res))
+					 						////console.log(JSON.stringify(bank_res))
 						 					$("#bank_id").val(bank_res.account);
 						 					$("#bank").val(bank_res.bank);
 							      			
@@ -613,7 +631,8 @@ header .mui-title { color: #333; }
 							      			$("#acct_name").val(bank_res.realname);
 							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 									      	$('#no_order').val(no_order);
-							      			//console.log(no_order)
+									      	
+							      			////console.log(no_order)
 							      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
 						
 						      				risk_item = {};
@@ -625,7 +644,7 @@ header .mui-title { color: #333; }
 						      				risk_item.user_info_identify_type = "1";
 						      				risk_item.user_info_identify_state = "1";
 						      				risk_item.user_info_bind_phone = bank_res.mobile;
-						//    				console.log(JSON.stringify(risk_item));
+						//    				//console.log(JSON.stringify(risk_item));
 						      				$("#risk_item").val(JSON.stringify(risk_item));
 						 					$("form[name='llpayment']").submit();
 						 					//return false;
@@ -633,6 +652,7 @@ header .mui-title { color: #333; }
 						 			})
 									
 								}else{//实名认证失败
+									////console.log(21421)
 									alert(res.msg);
 									return false;
 								}
@@ -646,8 +666,8 @@ header .mui-title { color: #333; }
 	      				request = {"user_id":user.uid()};
       			
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      				console.log("21515")
-			      			console.log(JSON.stringify(bank_res));
+		      				//console.log("21515")
+			      			//console.log(JSON.stringify(bank_res));
 			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 			 					
 								if(!checkform2()){//？？？
@@ -665,8 +685,8 @@ header .mui-title { color: #333; }
 									mobile=bank_res.mobile;
 									
 				 					account.cardbin(request,function(bin_res){
-				 						console.log(225)
-				      					console.log(JSON.stringify(bin_res))
+				 						//console.log(225)
+				      					//console.log(JSON.stringify(bin_res))
 				      					if(bin_res.status==1){
 				      						
 				      						$("#bank_id").val($('.account').val());
@@ -679,8 +699,9 @@ header .mui-title { color: #333; }
 							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 							      			$('#no_order').val(no_order);
 							      			
+							      			
 				      						
-							      			//console.log($('#user_id').val())
+							      			////console.log($('#user_id').val())
 							      			risk_item = {};
 							  				risk_item.frms_ware_category = "2009";
 							  				risk_item.user_info_mercht_userno = username;
@@ -690,7 +711,7 @@ header .mui-title { color: #333; }
 							  				risk_item.user_info_identify_type = "1";
 							  				risk_item.user_info_identify_state = "1";
 							  				risk_item.user_info_bind_phone = mobile;
-							//    				console.log(JSON.stringify(risk_item));
+							//    				//console.log(JSON.stringify(risk_item));
 							  				$("#risk_item").val(JSON.stringify(risk_item));
 					  						
 				      						$("form[name='llpayment']").submit();
@@ -707,7 +728,7 @@ header .mui-title { color: #333; }
 			 				}
 			 				else{//实名且绑定银行卡
 			 					
-		 						console.log("+"+JSON.stringify(bank_res))
+		 						//console.log("+"+JSON.stringify(bank_res))
 			 					$("#bank_id").val(bank_res.account);
 			 					$("#bank").val(bank_res.bank);
 				      			
@@ -717,7 +738,7 @@ header .mui-title { color: #333; }
 				      			$("#acct_name").val(bank_res.realname);
 				      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 						      	$('#no_order').val(no_order);
-				      			//console.log(no_order)
+				      			////console.log(no_order)
 				      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
 			
 			      				risk_item = {};
@@ -729,7 +750,7 @@ header .mui-title { color: #333; }
 			      				risk_item.user_info_identify_type = "1";
 			      				risk_item.user_info_identify_state = "1";
 			      				risk_item.user_info_bind_phone = bank_res.mobile;
-			//    				console.log(JSON.stringify(risk_item));
+			//    				//console.log(JSON.stringify(risk_item));
 			      				$("#risk_item").val(JSON.stringify(risk_item));
 			 					$("form[name='llpayment']").submit();
 			 					//return false;
@@ -759,9 +780,9 @@ header .mui-title { color: #333; }
       		/*	request = {"user_id":user.uid()};
       			
       			user.UserInfo({'request':request},function(res){
-	      			console.log(JSON.stringify(res))
+	      			//console.log(JSON.stringify(res))
 	      			if(res.realname_status!=1){	//没有实名认证
-	      				console.log(9854989)
+	      				//console.log(9854989)
 	      				var money = $(".money_order").val();
 		      			if(!checkform1()){
 		      				return false;
@@ -774,14 +795,14 @@ header .mui-title { color: #333; }
 							realname = $('.realname').val();
 							card_id = $('.card_id').val();
 		      				user.realname(request,function(res){
-								//console.log(JSON.stringify(res));
+								////console.log(JSON.stringify(res));
 								if(res.status == 1){
-									console.log("实名认证成功,请等待审核");
+									//console.log("实名认证成功,请等待审核");
 									request = {"user_id":user.uid()};
       			
 					      			account.GetUsersBankOne({'request':request},function(bank_res){
-					      				//console.log(21515)
-						      			console.log(JSON.stringify(bank_res));
+					      				////console.log(21515)
+						      			//console.log(JSON.stringify(bank_res));
 						 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 						 					
 											if(!checkform2()){
@@ -799,7 +820,7 @@ header .mui-title { color: #333; }
 												mobile=bank_res.mobile;
 												
 							 					account.cardbin(request,function(bin_res){
-							      					console.log(JSON.stringify(bin_res))
+							      					//console.log(JSON.stringify(bin_res))
 							      					if(bin_res.status==1){
 							      						
 							      						$("#bank_id").val($('.account').val());
@@ -813,8 +834,8 @@ header .mui-title { color: #333; }
 										      			$('#no_order').val(no_order);
 										      			
 							      						
-										      			console.log($("#acct_name").val())
-										      			console.log($('#card_no').val())
+										      			//console.log($("#acct_name").val())
+										      			//console.log($('#card_no').val())
 										      			risk_item = {};
 										  				risk_item.frms_ware_category = "2009";
 										  				risk_item.user_info_mercht_userno = username;
@@ -824,7 +845,7 @@ header .mui-title { color: #333; }
 										  				risk_item.user_info_identify_type = "1";
 										  				risk_item.user_info_identify_state = "1";
 										  				risk_item.user_info_bind_phone = mobile;
-										//    				console.log(JSON.stringify(risk_item));
+										//    				//console.log(JSON.stringify(risk_item));
 										  				$("#risk_item").val(JSON.stringify(risk_item));
 								  						
 							      						$("form[name='llpayment']").submit();
@@ -840,7 +861,7 @@ header .mui-title { color: #333; }
 						 					//return false;
 						 				}
 						 				else{
-					 						//console.log(JSON.stringify(bank_res))
+					 						////console.log(JSON.stringify(bank_res))
 						 					$("#bank_id").val(bank_res.account);
 						 					$("#bank").val(bank_res.bank);
 							      			
@@ -850,7 +871,7 @@ header .mui-title { color: #333; }
 							      			$("#acct_name").val(bank_res.realname);
 							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 									      	$('#no_order').val(no_order);
-							      			//console.log(no_order)
+							      			////console.log(no_order)
 							      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
 						
 						      				risk_item = {};
@@ -862,7 +883,7 @@ header .mui-title { color: #333; }
 						      				risk_item.user_info_identify_type = "1";
 						      				risk_item.user_info_identify_state = "1";
 						      				risk_item.user_info_bind_phone = bank_res.mobile;
-						//    				console.log(JSON.stringify(risk_item));
+						//    				//console.log(JSON.stringify(risk_item));
 						      				$("#risk_item").val(JSON.stringify(risk_item));
 						 					$("form[name='llpayment']").submit();
 						 					//return false;
@@ -883,8 +904,8 @@ header .mui-title { color: #333; }
 	      				request = {"user_id":user.uid()};
       			
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      				console.log("21515")
-			      			console.log(JSON.stringify(bank_res));
+		      				//console.log("21515")
+			      			//console.log(JSON.stringify(bank_res));
 			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 			 					
 								if(!checkform2()){
@@ -902,8 +923,8 @@ header .mui-title { color: #333; }
 									mobile=bank_res.mobile;
 									
 				 					account.cardbin(request,function(bin_res){
-				 						console.log(225)
-				      					console.log(JSON.stringify(bin_res))
+				 						//console.log(225)
+				      					//console.log(JSON.stringify(bin_res))
 				      					if(bin_res.status==1){
 				      						
 				      						$("#bank_id").val($('.account').val());
@@ -917,7 +938,7 @@ header .mui-title { color: #333; }
 							      			$('#no_order').val(no_order);
 							      			
 				      						
-							      			//console.log($('#user_id').val())
+							      			////console.log($('#user_id').val())
 							      			risk_item = {};
 							  				risk_item.frms_ware_category = "2009";
 							  				risk_item.user_info_mercht_userno = username;
@@ -927,7 +948,7 @@ header .mui-title { color: #333; }
 							  				risk_item.user_info_identify_type = "1";
 							  				risk_item.user_info_identify_state = "1";
 							  				risk_item.user_info_bind_phone = mobile;
-							//    				console.log(JSON.stringify(risk_item));
+							//    				//console.log(JSON.stringify(risk_item));
 							  				$("#risk_item").val(JSON.stringify(risk_item));
 					  						
 				      						$("form[name='llpayment']").submit();
@@ -944,7 +965,7 @@ header .mui-title { color: #333; }
 			 				}
 			 				else{
 			 					
-		 						console.log("+"+JSON.stringify(bank_res))
+		 						//console.log("+"+JSON.stringify(bank_res))
 			 					$("#bank_id").val(bank_res.account);
 			 					$("#bank").val(bank_res.bank);
 				      			
@@ -954,7 +975,7 @@ header .mui-title { color: #333; }
 				      			$("#acct_name").val(bank_res.realname);
 				      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 						      	$('#no_order').val(no_order);
-				      			//console.log(no_order)
+				      			////console.log(no_order)
 				      			//{\"frms_ware_category\":\"2009\",\"user_info_mercht_userno\":\"123456\",\"user_info_dt_register\":\"20141015165530\",\"user_info_full_name\":\"张三\",\"user_info_id_no\":\"3306821990012121221\",\"user_info_identify_type\":\"1\",\"user_info_identify_state\":\"1\"}
 			
 			      				risk_item = {};
@@ -966,7 +987,7 @@ header .mui-title { color: #333; }
 			      				risk_item.user_info_identify_type = "1";
 			      				risk_item.user_info_identify_state = "1";
 			      				risk_item.user_info_bind_phone = bank_res.mobile;
-			//    				console.log(JSON.stringify(risk_item));
+			//    				//console.log(JSON.stringify(risk_item));
 			      				$("#risk_item").val(JSON.stringify(risk_item));
 			 					$("form[name='llpayment']").submit();
 			 					//return false;
@@ -999,7 +1020,7 @@ $(function(){
 	
 
 	$(".recharge-foot").on('tap',' a',function(e){
-		console.log("a")
+		//console.log("a")
 			e.stopPropagation();
 			var url = this.getAttribute('data-href');
 			if(url == "") return;
@@ -1042,8 +1063,8 @@ function multiselect(){
 			var showCityPickerButton = doc.getElementById('showCityPicker');
 			showCityPickerButton.addEventListener('tap', function(event) {
 				cityPicker.show(function(items) {
-//							console.log(JSON.stringify(items));
-//							console.log(items[0].text + " " + items[1].text);
+							console.log(JSON.stringify(items));
+							console.log(items[0].text + " " + items[1].text);
 					showCityPickerButton.innerHTML = items[0].text + " " + items[1].text;
 					document.getElementById("province").value = items[0].value;
 					document.getElementById("city").value = items[1].value;
@@ -1058,7 +1079,7 @@ function multiselect(){
 }
 function returnXe(){
 	$(".recharge-money").on('tap',' a',function(e){
-		console.log("a")
+		//console.log("a")
 			e.stopPropagation();
 			var url = this.getAttribute('data-href');
 			if(url == "") return;
@@ -1082,7 +1103,7 @@ function checkform1(){
 	test_sfz=$('.card_id').val();
 	test_account=$('.account').val()
 	if(test_realname == ""){
-		console.log("请输入姓名！")
+		//console.log("请输入姓名！")
 		alert("请输入姓名！");
 		return false;
 	}
@@ -1094,7 +1115,7 @@ function checkform1(){
 		}
 	}
 	if(test_sfz == ""){
-		console.log("请输入身份证号！")
+		//console.log("请输入身份证号！")
 		alert("请输入身份证号！");
 		return false;
 	}
@@ -1118,7 +1139,7 @@ function checkform1(){
 		return false;
 	}
 	if(test_account == ""){
-		console.log("请输入银行卡号！")
+		//console.log("请输入银行卡号！")
 		alert("请输入银行卡号！");
 		return false;
 	}
