@@ -58,17 +58,21 @@
 //			});
 	mui.plusReady(function(){
 			user.getInfo(function(res){
-				console.log(JSON.stringify(res));
 				document.getElementById("username").innerHTML = res.username.slice(0,3)+"****"+res.username.slice(-4);
-				if(res.realname!=""){
-					document.getElementById("realname").innerHTML = res.realname.slice(0,1)+"**";
+					
+				if(res.realname_status==1){
+					console.log(JSON.stringify(res));
+					if(res.realname!=""){
+						document.getElementById("realname").innerHTML = res.realname.slice(0,1)+"**";
+					}
+					//document.getElementById("card_id").innerHTML = res.card_id;
+					var card_id = res.card_id;
+					document.getElementById("card_id").innerHTML = card_id.slice(0,1) + "********************" + card_id.slice(-1);
+					if(res.realname_status == "1"){
+						document.querySelector('.imgbox').style.display = '';
+					}
 				}
-				//document.getElementById("card_id").innerHTML = res.card_id;
-				var card_id = res.card_id;
-				document.getElementById("card_id").innerHTML = card_id.slice(0,1) + "********************" + card_id.slice(-1);
-				if(res.realname_status == "1"){
-					document.querySelector('.imgbox').style.display = '';
-				}
+				
 				
 			});
 		mui('body').on('tap', '.cancel', function(e){
@@ -99,7 +103,7 @@
     				//console.log(JSON.stringify(res));
       				if(res.realname_status != 1){
 						// 弹出系统提示对话框
-						var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+						var	recharge=plus.webview.create('/smrz_w_recharge.html','smrz_w_recharge.html',{'popGesture':'close'});
 	
 						setTimeout(function(){
 							recharge.show("slide-in-right",100);
@@ -185,7 +189,7 @@
 //    				console.log(JSON.stringify(res));
       				if(res.realname_status != 1){
 						// 弹出系统提示对话框
-						var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+						var	recharge=plus.webview.create('/smrz_w_recharge.html','smrz_w_recharge.html',{'popGesture':'close'});
 	
 						setTimeout(function(){
 							recharge.show("slide-in-right",100);
@@ -201,7 +205,7 @@
 	      				account.GetUsersBankOne({'request':request},function(bank_res){
 		      			//console.log(JSON.stringify(!bank_res.status));
 			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
-			 					var	recharge=plus.webview.create('/w_recharge.html','w_recharge.html',{'popGesture':'close'});
+			 					var	recharge=plus.webview.create('/smrz_w_recharge.html','smrz_w_recharge.html',{'popGesture':'close'});
 	
 								setTimeout(function(){
 									recharge.show("slide-in-right",100);
