@@ -284,14 +284,12 @@ header .mui-title { color: #333; }
 	<div class="recharge-money">持卡人信息</div>
 	<ul class="mui-table-view recharge-sfz">
          <li class="mui-table-view-cell">姓名
-		 	<div class="recharge-xx">
-		 		<span class="realname" data-val='{{realname}}'>{{realname.substr(0,1)}}*</span>		 			
-		 	</div>
+         	<input class="recharge-input realname" type="text" name="realname" placeholder="请输入真实姓名" value="{{realname}}">
+		 	
 		 </li>
          <li class="mui-table-view-cell">身份证
-         	<div class="recharge-xx re-right">
-         		<span class="card_id" data-val='{{card_id}}'>{{card_id.substr(0,6)}}****{{card_id.substr(-4)}}</span>
-         	</div>
+         	<input class="recharge-input card_id" type="text" name="card_id" placeholder="请输入真实身份证号码" value="{{card_id}}">	
+         	
          </li>
 	</ul>
 	<div class="recharge-money">银行卡信息<a data-href="bank-limit.html" style="color:#d10720;" class="yhLimit">银行限额</a></div>
@@ -676,8 +674,8 @@ header .mui-title { color: #333; }
 							      			
 							      			$('#user_id').val(user.uid());
 							      			$('#card_no').val($('.account').val());
-							      			$("#id_no").val($('.card_id').attr('data-val'));
-							      			$("#acct_name").val($('.realname').attr('data-val'));
+							      			$("#id_no").val($('.card_id').val());
+							      			$("#acct_name").val($('.realname').val());
 							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 							      			$('#no_order').val(no_order);
 							      			
