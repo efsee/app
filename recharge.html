@@ -197,7 +197,7 @@ header .mui-title { color: #333; }
                     </dl>
 <div class="bank-yanz">充值<span>1元</span>至您的账号以验证银行卡信息</div>
 <div class="recharge-money">可用余额：<span class='balance'>0.00</span>元</div>     
-<div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额"></div>
+<div class="recharge-je mui-input-row">充值金额：<input class="recharge-input font-moey mui-input-clear money_order" type="number" pattern="[0-9]*" name="money_order"  placeholder="输入充值金额" value="0.01"></div>
 <div id="userinfo" class="userinfo">
 	
 </div>    
@@ -413,6 +413,24 @@ header .mui-title { color: #333; }
 	              inputElem.focus(); 
 	    }, 400);
 	};
+	document.addEventListener("recharge",function(e){
+		////console.log(e.detail.sale_price)
+		if(e.detail.sale_price>0){
+			$('.money_order').val(e.detail.sale_price)
+			//$('.money_order').attr('disabled','disabled')
+		}
+	},false);
+	
+	document.addEventListener("smrz",function(e){
+		////console.log(e.detail.sale_price)
+		if(e.detail.sale_price>0){
+			$('.money_order').val(e.detail.sale_price)
+			//$('.money_order').attr('disabled','disabled')
+			$('.recharge-money').hide()
+			$('.recharge-je').hide()
+			$('.bank-yanz').show()
+		}
+	},false);
 	
 	mui.plusReady(function() {
 	    initNativeObjects();
@@ -423,24 +441,7 @@ header .mui-title { color: #333; }
 
 
 	mui.plusReady(function(){
-			document.addEventListener("recharge",function(e){
-				////console.log(e.detail.sale_price)
-				if(e.detail.sale_price>0){
-					$('.money_order').val(e.detail.sale_price)
-					$('.money_order').attr('disabled','disabled')
-				}
-			},false);
 			
-			document.addEventListener("smrz",function(e){
-				////console.log(e.detail.sale_price)
-				if(e.detail.sale_price>0){
-					$('.money_order').val(e.detail.sale_price)
-					$('.money_order').attr('disabled','disabled')
-					$('.recharge-money').hide()
-					$('.recharge-je').hide()
-					$('.bank-yanz').show()
-				}
-			},false);
 			
       		request = {"user_id":user.uid()};
       		user.UserInfo({'request':request},function(res){
@@ -500,7 +501,7 @@ header .mui-title { color: #333; }
       		//完成提交
       		$(document).on('tap','#card-btn',function(e){
       			e.stopPropagation();
-      			////console.log($(".money_order").val())
+      			console.log($(".money_order").val())
       			var money = $(".money_order").val();//充值金额
       			if(money == "" || isNaN(money) || money <= 0){
       				alert("请输入正确的充值金额！");
@@ -508,9 +509,9 @@ header .mui-title { color: #333; }
       			}
       			
       			pwRequest = {'user_id':user.uid()}; 
-									user.GetUsers({'request':pwRequest},function(pw){
-										upayWord=pw.paypassword;
-									})
+				user.GetUsers({'request':pwRequest},function(pw){
+					upayWord=pw.paypassword;
+				})
       			$('.paypassword').val('');
 					function closelayer(){
 						layer.close(index)
@@ -540,7 +541,6 @@ header .mui-title { color: #333; }
       			user.UserInfo({'request':request},function(res){
 	      			//console.log(JSON.stringify(res))
 	      			if(res.realname_status!=1){	//没有实名认证
-	      				//console.log(9854989)
 	      				var money = $(".money_order").val();
 		      			if(!checkform1()){
 		      				return false;
@@ -653,7 +653,13 @@ header .mui-title { color: #333; }
 									
 								}else{//实名认证失败
 									////console.log(21421)
-									alert(res.msg);
+									
+									if(res.msg){
+										alert(res.msg);
+									}
+									else{
+										alert('实名认证失败，请填写正确的实名信息');
+									}
 									return false;
 								}
 							})
@@ -1130,11 +1136,11 @@ function checkform1(){
 		alert("请选择开户银行！");
 		return false;
 	}
-	if($('.province').val() == ""){
+	if($('.province').val()==0){
 		alert("请选择省！");
 		return false;
 	}
-	if($('.city').val() == ""){
+	if($('.city').val()==0){
 		alert("请选择市！");
 		return false;
 	}
@@ -1154,17 +1160,16 @@ function checkform1(){
 }
 
 function checkform2(){
-	
 	test_account=$('.account').val()
 	if($('.bank').val() == ""){
 		alert("请选择开户银行！");
 		return false;
 	}
-	if($('.province').val() == ""){
+	if($('.province').val()==0){
 		alert("请选择省！");
 		return false;
 	}
-	if($('.city').val() == ""){
+	if($('.city').val()==0){
 		alert("请选择市！");
 		return false;
 	}
