@@ -140,8 +140,10 @@
 					}
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
 					if(res.total == 0){
-						html = '<li class="mui-table-view-cell">没有记录</li>';
-						ul.innerHTML = html;
+						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
+							'<i class="notes-moblie"></i>'+
+							'<p class="no-records-size">暂无记录</p>'+
+							'</div>';
 						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
 					}
 				});

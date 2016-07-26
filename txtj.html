@@ -88,7 +88,7 @@
 		   <div class="iphone-fin-botton">确  认</div>  
 		</div>
 		<div class="recharge-foot" id="recFotId">
-	    	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
+	    	<a data-href="txPro.html"><i class="footer-ico"></i>提现常见问题</a>
     	</div>
 	</div>
 	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
@@ -99,7 +99,7 @@
 	mui.init({
 		swipeBack:false
 	})
-		//充值问题跳转
+		
 		mui.plusReady(function(){
 			var selfPage=plus.webview.currentWebview()
 			//跳转我的
@@ -107,9 +107,9 @@
 			mui.fire(plus.webview.getLaunchWebview(),'gouser');
 			plus.webview.getLaunchWebview().show()
 			selfPage.close()
-			//selfPage.opener().close()
-			})
 			
+			})
+			//充值问题跳转
 			mui(".recharge-foot").on('tap',' a',function(e){
 			console.log("55");
 			e.stopPropagation();
@@ -123,7 +123,7 @@
 			var contentWebview = inittemplate.content;
 			contentWebview.loadURL(url);
 			mui.fire(headerWebview, 'updateHeader', {
-				title: '充值常见问题',
+				title: '提现常见问题',
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');

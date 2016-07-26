@@ -56,6 +56,11 @@
 				}
 			});
 			
+			/***刷新监听事件**/
+			document.addEventListener('initpage',function(e){
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+			},false);
+			
 			var count = 0;
 			var empty_flag = 0;
 			/**
@@ -138,6 +143,10 @@
 			
 			mui.plusReady(function() {
 				
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				}, 200);
+
 				var detailPage = null;
 				mui("#news-list").on('tap', 'a.tap', function(e){
 					e.stopPropagation();

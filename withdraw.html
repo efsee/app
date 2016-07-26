@@ -22,7 +22,7 @@
     	.p-money{ padding: 30px;
     			 text-align: center; 
     			 background: #f95453;
-    			 color: #fff;
+    			 color: #fff!important;
     			 font-size: 16px;
     			 }
     	.p-money-m{ font-size: 28px; margin-top: 6px;}	
@@ -90,28 +90,26 @@
    </style>
 </head>
 <body>
-<div class="mui-content">
-<div class="p-money">账户可用余额(元)<p id="balance" class="p-money-m">0.00</p></div>
-<ul class="form-tab">
-	<li id="box-bank">
-	
-	<li>
-		<div class="link"><span class="name">金额</span>
-			<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt">
-			<button type="button" class="qetx-btn" id="qetx">全部提现</button>
+	<div class="mui-content">
+		<div class="p-money">账户可用余额(元)<p id="balance" class="p-money-m">0.00</p></div>
+		<ul class="form-tab">
+			<li id="box-bank">
+			<li>
+				<div class="link"><span class="name">金额</span>
+					<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt">
+					<button type="button" class="qetx-btn" id="qetx">全部提现</button>
+				</div>
+			</li>
+			<li class="mlr10">
+				<button type="button" class="btn Large" id="btn_submit">确认</button>
+			</li>
+		</ul>
+		<input type="hidden" name="bank_id" id="bank_id" value="" />
+		<input type="hidden" name="bank" id="bank" value="" />
+		<div class="recharge-foot" id="recFotId">
+			<a class="txPro" data-href="txPro.html"><i class="footer-ico"></i>提现常见问题</a>
 		</div>
-	</li>
-
-	<li class="mlr10">
-		<button type="button" class="btn Large" id="btn_submit">确认</button>
-	</li>
-</ul>
-<input type="hidden" name="bank_id" id="bank_id" value="" />
-<input type="hidden" name="bank" id="bank" value="" />
-<div class="recharge-foot" id="recFotId">
-	<a class="txPro" data-href="recharge_qaq.html"><i class="footer-ico"></i>提现常见问题</a>
-</div>
-</div>
+	</div>
 
 <script type="text/html" id="tpl-bank">
 <div class="tab txyhk">
@@ -179,10 +177,12 @@
 	              inputElem.focus(); 
 	    }, 400);
 	};
+	
 	mui.plusReady(function(){
+			document.addEventListener('initpage',function(e){
+				plus.webview.currentWebview().reload(true)
+			})
 		
-	    
-
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
 //    			console.log(JSON.stringify(res));
@@ -239,8 +239,8 @@
 		})
 		/**********忘记密码页面跳转**********/
 		mui("body").on('tap','#wjmm',function(e){
-			e.preventDefault();
 			layer.close(index)
+			e.preventDefault();
 			href=$(this).attr('data-href');
 			inittemplate = getTemplate('template', 'template.html');
 			//获得共用父模板
@@ -305,6 +305,7 @@
 						request.paypassword =$('.paypassword').val();
 						account.cash_new(request, function(res){
 							console.log(JSON.stringify(res));
+							closelayer()
 							mui.openWindow({
 								url:"txtj.html",
 								id:"txtj.html",
@@ -312,7 +313,7 @@
 								waiting:{"autoShow":false}
 							})
 							mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
-							closelayer()
+							
 								/*mui.back();*/
 							})
 						}
@@ -341,6 +342,7 @@
 			mui.openWindow({'url':'user/txjl.html',styles:{"aniShow":"slide-in-right","popGesture":"close"},waiting:{"autoShow":false}});
 				
 		},false);
+	
 	$(document).ready(function(){
 	  $("#money").focus(function(){	       	
 	       	$(".recharge-foot").css("position","relative");

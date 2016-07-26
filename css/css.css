@@ -776,7 +776,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 .qetx-qetz{ border:none;height:40px; line-height:40px; font-size:14px; color:#FFF; display:block; padding:0 15px; background:#ff9900; position:absolute; right:28px; top:0px; border-radius:0px 3px 3px 0px;}
 .Warm-tip{ margin:20px 10px; padding-left:30px; position:relative; color:#666;}
 .Warm-tip .title{ height:24px; line-height:24px; font-size:16px; color:#e4393c;}
-.Warm-tip .ico-tip{ width:20px; height:20px; display:block; position:absolute; left:0; top:2px;  background-position:-144px -54px;}
+.Warm-tip .ico-tip{ width:21px; height:21px; display:block; position:absolute; left:0; top:2px;  background-position:-144px -53px;}
 .Warm-tip.lrtzsm{ margin:0; background:#fffdd1; padding:10px 10px 10px 40px;}
 .Warm-tip.lrtzsm .ico-tip{ left:10px; top:12px;}
 
@@ -891,7 +891,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 .Red-envelopes li .flag { height:100%; position:absolute; right:0px; top:15%; z-index:1;}
 .Red-envelopes li .flag img{ height:100%; max-width: 100px; max-height: 100px; }
  
-.Invite-ad{ margin:8% 10% 0; font-size:0; line-height:0; position:relative; z-index:2;}
+.Invite-ad{ margin:5% 10% 0; font-size:0; line-height:0; position:relative; z-index:2;}
 .Invite-ad img{ width:100%;}
 .Invite-ewm{ width:64%; margin:-2.5% 18% 0; position:relative; z-index:1;}
 .Invite-ewm .imgbox{

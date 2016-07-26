@@ -24,7 +24,7 @@
 		<img src="images/logo1.png">	
 	</div>
 		<ul class="login-form clearfix">
-			<li><div class=" mui-input-row"><i class="ico-yhm"></i><input type="text" pattern="[0-9]*" class="login-txt mui-input-clear" id="login-username" name="mobile" placeholder="手机号码"></div></li>
+			<li><div class=" mui-input-row"><i class="ico-yhm"></i><input type="number" pattern="[0-9]*" class="login-txt mui-input-clear" id="login-username" name="mobile" placeholder="手机号码"></div></li>
 			<li><div class="mui-input-row mui-password"><i class="ico-pwd"></i><input type="password" class="login-txt mui-input-password" id="login-password" name="password" placeholder="登录密码"></div></li>
 			<li class="opn login-opn"><button class="login-btn" id="login-post">会员登录</button></li>
 			
@@ -41,12 +41,18 @@
 <script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/base.js"></script>
-
 <script language="javascript" type="text/javascript" src="js/api.js"></script>
 <script>
 
 	mui.init({'swipeBack':true});
-  
+	//限制输入手机位数
+	$("#login-username").keyup(function(){
+		var klength=$(this).val().length
+		if(klength>11){
+			$(this).val($(this).val().substr(0,11))
+			console.log($(this).val())	
+		}
+	})
 	mui.plusReady(function(){
 		//注册按钮
 		loginusername=store.get('username');
