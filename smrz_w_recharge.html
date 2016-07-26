@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+
+<style type="text/css">
+.header{
+	width:100%;
+	height:45px;
+	background:#e4393c;
+	text-align:center;
+	font-size:0px;
+	line-height:0px;
+	position:fixed;
+	z-index:999;
+	left:0;
+	top:0;
+	border-bottom:#bf494b 1px solid;
+	b-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	box-sizing:border-box;
+	}
+.header:after{
+	width:100%;
+	height:1px;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:#e14b4d;
+	content:"";
+	font-size:0;
+	}
+header .mui-icon { color: #ffffff; font-size: 14px; }
+header .mui-title { color: #ffffff; }
+</style>
+	</head>
+	<body>
+
+	</body>
+	<script src="js/mui.min.js"></script>
+
+	<script type="text/javascript">
+		var selfWV, mainWV, bodyWV;
+		mui.plusReady(function() {
+			selfWV = plus.webview.currentWebview();
+			mainWV = plus.webview.currentWebview().opener();
+			mui.init({
+				beforeback: function(){
+				//获得a界面的webview
+				var ljtzBack= plus.webview.currentWebview().opener();
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+				mui.fire(ljtzBack,'ljback');
+				//返回true，继续页面关闭逻辑
+				return true;
+			},
+				
+				swipeBack: false,
+				gestureConfig: {
+					doubletap: true
+				}
+			});
+			//二级webview 
+			bodyWV = plus.webview.create('smrz_recharge.html','smrz_recharge.html',{'top':'0px','bootom':'0px'});
+			selfWV.append(bodyWV);
+			headWV = plus.webview.create('smrz_recharge_header.html','smrz_recharge_header.html',{'top':'0px','height':'45px', 'zindex':9999});
+			headWV.addEventListener('loaded',function(){
+				selfWV.show();
+			})
+			selfWV.append(headWV);
+			
+			document.addEventListener("recharge",function(e){
+				bodyWV.addEventListener('loaded',function(){
+					mui.fire(bodyWV,'recharge',{
+						sale_price:e.detail.sale_price
+					});
+				})
+				
+			},false);
+			
+			document.addEventListener("smrz",function(e){
+				bodyWV.addEventListener('loaded',function(){
+					mui.fire(bodyWV,'smrz',{
+						sale_price:e.detail.sale_price
+					});
+				})
+				
+			},false);
+			//关闭页面
+			window.addEventListener('close', function(e) {
+				close();
+			});
+			
+			//返回
+			mui.back = function() {
+				close();
+			}
+		});
+		function close() {
+			selfWV.close();
+		}
+	</script>
+
+</html>
