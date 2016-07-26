@@ -14,87 +14,88 @@
     </script>
 </head>
 <body class="body-yellow">
-<div class="">
-
-<div class="Invite-ad"><img src="../images/Invite-polite.png"></div>
-<div class="">
-<div class="imgbox"><div id="qrcode" style=" margin: 20px auto; box-sizing: content-box; text-align: center; background: #fff; padding: 10px; width: 250px; height: 250px;"></div></div>
-<!--<div style="font-size: 14px; padding: 20px;">使用邀请码分享:您的邀请码 <textarea cols="15" rows="1" id="yaoqing" style="height:35px; width:120px; font-size:18px; padding-left:20px; font-weight:bold; overflow:auto;line-height:35px;" readonly="readonly"></textarea></div>-->
-<div class="opn" style="padding: 0 10px; "><button class="btn Large" id="share">邀请好友</button></div>
-<input type="hidden" name="share_url" id="share_url" value="http://www.ifcar99.com/" />
-</div>
-
-<div class="Warm-tip clearfix">
-<i class="ico-tip icon"></i>
-<p class="title">温馨提示：</p>
-<p>点击“邀请好友”，邀请好友加入聚车金融，可获得一定的奖励。奖励以投资红包的形式发放。详情可以咨询网站工作人员。<br />
-	请不要发送邀请码给不熟悉的人，以免给别人带来不必要的困扰。
-</p>
-</div>
-</div>
-
+	<div class="">
+		<div class="Invite-ad"><img src="../images/Invite-polite.png"></div>
+		<div class="" style="z-index: 3;margin-top: -16px;">
+			<p style="text-align: center;color: #333;font-size:20px;">邀请码：<span class="yqCode"></span></p>
+			<div class="imgbox"><div id="qrcode" style=" margin: 20px auto; box-sizing: content-box; text-align: center; background: #fff; padding: 10px; width: 250px; height: 250px;"></div></div>
+			<!--<div style="font-size: 14px; padding: 20px;">使用邀请码分享:您的邀请码 <textarea cols="15" rows="1" id="yaoqing" style="height:35px; width:120px; font-size:18px; padding-left:20px; font-weight:bold; overflow:auto;line-height:35px;" readonly="readonly"></textarea></div>-->
+			<div class="opn" style="padding: 0 10px; "><button class="btn Large" id="share">邀请好友</button></div>
+			<input type="hidden" name="share_url" id="share_url" value="http://www.ifcar99.com/" />
+		</div>
+			
+		<div class="Warm-tip clearfix">
+			<i class="ico-tip icon"></i>
+			<p class="title">温馨提示：</p>
+			<p>点击“邀请好友”，邀请好友加入聚车金融，可获得一定的奖励。奖励以投资红包的形式发放。详情可以咨询网站工作人员。<br />
+				请不要发送邀请码给不熟悉的人，以免给别人带来不必要的困扰。
+			</p>
+		</div>
+	</div>
 <script src="../js/base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/share.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
 <script>
 	mui.plusReady(function(){
 	//alert(base64encode(user.uid() + "reg_invite"));
-	$("#yaoqing").html(user.uid());
-	user.reg_invite({'user_id':user.uid()},function(res){
-		console.log(JSON.stringify(res));
-		$('#qrcode').qrcode({width: 250,height: 250,text: res.url});
-		$('#share_url').val(res.url);
-	})
-	if (mui.os.plus) {
-				document.getElementById("share").addEventListener('tap', function(event) {
-					event.stopPropagation();
-					var href = document.getElementById("share_url").value;
-					share.shareShow({
-						title: '聚车金融邀请好友',
-						content: '邀请好友送豪礼，快来加入聚车金融吧~',
-						thumbs:["_www/images/logo.png"],
-						pictures:["_www/images/logo.png"],
-						href: href
-					});
-					
-//					Intent = plus.android.importClass("android.content.Intent");
-//					main = plus.android.runtimeMainActivity();
-//					var intent = new Intent(Intent.ACTION_SEND);
-//					intent.setType("text/plain");
-//					intent.putExtra(Intent.EXTRA_TEXT, '邀请好友');
-//					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//					main.startActivity(Intent.createChooser(intent, "系统分享"));
+		$("#yaoqing").html(user.uid());
+		user.reg_invite({'user_id':user.uid()},function(res){
+			console.log(JSON.stringify(res));
+			$('#qrcode').qrcode({width: 250,height: 250,text: res.url});
+			$('#share_url').val(res.url);
+			console.log(res.uid);
+			document.querySelector(".yqCode").innerHTML=res.uid
+			
+		})
+		if (mui.os.plus) {
+			document.getElementById("share").addEventListener('tap', function(event) {
+				event.stopPropagation();//阻止事件冒泡
+				var href = document.getElementById("share_url").value;
+				share.shareShow({
+					title: '聚车金融邀请好友',
+					content: '邀请好友送豪礼，快来加入聚车金融吧~',
+					thumbs:["_www/images/logo.png"],
+					pictures:["_www/images/logo.png"],
+					href: href
 				});
-	};
-	
+				
+	//					Intent = plus.android.importClass("android.content.Intent");
+	//					main = plus.android.runtimeMainActivity();
+	//					var intent = new Intent(Intent.ACTION_SEND);
+	//					intent.setType("text/plain");
+	//					intent.putExtra(Intent.EXTRA_TEXT, '邀请好友');
+	//					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	//					main.startActivity(Intent.createChooser(intent, "系统分享"));
+			});
+		};
+		
 		document.addEventListener("top-right-btn",function(e){
 			e.preventDefault();
 			//location.herf = "zdtz-add.html";
-
-//				zdtz_addWV = mui.openWindow({
-//					url: '/user/yqgl.html',
-//					id: 'yqgl',
-//					styles:{
-//						top:'45px'
-//					},
-//					show: {
-//						autoShow: true,
-//						duration: 300,
-//						aniShow: 'slide-in-bottom'
-//					},
-//					waiting: {
-//						autoShow: false
-//					}
-//				});
-//			var subWV = plus.webview.getWebviewById('subWV');
-//			data = {
-//				url: '/user/yqgl.html',
-//				title: '我的好友',
-//				aniShow: 'slide-in-right'
-//			}
-//			mui.fire(subWV, "openWindow", data);
-			mui.openWindow({'url':'/user/yqgl.html',styles:{"aniShow":"slide-in-right"},waiting:{"autoShow":false}});
-				
+	
+	//				zdtz_addWV = mui.openWindow({
+	//					url: '/user/yqgl.html',
+	//					id: 'yqgl',
+	//					styles:{
+	//						top:'45px'
+	//					},
+	//					show: {
+	//						autoShow: true,
+	//						duration: 300,
+	//						aniShow: 'slide-in-bottom'
+	//					},
+	//					waiting: {
+	//						autoShow: false
+	//					}
+	//				});
+	//			var subWV = plus.webview.getWebviewById('subWV');
+	//			data = {
+	//				url: '/user/yqgl.html',
+	//				title: '我的好友',
+	//				aniShow: 'slide-in-right'
+	//			}
+	//			mui.fire(subWV, "openWindow", data);
+			mui.openWindow({'url':'/user/yqgl.html',styles:{"aniShow":"slide-in-right"},waiting:{"autoShow":false}});		
 		},false);
 	})
 	

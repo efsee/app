@@ -9,6 +9,7 @@
 	<title>聚车金融</title>
 	<link rel="stylesheet" href="../css/mui.min.css">
     <link href="../css/css.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../css/iphone.css" />
     <style>
     	.hkjl-list { padding: 0 10px; ;}
     	.mui-table h4{
@@ -167,9 +168,11 @@
 						ul.innerHTML =html;
 					}
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					if(res.total == 0){
-						html = '<li class="mui-table-view-cell">没有记录</li>';
-						ul.innerHTML = html;
+					if(res.list.total == 0){
+						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
+						'<i class="notes-moblie"></i>'+
+						'<p class="no-records-size">暂无记录</p>'+
+						'</div>';
 						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
 					}
 					})

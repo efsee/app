@@ -56,7 +56,7 @@
 	    	<div class="zhye_zjk zjk2">
 	    		<ul>
                   <li>
-                  	<a href="withdraw.html" class="tap mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现","right_btn":"提现记录"}'>提现</a>
+                  	<a href="withdraw.html" id="turnWithdraw" class=" mui-btn mui-btn-danger mui-btn-outlined bgn" data='{"title":"提现","right_btn":"提现记录"}'>提现</a>
 
                   	<!--<a class="mdialog1" href="javascript:;">
                   		<button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">
@@ -338,7 +338,17 @@
 				headerWebview.show('slide-in-right', 150);
 				
 		})
-		
+		document.getElementById("turnWithdraw").addEventListener("tap",function(e){
+				mui.openWindow({
+					url:"withdraw_header.html",
+					id:"withdraw_header.html",
+					styles:{
+						"popGesture":"close"
+					}
+				})
+				withdrawDel=plus.webview.getWebviewById("withdraw_header.html")
+				mui.fire(withdrawDel,"initpage")
+		})
 		document.getElementById("recharge").addEventListener('tap',function(e){
 			//console.log("recharge");
 			mui.openWindow({
