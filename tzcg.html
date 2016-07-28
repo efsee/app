@@ -158,13 +158,13 @@ header .mui-icon {
 		
 	})
 	mui.plusReady(function(){
-		var selfPage=plus.webview.currentWebview()
+		selfPage=plus.webview.currentWebview()
 		//返回产品页
 		mui.back = function(){
-            plus.webview.getLaunchWebview("product.html").show()
-            selfPage.close()
-            selfPage.opener().close()
-       		mui.fire(plus.webview.getWebviewById("product_sub.html"),"initpage")	
+			plus.webview.getLaunchWebview("product.html").show()
+       		mui.fire(plus.webview.getWebviewById("product_sub.html"),"initpage")
+       		 selfPage.opener().close()
+       		selfPage.close() 
        }
 	//s数据读取开始
 		//var request=plus.webview.currentWebview().article_id;
@@ -215,8 +215,8 @@ header .mui-icon {
 		mui("body").on('tap','.prod-see',function(){
 			mui.fire(plus.webview.getLaunchWebview(),'gouser');
 			plus.webview.getLaunchWebview().show()
-			selfPage.close()
 			selfPage.opener().close()
+			selfPage.close()	
 		})
 
 	})

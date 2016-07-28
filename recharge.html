@@ -358,6 +358,7 @@ header .mui-title { color: #333; }
 
 
 <script type="text/javascript">
+
 /****自动获取焦点弹窗native.js****/
   	var nativeWebview, imm, InputMethodManager;
 	var initNativeObjects = function() {
@@ -466,7 +467,7 @@ header .mui-title { color: #333; }
 		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 		 					res.bank=bank_res.bank;
 	      					res.account=bank_res.account;
-		 					document.getElementById("recFotId").style.position="relative"
+		 					
 		 					var html = template("tpl-bank3",res);
 		      				document.getElementById("userinfo").innerHTML = html;
 		      				multiselect()
@@ -481,6 +482,16 @@ header .mui-title { color: #333; }
 		 					////console.log(JSON.stringify(res))
 		 					var html = template("tpl-bank4",res);
 		      				document.getElementById("userinfo").innerHTML = html;
+		      				$(".money_order").focus(function(){
+		      					$("#recFotId").css("position","relative")
+		      					//console.log("s");
+		      					
+		      				})
+		      				$(".money_order").blur(function(){
+		      					$("#recFotId").css("position","absolute")
+		      					
+		      					
+		      				})
 		      				
 		      				
 		      				returnXe()

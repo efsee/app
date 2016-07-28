@@ -1048,7 +1048,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 .login .logos{ font-size:0; line-height:0; text-align:center; margin-top:16%;}
 .login .logos img{ width:36%; display:inline-block;}
 .login-form { margin-top:0%;}
-.login-form input{ padding-top:24px;padding-bottom:24px; padding-left: 55px; font-size: 18px;}
+.login-form input{ padding-top:24px;padding-bottom:24px;padding-left: 55px; font-size: 18px;}
 .login-form li{ margin-top:0%;}
 .login-form li .input-box{ height:46px; border:#FFF 1px solid; position:relative; padding:0 10px 0 44px;}
 .login-form li .ico24{ position:absolute; left:15px; top:50%; margin-top:-12px;}
