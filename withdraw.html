@@ -320,9 +320,7 @@
 						else{
 							closelayer()
 							layer.close(index);
-							mui.alert("密码错误",function(){
-							plus.webview.currentWebview().reload(true)
-							})
+							mui.toast("交易密码错误")
 						}
 					
 					

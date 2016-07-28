@@ -447,9 +447,7 @@ header .mui-title { color: #333; }
 															
 														}else{
 															closelayer()
-															mui.alert("密码错误",function(){
-																plus.webview.currentWebview().reload(true)
-															})
+															mui.toast("交易密码错误")
 														}
 											    	}
 											    })
