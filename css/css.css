@@ -1115,7 +1115,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 	position:absolute;
 	right:130px;
 	top:-1px;
-	border:#e1e1e1 1px solid;
+/*	border:#e1e1e1 1px solid;*/
 	border-left:none;
 	content:'';
 	font-size:0;
@@ -1128,7 +1128,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 	width:120px;
 	height:48px;
 	line-height:48px;
-	background:#999;
+	background:#F95453;
 	color:#FFF;
 	display:block;
 	position:absolute;
@@ -1140,6 +1140,11 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 	-ms-border-radius:5px;
 	border-radius:5px;
 	}
+.getyzm-hover{
+	
+	background:#999;
+	
+	}	
 .reg-form li .ico24{ position:absolute; left:10px; top:50%; margin-top:-12px;}
 .ico-sjh{ background-position:-210px 0px;}
 .ico-yzm{ background-position:-240px 0px;}
