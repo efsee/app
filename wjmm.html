@@ -151,7 +151,7 @@
 var times=60,cuttime;
 function getyzm(idn){
 	times--;
-	
+	$(idn).css("background","#999");
 	if(times>0&&times<60){
 	$(idn).text(times+"秒后重新获取");
 	$(idn).addClass("fail");
@@ -162,6 +162,7 @@ function getyzm(idn){
 	
 	}
 	else{
+		$(idn).css("background","#F95453");
 		$(idn).text("发送验证码");
 		times=60;
 		issend = true;
@@ -201,7 +202,8 @@ function sendmobilecode(){
 					plus.nativeUI.toast("验证码短信已发送成功！");
 					issend = false;
 				}else{
-					plus.nativeUI.toast(res.msg);
+					//plus.nativeUI.toast(res.msg);
+					plus.nativeUI.toast("您输入的手机号已注册");
 					issend = true;
 				}
 			})
