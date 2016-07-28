@@ -163,6 +163,7 @@ header .mui-icon {
 		mui.back = function(){
 			plus.webview.getLaunchWebview("product.html").show()
        		mui.fire(plus.webview.getWebviewById("product_sub.html"),"initpage")
+       		mui.fire(plus.webview.getWebviewById("home_sub.html"),"initpage")
        		 selfPage.opener().close()
        		selfPage.close() 
        }
