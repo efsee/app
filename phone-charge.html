@@ -7,16 +7,14 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta name="format-detection" content="telephone=no, email=no" />
 	<title>聚车金融</title>
-     <link href="css/mui.min.css" rel="stylesheet"/>     
+     <link href="css/mui.min.css" rel="stylesheet"/>
      <link href="css/iphone.css" rel="stylesheet"/>
      <link href="css/header.css" rel="stylesheet"/>
      <link href="css/layer.css" rel="stylesheet"/>
     <link href="css/mylayer.css" rel="stylesheet"/>
      <style>
      	.iphone-top{margin-top: 44px;}
-     	.layermend { display: ;
- 		
-}
+     	.layermend { display: ;}
      </style>
 </head>
 <body>
@@ -75,8 +73,9 @@
 	</div>
 	</div>
 	
-<script src="js/layer.js"></script>		
+
 <script src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/layer.js" ></script>
 <script src="js/mui.min.js"></script>
 <script src="js/api.js"></script>
 <script src="js/common.js"></script>
@@ -119,7 +118,7 @@
 	    }
 	    setTimeout(function() {
 	       //此处可写具体逻辑设置获取焦点的input
-	       var inputElem = document.querySelector('.paypassword');
+	       var inputElem = document.querySelector('.pwd-input');
 	              inputElem.focus(); 
 	    }, 300);
 	};
@@ -299,52 +298,64 @@
 									})
 								}
 								else{
+									$(".iphone-czjl").css("position","relative")
 									$('.paypassword').val('');
 									
 									function closelayer(){
 										layer.close(index)
 									}
-									index = layer.open({
+									index=layer.open({
+										
 										title: [
 									        '交易密码',
-											'text-align:center;padding-left:45px;margin:0;'
+											'text-align:center;padding:0px;margin:0;'
 									    ],
-									    content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><input  type="password" maxlength="6" pattern="[0-9]*" name="" id="paypassword2" class="paypassword"  placeholder="请输入交易密码"><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a><div style="clear:both;"></div></div><div style="clear:both;"></div>',
+									    content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a><div style="clear:both;"></div></div><div style="clear:both;"></div>',
 									   // btn: ['确认', '取消'],
 									    shadeClose: false,
 									    anim:true,
 									    success:function(layero, index){
-											initNativeObjects();
-	   										showSoftInput();
-	   										$(".paypassword").keyup(function(){
-									    	    pwlength=$(this).val().length;
-									    	   /* var pstr="";
-									    	    for(var i=0;i<pwlength;i++){
-									    	    	pstr+="*"
-									    	    	$(this).val(pstr)
-									    	    }*/ 
-									    		console.log(pwlength)
-											    if(pwlength>=6){
-												paypassword=$('.paypassword').val();
-												request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
-												account.Cost_llcz({'request':request},function(res){//扣款
-													//console.log(JSON.stringify(res))
-													if(res){
-														if(res.status>0){//从余额中扣款成功
-															var time=new Date().getTime();
-															request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
-															addresult=AddCharge(request);//充值话费
-															closelayer()
+									    	initNativeObjects();
+		   									showSoftInput();
+									    	var $input = $(".fake-box input");  
+									        $("#pwd-input").on("input", function() {  
+									            var pwd = $(this).val().trim();  
+									            for (var i = 0, len = pwd.length; i < len; i++) {  
+									                $input.eq("" + i + "").val(pwd[i]);  
+									            }  
+									            $input.each(function(){  
+									                var index2 = $(this).index();  
+									                if (index2 >= len) {  
+									                    $(this).val("");  
+									                }  
+									            });  
+									            console.log($(this).val());
+									            if (len >=6) {
+									            	paypassword=$(this).val()
+									            	console.log("我的密码是："+$(this).val());
+									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
+													account.Cost_llcz({'request':request},function(res){//扣款
+														//console.log(JSON.stringify(res))
+														if(res){
+															if(res.status>0){//从余额中扣款成功
+																var time=new Date().getTime();
+																request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
+																addresult=AddCharge(request);//充值话费
+																$(".iphone-czjl").css("position","absolute")
+																closelayer()
+															}
+															else{
+																$(".iphone-czjl").css("position","absolute")
+																console.log(res.msg)
+																closelayer()
+																mui.toast("交易密码错误");	
+															}
 														}
-														else{
-															console.log(res.msg)
-															closelayer()
-															mui.toast("交易密码错误");	
-														}
-													}
-												})
-									    	}
-									    })
+													})
+									            }  
+									            
+									        }); 
+									
 									}
 								});
 									
