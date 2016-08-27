@@ -104,6 +104,7 @@
 		   				关于聚车金融
 		   			</a>
 		   		</li>
+		   		<!--need to do-->
 		   		<li id="bbh">
 		   			<a href="#">
 		   			   <span class="icon_bbh"></span>
@@ -194,7 +195,7 @@ mui.plusReady(function(){
 								
 								store.set('diffrent', 1, res.time);	//标志暂存时间30秒
 								var btnArray = ['取    消', '立即更新'];
-								mui.confirm(content,res.title, btnArray, function(e) {
+								mui.confirm(content,res.title, btnArray, function(e){
 									if (e.index == 1) {
 										/*if(plus.os.name=='iOS'){
 											url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';

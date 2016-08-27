@@ -45,11 +45,10 @@
 				padding-top: 10px;
 				height: 35px;				
 				position:absolute;
-				bottom: 20px;
+				bottom: 10%;
 				left: 50%;
 				margin-left: -60px;
 				overflow: hidden;			
-				
 				}
 		.recharge-foot a{font-size: 14px;
 						color: #656565;
@@ -246,6 +245,9 @@
 		});
 		
 		document.getElementById('qetx').addEventListener('tap',function(){
+			if(mui.os.android){
+				imm.hideSoftInputFromWindow(plus.webview.currentWebview().nativeInstanceObject().getWindowToken(), 0)
+			}
 			$("#money").val($('#balance').html());
 		})
 		/**********忘记密码页面跳转**********/
@@ -303,7 +305,7 @@
 							'交易密码',
 							'text-align:center;padding:0px;margin:0;'
 							],
-					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div></div>',
+					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input"  id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div></div>',
 					// content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 				//btn: ['确认', '取消'],
 				shadeClose: false,
@@ -382,6 +384,8 @@
 	         $(".recharge-foot").css("bottom","10%");
 	  });
 	});
+	//安卓bug
+	
 </script>
 
 </body>

@@ -59,7 +59,7 @@ template.helper('toFixed', function (data,num) {
 // * @param date 要格式化的日期 
 // * @param format 进行格式化的模式字符串
 template.helper('dateFormat', function (date, format) {
-    date = new Date(date * 1000);
+    date = new Date(date*1000);
     var map = {
         "M": date.getMonth() + 1, //月份 
         "d": date.getDate(), //日 

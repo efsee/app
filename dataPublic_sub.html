@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	    <title></title>
+	    <link rel="stylesheet" href="css/mui.min.css">
+	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <style>
+	    	body{
+	    		color:#333;
+	    		background-color:#f4f4f4;
+	    	}
+	    	.topTitle{
+	    		height: 90px;
+	    	}
+	    	.dataList{
+	    		background-color:#f4f4f4;
+	    	}
+	    	.sjzl{
+	    		background: url(images/sjzlTop.png) no-repeat center; 
+	    		background-size: 75%;
+	    		background-color:#f4f4f4;
+	    	}
+	    	.tzqs{
+	    		background: url(images/tzqsTop.png) no-repeat center; 
+	    		background-size: 75%;
+	    		background-color:#f4f4f4;
+	    	}
+	    	.dyfb{
+	    		background: url(images/dyfbTop.png) no-repeat center; 
+	    		background-size: 75%;
+	    		background-color:#f4f4f4;
+	    	}
+	    	.hzl{
+	    		background: url(images/hzlTop.png) no-repeat center; 
+	    		background-size: 75%;
+	    		background-color:#f4f4f4;
+	    	}
+	    	.hzlImg{
+	    		display: block;
+	    		width: 190px;
+	    		height: auto;
+	    		margin: 0 auto;
+	    		
+	    	}
+	    	.dataBg{
+	    		/*padding: 0 8%;*/
+	    		width: 83%;
+	    		margin:0 auto;
+	    		background-color: #fff;
+	    	}
+	    	.dataReviewList{
+	    		padding:10px 8%;
+	    		position: relative;
+	    	}
+	    	.dataReviewList:after{
+	    		position: absolute;
+	    		content: "";
+	    		height: 1px;
+	    		width: 84%;
+	    		background-color:#F4F4F4;
+	    		bottom: 0;
+	    		left: 8%;
+	    		transform: scaleY(0.5);
+	    		-webkit-transform:scaleY(0.5);
+	    	}
+	    	.dataReviewList:last-child:after{
+	    		height: 0;
+	    	}
+	    	.dataReviewList p:first-child{
+	    		margin:5px 0px;
+	    		padding-left: 23px;
+	    		font-size: 16px;
+	    		line-height: 16px;
+	    		color: #333;
+	    		height: 16px;
+	    	}
+	    	.rlb_1{
+	    		background: url(images/tzicon.png) no-repeat 0px 0px;
+	    		background-size: 16px;
+	    	}
+	    	.rlb_2{
+	    		background: url(images/tzicon.png) no-repeat 0px -15px;
+	    		background-size: 16px;
+	    	}
+	    	.rlb_3{
+	    		background: url(images/tzicon.png) no-repeat 0px -33px;
+	    		background-size: 17px;
+	    	}
+	    	.rlb_4{
+	    		background: url(images/tzicon.png) no-repeat 0px -46px;
+	    		background-size: 16px;
+	    	}
+	    	.rlb_5{
+	    		background: url(images/tzicon.png) no-repeat 0px -65px;
+	    		background-size: 17px;
+	    	}
+	    	.rlb_6{
+	    		background: url(images/tzicon.png) no-repeat 0px -76px;
+	    		background-size: 16px;
+	    	}
+	    	.dataNumber{
+	    		color: #F95452;
+	    		font-size: 24px;
+	    	}
+	    	.dataNumber a{
+	    		font-size: 16px;
+	    		color: #F95452;
+	    	}
+	    </style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="dataList">
+				<div class="topTitle sjzl"></div>
+				<div class="dataBg">
+					<ul>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_1">投资总额</p>
+							<p class="dataNumber"><span>265,874,000</span>&nbsp;<a>元</a></p>
+						</li>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_2">赚取收益</p>
+							<p class="dataNumber"><span>195,000</span>&nbsp;<a>元</a></p>
+						</li>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_3">注册用户</p>
+							<p class="dataNumber"><span>9,956</span>&nbsp;<a>人</a></p>
+						</li>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_4">成交笔数</p>
+							<p class="dataNumber"><span>3,695,870</span>&nbsp;<a>笔</a></p>
+						</li>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_5">项目总数</p>
+							<p class="dataNumber"><span>69,581</span>&nbsp;<a>个</a></p>
+						</li>
+						<li class='dataReviewList mui-table-view-cell'>
+							<p class="rlb_6">昨日成交</p>
+							<p class="dataNumber"><span>596,333</span>&nbsp;<a>元</a></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="dataList">
+				<div class="topTitle tzqs"></div>
+			</div>
+			<div class="dataList">
+				<div class="topTitle dyfb"></div>
+			</div>
+			<div class="dataList">
+				<div class="topTitle hzl"></div>
+				<div class="dataBg" style="padding: 25px 0;">
+					<img class="hzlImg" src="images/hzl.png" />
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/api.js"></script>
+		<script>
+			mui.init()
+			
+			mui.plusReady(function(){
+				
+			
+			})
+			/**方法**/
+			//隔3位显示数字
+			function changeNum(data){
+				data += '';
+				x = data.split('.');//[整数,小数]
+				x1 = x[0];//整数部分
+				x2 = x.length > 1 ? '.' + x[1] : '';//假如有小数，则在小数前加.，否者为空
+				var rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+				}
+				return x1 + x2;
+			}
+		</script>
+	</body>
+</html>

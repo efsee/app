@@ -63,13 +63,17 @@
 			        <h5 style="line-height: 25px;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
 			    </div>
 				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
-					{{if item.payment==99}}
-					<h4 style="font-size: 16px;">连连支付</h4>
-					{{else if item.payment_name==null}}
-					<h4 style="font-size: 16px;">手动支付</h4>
-					{{else}}
-			        <h4 style="font-size: 16px;">{{item.payment_name}}</h4>
-			        {{/if}}
+					{{if item.status==2}}
+					<h4 style="font-size: 16px;">充值失败</h4>
+						{{else}}
+						{{if item.payment==99}}
+						<h4 style="font-size: 16px;">连连支付</h4>
+						{{else if item.payment_name==null}}
+						<h4 style="font-size: 16px;">手动支付</h4>
+						{{else}}
+				        <h4 style="font-size: 16px;">{{item.payment_name}}</h4>
+				        {{/if}}
+				    {{/if}}    
 			        {{if bank_name=="无"}}
 			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 
 			        {{else}}
@@ -110,8 +114,8 @@
 						callback: pulldownRefresh
 					},
 					up: {
-						contentrefresh: '正在加载...',
-						contentnomore: '',
+						/*contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',*/
 						callback: pullupRefresh
 					}
 				}
@@ -124,6 +128,7 @@
 					curr_page = 1;
 					getdata(curr_page);
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
 				}, 1500);
 			}
 			var count = 0;
@@ -158,7 +163,7 @@
 				request.page = page;
 				account.GetRechargeList({'request':request},function(res){//$data和回调函数
 					console.log(JSON.stringify(res));
-					console.log(JSON.stringify(res.list));
+					//console.log(JSON.stringify(res.list));
 					account.GetUsersBankOne({'request':request},function(bank_res){
 			      	console.log(JSON.stringify(bank_res));
 			      	if(bank_res.bank_name!=null){
@@ -172,7 +177,7 @@
 
 					var html = template('tpl-item',res.list);
 					var ul = document.querySelector('#zjjl-list');
-					var upflag = res.page >= res.total_page ? true : false;
+					var upflag = res.list.page >= res.list.total_page ? true : false;
 					if(page > 1){
 					ul.innerHTML = ul.innerHTML + html;
 					}else{

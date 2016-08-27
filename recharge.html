@@ -461,7 +461,7 @@ header .mui-title { color: #333; }
       			//console.log(JSON.stringify(res))
       			$('.balance').text(res.balance);
       			if(res.realname_status!=1){//还没有实名认证
-      				
+      				$("#recFotId").css("position","relative")
 		      		request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
 	      				//console.log(bank_res)
@@ -478,7 +478,7 @@ header .mui-title { color: #333; }
 		      		
       			}
       			else{
-      				
+      				$("#recFotId").css("position","relative")
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
 		      			////console.log(JSON.stringify(!bank_res.status));
@@ -502,16 +502,13 @@ header .mui-title { color: #333; }
 		      				document.getElementById("userinfo").innerHTML = html;
 		      				$(".money_order").focus(function(){
 		      					$("#recFotId").css("position","relative")
-		      					//console.log("s");
+		      					console.log(document.querySelector("body").offsetHeight);
 		      					
 		      				})
 		      				$(".money_order").blur(function(){
 		      					$("#recFotId").css("position","absolute")
-		      					
-		      					
+		      					console.log(document.querySelector("body").offsetHeight);
 		      				})
-		      				
-		      				
 		      				returnXe()
 		      				$('.recharge-tins').text(banklimit(parseInt(bank_res.bank)))
 		 				}
@@ -598,6 +595,8 @@ header .mui-title { color: #333; }
 							      					}
 							      					else{
 							      						alert(bin_res.msg);
+							      						
+							   
 							      						return false;
 							      					}
 									    		});
@@ -652,7 +651,6 @@ header .mui-title { color: #333; }
 	      			else{//已经实名认证
 	      				request = {"user_id":user.uid()};
 		      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      				//console.log("21515")
 			      			//console.log(JSON.stringify(bank_res));
 			 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 								if(!checkform2()){//？？？
@@ -670,7 +668,6 @@ header .mui-title { color: #333; }
 									mobile=bank_res.mobile;
 									
 				 					account.cardbin(request,function(bin_res){
-				 						//console.log(225)
 				      					//console.log(JSON.stringify(bin_res))
 				      					if(bin_res.status==1){
 				      						

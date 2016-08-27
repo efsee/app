@@ -335,7 +335,7 @@
 									            	console.log("我的密码是："+$(this).val());
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
 													account.Cost_llcz({'request':request},function(res){//扣款
-														//console.log(JSON.stringify(res))
+														console.log(JSON.stringify(res))
 														if(res){
 															if(res.status>0){//从余额中扣款成功
 																var time=new Date().getTime();
@@ -348,7 +348,7 @@
 																$(".iphone-czjl").css("position","absolute")
 																console.log(res.msg)
 																closelayer()
-																mui.toast("交易密码错误");	
+																mui.toast("交易密码错误");	//need to do
 															}
 														}
 													})

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	    <title></title>
+	    <link rel="stylesheet" href="css/mui.min.css">
+		<title></title>
+		<style>
+			.header{
+				width:100%;
+				height:45px;
+				background:#fff;
+				text-align:center;
+				font-size:0px;
+				line-height:0px;
+				position:fixed;
+				z-index:999;
+				left:0;
+				top:0;
+				b-webkit-box-sizing:border-box;
+				-o-box-sizing:border-box;
+				-ms-box-sizing:border-box;
+				box-sizing:border-box;
+				}
+			.header:after{
+				width:100%;
+				height:1px;
+				position:absolute;
+				left:0;
+				bottom:0;
+				background:#e6e5e5;
+				content:"";
+				/*-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);*/
+				
+				}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display:none ;"></a>
+			<h1 id="title" class="mui-title">数据公示</h1>
+		</header>
+		<div class="mui-content"></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			//启用双击监听
+			mui.init({
+				gestureConfig:{
+					doubletap:true
+				},
+				subpages:[{
+					url:'dataPublic_sub.html',
+					id:'dataPublic_sub.html',
+					styles:{
+						top:46,
+						bottom:0
+					}
+				}]
+			});
+		</script>
+	</body>
+</html>
