@@ -1,129 +1,147 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<title>聚车金融</title>
-	
-    <script src="js/mui.min.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/jquery-1.11.2.min.js"></script>
-    <link href="css/mui.min.css" rel="stylesheet"/>
-    <link href="css/css.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" charset="utf-8">
-      	mui.init({
-         //statusBarBackground: '#ff1230',
-      	});
-    </script>
-    <style type="text/css">
-    	a.white:hover,a.white:visited { color: white; }
- 
-    	.header.mui-bar span.mui-icon.mui-icon-email-filled { font-size: 36px; padding: 5px 0px; margin: 0; }
-    	.ico19{width:20px;height:20px;display:block;}
-    	.ico-notice1{background-position: -130px -132px; width: 37px;height: 44px;}
-    	span.mui-icon.mui-icon-email-filled .mui-badge { top: 5px; }
-    	.mui-icon .mui-badge-yellow { color: #fff; background-color: #f0ad4e; }
-    	.mui-pull-right .ico-More{ background-position:-72px -30px; }
-    	.mui-pull-right .mui-icon-contact-filled { font-size: 30px; }
-    	
-    </style>
-</head>
-<body>
-<header class="mui-bar mui-bar-nav header">
-	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-hidden"></a>
-	<a class="mui-pull-right white" id="top-email"><span class="ico19 icon ico-notice1"><span class="badge mui-hidden"></span></span></a>
-	<a class="mui-pull-right white mui-hidden" id="top-contact"><span class="mui-icon"></span></a>
-	<!--<a class="mui-pull-right" style="padding-top: 10px;"><i class="ico-nav icon"></i></a>-->
-	<h1 class="mui-title name" id="title">聚车金融</h1>
-</header>
-
-
-<div class="clear"></div>
-<nav class="bot-nav">
-<a href="home.html" id="home" class="tab active" title="聚车金融"><i class="ico-Home icon"></i><p>首页</p></a>
-<a href="product.html" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
-<a href="find.html" class="tab" title="发现"><i class="ico-Assets icon"></i><p>发现</p></a>
-<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
-</nav>
-</body>
-<script>
-	mui.plusReady(function(){
-		if(!store.get('diffrent')){
-			var appinfo={};
-			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-				//appid属性
-				appinfo.appid = wgtinfo.appid;
-				//version属性
-				appinfo.version = wgtinfo.version;
-				//name属性
-				appinfo.name = wgtinfo.name;
-				
-				var request = {};
-				
-				product.getversion({"request":request},function(res){
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>聚车金融</title>
+	    <script src="js/mui.min.js"></script>
+	    <script src="js/common.js"></script>
+	    <script src="js/api.js"></script>
+	    <script src="js/jquery-1.11.2.min.js"></script>
+	    <link href="css/mui.min.css" rel="stylesheet"/>
+	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <script type="text/javascript" charset="utf-8">
+	      	mui.init({
+	         //statusBarBackground: '#ff1230',
+	      	});
+	    </script>
+	    <style type="text/css">
+	    	a.white:hover,a.white:visited { 
+	    		color: white; 
+	    	}
+	    	.header.mui-bar span.mui-icon.mui-icon-email-filled {
+	    		font-size: 36px;
+	    		padding: 5px 0px; 
+	    		margin: 0; 
+	    	}
+	    	.ico19{
+	    		width:20px;
+	    		height:20px;
+	    		display:block;
+	    	}
+	    	.ico-notice1{
+	    		background-position: -130px -132px; 
+	    		width: 37px;
+	    		height: 44px;
+	    	}
+	    	span.mui-icon.mui-icon-email-filled .mui-badge {
+	    		top: 5px; 
+	    	}
+	    	.mui-icon .mui-badge-yellow { 
+	    		color: #fff; 
+	    		background-color: #f0ad4e; 
+	    	}
+	    	.mui-pull-right .ico-More{ 
+	    		background-position:-72px -30px;
+	    	}
+	    	.mui-pull-right .mui-icon-contact-filled { 
+	    		font-size: 30px;
+	    	} 	
+	    </style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-hidden"></a>
+			<a class="mui-pull-right white" id="top-email"><span class="ico19 icon ico-notice1"><span class="badge mui-hidden"></span></span></a>
+			<a class="mui-pull-right white mui-hidden" id="top-contact"><span class="mui-icon"></span></a>
+			<!--<a class="mui-pull-right" style="padding-top: 10px;"><i class="ico-nav icon"></i></a>-->
+			<h1 class="mui-title name" id="title">聚车金融</h1>
+		</header>
+		<div class="clear"></div>
+		<nav class="bot-nav">
+		<a href="home.html" id="home" class="tab active" title="聚车金融"><i class="ico-Home icon"></i><p>首页</p></a>
+		<a href="product.html" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
+		<a href="find.html" class="tab" title="发现"><i class="ico-Assets icon"></i><p>发现</p></a>
+		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
+		</nav>
+	</body>
+	<script>
+		mui.plusReady(function(){
+			if(!store.get('diffrent')){
+				var appinfo={};
+				plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+					//appid属性
+					appinfo.appid = wgtinfo.appid;
+					//version属性
+					appinfo.version = wgtinfo.version;
+					//name属性
+					appinfo.name = wgtinfo.name;
 					
-					if(res){
-						if(appinfo.version<res.version){
-							var content='';
-							$.each(res.content, function(i, item) {
-								content+='\r\n'+item;
-							});
-							
-							store.set('diffrent', 1, res.time);	//标志暂存时间30秒
-							var btnArray = ['取    消', '立即更新'];
-							mui.confirm(content,res.title, btnArray, function(e) {
-								if (e.index == 1) {
-									/*if(plus.os.name=='iOS'){
-										url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
+					var request = {};
+					request.style="1";
+					console.log(JSON.stringify(request));
+					product.getversion({"request":request},function(res){
+						//console.log(JSON.stringify(res));
+						if(res){
+							if(appinfo.version<res.version){
+								var content='';
+								$.each(res.content, function(i, item) {
+									content+='\r\n'+item;
+								});
+								console.log(content);
+								store.set('diffrent', 1, res.time);	//标志暂存时间30秒
+								var btnArray = ['取    消', '立即更新'];
+								mui.confirm(content,res.title, btnArray, function(e) {
+									if (e.index == 1) {
+										/*if(plus.os.name=='iOS'){
+											url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
+											plus.runtime.openURL(url);
+										}
+										else{
+											url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
+											plus.runtime.openURL(url);
+										}*/
+										url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
 										plus.runtime.openURL(url);
+										
+									} else {
 									}
-									else{
-										url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
-										plus.runtime.openURL(url);
-									}*/
-									url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
-									plus.runtime.openURL(url);
-									
-								} else {
-								}
-							})
-						}	
-					}
+								})
+							}	
+						}
+						
+					})
 					
 				})
 				
-			})
-			
-		}
-		/*else{
-			alert('时间未到')
-				
-		}*/
-
-		if(!plus.storage.getItem('welcome'))
-		{
-			mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
-		}else{
-			plus.navigator.setFullscreen(false);
-		}
-		if(user.uid()){
-			//验证或设置手势密码
-			if(plus.storage.getItem('shoushimima')){
-            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-            }else{
-            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-            }
-//            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
-	    }
-
-/**********************************底部导航子页面webview实现****************************************/
+			}
+			/*else{
+				alert('时间未到')
+					
+			}*/
+	
+			if(!plus.storage.getItem('welcome'))
+			{
+				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
+			}else{
+				plus.navigator.setFullscreen(false);
+			}
+			if(user.uid()){
+				//验证或设置手势密码
+				if(plus.storage.getItem('shoushimima')){
+	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+	            }else{
+	            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+	            }
+	//            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
+		    }
+	
+	/**********************************底部导航子页面webview实现****************************************/
 			document.addEventListener("turnUser",function(){
 				var $botNav=$(".bot-nav a")
 				$botNav.eq(3).tap()
-				
 			})
-
+			
 			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
 			var activeTab = subpages[0];
@@ -137,73 +155,73 @@
 					}
 					self.append(sub);
 				}
-		//preload ()
-		mui(".bot-nav").on('tap','a',function(){
-			var url = this.getAttribute('href');
-			if(url == 'user.html'){//如果打开了user页面，若没有登录信息，则调出login（）
-				if(!user.uid()){
-					login();
-					return false;
+			//preload ()
+			mui(".bot-nav").on('tap','a',function(){
+				var url = this.getAttribute('href');
+				if(url == 'user.html'){//如果打开了user页面，若没有登录信息，则调出login（）
+					if(!user.uid()){
+						login();
+						return false;
+					}
 				}
-			}
-			active = document.querySelector('.bot-nav>.tab.active');
-			if(active && active.getAttribute('href') == url){
-				return false;//如果点击为当前页
-			}
-			if(active) active.classList.remove("active");
-			this.classList.add("active");
-			//plus.webview.currentWebview().hide();
-			document.getElementById("title").innerHTML = this.getAttribute('title');
-			
-			
+				active = document.querySelector('.bot-nav>.tab.active');
+				if(active && active.getAttribute('href') == url){
+					return false;//如果点击为当前页
+				}
+				if(active) active.classList.remove("active");
+				this.classList.add("active");
+				//plus.webview.currentWebview().hide();
+				document.getElementById("title").innerHTML = this.getAttribute('title');
 				
-			var sub = plus.webview.getWebviewById(url);
-//			if(sub == null){
-//				//sub = mui.preload({'url':url,'id':url,'show':{'autoShow':false}, 'styles':{ top:'45px',bottom:'50px',width:'100%',hight:'100%','bounce':'none'}});
-//			}
-			mui.fire(sub,'initpage');
-			sub.show('slide-in-right');
-			if(url == 'find.html'){
-				document.getElementById("top-contact").classList.add('mui-hidden');
-				document.getElementById("top-email").classList.add('mui-hidden');
-			}else if(url == 'user.html'){
-				document.getElementById("top-contact").classList.remove('mui-hidden');
-				document.getElementById("top-email").classList.add('mui-hidden');
+				
+					
+				var sub = plus.webview.getWebviewById(url);
+	//			if(sub == null){
+	//				//sub = mui.preload({'url':url,'id':url,'show':{'autoShow':false}, 'styles':{ top:'45px',bottom:'50px',width:'100%',hight:'100%','bounce':'none'}});
+	//			}
+				mui.fire(sub,'initpage');
+				sub.show('slide-in-right');
+				if(url == 'find.html'){
+					document.getElementById("top-contact").classList.add('mui-hidden');
+					document.getElementById("top-email").classList.add('mui-hidden');
+				}else if(url == 'user.html'){
+					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏user页头部账号信息
+					document.getElementById("top-email").classList.add('mui-hidden');
+				}
+				else if(url == 'product.html'){
+					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏product页头部账号信息
+					document.getElementById("top-email").classList.add('mui-hidden');
+				}
+				else{
+					document.getElementById("top-contact").classList.add('mui-hidden');
+					document.getElementById("top-email").classList.remove('mui-hidden');
+				}
+			});
+			
+			if(store.get('topnotice') == null){
+				//mui-badge
+	
 			}
-			else if(url == 'product.html'){
-				document.getElementById("top-contact").classList.remove('mui-hidden');
-				document.getElementById("top-email").classList.add('mui-hidden');
-			}
-			else{
-				document.getElementById("top-contact").classList.add('mui-hidden');
-				document.getElementById("top-email").classList.remove('mui-hidden');
-			}
-		});
-		
-		if(store.get('topnotice') == null){
-			//mui-badge
-
-		}
-		
-		articles.getnewnotice({},function(res){
-			var noticetime = store.get(noticetime);
-//			console.log(JSON.stringify(res));
-			if(res.id > 0){
-				store.set('newnoticetime',res.addtime);
-				if(noticetime){
-					if(noticetime < res.addtime){
-						document.querySelector('.header .badge').classList.remove('mui-hidden');
-					}
-				}else{					
+			
+			articles.getnewnotice({},function(res){
+				var noticetime = store.get(noticetime);
+	//			console.log(JSON.stringify(res));
+				if(res.id > 0){
 					store.set('newnoticetime',res.addtime);
-					if(new Date().getDate() == new Date(res.addtime * 1000).getDate()){
-						document.querySelector('.header .badge').classList.remove('mui-hidden');
+					if(noticetime){
+						if(noticetime < res.addtime){
+							document.querySelector('.header .badge').classList.remove('mui-hidden');
+						}
+					}else{					
+						store.set('newnoticetime',res.addtime);
+						if(new Date().getDate() == new Date(res.addtime * 1000).getDate()){
+							document.querySelector('.header .badge').classList.remove('mui-hidden');
+						}
 					}
 				}
-			}
-		})
-		
-		document.getElementById("top-contact").addEventListener('tap',function(){
+			})
+			
+			document.getElementById("top-contact").addEventListener('tap',function(){
 				href = 'userinfo.html';
 				inittemplate = getTemplate('template', 'template.html');
 				var headerWebview = inittemplate.header;
@@ -215,10 +233,10 @@
 				});
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 100);
-		},false);
-		
-		//mui('.header .mui-icon-email')[0]
-		document.getElementById("top-email").addEventListener('tap',function(){
+			},false);
+			
+			//mui('.header .mui-icon-email')[0]
+			document.getElementById("top-email").addEventListener('tap',function(){
 				var webview_style = {
 					popGesture: "close"
 				};
@@ -230,78 +248,75 @@
 						autoShow: false
 					}
 				});
-				
-		})
-		
-		setTimeout(function(){
-			//二级webview 
-			subWV = mui.preload({
-				id: 'subWV',
-				url: 'subtemplate.html'
-			});
-		},2000);
-		
-		
-		
-		document.addEventListener('permission',function(e){
+					
+			})
 			
-			if(!plus.storage.getItem('ssmms')){
-				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
-					if (e.index === 0) {
-						mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-					}
+			setTimeout(function(){
+				//二级webview 
+				subWV = mui.preload({
+					id: 'subWV',
+					url: 'subtemplate.html'
 				});
+			},2000);
+			
+			
+			
+			document.addEventListener('permission',function(e){
+				
+				if(!plus.storage.getItem('ssmms')){
+					mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
+						if (e.index === 0) {
+							mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+						}
+					});
+				}
+				
+			},false);
+		});//plusReady结束
+		
+		 //自定义事件，模拟点击“首页选项卡”
+		document.addEventListener('gohome', function() {
+			console.log('home')
+			var defaultTab = document.getElementById("home");
+			//模拟首页点击
+			mui.trigger(defaultTab, 'tap');
+			//切换选项卡高亮
+			var current = document.querySelector(".bot-nav>.tab.active");
+			if (defaultTab !== current) {
+				current.classList.remove('active');
+				defaultTab.classList.add('active');
 			}
-			
-		},false);
-	});
-	
-			 //自定义事件，模拟点击“首页选项卡”
-			document.addEventListener('gohome', function() {
-				console.log('home')
-				var defaultTab = document.getElementById("home");
-				//模拟首页点击
-				mui.trigger(defaultTab, 'tap');
-				//切换选项卡高亮
-				var current = document.querySelector(".bot-nav>.tab.active");
-				if (defaultTab !== current) {
-					current.classList.remove('active');
-					defaultTab.classList.add('active');
+		});
+		
+		 //自定义事件，模拟点击“我的”
+		document.addEventListener('gouser', function() {
+			var defaultTab = document.getElementById("user");
+			//模拟user点击
+			mui.trigger(defaultTab, 'tap');
+			//切换选项卡高亮
+			var current = document.querySelector(".bot-nav>.tab.active");
+			if (defaultTab !== current) {
+				current.classList.remove('active');
+				defaultTab.classList.add('active');
+			}
+		});
+
+		 //首页返回键处理
+		 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+		var first = null;
+		mui.back = function() {
+			//首次按键，提示‘再按一次退出应用’
+			if (!first) {
+				first = new Date().getTime();
+				mui.toast('再按一次退出应用');
+				setTimeout(function() {
+					first = null;
+				}, 1000);
+			} else {
+				if (new Date().getTime() - first < 1000) {
+					plus.runtime.quit();
 				}
-			});
-			
-			 //自定义事件，模拟点击“我的”
-			document.addEventListener('gouser', function() {
-				var defaultTab = document.getElementById("user");
-				//模拟user点击
-				mui.trigger(defaultTab, 'tap');
-				//切换选项卡高亮
-				var current = document.querySelector(".bot-nav>.tab.active");
-				if (defaultTab !== current) {
-					current.classList.remove('active');
-					defaultTab.classList.add('active');
-				}
-			});
-	
-			 //首页返回键处理
-			 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
-			var first = null;
-			mui.back = function() {
-				//首次按键，提示‘再按一次退出应用’
-				if (!first) {
-					first = new Date().getTime();
-					mui.toast('再按一次退出应用');
-					setTimeout(function() {
-						first = null;
-					}, 1000);
-				} else {
-					if (new Date().getTime() - first < 1000) {
-						plus.runtime.quit();
-					}
-				}
-			};
-			
-			
-			
-</script>
+			}
+		};	
+	</script>
 </html>

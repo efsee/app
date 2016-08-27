@@ -1,77 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-	<meta name="format-detection" content="telephone=no, email=no" />
-	<title>聚车金融</title>
-	<link rel="stylesheet" href="../css/mui.min.css">
-    <link href="../css/css.css" rel="stylesheet" type="text/css" />
-    <style>
-    	.hkjl-list { padding: 0 10px; ;}
-    	.mui-table h4{
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+	    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+	    <style>
+	    	.hkjl-list { 
+	    		padding: 0 10px;
+	    	}
+	    	.mui-table h4{
 		        line-height: 25px;
 		        font-weight: 500;
-		}
-		.mui-table-view-cell:after {left: 0px;}
-    </style>
-</head>
-<body>
-
-<div class="mui-content">
-	<!--下拉刷新容器-->
-	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
-		<div class="mui-scroll">
-			<ul id="zjjl-list" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-
-			</ul>
+			}
+			.mui-table-view-cell:after {
+				left: 0px;
+			}
+			#yueSe{
+				line-height: 40px;
+				padding-left: 18px;
+				font-size: 16px;
+				color: #333;
+				background: #EFEFF4;	
+			}
+			.mui-scroll{
+				top:-40px;	
+			}
+			/*.mui-pull-bottom-pocket{
+				bottom: -40px;
+			}*/
+	    </style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<!--下拉刷新容器-->
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+	
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
-
-<script id="tpl-item" type="text/html">
-	{{each list as item i}}
-    <li class="mui-table-view-cell">
-        <div class="mui-table">
-            <div class="mui-table-cell mui-col-xs-9">
-                <h4 class="mui-ellipsis">{{item.account_type}} {{item.money}}</h4>
-                <h5>记录时间: {{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
-                <p class="mui-h6"> 
-                {{if item.type=="recharge" || item.type=="borrow_success" || item.type=="borrow_change_sell" || item.type=="tender_late_repay_yes" || item.type=="tender_false" || item.type=="system_repayment" || item.type=="tender_advance_repay_interest" || item.type=="tender_advance_repay_yes" || item.type=="cash_false" || item.type=="tender_user_cancel" || item.type=="borrow_spread_add" || item.type=="tender_spread_add" || item.type=="borrow_spread" || item.type=="tender_spread" || item.type=="online_recharge"  || item.type=="recharge_jiangli"  || item.type=="tender_award_add"   || item.type=="change_add"}}
-                	存入金额: ￥{{item.money | toFixed}}
-                {{/if}}
-                {{if item.type=="tender_repay_yes"}}
-                	存入金额: ￥{{item.money | toFixed}}
-                {{/if}}
-                {{if item.type=="cash_frost" || item.type=="tender" || item.type=="cash"}}
-                	冻结金额: ￥{{item.money | toFixed}}
-                {{/if}}
-                {{if item.type=="tender_success_frost"}}
-                	<!--冻结金额: ￥{{item.money | toFixed}}-->
-                {{/if}}
-                	待收金额: ￥{{item.await | toFixed}}
-                </p>
-            </div>
-            <div class="mui-table-cell mui-col-xs-3 mui-text-right">
-            	<p>可用金额: </p>
-                <span class="mui-h5">                	
-                	￥{{item.balance | toFixed}}
-                </span>
-            </div>
-        </div>
-    </li>
-	{{/each}}
-</script>
-
+	
+		<script src="../js/jquery-1.11.2.min.js"></script>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/template.js"></script>
-		<script src="../js/template.function.js"></script>
 		<script src="../js/api.js"></script>
-
-<script type="text/javascript" charset="utf-8">  
-    	var curr_page = 0;
+		<script type="text/javascript" charset="utf-8">  
+	    	var curr_page = 0;
 			mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
@@ -79,8 +57,7 @@
 						callback: pulldownRefresh
 					},
 					up: {
-						contentrefresh: '正在加载...',
-						contentnomore: '',
+						//contentrefresh: '正在加载...',
 						callback: pullupRefresh
 					}
 				}
@@ -91,9 +68,10 @@
 			function pulldownRefresh() {
 				setTimeout(function() {
 					curr_page = 1;
+					clearOldList()
 					getdata(curr_page);
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-					//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
 				}, 100);
 			}
 			var count = 0;
@@ -118,27 +96,124 @@
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
 			}
-      	
-			mui.plusReady(function(){
-//				getdata(1);
-
-			});
-//			
+			function clearOldList(){
+				$(".mui-scroll").empty().css("top","0")	
+			}
 			function getdata(page){
 				request = {'type':'','user_id':user.uid(),'epage':10,'_where':' and balance>0 '};
 				request.page = page;
 				account.GetLogList({'request':request},function(res){//$data和回调函数
-					console.log(JSON.stringify(res));
-					
-					var html = template('tpl-item',res);
-					var ul = document.querySelector('#zjjl-list');
 					var upflag = res.page >= res.total_page ? true : false;
-					if(page > 1){
-						ul.innerHTML = ul.innerHTML + html;
-					}else{
-						ul.innerHTML = html;
-					}
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+					console.log(JSON.stringify(res));
+					$(res.list).each(function(k,val){
+						time=new Date(parseInt(val.addtime)*1000)
+						year=time.getFullYear()
+						yue=time.getMonth()+1
+						addtime=getTime(val.addtime,"yyyy-MM-dd hh:mm")
+						if(!$('.mui-scroll').find('.y-'+yue).length){
+							$(".mui-scroll").append("<h5 id='yueSe' class='x-"+year+" y-"+yue+"'>"+year+"年"+yue+"月份</h5>"+
+							"<ul id='zjjl-list' class='mui-table-view mui-table-view-striped mui-table-view-condensed year-"+year+" yy-"+yue+"'>"+
+							"</ul>"
+							)
+						}
+						if(val.money!=0){
+							//+钱
+							if(val.balance>val.balance_old){
+								//收到本金和利息分离
+								if(val.account_type=="投资收到还款"){
+									$(".year-"+year+".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>投资收到利息</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.interest+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"+
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.capital+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+parseFloat(val.balance-val.interest)+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	)
+								}else{
+									$(".year-"+year+".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.money+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	)
+								}
+								
+							}else{
+								//-钱
+								if(val.account_type=="投资成功"){
+									$(".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#FD585E;'><span>-</span>"+val.capital+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	
+									    )
+								}else{
+									$(".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#FD585E;'><span>-</span>"+val.money+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	
+									)
+								}//-钱不涉及利息结束
+								
+								
+							}//-钱结束
+						}
+	
+					})
+	
+					
 					if(res.total == 0){
 						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
 							'<i class="notes-moblie"></i>'+
@@ -150,7 +225,7 @@
 			}
 			oldback = mui.back;
 			mui.back = function(){
-				console.log("as");
+				//console.log("as");
 				var userPage=plus.webview.getWebviewById("user.html")
 				mui.fire(userPage,"initpage")
 				
@@ -162,10 +237,34 @@
 						mui.closeAll(headerWebview);*/
 						oldback();
 			}
-//			mui.back = function(){
-//				
-//			}
-    </script>
-                       
-</body>
+			function  getTime(date, format) {
+			    date = new Date(date * 1000);
+			    var map = {
+			        "M": date.getMonth() + 1, //月份 
+			        "d": date.getDate(), //日 
+			        "h": date.getHours(), //小时 
+			        "m": date.getMinutes(), //分 
+			        "s": date.getSeconds(), //秒 
+			        "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+			        "S": date.getMilliseconds() //毫秒 
+			    };
+			    format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+			        var v = map[t];
+			        if(v !== undefined){
+			            if(all.length > 1){
+			                v = '0' + v;
+			                v = v.substr(v.length-2);
+			            }
+			            return v;
+			        }
+			        else if(t === 'y'){
+			            return (date.getFullYear() + '').substr(4 - all.length);
+			        }
+			        return all;
+			    });
+			    return format;
+			}
+	    </script>
+	                       
+	</body>
 </html>

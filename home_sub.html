@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title></title>
-    <link rel="stylesheet" href="css/mui.min.css">
-    <link href="css/css.css" rel="stylesheet" type="text/css" />
-    <link href="css/index.css" rel="stylesheet" type="text/css" />
-    <link href="css/swiper.min.css" rel="stylesheet" type="text/css" />
-	
-	<style>
-    .swiper-container {
-        width: 100%;
-        height:auto;
-    }
-    .swiper-slide {
-        text-align: center;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-	.swiper-slide img{ width:100%;}
-	.home-body{
-		zoom:1;
-		overflow: hidden;
-	}
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <title></title>
+	    <link rel="stylesheet" href="css/mui.min.css">
+	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <link href="css/index.css" rel="stylesheet" type="text/css" />
+	    <link href="css/swiper.min.css" rel="stylesheet" type="text/css" />
+		<style>
+	    .swiper-container {
+	        width: 100%;
+	        height:auto;
+	    }
+	    .swiper-slide {
+	        text-align: center;
+	        display: -webkit-box;
+	        display: -ms-flexbox;
+	        display: -webkit-flex;
+	        display: flex;
+	        -webkit-box-pack: center;
+	        -ms-flex-pack: center;
+	        -webkit-justify-content: center;
+	        justify-content: center;
+	        -webkit-box-align: center;
+	        -ms-flex-align: center;
+	        -webkit-align-items: center;
+	        align-items: center;
+	    }
+		.swiper-slide img{ 
+			width:100%;
+		}
+		.home-body{
+			zoom:1;
+			overflow: hidden;
+		}
 		.black_overlay {
-		display: none;
-		position: absolute;
-		top: 0%;
-		left: 0%;
-		width: 100%;
-		height: 100%;
-		z-index: 1001;
-		background: black;
-		opacity: 0.45;
-		filter: Alpha(Opacity=50);
-	}
-	.rescan_main {
-		display: none;
-		position: absolute;
-		top: 10%;
-		left: 10%;
-		width: 88%;
-		height: 88%;		
-		z-index: 1002;
-		overflow: auto;	
-		padding: 0px;
-	}
-	.pf-close{ 
+			display: none;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			z-index: 1001;
+			background: black;
+			opacity: 0.45;
+			filter: Alpha(Opacity=50);
+		}
+		.rescan_main {
+			display: none;
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			width: 88%;
+			height: 88%;		
+			z-index: 1002;
+			overflow: auto;	
+			padding: 0px;
+		}
+		.pf-close{ 
 			display: none;
 			width: 50px;
-			  height: 50px;
-			  position: absolute;
-			  bottom: 5%;
-			  left: 50%;
-			  margin-left: -30px;
-			  z-index: 1002;
-			  cursor: pointer; 
-
-
-	}
-	.pf-close img{ width: 50px; height: 50px;}
-
-
-    </style>
-</head>
-<body>
-	<!--下拉刷新容器-->
+			height: 50px;
+			position: absolute;
+			bottom: 5%;
+			left: 50%;
+			margin-left: -30px;
+			z-index: 1002;
+			cursor: pointer; 
+		}
+		.pf-close img{ 
+			width: 50px; 
+			height: 50px;
+		}
+	    </style>
+	</head>
+	<body>
+		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<!--数据列表-->
@@ -94,96 +94,92 @@
 					<div id="home-body" class="home-body">
 						
 					</div>
-					
-					
 				</div>
 				
 			</div>
 		</div>
-
-<div id="idx-box"></div>
-
-
-	<div id="light2" class="rescan_main">
-		<a href="#" id="pone_c" data-href="">
-			<img id="adimg" src="images/pf-gg.png" style="width: 90%; height: 70%;">
-		</a>
-	</div>
-	<div class="pf-close" onClick="closeWindow('light2')">
-		<img src="images/pf-close.png">
-	</div>
-	<div id="fade" class="black_overlay"></div>
-</body>
-
-
-<script id="tpl-borrow-item" type="text/html">
-	{{each list as item i}}
-	<div class="home-con">
-		<ul class="home-lcsj">
-			 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}亿</span></li>  
-			 <li><i class="home-icona"></i>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
-		</ul>
-	</div>	
-	<div class="home-main">
-		<div>
-			<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}"><h3 class="home-title">{{item.name}}</h3></a>
-			<span class="home-jctj">{{item.tip}}</span>
-			<div class="home-k-ico"></div>
-		</div>
-		<div class="home-clear"></div>
-		<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">
-		<div class="home-nhsy">		
-			年化收益 
-			<p>{{item.borrow_apr}}<i class="home-size">%</i></p>
-		</div>
-		<div class="home-xmqx">		
-			项目期限 
-			<p>{{item.borrow_period | month2day}}<i class="home-size">天</i></p>
-		</div>
-	  	<div class="home-l-ico"></div>
-	  	<div class="home-r-ico"></div>
-		<div class="home-jdt"></div>
-		<div class="home-hjdt" style="width:{{item.borrow_account_scale}}%;"></div>
 	
-		<div class="home-menoy">
-			<span class="home-xmze">项目总额  : {{item.account | toThousandsint}}元 </span>
-			<span class="home-ktje">可投金额 : <i class="home-peo">{{item.borrow_account_wait | toThousandsint}}</i>元</span>
+		<div id="idx-box"></div>
+		<div id="light2" class="rescan_main">
+			<a href="#" id="pone_c" data-href="">
+				<img id="adimg" src="images/pf-gg.png" style="width: 90%; height: 70%;">
+			</a>
 		</div>
-		</a>
-		<div class="home-clear"></div>	
-		{{if item.borrow_account_scale == '100'}}
-			<div class="home-botton-cc"><a href="#">已抢完</a></div>
-		{{else}}
-			<div class="home-botton"><a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">立即抢购</a></div>
-		{{/if}}
+		<div class="pf-close" onClick="closeWindow('light2')">
+			<img src="images/pf-close.png">
+		</div>
+		<div id="fade" class="black_overlay"></div>
+	</body>
+
+
+	<script id="tpl-borrow-item" type="text/html">
+		{{each list as item i}}
+		<div class="home-con">
+			<ul class="home-lcsj" id='turnDate'>
+				 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}亿</span></li>  
+				 <li><i class="home-icona"></i>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
+			</ul>
+		</div>	
+		<div class="home-main">
+			<div>
+				<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}"><h3 class="home-title">{{item.name}}</h3></a>
+				<span class="home-jctj">{{item.tip}}</span>
+				<div class="home-k-ico"></div>
+			</div>
+			<div class="home-clear"></div>
+			<a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">
+			<div class="home-nhsy">		
+				年化收益 
+				<p>{{item.borrow_apr}}<i class="home-size">%</i></p>
+			</div>
+			<div class="home-xmqx">		
+				项目期限 
+				<p>{{item.borrow_period | month2day}}<i class="home-size">天</i></p>
+			</div>
+		  	<div class="home-l-ico"></div>
+		  	<div class="home-r-ico"></div>
+			<div class="home-jdt"></div>
+			<div class="home-hjdt" style="width:{{item.borrow_account_scale}}%;"></div>
 		
-		  <div class="Secured">
-		    <ul>
-		      <li><span class="hbjh"></span>杭标计划</li> 
-		       <li class="xiant" style="width: 15px;">&nbsp;</li>
-		       <li><span class="ancun" ></span>安存无忧</li> 
-		    </ul>
-		 
-		   </div>
-	</div>
-	{{/each}}
-</script>
+			<div class="home-menoy">
+				<span class="home-xmze">项目总额  : {{item.account | toThousandsint}}元 </span>
+				<span class="home-ktje">可投金额 : <i class="home-peo">{{item.borrow_account_wait | toThousandsint}}</i>元</span>
+			</div>
+			</a>
+			<div class="home-clear"></div>	
+			{{if item.borrow_account_scale == '100'}}
+				<div class="home-botton-cc"><a href="#">已抢完</a></div>
+			{{else}}
+				<div class="home-botton"><a href="#" class="tap" data="{'article_id':{{item.borrow_nid}},'id':{{item.id}}}">立即抢购</a></div>
+			{{/if}}
+			
+			<div class="Secured">
+			    <ul>
+			      <li><span class="hbjh"></span>杭标计划</li> 
+			       <li class="xiant" style="width: 15px;">&nbsp;</li>
+			       <li><span class="ancun" ></span>安存无忧</li> 
+			    </ul>
+			 
+			</div>
+		</div>
+		{{/each}}
+	</script>
 
-<script id="tpl-pic-item" type="text/html">
-	{{each list as item i}}
-		<div class="swiper-slide"><a class="tap" href="{{item.url}}" data='{"url":"{{item.url}}","title":"{{item.name}}"}'><img src="{{host}}{{item.pic}}" onerror="this.src='images/1.png'" /></a></div>
-	{{/each}}
-</script>
-
-<script src="js/jquery-1.11.2.min.js"></script>
-<script src="js/common.js"></script>
-<script src="js/swiper.min.js"></script>
-<script src="js/mui.min.js"></script>
-<script src="js/template.js"></script>
-<script src="js/template.function.js"></script>
-<script src="js/api.js"></script>
-<script type="text/javascript" charset="utf-8">
-  	mui.init({
+	<script id="tpl-pic-item" type="text/html">
+		{{each list as item i}}
+			<div class="swiper-slide"><a class="tap" href="{{item.url}}" data='{"url":"{{item.url}}","title":"{{item.name}}","right_btn":"分享"}'><img src="{{host}}{{item.pic}}" onerror="this.src='images/1.png'" /></a></div>
+		{{/each}}
+	</script>
+	
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/swiper.min.js"></script>
+	<script src="js/mui.min.js"></script>
+	<script src="js/template.js"></script>
+	<script src="js/template.function.js"></script>
+	<script src="js/api.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	  	mui.init({
 			pullRefresh: {
 				container: '#pullrefresh',
 				down: {
@@ -192,92 +188,96 @@
 				}
 			}
 		});
-
 	
-	/**
-	 * 下拉刷新具体业务实现
-	 */
-	function pulldownRefresh() {
-		setTimeout(function() {
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				var request = {'borrow_type':'','epage':1,'totalinfo':1};
 			
-			var request = {'borrow_type':'','epage':1,'totalinfo':1};
-		
-			product.getborrowlist({"request":request},function(res){
-				var total= new Array();
-				if(res){ 
-					res.newtime = new Date().getTime() / 1000;
-					var html = template('tpl-borrow-item',res);
-					document.getElementById("home-body").innerHTML = html;
-					
-					request = {'type_id':6};
-					articles.GetscrollpicList({'request':request},function(res){
-						res.host = host;
-						var html = template('tpl-pic-item',res);
-						document.getElementById("swiper-wrapper").innerHTML = html;
-					    var swiper = new Swiper('.swiper-container', {
-					        pagination: '.swiper-pagination',
-					        paginationClickable: true,
-					        autoplay: 4000,
-					        autoplayDisableOnInteraction: false
-					    });
-					})
-				}
-			});
+				product.getborrowlist({"request":request},function(res){
+					var total= new Array();
+					if(res){ 
+						res.newtime = new Date().getTime() / 1000;
+						var html = template('tpl-borrow-item',res);
+						document.getElementById("home-body").innerHTML = html;
+						request = {'type_id':6};
+						articles.GetscrollpicList({'request':request},function(res){
+							console.log(JSON.stringify(res))
+							//console.log(res.list.length);
+							res.host = host;
+							var html = template('tpl-pic-item',res);
+							document.getElementById("swiper-wrapper").innerHTML = html;
+							turnData()
+							swiper.update(true)
+					    		//调用本地浏览器
+					    		/*if(res.list[0].order==19){
+					    			$(".swiper-slide a").on("tap",function(){
+					    				$(this).removeAttr("href")
+					    				void plus.runtime.openURL("http://www.ifcar99.com/znhd");
+					    				
+					    			})
+					    			console.log("beidianji");
+					    			//$(this).removeAttr("href")
+					    			//e.preventDefault()
+					    			
+					    		}*/
+					    	
+						})
+					}
+				});	
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh();//refresh completed
+			}, 400);
 			
-		
-			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-		}, 400);
-		
-	}
-  	
-  	mui.plusReady(function(){
-  		
-  		articles.GetAdBox({'request':request},function(res){
-  			//console.log(JSON.stringify(res));
-			if(res){
-  				if(res.status){
-  					var timestamp=new Date().getTime();//毫秒
-  					if(res.starttime*1000<timestamp&&res.endtime*1000>timestamp){
-  						$('#adimg').attr('src',res.imgurl);
-  						$('#pone_c').attr('data-href',res.href);
-  						//href=res.href;
-  						if(!store.get('adbox')){
-							openWindow()
-							store.set('adbox', 1, 3600 * 24 * 365);
-						}
-  					}
-  				}
-  			}
-		})
-  		
-  		
-  		
-		document.addEventListener('initpage',function(e){
-  			//openWindow()
-			mui('#pullrefresh').pullRefresh().pulldownLoading();
-			
-			
-		},false);
-  		
-		
-		request = {'type_id':6};
-		articles.GetscrollpicList({'request':request},function(res){
-			res.host = host;
-			var html = template('tpl-pic-item',res);
-			document.getElementById("swiper-wrapper").innerHTML = html;
-		    var swiper = new Swiper('.swiper-container', {
-		        pagination: '.swiper-pagination',
-		        paginationClickable: true,
-		        autoplay: 4000,
-		        autoplayDisableOnInteraction: false
-		    });
-		})
-		
-		mui('.swiper-wrapper').on('tap', 'a.tap', function(e){
-	    e.stopPropagation();
-	    href = this.getAttribute('href');
-	  if(href && href.substr(0,1) != "#"){  
-
+		}
+	  	//？？
+	  	mui.plusReady(function(){	
+	  		articles.GetAdBox({'request':request},function(res){
+	  			//console.log(JSON.stringify(res));
+				if(res){
+	  				if(res.status){
+	  					var timestamp=new Date().getTime();//毫秒
+	  					if(res.starttime*1000<timestamp&&res.endtime*1000>timestamp){
+	  						$('#adimg').attr('src',res.imgurl);
+	  						$('#pone_c').attr('data-href',res.href);
+	  						//href=res.href;
+	  						if(!store.get('adbox')){
+								openWindow()
+								store.set('adbox', 1, 3600 * 24 * 365);
+							}
+	  					}
+	  				}
+	  			}
+			})
+			//其他页面传来自定义函数执行下拉刷新
+			document.addEventListener('initpage',function(e){
+	  			//openWindow()
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+				
+				
+			},false);
+	  		
+			//首页banner数据请求
+			request = {'type_id':6};
+			articles.GetscrollpicList({'request':request},function(res){
+				res.host = host;
+				var html = template('tpl-pic-item',res);
+				document.getElementById("swiper-wrapper").innerHTML = html;
+			    swiper = new Swiper('.swiper-container', {
+			        pagination: '.swiper-pagination',
+			        paginationClickable: true,
+			        autoplay: 4000,
+			        autoplayDisableOnInteraction: false
+			    });
+			    
+			})
+			//banner图掉级跳转，使用模板
+			mui('.swiper-wrapper').on('tap', 'a.tap', function(e){
+		    e.stopPropagation();
+		    href = this.getAttribute('href');
+		    if(href && href.substr(0,1) != "#"){  
 				if(href == "") return;
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
@@ -301,65 +301,77 @@
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 150);
 				
-	      }
-	    })
-		
-		
-		var request = {'borrow_type':'','epage':1,'totalinfo':1};
-		
-		product.getborrowlist({"request":request},function(res){
-			var total= new Array();
-			if(res){ 
-				res.newtime = new Date().getTime() / 1000;
-				var html = template('tpl-borrow-item',res);
-				document.getElementById("home-body").innerHTML = html;
-			}
-		});
-		
-		var pshowshow = true;
-		mui("#home-body").on('tap','a.tap',function(e){
-			e.preventDefault();
-			if(pshowshow){
-				pshowshow = false;
-				setTimeout(function(){
-					pshowshow = true;
-				}, 1000);
-			}else{
-				return false;
-			}
-			var data = this.getAttribute('data');
-			data = eval("(" + data + ")");
-			//console.log(JSON.stringify(data))
-			var pshow = plus.webview.create('pshow.html','pshow-borrow');
-			pshow.addEventListener('loaded',function(){
-			mui.fire(pshow,"mui.view.show",data);
+	            }
+		    })
+			
+			//数据主体请求
+			var request = {'borrow_type':'','epage':1,'totalinfo':1};
+			product.getborrowlist({"request":request},function(res){
+				var total= new Array();
+				if(res){ 
+					res.newtime = new Date().getTime() / 1000;
+					var html = template('tpl-borrow-item',res);
+					document.getElementById("home-body").innerHTML = html;
+				}
+				turnData()
 			});
-			setTimeout(function(){
-				pshow.show("slide-in-right",100);
-			},300);
+			
+			//跳转至投标详情页
+			var pshowshow = true;
+			mui("#home-body").on('tap','a.tap',function(e){
+				e.preventDefault();
+				if(pshowshow){
+					pshowshow = false;
+					setTimeout(function(){
+						pshowshow = true;
+					}, 1000);
+				}else{
+					return false;
+				}
+				var data = this.getAttribute('data');
+				data = eval("(" + data + ")");
+				//console.log(JSON.stringify(data))
+				var pshow = plus.webview.create('pshow.html','pshow-borrow');
+				pshow.addEventListener('loaded',function(){
+				mui.fire(pshow,"mui.view.show",data);
+				});
+				setTimeout(function(){
+					pshow.show("slide-in-right",100);
+				},300);
+			})
+			
+			
+			
 		})
-		
-	})
-  	
-  	//首页返回键处理
-	 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
-	var first = null;
-	mui.back = function() {
-		//首次按键，提示‘再按一次退出应用’
-		if (!first) {
-			first = new Date().getTime();
-			mui.toast('再按一次退出应用');
-			setTimeout(function() {
-				first = null;
-			}, 1000);
-		} else {
-			if (new Date().getTime() - first < 1000) {
-				plus.runtime.quit();
+	  	function turnData(){
+	  		//跳转数据公示
+			mui("#turnDate").on('tap','li',function(e){
+				mui.openWindow({
+					id:'data_public.html',
+					url:'data_public.html',
+					styles:{"aniShow":"slide-in-right","popGesture":"close"},
+					waiting:{"autoShow":false}
+				})
+			})
+	  	}
+	  	//首页返回键处理
+		 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
+		var first = null;
+		mui.back = function() {
+			//首次按键，提示‘再按一次退出应用’
+			if (!first) {
+				first = new Date().getTime();
+				mui.toast('再按一次退出应用');
+				setTimeout(function() {
+					first = null;
+				}, 1000);
+			} else {
+				if (new Date().getTime() - first < 1000) {
+					plus.runtime.quit();
+				}
 			}
-		}
-	};
-  	
-  	
+		};
+	  	//？？
   		$('#pone_c').on('click',function(e){
   			e.stopPropagation();
   			var url = $(this).attr('data-href');
@@ -368,7 +380,6 @@
 					login();
 					return false;
 				}
-				
 				var webview_style = {
 					popGesture: "close"
 				};
@@ -386,25 +397,22 @@
 				return false;
 			}
   		})
-		
-
-		
-</script>
-
-<script language="javascript">
-	function openWindow() {
-		document.getElementById('light2').style.display = 'block';
-		$(".pf-close").css("display","block");
-		document.getElementById('fade').style.display = 'block';
-	}
-	function closeWindow(id) {
-		document.getElementById(id).style.display = 'none';
-		document.getElementById('fade').style.display = 'none';
-		$(".pf-close").css("display","none");
-		$("rescan_main").css("display","none");
-
-	}
+	</script>
 	
-</script>
+	<script language="javascript">
+		function openWindow() {
+			document.getElementById('light2').style.display = 'block';
+			$(".pf-close").css("display","block");
+			document.getElementById('fade').style.display = 'block';
+		}
+		function closeWindow(id) {
+			document.getElementById(id).style.display = 'none';
+			document.getElementById('fade').style.display = 'none';
+			$(".pf-close").css("display","none");
+			$("rescan_main").css("display","none");
+	
+		}
+		
+	</script>
 
 </html>
