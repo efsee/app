@@ -73,6 +73,22 @@
 			width: 50px; 
 			height: 50px;
 		}
+		.home-more{
+			font-size: 14px;		
+		
+			}
+		.home-more-ico{	
+			background: url(images/icon.png) no-repeat -80px -46px;
+			display:inline-block;
+			width: 20px; height: 13px;
+			background-size:250px ;
+			position: relative;
+			top:2px; 	
+		}
+		.home-lcsj li{ float: left; font-size: 13px; width: 41%; }
+		.home-lcsj li:last-child { float: right;width: 18%; text-align: right;  }
+
+
 	    </style>
 	</head>
 	<body>
@@ -116,8 +132,10 @@
 		{{each list as item i}}
 		<div class="home-con">
 			<ul class="home-lcsj" id='turnDate'>
-				 <li><i class="home-icon"></i>累计投资 : <span class="home-peo">{{item.all_tou}}亿</span></li>  
-				 <li><i class="home-icona"></i>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
+				<li>累计投资 : <span class="home-peo">{{item.all_tou}}亿</span></li>  
+				<li>注册用户 : <span class="home-peo">{{item.all_users_num}}人</span></li> 
+			    <li>更多 <span class="home-more-ico"></span></li>
+
 			</ul>
 		</div>	
 		<div class="home-main">

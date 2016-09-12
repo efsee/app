@@ -1,0 +1,187 @@
+@charset "UTF-8";
+  .integral-name{
+  	color: #343434; 
+  	font-weight: bold; 	
+  	
+  }
+	.integral{
+	    	  font-size: 14px; 
+	    	  color: #f95453;
+	    	  line-height: 44px;	                       	
+	    	  
+		  }
+  .integral-jilu{
+    	  font-size: 14px; 
+    	  color: #343434;
+    	  line-height: 44px;	                       	
+    	  
+	  }
+	 .integral-ico{
+    	 	background-position: -213px -139px;  
+    	 	display: inline-block;
+    	 	width: 25px;
+    	 	height: 25px;            	 	
+    	 	position: relative; 
+    	 	top:2px;   		
+	 	
+	 	
+	 } 
+	.integral:hover{ 
+		 color: #f95453;
+		 
+		 }
+	.mui-bar .mui-title{ 
+		right: 80px;
+		left:80px;
+		
+		}
+	.integral-main{
+		 margin: 0 auto;
+		 margin-top: 44px;
+		 overflow: hidden;
+		             	
+	
+	}
+	.integral-botton{
+		 width: 80%;
+		 height: 45px;
+		 line-height: 45px;
+		 display: block; 
+		 margin: 20px auto;
+		 background: #f95453;
+		 color: #FFF; 
+		 text-align: center;
+		 border-radius: 8px;
+		 font-size: 16px;
+		 color: #FFFFFF;
+		 
+		 }
+	.integral-yqd{
+		 width: 80%;
+		 height: 45px;
+		 line-height: 45px;
+		 display: block; 
+		 margin: 20px auto;
+		border:solid 1px #7e7e7e;
+		 color: #FFF; 
+		 text-align: center;
+		 border-radius: 8px;
+		 font-size: 16px;
+		 color: #7e7e7e;
+		 
+		 }		
+	.integral-botton:hover{
+		background: #df3938;            		
+		color: #FFFFFF;
+	}	 
+	.integral-fen{
+		background: url(../images/inter-bg.png) no-repeat center;
+		width: 90%;
+		height: auto;            		
+		margin: 0px auto;
+		display: block; 
+		text-align: center; 
+	
+		padding-top: 100px;  
+		padding-bottom: 100px;            			
+		background-size:100%;   
+    		      			
+		
+	} 
+	.integral-title{
+		font-size: 16px;
+		color: #343434;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		text-align: center; 
+		
+		
+	}
+	.integral-zong{
+		color: #f95453;
+		font-size: 50px;       		
+		text-align: center;  
+		margin-bottom: 20px;          			
+	
+		
+	}
+	.integral-ts{
+		color: #343434; 
+		font-size: 14px;
+		margin-top: 10px;
+		text-align: center;       			 			
+	           			       			
+		
+	} 
+	.integral-gz{ 
+		text-align: center;
+		color: #343434;
+		 
+		 }
+	.integral-gzico{
+		 width: 20px;
+	 	 height: 15px;
+	 	 
+	 	 display: inline-block;
+	 	 background: url(../images/icon.png) no-repeat center;
+	 	 background-position: -201px -122px;
+	 	 background-size: 250px;
+	 	 
+	 	 position: relative;
+	 	 top: 1px;
+	 	 }	
+	 	 
+/*签到记录样式*/
+.sign-main{
+	padding-left: 6px;
+	padding-right: 6px;	
+}
+.sign-right{
+	float:right;	
+	
+}
+.sign-yqd{
+	font-size: 14px;
+	color: #343434;
+
+	
+}
+.sign-date{
+	font-size: 14px;
+	color: #989898;
+	margin-top: 8px;
+	
+}
+.sign-jf{
+	font-size: 18px;
+	color:#de2528;
+	
+}
+
+/*规则说明*/
+.rule-main{
+	padding:20px;
+	
+	
+}
+.rule-title{
+	font-size: 16px;
+	color: #e4393c;
+	margin-bottom: 15px;
+	
+}
+.rule-main p{
+	
+	font-size: 14px;
+	color: #343434;
+	line-height: 22px;
+	margin-bottom: 15px;
+}
+.rule-jiangl{
+	margin-top: -6px;;	
+	margin-bottom: 15px;
+	line-height: 25px;
+	font-size: 14px;;
+
+}
+

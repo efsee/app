@@ -62,7 +62,7 @@
 					}
 				}
 			});			
-			/**
+			/*
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
@@ -119,7 +119,7 @@
 						}
 						if(val.money!=0){
 							//+钱
-							if(val.balance>val.balance_old){
+							if(parseFloat(val.balance)>parseFloat(val.balance_old)){
 								//收到本金和利息分离
 								if(val.account_type=="投资收到还款"){
 									$(".year-"+year+".yy-"+yue).append(

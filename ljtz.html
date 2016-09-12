@@ -13,6 +13,15 @@
 		<link href="css/mylayer.css" rel="stylesheet"/>
 	</head>
     <style type="text/css">
+	    .mui-loader {
+			position: absolute;
+			top: 25%;
+			width: 100%;
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
 		.header{
 			width:100%;
 			height:45px;
@@ -60,7 +69,7 @@
 		.mui-input-group .mui-input-row:after { left: 0; }
 		.mui-input-group .mui-input-row i { right: 50px; top: 10px; position: absolute; }
 		.mui-input-group .mui-input-row  .dsp { right: 80px; position: absolute; }
-		.moneyfont{ font-size:16px; font-weight:bold;color:#f13f3f;}
+		.moneyfont{ font-size:16px;color:#f13f3f;}
 		
 		.mui-popover {
 			height: 300px;
@@ -78,15 +87,80 @@
 		.layer-wjmm{
 			margin-bottom: 20px;
 		}
+		.moneyList{
+			color: #333;
+			position: relative;
+			padding:0 10px 0px 20px;
+			font-size: 16px;
+			height: 50px;
+			line-height: 50px;
+			background-color: #fff;
+		}
+		.moneyList:after{
+			content: "";
+			position: absolute;
+			height: 1px;
+			width: 90%;
+			bottom: 0;
+			left: 20px;
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color:#E4E4EA ;
+		}
+		.mui-input-row.moneyList:after{
+			height: 0;
+		}
+		.mui-input-row label{
+			font-family:"microsoft yahei";
+			padding:0px;
+			line-height: 50px;
+		}
+		.mui-input-row input{
+			padding:0px;
+			height:30px;
+			line-height: 0px;
+			margin-top:10px;
+			font-weight: bold;
+			font-size: 17px;
+		}
+		.mui-input-row button{
+			right:15px;
+			width:60px;
+			height:30px;
+			margin-top:10px;
+			line-height: 30px;
+			border-radius: 15px;
+		}
+		.yearEarnings{
+			padding-left: 20px;
+			line-height: 40px;
+			
+		}
+		.exit-opn{
+			padding:20px 20px;
+		}
+		.exit-opn .btn{
+			font-size: 16px;
+			height: 45px;
+			background-color: #e94f4f;
+		}
+		#hongbao-offCanvas{
+			color: #333;
+			font-size: 16px;
+			padding:17px 20px;
+		}
+		#qetx{
+			background-color: #ff9900 ;
+		}
+		#hongbao{
+			padding-right: 25px;
+			background: url(images/jt_right.png) no-repeat right center;
+			background-size: 24px 24px;
+		}
     </style>
 	<body>
-		<header class="mui-bar mui-bar-nav header">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
-			<h1 id="title" class="mui-title">投资产品</h1>
-		</header>
 		<!--侧滑菜单容器-->
-		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable" style="margin-top: 40px;">
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
 			<!--菜单部分-->
 			<aside id="offCanvasSide" class="mui-off-canvas-right" style="width: 50%; background: #fff;">
 				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
@@ -99,58 +173,52 @@
 				</div>
 			</aside>
 			<div class="mui-inner-wrap">
-				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-					<div class="mui-scroll">
-
-						<input type="hidden" name="borrow_nid" id="borrow_nid" value="0" />
-						<input type="hidden" name="borrow_apr" id="borrow_apr" value="0" />
-						<input type="hidden" name="borrow_period" id="borrow_period" value="0" />
-						<input type="hidden" name="borrow_style" id="borrow_style" value="" />
-						<div class="title-bt" id="ktje"></div>
-						<div id="borrow_account_wait" style=" display:none;"></div>
-						<div class="box plr10 btline">
-							<div class="wytz" style=" clear: both;  height:38px; padding: 0 2em 1em 5em;">
-								<span class="name">我要投资</span>
-								<span class="unit">元</span>
-								<div class="link"><input type="number" pattern="[0-9]*" id="money" name="money" disabled="disabled" value="" /> &nbsp;<button type="button" class="qetx-qetz" id="qetx">全额投资</button></div>
-
-							</div>
-							<div class="wytz-counts">预估收益 <span class="c5" id="span_borrow_sy">0.00</span> 元</div>
-						</div>
-
-						<div class="title-bt">支付信息</div>
-						<div class="box plr10 btline">
-							<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed"> 
-						        <li class="mui-table-view-cell">
-							        <div class="mui-table">
-							            <div class="mui-table-cell mui-col-xs-8">
-							            	<span class="name">余额</span>
-							            </div>
-							            <div class="mui-table-cell mui-col-xs-4 mui-text-right">
-							                <span class="moneyfont" id="balance">0.00元</span>
-							            </div>
-							        </div>
-						    	</li>
-						        <li class="mui-table-view-cell" id="hongbao-offCanvas">
-							        <div class="mui-table">
-							            <div class="mui-table-cell mui-col-xs-8">
-							            	<span class="name">红包</span>
-							            </div>
-							            <div class="mui-table-cell mui-col-xs-4 mui-text-right">
-							                <span id="hongbao">未选择</span>
-							                <input type="hidden" name="hmoney" id="hmoney" value="0" />
-							            </div>
-							        </div>
-						    	</li>
-							</ul>
-						</div>
-						<div class="exit-opn"><button class="btn" id="btn_submit">确认去支付</button></div>
+				<header class="mui-bar mui-bar-nav header">
+					<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+					<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+					<h1 id="title" class="mui-title">投资产品</h1>
+				</header>
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper" >
+					<div class="mui-loader" id="mui-loader">
+						<span class="mui-spinner"></span> <span id="loading-text" class="mui-hidden">请耐心等候</span>
+					</div>
+					<div class="mui-scroll" id="templateLj" style="display: none;">						
 					</div>
 				</div>
 				<!-- off-canvas backdrop -->
 				<div class="mui-off-canvas-backdrop"></div>
 			</div>
 		</div>
+		<script type="text/html" id="tpl">
+			<input type="hidden" name="borrow_nid" id="borrow_nid" value="0" />
+			<input type="hidden" name="borrow_apr" id="borrow_apr" value="0" />
+			<input type="hidden" name="borrow_period" id="borrow_period" value="0" />
+			<input type="hidden" name="borrow_style" id="borrow_style" value="" />
+			<div id="borrow_account_wait" style=" display:none;"></div>	
+			<div id="ktje" class='moneyList'>可投金额：<span  id="span_borrow_account">{{borrow.borrow_account_wait}}</span>元</div>
+			<div class='moneyList'>账户余额：<span class="moneyfont" id="balance">0.00元</span></div>
+			<div class="mui-input-row moneyList">
+				<label style="width: auto;">投资金额：</label>
+				<input style="float: left;width: 40%;" type="number" pattern="[0-9]*" id="money" name="money"  value="" />元
+				<button type="button" class="qetx-qetz" id="qetx">全投</button>
+				<div style="clear: both;"></div>
+			</div>
+			<p class="yearEarnings">年化收益：<span id="earningsMoney">{{borrow.borrow_apr}}</span>%，&nbsp;到期收益：<span id="span_borrow_sy">0.00</span>元</p>
+			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin:10px 0;"> 
+				<li class="mui-table-view-cell" id="hongbao-offCanvas" style="padding-right: 12px;">
+			        <div class="mui-table">
+			            <div class="mui-table-cell mui-col-xs-6">
+			            	<span class="name">红包</span>
+			            </div>
+			            <div class="mui-table-cell mui-col-xs-6 mui-text-right">
+			                <span class="c5" id="hongbao">未选择</span>
+			                <input type="hidden" name="hmoney" id="hmoney" value="0" />
+			            </div>
+			        </div>
+		    	</li>
+		    </ul>
+			<div class="exit-opn"><button class="btn" id="btn_submit">确认支付</button></div>
+		</script>
 		<script type="text/html" id="tpl-hongbao-item">
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" data-value="0" data-id='0' data-money='0'>
@@ -160,7 +228,7 @@
 			{{each list as $item i}}
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" data-value="{{$item.id}}-{{$item.money}}" data-id='{{$item.id}}' data-money='{{$item.money}}'>
-						{{$item.money}}元红包 <!--{{$item.tmoney}}-->
+						{{$item.money}}元红包
 					</a>
 				</li>
 			{{/each}}
@@ -173,10 +241,20 @@
 		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
-		
-		<script type="text/javascript" charset="utf-8"> 
-		  	mui.init({swipeBack: false});
-		  	/****自动获取焦点弹窗native.js****/
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true,
+				beforeback: function(){
+					//获得a界面的webview
+					//var thisIndex= plus.webview.getWebviewById('pshow.html');
+					var thisIndex= plus.webview.currentWebview().opener();
+	//				//触发a的自定义事件（refresh）,从而进行数据刷新
+					mui.fire(thisIndex,'refresh');
+					//返回true，继续页面关闭逻辑
+					return true;
+				}
+			})
+			/****自动获取焦点弹窗native.js****/
 		  	var nativeWebview, imm, InputMethodManager;
 			var initNativeObjects = function() {
 			    if (mui.os.android) {
@@ -188,7 +266,7 @@
 			        nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
 			    }
 			};
-			var showSoftInput = function() {
+			var showSoftInput = function(){
 				var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
 			    if (mui.os.android) {
 			    	//强制当前webview获得焦点
@@ -224,411 +302,322 @@
 			       var inputElem = document.querySelector('.pwd-input');
 			              inputElem.focus(); 
 			    }, 400);
-			};
+			};	
 			
-			mui.plusReady(function() {
-			    initNativeObjects();
-			  	showSoftInput();
-			});
-		  	
-		  	
-		</script>
-		
-		<!--创建可投金额模板-->
-		<script type="text/html" id="tpl2">
-		{{if borrow.borrow_account_wait >'100'}}
-		可投资金额：<span class="c5" id="span_borrow_account">100~{{borrow.borrow_account_wait}}</span>元
-		{{else}}
-		可投资金额：<span class="c5" id="span_borrow_account">{{borrow.borrow_account_wait}}</span>元
-		{{/if}}
-		</script>
-		
-		<script type="text/javascript">
-			mui.init({
-				beforeback: function(){
-						//获得a界面的webview
-						//var thisIndex= plus.webview.getWebviewById('pshow.html');
-						var thisIndex= plus.webview.currentWebview().opener();
-		//				//触发a的自定义事件（refresh）,从而进行数据刷新
-						mui.fire(thisIndex,'refresh');
-						//返回true，继续页面关闭逻辑
-						return true;
-					}
-			})
 			mui.plusReady(function(){
-				/**********忘记密码页面跳转**********/
-				$(document).on('tap','#wjmm',function(e){
-					e.preventDefault();
-					layer.close(index)
-					href=$(this).attr('data-href');
-					inittemplate = getTemplate('template', 'template.html');
-					//获得共用父模板
-					var headerWebview = inittemplate.header;
-						//获得共用子webview
-					var contentWebview = inittemplate.content;
-					contentWebview.loadURL(href);
-					mui.fire(headerWebview, 'updateHeader', {
-						title: '修改交易密码',
-						showMenu: false
-					});
-					mui.fire(headerWebview, 'loading');
-					headerWebview.show('slide-in-right', 150);
-				});
-				//		/*******支付页面返回刷新*******/
-				document.addEventListener('ljback',function(){
-					plus.webview.currentWebview().reload(true)
+				console.log(store.get('username'))
+				initNativeObjects();
+				//测试签到
+				req={'user_id': user.uid()};	
+				credit.GetSign({'request':req},function(res){
+					console.log(JSON.stringify(res));					
 				})
-				
-				request = {'user_id':user.uid()};
-				account.GetOne({'request':request},function(res){
-					console.log(JSON.stringify(res));
-		//			$('#total').html(res.total);			
-					$('#balance').html(res.balance);
-		//			$('#await').html(res.await);
-		//			$('#income').html(res.income);
+				req2={'username': store.get('username')};
+				credit.GetList({'request':req2},function(res){
+					console.log(JSON.stringify(res));					
 				})
-					hbrequest = {};
-					hbrequest = {'user_id': user.uid()};
-					hbrequest.status = 1;
+				//结束
+				//获取红包
+				hbrequest = {};
+				hbrequest = {'user_id': user.uid()};
+				hbrequest.status = 1;
 				user.GetHongbao({'request':hbrequest},function(res){
-		//			console.log(JSON.stringify(res));
-						
+		//			console.log(JSON.stringify(res));					
 					var html = template('tpl-hongbao-item',res);
 					document.getElementById("hongbaolist").innerHTML = html;
-		//			$("#hongbaolist").html(html);
 				})
-
-				
+				//选择红包显示
 				mui("#hongbaolist").on('tap','a', function(e){
 					$("#hmoney").val(this.getAttribute('data-value'));
 					$("#hongbao").html(this.innerText);
 					offCanvasWrapper.offCanvas('close');
 				})
-				
-				
-				document.getElementById("hongbao-offCanvas").addEventListener("tap",function(e){
+				//显示右滑菜单
+				mui("body").on("tap","#hongbao-offCanvas",function(e){
 					e.stopPropagation();
+					$('#money').blur()
 					offCanvasWrapper.offCanvas('show');	
 				})
-		
+				//侧滑容器父节点
+				var offCanvasWrapper = mui('#offCanvasWrapper');
+				 //主界面容器
+				var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+				 //菜单容器
+				var offCanvasSide = document.getElementById("offCanvasSide");
+				 //移动效果是否为整体移动
+				var moveTogether = false;
+				mui('#offCanvasSideScroll').scroll();
+				mui('#offCanvasContentScroll').scroll();
+				 //实现ios平台的侧滑关闭页面；
+				if (mui.os.plus && mui.os.ios) {
+					offCanvasWrapper[0].addEventListener('shown', function(e) { //菜单显示完成事件
+						plus.webview.currentWebview().setStyle({
+							'popGesture': 'none'
+						});
+					});
+					offCanvasWrapper[0].addEventListener('hidden', function(e) { //菜单关闭完成事件
+						plus.webview.currentWebview().setStyle({
+							'popGesture': 'close'
+						});
+					});
+				}
 				
-				document.getElementById("btn_submit").addEventListener('tap',function(e){
-					
-					var borrow_nid    = $("#borrow_nid").val();
-					var borrow_apr    = $("#borrow_apr").val();
-					var borrow_period = $("#borrow_period").val();
-					var borrow_style  = $("#borrow_style").val();
-					var money  = $("#money").val();
-					var hmoney = $("#hmoney").val();
-					var hongbao;
-					if(hmoney==0){
-						hongbao="";
-					}else{
-						hongbao="（含"+hmoney.substr(6)+"元红包）"
-					}
-					request = {};
-					request.borrow_nid = borrow_nid;
-					request.borrow_apr = borrow_apr;
-					request.borrow_period = borrow_period;
-					request.borrow_style = borrow_style;
-					request.money = money;
-					request.user_id = user.uid();
-					request.hmoney = hmoney;
-					// 红包
-					request.contents = '';
-					
-					if(money == ""){
-						
-						//调用getdata()
-						plus.nativeUI.alert('请输入投资金额！',function(){
-							getdata(ljdata) 
-						});
-						return false;
-					}
-					plus.nativeUI.showWaiting();
-					
-					user.getInfo(function(res){
-		//						
-						if(res){
-							if(parseFloat(res.balance)<parseFloat(money)){
-								var btnArray = ['取消','确定'];
-								mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
-									if (e.index == 1) {
-										//充值界面			
-													var	recharge=plus.webview.create('w_recharge.html','w_recharge.html',{'popGesture':'close'});
-													setTimeout(function(){
-														recharge.show("slide-in-right",100);
-													},50);
-													
-													recharge.addEventListener('loaded',function(){
-														mui.fire(recharge,'recharge',{
-															sale_price:sale_price
-														});
-													});
-													return false;
-												} else {
-													
-													return false;
-												}
-											})
-										}
-										else{
-											pwRequest = {'user_id':user.uid()}; 
-											user.GetUsers({'request':pwRequest},function(pw){
-												upayWord=pw.paypassword;
-											})
-											$('.paypassword').val('');
-											function closelayer(){
-												layer.close(index)
-											}
-											index =layer.open({
-												title: [
-											        '交易密码',
-													'text-align:center;padding:0px;margin:0;'
-											    ],
-											    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00<span style="font-size:12px">'+hongbao+'</span></p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
-											    shadeClose: false,
-											    anim:true,
-											    success:function(layero, index){
-														initNativeObjects();
-				   										showTcInput();
-				   										var $input = $(".fake-box input");  
-												        $("#pwd-input").on("input", function() {  
-												            var pwd = $(this).val().trim();  
-												            for (var i = 0, len = pwd.length; i < len; i++) {  
-												                $input.eq("" + i + "").val(pwd[i]);  
-												            }  
-												            $input.each(function(){  
-												                var index2 = $(this).index();  
-												                if (index2 >= len) {  
-												                    $(this).val("");  
-												                }  
-												            });  
-												            console.log($(this).val());
-												            if (len >=6) {
-												            	//paypassword=$(this).val()
-												            	console.log("我的密码是："+$(this).val());
-														    	paypassword=$.md5($(this).val());
-														    	
-																if(paypassword==upayWord){
-																	console.log("密码正确")
-																	borrow.tender(request,function(res){
-																	//console.log("9"+JSON.stringify(res));
-																	plus.nativeUI.showWaiting();
-																	if(res.status == 1){
-																		//alert("投标成功");
-																			closelayer()
-																			plus.nativeUI.closeWaiting();
-																			data = {'article_id': borrow_nid};
-																			//跳转成功页面
-																			var tzcg=mui.openWindow({
-																				url:"tzcg.html",
-																				id:"tzcg.html",
-																				styles:{"aniShow":"slide-in-right","popGesture":"close"},
-																				waiting:{"autoShow":false},
-																				extras:{
-																					money:money,
-																					article_id: ljdata,
-																					nowtime :new Date().getTime() / 1000
-																					
-																				}
-																			})
-																			mui.fire(plus.webview.getWebviewById("tzcg.html"), "mui.view.show",data);
-																			
-																	}else{
-																		plus.nativeUI.closeWaiting();
-																		if(res.status == -2){
-																			//返回这个页面时调用getdata()
-																			//提示余额不足，请充值
-													//						alert(res.msg + '-2');
-																			plus.nativeUI.alert(res.msg, function(){
-													//							mui.fire(plus.webview.currentWebview().opener(), "reload");
-																				mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
-																			}, "提示", "充值" );
-																		}else{
-																			closelayer()
-																			plus.nativeUI.alert(res.msg,function(){//多出s
-																				getdata(ljdata)
-																				
-																			});
-																		}
-																	}
-																})
-																	
-																}else{
-																	closelayer()
-																	mui.toast("交易密码错误")
-																}
-													    	}
-													    })
-													}
-												})
-											}
-										}
-									});
-								});
-				document.addEventListener('tap',function(event){
-					if(document.activeElement == document.getElementById("money") && event.target.id != 'money'){
-						$('#money').blur();
-					}
-				})
-		 			//侧滑容器父节点
-					var offCanvasWrapper = mui('#offCanvasWrapper');
-					 //主界面容器
-					var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
-					 //菜单容器
-					var offCanvasSide = document.getElementById("offCanvasSide");
-					 //移动效果是否为整体移动
-					var moveTogether = false;
-					 //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
-					 //变换侧滑动画移动效果；
-					 
-		//			document.getElementById('offCanvasShow').addEventListener('tap', function() {
-		//				offCanvasWrapper.offCanvas('show');
-		//			});
-		//			document.getElementById('offCanvasHide').addEventListener('tap', function() {
-		//				offCanvasWrapper.offCanvas('close');
-		//			});
-					 //主界面和侧滑菜单界面均支持区域滚动；
-					mui('#offCanvasSideScroll').scroll();
-					mui('#offCanvasContentScroll').scroll();
-					 //实现ios平台的侧滑关闭页面；
-					if (mui.os.plus && mui.os.ios) {
-						offCanvasWrapper[0].addEventListener('shown', function(e) { //菜单显示完成事件
-							plus.webview.currentWebview().setStyle({
-								'popGesture': 'none'
-							});
-						});
-						offCanvasWrapper[0].addEventListener('hidden', function(e) { //菜单关闭完成事件
-							plus.webview.currentWebview().setStyle({
-								'popGesture': 'close'
-							});
-						});
-					}
 			})
-			document.getElementById('qetx').addEventListener('tap',function(){	
-					var money = parseInt($("#balance").html());		
-					var account_wait = parseInt($("#borrow_account_wait").html());
-					var moneyb = parseInt(money/100);		
-		            var moneyd = moneyb*100;	
-					if(money>100){
-						if (money>account_wait){				
-					        $("#money").val(account_wait);			      
-						} else{
-					       $("#money").val(moneyd);
-					      }
-						 				
-					}else{
-						 mui.alert('您的余额不足100，请充值！', function() {
-		                    getdata(ljdata)
-		               });	
-					}
-					
-					var borrow_nid    = $("#borrow_nid").val();
-					var borrow_apr    = $("#borrow_apr").val();
-					var borrow_period = $("#borrow_period").val();
-					var borrow_style  = $("#borrow_style").val();
-					var borrow_money  = $("#money").val();
-					request = {};
-					request.borrow_nid = borrow_nid;
-					request.borrow_apr = borrow_apr;
-					request.borrow_period = borrow_period;
-					request.borrow_style = borrow_style;
-					request.money = borrow_money;
-					console.log(JSON.stringify(request));
-					borrow.sy({'request':request},function(res){
-						if(res) {
-							$('#span_borrow_sy').html(res);
-						}else{
-							$('#span_borrow_sy').html("0.00");
-						}
-					})
+			/*******支付页面返回刷新*******/
+			document.addEventListener('ljback',function(){
+				plus.webview.currentWebview().reload(true)
+			})
+			//pshow传入请求数据	
+			document.addEventListener('mui.view.show',function(e){
+				var data = e.detail;
+				getBalance()
+				ljdata=data;
+				getdata(data);
+				//console.log(JSON.stringify(e.detail));
+				var id = e.detail.id;//获得传递的参数ID标示
+			},false);
+			
+			//方法
+			function getBalance(){
+				//获取账户余额
+				request2 = {'user_id':user.uid()};
+				account.GetOne({'request':request2},function(res2){
+					//console.log(JSON.stringify(res));	
+					yourBalance=res2.balance+'元'
 					
 				})
+			}
 			
-			/*****根据psshow页面传入的监听事件。是、其中传入data中含有borrow_account_wait值*****/
-				document.addEventListener("ljtzId",function(e){
-					
-					console.log(JSON.stringify(e.detail));
-					window.scrollTo(0,0);
-					var data = e.detail;
-					ljdata=data;
-					getdata(data);
-					setTimeout("moneyToWrt()",300)
-					
-				
-				},false);
-				
-				document.addEventListener('mui.view.show',function(e){
-					
-		//			console.log(JSON.stringify(e.detail));
-					var id = e.detail.id;//获得传递的参数ID标示
-					var borrow_account_wait = e.detail.borrow_account_wait;
-					/*1 var account_wait = parseInt(borrow_account_wait);
-					console.log("qq"+borrow_account_wait)
-					if(parseFloat(borrow_account_wait) >= 100){
-						$('#span_borrow_account').html('100 ~ ' + borrow_account_wait);
-					}else{
-						$('#span_borrow_account').html(borrow_account_wait);
-					}
-					$('#borrow_account_wait').html(account_wait);*/
-					$("#borrow_nid").val(e.detail.borrow_nid);
-					$("#borrow_apr").val(e.detail.borrow_apr);
-					$("#borrow_period").val(e.detail.borrow_period);
-					$("#borrow_style").val(e.detail.borrow_style);
-		
-				},false);
-				//data如何传？
 			function getdata(data){
-				var request = data;//含有上个页面传来article_id、id、has_repay的对象
+				var request = data;
 				request.borrow_nid = data.article_id;
 				product.detail({"request":request},function(res){
-					//
-					$('#borrow_account_wait').html(res.borrow.borrow_account_wait);
-					//console.log(res.borrow.borrow_account_wait);
-					biaoName=res.borrow.name;
+					var html = template('tpl',res);
+					document.getElementById("templateLj").innerHTML = html;
 					console.log(JSON.stringify(res));
-					//console.log(biaoName);
-					if(res){
-					res.is_login = user.uid();
-					res.nowtime = new Date().getTime() / 1000;
-					var html = template('tpl2',res);
-					$('#ktje').html(html);
 					
+					
+					$('#borrow_account_wait').html(res.borrow.borrow_account_wait);
+					$("#borrow_nid").val(res.borrow.borrow_nid);
+					$("#borrow_apr").val(res.borrow.borrow_apr);
+					$("#borrow_period").val(res.borrow.borrow_period);
+					$("#borrow_style").val(res.borrow.borrow_style);
+					biaoName=res.borrow.name;
+					if(res){
+						res.is_login = user.uid();
+						res.nowtime = new Date().getTime() / 1000;
+						if(parseFloat(res.borrow.borrow_account_wait)>100){
+							$('#span_borrow_account').html("100~"+res.borrow.borrow_account_wait)
+						}else{
+							$('#span_borrow_account').html(res.borrow.borrow_account_wait)
+						}
+						document.getElementById("earningsMoney").innerHTML=res.borrow.borrow_apr
+						if(typeof(yourBalance)=='undefined'){
+							//获取账户余额
+							request2 = {'user_id':user.uid()};
+							account.GetOne({'request':request2},function(res2){
+								//console.log(JSON.stringify(res));	
+								$('#balance').html(res2.balance+'元');	
+							})
+						}else{
+							$('#balance').html(yourBalance);
+						}
+						
 					}else{
 						
 					}
+					$('#mui-loader').hide();
+					$('#templateLj').show();
+			  		showSoftInput();
 					plus.nativeUI.closeWaiting();
 					var self = plus.webview.currentWebview();
-				})
-				
+				})	
 			}
-			/**等待getdate()加载完**/
-			function moneyToWrt(){
-				$("#money").removeAttr("disabled")
-			} 
+			//提交
+			mui('body').on('tap','#btn_submit',function(e){	
+				var borrow_nid    = $("#borrow_nid").val();
+				var borrow_apr    = $("#borrow_apr").val();
+				var borrow_period = $("#borrow_period").val();
+				var borrow_style  = $("#borrow_style").val();
+				var money  = $("#money").val();
+				var hmoney = $("#hmoney").val();
+				var hongbao;
+				if(hmoney==0){
+					hongbao="";
+				}else{
+					hongbao="（含"+hmoney.substr(6)+"元红包）"
+				}
+				request = {};
+				request.borrow_nid = borrow_nid;
+				request.borrow_apr = borrow_apr;
+				request.borrow_period = borrow_period;
+				request.borrow_style = borrow_style;
+				request.money = money;
+				request.user_id = user.uid();
+				request.hmoney = hmoney;
+				// 红包
+				request.contents = '';
 				
+				if(money == ""){	
+					//调用getdata()
+					plus.nativeUI.alert('请输入投资金额！',function(){
+						//getdata(ljdata)
+						plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+						//initNativeObjects();
+			  			showSoftInput();
+					});
+					return false;
+				}
+				plus.nativeUI.showWaiting();	
+				user.getInfo(function(res){
+					if(res){
+						if(parseFloat(res.balance)<parseFloat(money)){
+							var btnArray = ['取消','确定'];
+							mui.confirm('您的余额不足，请充值','', btnArray, function(e) {
+								if (e.index == 1) {
+									//充值界面			
+									var	recharge=plus.webview.create('w_recharge.html','w_recharge.html',{'popGesture':'close'});
+									setTimeout(function(){
+										recharge.show("slide-in-right",100);
+									},50);
+									
+									recharge.addEventListener('loaded',function(){
+										mui.fire(recharge,'recharge',{
+											sale_price:sale_price
+										});
+									});
+									return false;
+								} else {
+									return false;
+								}
+							})
+						}
+						else{
+							pwRequest = {'user_id':user.uid()}; 
+							user.GetUsers({'request':pwRequest},function(pw){
+								upayWord=pw.paypassword;
+							})
+							$('.paypassword').val('');
+							
+							function closelayer(){
+								layer.close(index)
+							}
+							
+							index =layer.open({
+								title: [
+							        '交易密码',
+									'text-align:center;padding:0px;margin:0;'
+							    ],
+							    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00<span style="font-size:12px">'+hongbao+'</span></p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+							    shadeClose: false,
+							    anim:true,
+							    success:function(layero, index){
+										//initNativeObjects();
+   										showTcInput();
+   										var $input = $(".fake-box input");  
+								        $("#pwd-input").on("input", function() {  
+								            var pwd = $(this).val().trim();  
+								            for (var i = 0, len = pwd.length; i < len; i++) {  
+								                $input.eq("" + i + "").val(pwd[i]);  
+								            }  
+								            $input.each(function(){  
+								                var index2 = $(this).index();  
+								                if (index2 >= len) {  
+								                    $(this).val("");  
+								                }  
+								            });  
+								           // console.log($(this).val());
+								            if (len >=6) {
+										    	paypassword=$.md5($(this).val());	
+												if(paypassword==upayWord){
+													console.log("密码正确")
+													borrow.tender(request,function(res){
+													//console.log(JSON.stringify(res));
+													plus.nativeUI.showWaiting();
+													if(res.status == 1){
+														//alert("投标成功");
+															closelayer()
+															plus.nativeUI.closeWaiting();
+															data = {'article_id': borrow_nid};
+															//跳转成功页面
+															var tzcg=mui.openWindow({
+																url:"tzcg.html",
+																id:"tzcg.html",
+																styles:{"aniShow":"slide-in-right","popGesture":"close"},
+																waiting:{"autoShow":false},
+																extras:{
+																	money:money,
+																	article_id: ljdata,
+																	nowtime :new Date().getTime() / 1000
+																	
+																}
+															})
+															mui.fire(plus.webview.getWebviewById("tzcg.html"), "mui.view.show",data);
+															
+													}else{
+														plus.nativeUI.closeWaiting();
+														if(res.status == -2){
+															//返回这个页面时调用getdata()
+															//提示余额不足，请充值
+															plus.nativeUI.alert(res.msg, function(){
+																mui.openWindow({'url':'w_recharge.html','id':'w_recharge.html', 'styles':{'top':'0px'},'show':{'autoShow':false},'waiting':{'autoShow':false}});
+															}, "提示", "充值" );
+														}else{
+															closelayer()
+															plus.nativeUI.alert(res.msg,function(){
+																getdata(ljdata)
+																plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+															});
+														}
+													}
+												})
+													
+											}else{
+												closelayer()
+												mui.toast("交易密码错误")
+												plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+											}
+								    	}
+								    })
+								}
+							})
+						}
+					}
+				});
+			});
+			//全额投资
+			mui('body').on('tap','#qetx',function(){	
+				plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+				var money = parseInt($("#balance").html());		
+				var account_wait = parseInt($("#borrow_account_wait").html());
+				var moneyb = parseInt(money/100);		
+	            var moneyd = moneyb*100;	
+				if(money>100){
+					if (money>account_wait){				
+				        $("#money").val(account_wait);			      
+					} else{
+				       $("#money").val(moneyd);
+				      }
+					 				
+				}else{
+					 mui.alert('您的余额不足100，请充值！', function() {
+	                    getdata(ljdata)
+	                    plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+	               });	
+				}
 				
-				/*var back_old = mui.back;
-				mui.back = function(){
-					plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
-					back_old();
-				}*/
-		
-		$(function(){
-		    $('#money').keyup(function(){
-			var borrow_nid    = $("#borrow_nid").val();
-			var borrow_apr    = $("#borrow_apr").val();
-			var borrow_period = $("#borrow_period").val();
-			var borrow_style  = $("#borrow_style").val();
-			var money  = $("#money").val();
-			request = {};
-			request.borrow_nid = borrow_nid;
-			request.borrow_apr = borrow_apr;
-			request.borrow_period = borrow_period;
-			request.borrow_style = borrow_style;
-			request.money = money;
-			//console.log(JSON.stringify(request));
+				var borrow_nid    = $("#borrow_nid").val();
+				var borrow_apr    = $("#borrow_apr").val();
+				var borrow_period = $("#borrow_period").val();
+				var borrow_style  = $("#borrow_style").val();
+				var borrow_money  = $("#money").val();
+				request = {};
+				request.borrow_nid = borrow_nid;
+				request.borrow_apr = borrow_apr;
+				request.borrow_period = borrow_period;
+				request.borrow_style = borrow_style;
+				request.money = borrow_money;
+				console.log(JSON.stringify(request));
 				borrow.sy({'request':request},function(res){
 					if(res) {
 						$('#span_borrow_sy').html(res);
@@ -636,9 +625,54 @@
 						$('#span_borrow_sy').html("0.00");
 					}
 				})
-		    });
-		    
-			$("#money").blur(function(){
+				
+			})
+			/**********忘记密码页面跳转**********/
+			mui('body').on('tap','#wjmm',function(e){
+				e.preventDefault();
+				layer.close(index)
+				href=$(this).attr('data-href');
+				inittemplate = getTemplate('template', 'template.html');
+				//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href);
+				mui.fire(headerWebview, 'updateHeader', {
+					title: '修改交易密码',
+					showMenu: false
+				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
+			});	
+			//任何位置点击失去焦点
+			document.addEventListener('tap',function(event){
+				if(document.activeElement == document.getElementById("money") && event.target.id != 'money'){
+					$('#money').blur();
+				}
+			})
+			mui('body').on('keyup','#money',function(){
+				var borrow_nid    = $("#borrow_nid").val();
+				var borrow_apr    = $("#borrow_apr").val();
+				var borrow_period = $("#borrow_period").val();
+				var borrow_style  = $("#borrow_style").val();
+				var money  = $("#money").val();
+				request = {};
+				request.borrow_nid = borrow_nid;
+				request.borrow_apr = borrow_apr;
+				request.borrow_period = borrow_period;
+				request.borrow_style = borrow_style;
+				request.money = money;
+				//console.log(JSON.stringify(request));
+					borrow.sy({'request':request},function(res){
+						if(res) {
+							$('#span_borrow_sy').html(res);
+						}else{
+							$('#span_borrow_sy').html("0.00");
+						}
+					})
+			})
+			$('body').on('blur','#money',function(){
 				if($("#hmoney").val() != 0){
 					$("#hmoney").val('0');
 					$("#hongbao").html("未选择");
@@ -660,12 +694,13 @@
 							$(this).hide();
 						}else{
 							$(this).show();
+							}
 						}
-					 }
 					});
-				}
-			});
-		})
+				}	
+			})
+
+
 		</script>
-</body>
+	</body>
 </html>
