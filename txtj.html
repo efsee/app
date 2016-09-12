@@ -102,32 +102,32 @@
 		
 		mui.plusReady(function(){
 			var selfPage=plus.webview.currentWebview()
+			
 			//跳转我的
 			mui("body").on('tap','.iphone-fin-botton',function(){
-			mui.fire(plus.webview.getLaunchWebview(),'gouser');
-			plus.webview.getLaunchWebview().show()
-			selfPage.close()
-			
+				mui.fire(plus.webview.getLaunchWebview(),'gouser');
+				plus.webview.getLaunchWebview().show()
+				selfPage.close()
 			})
 			//充值问题跳转
 			mui(".recharge-foot").on('tap',' a',function(e){
-			console.log("55");
-			e.stopPropagation();
-			var url = this.getAttribute('data-href');
-			if(url == "") return;
-			//通知模板修改标题，并显示隐藏右上角图标；
-			inittemplate = getTemplate('template', 'template.html');
-				//获得共用父模板
-			var headerWebview = inittemplate.header;
-				//获得共用子webview
-			var contentWebview = inittemplate.content;
-			contentWebview.loadURL(url);
-			mui.fire(headerWebview, 'updateHeader', {
-				title: '提现常见问题',
-				showMenu: false
-			});
-			mui.fire(headerWebview, 'loading');
-			headerWebview.show('slide-in-right', 200);
+				//console.log("55");
+				e.stopPropagation();
+				var url = this.getAttribute('data-href');
+				if(url == "") return;
+				//通知模板修改标题，并显示隐藏右上角图标；
+				inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(url);
+				mui.fire(headerWebview, 'updateHeader', {
+					title: '提现常见问题',
+					showMenu: false
+				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 200);
 			});	
 			
 		})

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<title>聚车金融</title>
+	<link rel="stylesheet" href="../css/mui.min.css">
+    <link href="../css/css.css" rel="stylesheet" type="text/css" />   
+    <link rel="stylesheet" type="text/css" href="../css/iphone.css"/>
+    <style>
+    	.hkjl-list { padding: 0 10px; ;}
+    	.mui-table h4{
+		        line-height: 25px;
+		        font-weight: 500;
+		}
+		.mui-table-view-cell:after {left: 0px;}
+		.mui-scroll-wrapper{
+			top:0px;
+		}
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket{
+			top:0px;
+		}
+		.mui-table-view-cell:after{
+			content: "";
+			position: absolute;
+			height: 1px;
+			transform: scaleY(0.5);
+			-webkit-transform: scaleY(0.5);
+			bottom: 0;
+			width: 94%;
+			left: 3%;
+		}
+		.mui-bar-nav.mui-bar .mui-icon{
+			color: #999;
+		}
+    </style>
+</head>
+<body>
+<div class="mui-content">
+	<!--下拉刷新容器-->
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<ul id="zjjl-list" class="mui-table-view mui-table-view-striped mui-table-view-condensed hkjl-cent">
+				
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script id="tpl-item" type="text/html">
+	{{each list as item i}}
+   		<li class="mui-table-view-cell">
+			<div class="mui-table">
+			    <div class="mui-table-cell mui-col-xs-6">
+			        <h4>+{{item.money}}</h4>
+			        <h5 style="line-height: 25px;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
+			    </div>
+				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
+					{{if item.status==2}}
+					<h4 style="font-size: 16px;">充值失败</h4>
+				    {{/if}}
+				    {{if item.status==0}}
+				    	<h4 style="font-size: 16px;">审核中</h4>
+				    {{/if}}
+				    {{if item.status==1}}
+						{{if item.payment==99}}
+						<h4 style="font-size: 16px;">连连支付</h4>
+						{{else if item.payment_name==null}}
+						<h4 style="font-size: 16px;">手动支付</h4>
+						{{else}}
+				        <h4 style="font-size: 16px;">{{item.payment_name}}</h4>
+				        {{/if}}
+				    {{/if}}
+			        {{if bank_name=="无"}}
+			        <h5 style="line-height: 25px;">未绑定银行卡</h5> 
+			        {{else}}
+			        <h5 style="line-height: 25px;">{{bank_name}}({{account}})</h5> 
+			        {{/if}}
+			    </div>
+			</div>
+		</li>
+	{{/each}}
+</script>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/template.js"></script>
+		<script src="../js/template.function.js"></script>
+		<script src="../js/api.js"></script>
+
+    <script type="text/javascript" charset="utf-8">
+    	
+    	var curr_page = 0;
+			mui.init({
+				beforeback: function(){
+				//获得a界面的webview
+				//var thisIndex= plus.webview.getWebviewById('user.html');
+				var thisIndex=plus.webview.currentWebview().opener()
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+				mui.fire(thisIndex,'refresh');
+				//返回true，继续页面关闭逻辑
+				return true;
+			},
+				
+				gestureConfig: {
+					longtap: true
+				},
+				swipeBack:true ,//启用右滑关闭功能
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						/*contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',*/
+						callback: pullupRefresh
+					}
+				}
+			});			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					curr_page = 1;
+					getdata(curr_page);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 1500);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					curr_page = curr_page + 1;
+					getdata(curr_page);
+				}, 1500);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+      	
+			mui.plusReady(function(){
+//				getdata(1);
+			});
+//			
+			function getdata(page){
+				
+				request = {'user_id':user.uid()};
+				request.page = page;
+				account.GetRechargeList({'request':request},function(res){//$data和回调函数
+					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res.list));
+					account.GetUsersBankOne({'request':request},function(bank_res){
+			      	console.log(JSON.stringify(bank_res));
+			      	if(bank_res.bank_name!=null){
+			      		res.list.bank_name=bank_res.bank_name;
+			      		var strLen=bank_res.account.length-4	
+					    res.list.account=bank_res.account.substring(strLen);
+			      	}else{
+			      		res.list.bank_name="无";
+			      		res.list.account="无";
+			      	}
+
+					var html = template('tpl-item',res.list);
+					var ul = document.querySelector('#zjjl-list');
+					var upflag = res.list.page >= res.list.total_page ? true : false;
+					if(page > 1){
+					ul.innerHTML = ul.innerHTML + html;
+					}else{
+						ul.innerHTML =html;
+					}
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+					if(res.list.total == 0){
+						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
+					'<i class="notes-moblie"></i>'+
+					'<p class="no-records-size">暂无记录</p>'+
+					'</div>';
+						
+						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					}
+					})
+				});
+		      	
+			}
+    </script>
+                       
+</body>
+</html>

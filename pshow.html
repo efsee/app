@@ -32,7 +32,141 @@ a.ljtz-btn { color: #fff;}
 .biao_xxnr_shtb li { float: left; width: 25%; text-align: center; padding: 5px 0;}
 .biao_xxn_xmms_ms { padding: 10px 0px; min-height: 30px; }
 .ljtz-btn-ccc{ background: #999; }
-#ACWY{position: absolute;  right: 0px;top:60px;display: block;  width: 70px; height: 40px; }
+#ACWY{position: absolute;  right: 0px;display: block;  width: 70px; height: 40px; }
+#nhsyP{
+	color: #333;
+	font-size: 14px;
+}
+p.price{
+	font-size: 60px!important;
+}
+p.price span.small{
+	font-size: 30px!important;
+}
+.xmTextBox{
+	margin-top: 5px;
+}
+.xmTextBox li{
+	width:33.3%;
+	float: left;
+}
+.xmTextBox > li:nth-child(1){
+	width:25%;
+}
+.xmTextBox > li:nth-child(2){
+	width:47%;
+}
+.xmTextBox > li:nth-child(3){
+	width:28%;
+}
+.xmTextBox > li:nth-child(3) p:last-child{
+	
+
+}
+.xmTextBox li p{
+	line-height: 25px;
+	color: #333;
+}
+.xmTextBox li p:first-child{
+	color: #e4393c;
+	font-size: 16px;
+	margin-top:20px;
+}
+.qtlistBox {
+	margin-top: 10px;
+	background-color: #fff;
+}
+.qtlistBox li{
+	color: #666;
+	font-size: 16px;
+	padding-top:0;
+	padding-left: 18px;
+	height:50px!important;
+	line-height: 50px;
+}
+.qtlistBox li:first-child:after{
+	width:90%;
+	left:5%;
+}
+.qtlistBox li span{
+	margin-left: 20px;
+}
+.qtlistBox li a{
+	margin-top:0!important;
+	margin-left:-18px!important;
+	padding:0;
+	line-height: 50px!important;
+}
+.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+	font-size: 24px;
+	margin-top:-5px;
+}
+.zhan{
+	background: url(images/my_icon.png) no-repeat 0 -134px;
+	background-size:250px 250px;
+	color:#C8C8C8;
+	font-size:10px;
+	text-indent:1.5em;
+	width:165px;
+	margin: 15px auto;
+	height: 19px; 
+	overflow: hidden; 
+	
+}
+#tzbg{
+	background: url(images/tzBg.png) no-repeat bottom center;
+	background-size: 100%;
+	background-color: #fff;
+}
+.jianguanUl{
+	background-color:#fcfcfc ;
+}
+.jianguanUl li{
+	color: #999;
+	height: 40px;
+	line-height: 40px;
+	position: relative;
+	float: left;
+	width: 33.33%;
+	text-align:left;
+}
+.jianguanUl li i{
+	margin :9px 4px 11px 12px;
+	float: left;
+	display: block;
+	height:20px;
+	width: 20px;
+	
+}
+.jianguanUl li:nth-child(1) i{
+	
+	background: url(images/tbIcon.png) no-repeat 2px 0px;
+	background-size: 18px;
+}
+.jianguanUl li:nth-child(2) i{
+	background: url(images/tbIcon.png) no-repeat 2px -20px;
+	background-size: 18px;
+}
+.jianguanUl li:nth-child(3) i{
+	background: url(images/tbIcon.png) no-repeat 2px -40px;
+	background-size: 18px;
+}
+.jianguanUl li:after{
+	content: "";
+	position: absolute;
+	height: 40%;
+	width: 1px;
+	transform: scaleX(.5);
+	-webkit-transform: scaleX(.5);
+	background-color: #D4D3D3;
+	top:30%;
+	right: 0;
+}
+.aqpj img{
+	width:18px;
+	height:18px;
+	margin-bottom:-3px;
+}
 </style>
 
 </head>
@@ -54,6 +188,7 @@ a.ljtz-btn { color: #fff;}
 
 <header class="mui-bar mui-bar-nav header">
 	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<a class="mui-pull-right" style="padding-top: 10px;" class="ancun tap" id="ACWY" data='无忧存证'><img src="images/ACWY.png" align="center" style="width:32px ; height: auto;"></a>
 	<!--<a class="mui-pull-right" style="padding-top: 10px;" id="share"><i class="icon ico-share"></i></a>-->
 	<h1 class="mui-title name" id="title">产品详情</h1>
 </header>
@@ -62,133 +197,71 @@ a.ljtz-btn { color: #fff;}
 	<div class="mui-loader" id="mui-loader">
 		<span class="mui-spinner"></span> <span id="loading-text" class="mui-hidden">请耐心等候</span>
 	</div>
-<div class="" id="bodybox" style="display: none; min-height: 100%;  padding-bottom: 48px;">
-<div class="clear"></div>
-
-</div>
+	<div class="" id="bodybox" style="display: none; min-height: 100%;  padding-bottom: 48px;">
+		<div class="clear"></div>
+	</div>	
 </div>
 
 
 <script id="tpl" type="text/html">
-<div class="pshow-info clearfix">
-<p class="name">年化收益</p>
-{{if borrow.recordNo}}
-    <a href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo={{borrow.recordNo}}" data-href2="{{borrow.ancun_url_full}}" class="ancun tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:40px ; height: 32px;"> </a>
-{{/if}}
-<p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
-<div class="info box-sizing" style="padding-right: 5px;border:none">项目期限 <span class="black">{{borrow.borrow_period | month2day}}天</span></div>
-<!--<div class="info last box-sizing" style="padding-left: 5px;">
-{{if borrow.borrow_account_scale == '100' && borrow.reverify_time > 0}}
-    满标时间 <span class="black">{{if borrow.reverify_time > 0}}{{borrow.reverify_time | dateFormat:'yyyy-MM-dd'}}{{/if}}</span>
-{{else}}
-上线时间 <span class="timeInterval" data-time="{{borrow.addtime}}"></span>
-	<span class="black">募资中</span>
-{{/if}}
-</div>-->
-<div class="progress-bar"><div style="width:{{borrow.borrow_account_scale}}%;"></div></div>
-<div class="counts">借款金额<font class="c5">{{borrow.account}}元</font> <span class="fr">可投金额<font class="c5">{{borrow.borrow_account_wait}}元</font></span></div>
+<div class="pshow-info clearfix" id="tzbg">
+	<p class="name" id="nhsyP">预期年化收益</p>
+	<p class="price c5">{{borrow.borrow_apr}}<span class="small">%</span></p>
+	<ul class='xmTextBox'>
+		<li>
+			<p><span style="font-weight: bold;font-size: 18px;">{{borrow.borrow_period | month2day}}</span>天</p>
+			<p>项目期限</p>
+		</li>
+		<li>
+			<p>满标后计息</p>
+			<p>计息方式</p>
+		</li>
+		<li>
+			<a id="tzjl" class="area clearfix" data='{"borrow_nid":"{{borrow.borrow_nid}}"}'>
+				<p style="font-weight: bold;font-size: 18px;">{{BtenderDetail.num}}</p>
+				<p style="text-align: left;">投资记录<i style='float: right;margin-top:5px; width:16px;height:16px;background-position:-94px -51px;-webkit-background-size:280px 280px;' class="ico-arrow icon"></i></p>
+			<a>
+		</li>
+		<div style="clear: both;">
+			
+		</div>
+	</ul>
+	<div class="progress-bar"><div style="width:{{borrow.borrow_account_scale}}%;"></div></div>
+	<div class="counts" style="color:#333">项目金额<font class="">{{borrow.account | toThousandsint}}元</font> <span class="fr">可投金额<font class="c5">{{borrow.borrow_account_wait | toThousandsint}}</font>元</span></div>
 </div>
-<ul class="pshow-ad">
-<li><i class="ico1 icon"></i><span>聚车推荐</span></li>
-<li><i class="ico2 icon"></i><span>安全保障</span></li>
-<li><i class="ico3 icon"></i><span>快速成交</span></li>
-<li><i class="ico4 icon"></i><span>超高收益</span></li>
+<ul class='jianguanUl'>
+	<li><i></i>律所监管</li>
+	<li><i></i>超高收益</li>
+	<li><i></i>极度透明</li>
+	<div style="clear: both;">		
+	</div>
 </ul>
 
-<ul class="list-tab clearfix">
-<li class="clearfix">
-<a href="javascript:;" id="tzjl" class="area clearfix" data='{"borrow_nid":"{{borrow.borrow_nid}}"}'>
-<p class="name">投资记录</p>
-<p class="dsp">已经有{{BtenderDetail.num}}笔投资，单笔最高投入<span class="c5">{{BtenderDetail.max_account_tender}}元</span></p>
-<i class="ico-arrow icon"></i>
-</a>
-</li>
+<ul class=" qtlistBox qtlistBox2 ">
+	<li class="mui-table-view-cell" style="display: none">
+		<a class="mui-navigate-right">
+		</a>
+	</li>
+	<li class="mui-table-view-cell aqpj2" style="height: 50px;">
+		<a class="mui-navigate-right aqpj" href="safe_level.html" data='安全评级'>
+			安全评级
+			<span style="float:right;margin-right: 30px;"><img src="images/red_star.png"/><img src="images/red_star.png"/><img src="images/red_star.png"/><img src="images/red_star.png"/></span>
+		</a>
+	</li>
+	<li class="mui-table-view-cell">
+		<a class="mui-navigate-right xmjs" href="tende_details.html" data='项目介绍'>
+			项目介绍
+		</a>
+	</li>
+	<li class="mui-table-view-cell yhxe">
+		<a class="mui-navigate-right" id='turnBank' href="bank-limit.html" data='银行限额'>
+			支持银行及限额
+		</a>
+	</li>
 </ul>
-
-<div class="box clearfix">
-<ul class="pshow-bar" id="pshow-bar">
-<li class="active"><a href="javascript:void(0);" class="tab">项目详情</a></li>
-<li><a href="javascript:void(0);" class="tab">项目图片</a></li>
-</ul>
-<div class="text-box c3 pshow-tab">
-
-    <div class="biao_xxn_xmms_shzl">
-      <div class="biao_xxn_xmms_b1">资料审核</div>
-      <div><ul class="biao_xxnr_shtb">    	
-      {{each borrow.maincode as $vacode i}}
-      		{{if $vacode == 0}}
-             <li>
-               <img src="images/rzlogo1.png" />
-               <p>身份证</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 1}}
-             <li>
-               <img src="images/rzlogo2.png" />
-               <p>户口本</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 2}}
-             <li>
-               <img src="images/rzlogo3.png" />
-               <p>行驶证</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 3}}
-             <li>
-               <img src="images/rzlogo4.png" />
-               <p>驾驶证</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 4}}
-             <li>
-               <img src="images/rzlogo5.png" />
-               <p>购车发票</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 5}}
-             <li>
-               <img src="images/rzlogo6.png" />
-               <p>抵押手续</p>
-             </li>
-             {{/if}}
-             {{if $vacode == 6}}
-             <li class="biao_xxnr_jhz">
-               <img src="images/rzlogo7.png" />
-               <p>结婚证</p>
-             </li>
-             {{/if}}
-             {{/each}}
-           </ul></div>
-    </div>
-    <div>
-      <div class="biao_xxn_xmms_b1">项目描述</div>
-      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.borrow_contents}}</p></div></div>
-    </div>
-    <div>
-      <div class="biao_xxn_xmms_b1">基本信息</div>
-      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.userinfo}}</p></div></div>
-    </div>
-    <div>
-      <div class="biao_xxn_xmms_b1">还款来源</div>
-      <div><div class="biao_xxn_xmms_ms"><p>{{#borrow.fengxian}}</p></div></div>
-    </div>
-    <div>
-    </div>
-
-</div>
-<div class="text-box c3 pshow-tab" style="display:none;">
-{{each borrow.pics as pic i}}
-    <a rel="example_group" href="{{pic.fileurl}}"><img alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
-{{/each}}
-</div>
-
-
-</div>
-
+<div class="zhan">&nbsp;&nbsp;账户资金享有银行级别安全保障</div>
 <div class="clear"></div>
-
-<nav class="bot-bar">
+<nav class="bot-bar" style="opacity: 0.95;">
 	{{if borrow.borrow_account_scale == '100'}}
 		{{if BtenderDetail.has_repay < 1}}
 		<a href="javascript:;" class="ljtz-btn ljtz-btn-ccc" >还款中</a>
@@ -212,166 +285,177 @@ a.ljtz-btn { color: #fff;}
 <script src="js/template.function.js"></script>
 
 <script>
+
+	mui.init({
+
+	})
 	mui.plusReady(function(){
 
-		//ljzt.html传入的重载
+		//下级页面返回传入传入的重载
 		window.addEventListener('refresh',function(){	
-		//plus.webview.getWebviewById('pshow.html').reload(true);
-		plus.webview.currentWebview().reload(true);
+			window.scrollTo(0,0);	
+			getdata(wddata);
 		});
-		
-		setInterval(function(){
-			showtime('.pshow-info .timeInterval');
-		},1000);
-
-		mui('#blayer').on('tap','.cancel',function(){
-			$("#blayer").removeClass('active');
-			$('#layer-bg').removeClass('active');
-		})
-		
 		mui('body').on('tap','#tzjl',function(e){
 				var data = this.getAttribute('data');
 				console.log(data);
 				edata = JSON.parse(data);
 //				data = eval("(" + data + ")");
 					var detailWV = plus.webview.create('tzjl.html','tzjl-borrow');
+					detailWV.setStyle({ 'popGesture': 'close' })
 					detailWV.addEventListener('loaded',function(){
 						mui.fire(detailWV,"mui.view.show",edata);
 					})
 					
 					setTimeout(function(){
-						detailWV.show('slide-in-right');
+						detailWV.show('slide-in-right',150);
 					},300);
 		})
-		mui('body').on('tap','.ancun',function(e){
-				e.stopPropagation();
-				if(plus.os.name=='iOS'){
-					var href = this.getAttribute('href');
-					//通知模板修改标题，并显示隐藏右上角图标；
-					inittemplate = getTemplate('template', 'template.html');
-						//获得共用父模板
-					var headerWebview = inittemplate.header;
-						//获得共用子webview
-					var contentWebview = inittemplate.content;
-					contentWebview.loadURL(href);
-					mui.fire(headerWebview, 'updateHeader', {
-						title: '无忧存证',
-						showMenu: false
-					});
-					
-					mui.fire(headerWebview, 'loading');
-					headerWebview.show('slide-in-right', 150);
-				}
-				else{
-					var href = this.getAttribute('data-href2');
-					//console.log(href)
-					plus.runtime.openURL(href);plus.runtime.openURL(href);
-				}
-				
-		})		
-		mui('body').on('tap','#ljtz-btn',function(){
-//			plus.webview.currentWebview().reload(true)
-			//console.log("99"+JSON.stringify(wddata))
-			//getdata(wddata);
+		
+		mui("body").on('tap','#ACWY',function(e){
+			e.stopPropagation();
+			if(plus.os.name=='iOS'){
+				changeThat=this;
+				templateOpen()
+			}
+			else{
+				var href = this.getAttribute('data-href2');
+				plus.runtime.openURL(href);plus.runtime.openURL(href);
+			}	
+		})
+		mui("body").on('tap','#turnBank',function(e){
+			e.stopPropagation();
+			changeThat=this;
+			templateOpen()	
+		})
+		mui('body').on('tap','#ljtz-btn',function(e){
+			e.stopPropagation();
 			turnLjtz()
-			
-			
-//			return false;
-			
-			/*uid = user.uid();
-			if(!uid){
-				login();
-				return;
-			}
-			scale = parseFloat(this.getAttribute('data-scale'));
-			if(scale >= 100){
-				alert("此标的投资已满！");
-				return;
-			}
-				var that = this;
-				var data = this.getAttribute('data');
-				data = eval("(" + data + ")");
-				var detailWV = plus.webview.getWebviewById('ljtz.html');
-				if(detailWV == null){
-					detailWV = plus.webview.create('ljtz.html','ljtz.html');
-				}
-//				console.log(JSON.stringify(data));
-					detailWV.addEventListener( "loaded", function(){
-						mui.fire(detailWV,"mui.view.show",data);
-					}, false );	
-//					mui.fire(detailWV,"mui.view.show",data);
-					setTimeout(function(){
-						detailWV.show('slide-in-right');
-					},150);*/
+		})
+		mui('body').on('tap','.xmjs',function(e){
+			e.stopPropagation();
+			turnTendeDet()
+		})
+		mui('body').on('tap','.aqpj2',function(e){
+			e.stopPropagation();
+			turnSafeLevel()
 		})
 	});
+	
 
+	/*******投标成功后返回页面的data数据*********/
+	document.addEventListener("mui.view.show",function(e){
+		console.log(JSON.stringify(e.detail));
+		window.scrollTo(0,0);
+		var data = e.detail;
+		wddata=data;
+		getdata(data);
+	},false);
+	
+	//该页面loaded完后执行事件
+	document.addEventListener("productId",function(e){
+		console.log(JSON.stringify(e.detail));
+		window.scrollTo(0,0);
+		var data = e.detail;
+		wddata=data;
+		getdata(data);	
+	},false);
+	
+	//方法
+	function templateOpen(){
+		var href = changeThat.getAttribute('href');
+		var data = changeThat.getAttribute('data')
+		//通知模板修改标题，并显示隐藏右上角图标；
+		inittemplate = getTemplate('template', 'template.html');
+			//获得共用父模板
+		var headerWebview = inittemplate.header;
+			//获得共用子webview
+		var contentWebview = inittemplate.content;
+		contentWebview.loadURL(href);
+		mui.fire(headerWebview, 'updateHeader', {
+			title: data,
+			showMenu: false
+		});
+		mui.fire(headerWebview, 'loading');
+		headerWebview.show('slide-in-right', 150);
+	}
+	
 	function turnLjtz(){
 		var this2=document.getElementById("ljtz-btn")
-			uid = user.uid();
-			if(!uid){
-				login();
-				return;
-			}
-			scale = parseFloat(this2.getAttribute('data-scale'));
-			if(scale >= 100){
-				alert("此标的投资已满！");
-				return;
-			}
-				var that = this2;
-				var data = this2.getAttribute('data');
-				data = eval("(" + data + ")");
-				var detailWV = plus.webview.getWebviewById('ljtz.html');
-				if(detailWV == null){
-					detailWV = plus.webview.create('ljtz.html','ljtz.html');
-				}
-				
-				
-//				console.log(JSON.stringify(data));
-					detailWV.addEventListener( "loaded", function(){
-						mui.fire(detailWV,"ljtzId",wddata);
-						mui.fire(detailWV,"mui.view.show",data);
-					}, false );	
-//					mui.fire(detailWV,"mui.view.show",data);
-					setTimeout(function(){
-						detailWV.show('slide-in-right');
-					},150);
+		uid = user.uid();
+		if(!uid){
+			login();
+			return;
 		}
-	/*******投标成功后返回页面的data数据*********/
-		document.addEventListener("mui.view.show",function(e){
-			console.log(JSON.stringify(e.detail));
-			window.scrollTo(0,0);
-			var data = e.detail;
-			wddata=data;
-			getdata(data);
-		},false);
+		scale = parseFloat(this2.getAttribute('data-scale'));
+		if(scale >= 100){
+			alert("此标的投资已满！");
+			return;
+		}
+		var detailWV = plus.webview.getWebviewById('ljtz.html');
+		plus.nativeUI.showWaiting();
+		if(detailWV == null){
+			detailWV = plus.webview.create('ljtz.html','ljtz.html');
+			detailWV.setStyle({ 'popGesture': 'close' })
+		}
+		setTimeout(function(){
+			detailWV.show('slide-in-right',150);
+		},150);
+		detailWV.addEventListener( "loaded", function(){
+			//mui.fire(detailWV,"ljtzId",wddata);
+			plus.nativeUI.closeWaiting()
+//			detailWV.show('slide-in-right',150);
+			mui.fire(detailWV,"mui.view.show",wddata);
+		}, false );	
 		
-		//该页面loaded完后执行事件
-		document.addEventListener("productId",function(e){
-			console.log(JSON.stringify(e.detail));
-			window.scrollTo(0,0);
-			var data = e.detail;
-			wddata=data;
-			
-			getdata(data);
-			
-		},false);
-		
-		
+	}
+	
+	function turnTendeDet(){
+		var detailWV = plus.webview.getWebviewById('tende_details.html');
+		if(detailWV == null){
+			detailWV = plus.webview.create('tende_details.html','tende_details.html');
+			detailWV.setStyle({ 'popGesture': 'close' })
+		}	
+		detailWV.addEventListener( "loaded", function(){
+			mui.fire(detailWV,"mui.view.show",wddata);
+		}, false );	
+		setTimeout(function(){
+			detailWV.show('slide-in-right',150);
+		},150);
+	}
+	
+	function turnSafeLevel(){
+		var detailWV = plus.webview.getWebviewById('safe_level.html');
+		if(detailWV == null){
+			detailWV = plus.webview.create('safe_level.html','safe_level.html');
+			detailWV.setStyle({ 'popGesture': 'close' })
+		}	
+		detailWV.addEventListener( "loaded", function(){
+			mui.fire(detailWV,"mui.view.show",wddata);
+		}, false );	
+		setTimeout(function(){
+			detailWV.show('slide-in-right',150);
+		},150);
+	}
+	
 	function getdata(data){
 		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
-		product.detail({"request":request},function(res){
-			
+		product.detail({"request":request},function(res){	
 			console.log(JSON.stringify(res));
 			if(res){
-			res.is_login = user.uid();
-			res.nowtime = new Date().getTime() / 1000;
-			var html = template('tpl',res);
-			$('#bodybox').html(html);
-			$('#title').html(res.borrow.name);
-			$('#mui-loader').hide();
-			$('#bodybox').show();
+				res.is_login = user.uid();
+				res.nowtime = new Date().getTime() / 1000;
+				var html = template('tpl',res);
+				$('#bodybox').html(html);
+				$('#title').html(res.borrow.name);
+				if(res.borrow.recordNo){
+					$('#ACWY').attr({href:"https://www.51cunzheng.com/webjsapi/downLoad?recordNo="+res.borrow.recordNo,'data-href2':res.borrow.ancun_url_full})
+				}
+				
+				$('#mui-loader').hide();
+				$('#bodybox').show();
+				
 			}else{
 				
 			}
@@ -379,57 +463,17 @@ a.ljtz-btn { color: #fff;}
 			var self = plus.webview.currentWebview();
 		})
 		
-	}
-		
-		var old_back = mui.back;
-		mui.back = function(){
-			
-			plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
-//			plus.webview.currentWebview().opener().reload(true);
-			var proSubSx=plus.webview.getWebviewById("product_sub.html")
-			mui.fire(proSubSx,"initpage")
-			old_back();
-			$('#bodybox').html("").hide();
-			$('#mui-loader').show();
-//			mui.back = old_back;
-		}
-		
-$(function(){
+	}	
 	
-	$("body").on("click","#pshow-bar li",function(){
-			var idx=$(this).index();
-			$(".pshow-tab").hide();
-			$(".pshow-tab").eq(idx).show();
-			$("#pshow-bar li").removeClass("active");
-			$(this).addClass("active");
-	});
-});
-
-</script>
-
-<script type="text/javascript">
-
-	function showtime(selector){
-		mui.each(document.querySelectorAll(selector), function(index, element) {
-					var nowTime = new Date().getTime();
-					//var s_time = new Date(element.getAttribute('data-time') * 1000).getTime();
-					var s_time = element.getAttribute('data-time') * 1000;
-					var time_stamp = s_time - nowTime;
-			
-					var m = Math.floor(Math.abs(time_stamp / 1000 / 60));
-					var d = Math.floor(Math.abs(time_stamp / 1000 / 3600 / 24));
-					var h = Math.floor(Math.abs(time_stamp / 1000 / 3600));
-					//var s = Math.floor(Math.abs(time_stamp/1000));
-					
-					if (h>=24)
-						element.innerHTML = d+'天'+h%24+'小时'+m%60+'分钟'
-					else if(m>=60)
-						element.innerHTML = h % 24+'小时'+m%60+'分钟'
-					else 
-						element.innerHTML = (m % 60) +'分钟';
-					//else
-	//					element.innerHTML = s%60+'秒'
-		});
+	//返回前重载上级页面
+	var old_back = mui.back;
+	mui.back = function(){	
+		plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+		var proSubSx=plus.webview.getWebviewById("product_sub.html")
+		mui.fire(proSubSx,"initpage")
+		old_back();
+		$('#bodybox').html("").hide();
+		$('#mui-loader').show();
 	}
 </script>
 </body>

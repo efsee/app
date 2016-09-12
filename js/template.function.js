@@ -6,8 +6,7 @@ template.helper('month2day', function (data) {
 });
 
 template.helper('toThousandsint', function (data) {
-	data = parseInt(data);
-	
+	data = parseInt(data);	
 	var result = [ ], counter = 0;
 	    data = (data || 0).toString().split('');
 	    for (var i = data.length - 1; i >= 0; i--) {
@@ -53,7 +52,6 @@ template.helper('toFixed', function (data,num) {
 	res =  data.toFixed(num);
 	return res;
 });
-
 
 // * 对日期进行格式化， 
 // * @param date 要格式化的日期 

@@ -345,10 +345,11 @@
 																closelayer()
 															}
 															else{
+																//根据status状态判断密码是否错误
 																$(".iphone-czjl").css("position","absolute")
-																console.log(res.msg)
+																mui.toast(res.msg)
 																closelayer()
-																mui.toast("交易密码错误");	//need to do
+																//mui.toast("交易密码错误");	//need to do
 															}
 														}
 													})

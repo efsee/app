@@ -70,17 +70,17 @@ header .mui-title { color: #333; }
 	{{each list as item i}}
     <li class="mui-table-view-cell">
         <div class="mui-table">
-            <div class="mui-table-cell mui-col-xs-9">
+            <div class="mui-table-cell mui-col-xs-8">
                 <h4 class="mui-ellipsis">{{item.username}}</h4>
-                <h5>{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
+                <h5 style="padding-left: 2px;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
                 <p class="mui-h6">                	
 				{{if item.borrow_type == 6}}聚车贷{{/if}}
 				{{if item.borrow_type == 7}}新车汇{{/if}}
                 </p>
             </div>
-            <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+            <div class="mui-table-cell mui-col-xs-4 mui-text-right">
                 <span class="mui-h5">
-                	<font color="#FF0000">￥{{item.account | toFixed}}</font>
+                	<font style="font-size: 18px;" color="#FF0000">￥{{item.account | toFixed}}</font>
                 </span>
             </div>
         </div>
@@ -107,11 +107,11 @@ header .mui-title { color: #333; }
 
 	});
 		document.addEventListener('mui.view.show',function(e){
-//			console.log(JSON.stringify(e.detail));
+			console.log(JSON.stringify(e.detail));
 			var borrow_nid = e.detail.borrow_nid;
 			request = {'borrow_nid':borrow_nid,'limit':'all'};
 			borrow.GetTenderList({"request":request},function(res){
-//			console.log(JSON.stringify(res));
+			console.log(JSON.stringify(res));
 				var html = template('tpl-item',{'list' : res});
 				document.getElementById("tzjl_list").innerHTML = html;
 			});

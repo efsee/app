@@ -20,16 +20,12 @@
  			  float: left; 
  			  display: block; 
  			  text-align: center; 
- 			  padding:20px 0px;
- 			 
- 			  
+ 			  padding:20px 0px;  
  			  }
  
 .find-top > li:before {
     height: 0px;
-
-}			  
-		  
+}			  		  
  </style>
 </head>
 
@@ -109,7 +105,7 @@
 		   			<a href="#">
 		   			   <span class="icon_bbh"></span>
 		   				当前版本
-		   				<span class="bbh-style">版本号 : 1.5.2</span>
+		   				<span class="bbh-style">版本号 : 1.7.0</span>
 		   			</a>
 		   		</li>
 		   		
@@ -174,6 +170,7 @@ mui.plusReady(function(){
 		document.getElementById("bbh").addEventListener('tap', function() {
 			
 				var appinfo={};
+				//获得指定appid对应的应用信息
 				plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 					//appid属性
 					appinfo.appid = wgtinfo.appid;
@@ -185,7 +182,19 @@ mui.plusReady(function(){
 					var request = {};
 					
 					product.getversion({"request":request},function(res){
-						
+						console.log(JSON.stringify(res));
+						//console.log(appinfo.version);
+						/*var oldVersion=appinfo.version.split(".")
+						var newVersion=res.version.split(".")
+						for(var i=0;i<newVersion.length;i++){
+							if(oldVersion[i]==undefined){
+								var fresh=true
+							}
+							if(parseInt(oldVersion[i])<parseInt(newVersion[i])){
+								var fresh=true
+								break;
+							}
+						}*/
 						if(res){
 							if(appinfo.version<res.version){
 								var content='';
@@ -211,7 +220,13 @@ mui.plusReady(function(){
 									} else {
 									}
 								})
-							}	
+							}else{
+								var content='';
+								$.each(res.content, function(i, item) {
+									content+='\r\n'+item;
+								});
+								mui.alert(content,'1.7.0 版本更新','关闭')
+							}
 						}
 						
 					})

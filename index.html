@@ -10,6 +10,7 @@
 	    <script src="js/jquery-1.11.2.min.js"></script>
 	    <link href="css/mui.min.css" rel="stylesheet"/>
 	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <link href="css/integral.css" rel="stylesheet" type="text/css" />
 	    <script type="text/javascript" charset="utf-8">
 	      	mui.init({
 	         //statusBarBackground: '#ff1230',
@@ -52,8 +53,8 @@
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-hidden"></a>
-			<a class="mui-pull-right white" id="top-email"><span class="ico19 icon ico-notice1"><span class="badge mui-hidden"></span></span></a>
-			<a class="mui-pull-right white mui-hidden" id="top-contact"><span class="mui-icon"></span></a>
+			<a class="mui-pull-right white mui-hidden" id="top-email"><span class="ico19 icon ico-notice1"><span class="badge mui-hidden"></span></span></a>
+			<a class="mui-pull-right integral" id="top-contact" ><span class="icon integral-ico"></span>签到</a>
 			<!--<a class="mui-pull-right" style="padding-top: 10px;"><i class="ico-nav icon"></i></a>-->
 			<h1 class="mui-title name" id="title">聚车金融</h1>
 		</header>
@@ -107,7 +108,9 @@
 									} else {
 									}
 								})
-							}	
+							}else{
+								mui.alert(content,'1.7.0版本更新','关闭')
+							}
 						}
 						
 					})
@@ -186,15 +189,15 @@
 					document.getElementById("top-email").classList.add('mui-hidden');
 				}else if(url == 'user.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏user页头部账号信息
-					document.getElementById("top-email").classList.add('mui-hidden');
+					document.getElementById("top-email").classList.remove('mui-hidden');
 				}
 				else if(url == 'product.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏product页头部账号信息
 					document.getElementById("top-email").classList.add('mui-hidden');
 				}
 				else{
-					document.getElementById("top-contact").classList.add('mui-hidden');
-					document.getElementById("top-email").classList.remove('mui-hidden');
+					document.getElementById("top-contact").classList.remove('mui-hidden');
+					document.getElementById("top-email").classList.add('mui-hidden');
 				}
 			});
 			
@@ -228,8 +231,9 @@
 				var contentWebview = inittemplate.content;
 				contentWebview.loadURL(href);
 				mui.fire(headerWebview, 'updateHeader', {
-					title: '账号信息',
-					showMenu: false
+					title: '每日签到',
+					showMenu: false,
+					right_btn:'签到记录'
 				});
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 100);
@@ -248,7 +252,8 @@
 						autoShow: false
 					}
 				});
-					
+				var sub = plus.webview.getWebviewById('notice.html');
+				mui.fire(sub,'initpage');		
 			})
 			
 			setTimeout(function(){

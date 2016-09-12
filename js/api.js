@@ -569,6 +569,17 @@ var articles = {
 	}	
 }
 
+var credit = {
+	"GetSign" : function($data, callback){
+		var url = apiurl + '?module=credit&action=Sign';
+		ajax.post(url, $data, callback);
+	},
+	"GetList" : function($data, callback){
+		var url = apiurl + '?module=credit&action=GetList';
+		ajax.post(url, $data, callback);
+	}
+}
+
 
 var system = {
 	'get': function(name) {

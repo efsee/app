@@ -110,6 +110,21 @@
 	    		font-size: 16px;
 	    		color: #F95452;
 	    	}
+	    	.chartContant{
+	    		background-color: #fff;
+	    		margin:0 auto;
+	    		width:83%;
+	    		height:300px;
+	    	}
+	    	#chart_one{
+	    		margin:0 auto;
+	    		width:105%;
+	    		height:300px
+	    	}
+	    	#chart_two{
+	    		width:100%;
+	    		height:300px
+	    	}
 	    </style>
 	</head>
 	<body>
@@ -120,36 +135,47 @@
 					<ul>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_1">投资总额</p>
-							<p class="dataNumber"><span>265,874,000</span>&nbsp;<a>元</a></p>
+							<p class="dataNumber"><span id="all_tou"></span>&nbsp;<a>元</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_2">赚取收益</p>
-							<p class="dataNumber"><span>195,000</span>&nbsp;<a>元</a></p>
+							<p class="dataNumber"><span id="all_shouyi"></span>&nbsp;<a>元</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_3">注册用户</p>
-							<p class="dataNumber"><span>9,956</span>&nbsp;<a>人</a></p>
+							<p class="dataNumber"><span id="userNumber"></span>&nbsp;<a>人</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_4">成交笔数</p>
-							<p class="dataNumber"><span>3,695,870</span>&nbsp;<a>笔</a></p>
+							<p class="dataNumber"><span id="borTenNumber"></span>&nbsp;<a>笔</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_5">项目总数</p>
-							<p class="dataNumber"><span>69,581</span>&nbsp;<a>个</a></p>
+							<p class="dataNumber"><span id="borrowNumber"></span>&nbsp;<a>个</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_6">昨日成交</p>
-							<p class="dataNumber"><span>596,333</span>&nbsp;<a>元</a></p>
+							<p class="dataNumber"><span id="borYesNum"></span>&nbsp;<a>元</a></p>
 						</li>
 					</ul>
 				</div>
 			</div>
 			<div class="dataList">
 				<div class="topTitle tzqs"></div>
+				<div class="chartContant">
+					<div id="chart_one">
+						
+					</div>
+				</div>
+					
 			</div>
 			<div class="dataList">
 				<div class="topTitle dyfb"></div>
+				<div class="chartContant" style="height:280px">
+					<div id="chart_two">
+						
+					</div>
+				</div>
 			</div>
 			<div class="dataList">
 				<div class="topTitle hzl"></div>
@@ -161,13 +187,183 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/api.js"></script>
+		<script type="text/javascript" src="js/echarts.min.js" ></script>
+		<!--<script type="text/javascript" src="js/dataPublic.js" ></script>-->
 		<script>
 			mui.init()
 			
 			mui.plusReady(function(){
+				//数据总览
+				var dataArray=[];
+				var monthArray=[];
+				var request={}
+				product.gettotal({'request':request},function(res){
+					document.getElementById('all_tou').innerHTML=res.all_tou;
+					document.getElementById('all_shouyi').innerHTML=res.new_2015_shouyi;
+					document.getElementById('userNumber').innerHTML=res.all_users_num;
+					document.getElementById('borTenNumber').innerHTML=res.borrow_tender_num;
+					document.getElementById('borrowNumber').innerHTML=res.borrow_num;
+					document.getElementById('borYesNum').innerHTML=res.borrow_Yesterday_num;
+					console.log(JSON.stringify(res));
+					var month_total=res.month_total;
+					for(var j=0;j<6;j++){
+						//console.log(month_total[j].month);
+						monthArray.unshift(month_total[j].month+'月')
+						dataArray.unshift(month_total[j].num)
+						//console.log(month_total[j].num);
+					}
+					if(dataArray.length!=0){
+						//柱状图
+						var myChart_one = echarts.init(document.getElementById('chart_one'));
+						// 指定图表的配置项和数据
+						var option = {
+							color: ['#3A75D6'],
+							title: {
+								text: '近6个月投资走势图（万元）',
+								x:"center",
+								top:10,
+								textStyle:{
+									fontSize:'14',
+									fontWeight:'200'
+									
+								}
+							},
+							grid:{
+								top:70,
+								left:50
+							},
+							xAxis: {
+								data: monthArray,
+								axisLine:{
+									lineStyle:{
+										color:'#EFEFEF'
+									}
+									
+								},
+								axisLabel:{
+									textStyle:{
+										color:'#333'
+									}
+								},
+								axisTick:{
+									show:false,
+								},
+							},
+							yAxis: {
+								axisLine:{
+									lineStyle:{
+										width:0
+									}
+									
+								},
+								axisTick:{
+									show:false,
+								},
+								lineStyle:{
+										color:'#fff'
+									}
+							},
+							series: [{
+								name: '交易金额',
+								type: 'bar',
+								barWidth: '40%',
+								label: {
+					                normal: {
+					                    show: true,
+					                    position:'top',
+										textStyle:{
+											color:'#333',
+											fontSize:8
+										}
+					                },
+					            },
+								data: dataArray
+							}]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						myChart_one.setOption(option);
+					}else{
+						return false;
+					}
+					console.log(JSON.stringify(month_total));
+					console.log(monthArray);	
+				})
+			})
+			//饼形图
+			var myChart_two = echarts.init(document.getElementById('chart_two'));
+			var option2 = {
+				color: ['#FF6600','#3A75D6','#1EC2D7','#F95452'],
+				tooltip : {
+					trigger: 'item',
+					formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend: {
+					//orient: 'vertical',
+					itemWidth:16,
+					itemHeight:16,
+					bottom: '40',
+					left: 'center',
+					itemGap:20,
+					data: [{name:'浙江',icon: 'circle'},
+					{name:'上海',icon: 'circle'},"",
+					{name:'安徽',icon: 'circle'},
+					{name:'江西',icon: 'circle'}]
+				},
+				series : [
+					{	
+						name: '投资分布',
+						type: 'pie',
+						radius : '55%',
+						center: ['50%', '35%'],
+						label: {
+							normal: {
+								show: true,
+								formatter: '{d}%' ,
+								position:'top',
+								textStyle:{
+									fontSize:'12',
+									fontWeight:'bold'
+								},
+							},
+						},
+						labelLine: {
+							normal: {
+								show: true,
+								length: 0,
+								lineStyle:{
+									width:2
+								}
+							}
+						},
+						data:[
+							{value:600, name:'浙江'},
+							{value:210, name:'上海'},
+							{value:134, name:'安徽'},
+							{value:118, name:'江西'},
+						],
+						itemStyle: {
+							normal: {
+								borderWidth:2,
+								borderColor:'#fff'
+							},
+							emphasis: {
+								borderWidth:0,
+								shadowBlur: 10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+							
+						}
+					}
+				]
+			};
+			myChart_two.setOption(option2);
+			
+			
+				
+				
 				
 			
-			})
 			/**方法**/
 			//隔3位显示数字
 			function changeNum(data){

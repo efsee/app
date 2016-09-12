@@ -195,7 +195,7 @@
 		
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
-//    			console.log(JSON.stringify(res));
+    			console.log(JSON.stringify(res));
      			
       			if(!res.account || !res.bank){
 						plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
@@ -273,10 +273,13 @@
 			
 			request = {};
 			request.money = $('#money').val();
-			
 			request.bank = $('#bank').val();
 			request.bank_id = $('#bank_id').val();
 			request.user_id = user.uid();
+			//银行卡缺失bug
+			if(!$('#bank_id').val()){
+				return false;
+			}
 			if(request.money == ""||request.money == 0){
 				alert("请输入提现金额");
 				return false;
@@ -292,10 +295,10 @@
 				if(parseInt(money)==money){
       				money+=".00"
       			}
-				pwRequest = {'user_id':user.uid()}; 
-				user.GetUsers({'request':pwRequest},function(pw){
-					upayWord=pw.paypassword;
-					})
+//				pwRequest = {'user_id':user.uid()}; 
+//				user.GetUsers({'request':pwRequest},function(pw){
+//					upayWord=pw.paypassword;
+//					})
 				$('.paypassword').val('');		
 				function closelayer(){
 					layer.close(index)
@@ -331,10 +334,13 @@
 			            	//paypassword=$(this).val()
 			            	console.log("我的密码是："+$(this).val());
 					    	paypassword=$.md5($(this).val());
-							if(paypassword==upayWord){
-								console.log("密码正确")
-								request.paypassword =$(this).val();
-								account.cash_new(request, function(res){
+							//if(paypassword==upayWord){
+								
+							console.log("密码正确")
+							request.paypassword =$(this).val();
+							console.log(JSON.stringify(request));
+							account.cash_new(request, function(res){
+								if(res.status==1){
 									console.log(JSON.stringify(res));
 									$(".recharge-foot").css("position","absolute")
 									closelayer()
@@ -345,19 +351,16 @@
 										waiting:{"autoShow":false}
 									})
 									mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
-									
-										/*mui.back();*/
-									})
-								}
-								else{
+								}else{
+									console.log(JSON.stringify(res));
 									$(".recharge-foot").css("display","block")
 									closelayer()
 									layer.close(index);
-									mui.toast("交易密码错误")
-								}
-							
-							
-							}
+									mui.toast(res.msg)
+								}	
+							})
+
+						}
 					})
 				}
 			});

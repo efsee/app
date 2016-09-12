@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/css.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+    
+<style type="text/css">
+#bodybox img { max-width: 100%;}
+.pshow-ad { box-sizing: content-box; }
+.mui-loader {
+	position: absolute;
+	top: 25%;
+	width: 100%;
+	height: 60%;
+	color: #888;
+	font-size: 14px;
+	text-align: center;
+}
+.header .mui-icon { color: #999;}
+a.ljtz-btn { color: #fff;}
+.header .ico-share {  background-position: -120px -30px; }
+
+.biao_xxn_xmms_b1 { margin-top: 20px; margin-bottom: 5px; font-size: 16px; border-left: 5px solid #f00; padding-left: 8px; line-height: 16px;}
+.biao_xxnr_shtb { overflow: hidden; padding: 10px 0px; /*border-top: 1px solid #e1e1e1; *//*border-bottom: 1px solid #bababa;*/ }
+.biao_xxnr_shtb li { float: left; width: 25%; text-align: center; padding: 5px 0;}
+.biao_xxn_xmms_ms { padding: 10px 0px;padding-top: 5px; min-height: 30px; }
+.ljtz-btn-ccc{ background: #999; }
+#ACWY{position: absolute;  right: 0px;display: block;  width: 70px; height: 40px; }
+#nhsyP{
+	color: #333;
+	font-size: 14px;
+}
+p.price{
+	font-size: 60px!important;
+}
+p.price span.small{
+	font-size: 30px!important;
+}
+.xmTextBox li{
+	width:33.3%;
+	float: left;
+}
+.xmTextBox > li:nth-child(1){
+	width:25%;
+}
+.xmTextBox > li:nth-child(2){
+	width:47%;
+}
+.xmTextBox > li:nth-child(3){
+	width:28%;
+}
+.xmTextBox > li:nth-child(3) p:last-child{
+	
+
+}
+.xmTextBox li p{
+	line-height: 25px;
+	color: #333;
+}
+.xmTextBox li p:first-child{
+	color: #e4393c;
+	font-size: 18px;
+	margin-top:20px;
+}
+.zlshTop{
+	text-align: center;
+	margin:0 auto;
+}
+
+</style>
+
+</head>
+	<body>
+		<div class="layer-bg" id="layer-bg"></div>
+	
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-pull-right" style="padding-top: 10px;" class="ancun tap" id="ACWY"><img src="images/ACWY.png" align="center" style="width:32px ; height: auto;"></a>
+			<!--<a class="mui-pull-right" style="padding-top: 10px;" id="share"><i class="icon ico-share"></i></a>-->
+			<h1 class="mui-title name" id="title">产品详情</h1>
+		</header>
+		<div class="mui-content" >
+			<div class="mui-loader" id="mui-loader">
+				<span class="mui-spinner"></span> <span id="loading-text" class="mui-hidden">请耐心等候</span>
+			</div>
+			<div class="" id="bodybox" style="display: none; min-height: 100%;  padding-bottom: 48px;">
+				<div class="clear"></div>
+			</div>
+		</div>
+	
+	
+	<script id="tpl" type="text/html">
+		<div class="box clearfix" >
+			<!--项目详情-->
+			<div class="text-box c3 pshow-tab" style="padding: 0px;margin:0px">
+			    <div class="biao_xxn_xmms_shzl" style="background-color: #EFEFF4;padding:5px;">
+			        <div class="zlshTop"><img width="90%" src="images/zlshTop.png"/></div>
+				    <div>
+				    	<ul class="biao_xxnr_shtb" style="padding:10px;">    	
+				      	{{each borrow.maincode as $vacode i}}
+				        	{{if i<4}}
+				    		{{if $vacode == 0}}
+				             <li>
+				               <img src="images/rzlogo1.png" />
+				               <p>身份证</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 1}}
+				             <li>
+				               <img src="images/rzlogo2.png" />
+				               <p>户口本</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 2}}
+				             <li>
+				               <img src="images/rzlogo3.png" />
+				               <p>行驶证</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 3}}
+				             <li>
+				               <img src="images/rzlogo4.png" />
+				               <p>驾驶证</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 4}}
+				             <li>
+				               <img src="images/rzlogo5.png" />
+				               <p>购车发票</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 5}}
+				             <li>
+				               <img src="images/rzlogo6.png" />
+				               <p>抵押手续</p>
+				             </li>
+				             {{/if}}
+				             {{if $vacode == 6}}
+				             <li class="biao_xxnr_jhz">
+				               <img src="images/rzlogo7.png" />
+				               <p>结婚证</p>
+				             </li>
+				             {{/if}}
+				      		{{/if}}
+							
+			            {{/each}}
+			           </ul>
+				    </div>
+				</div>
+			    <div style="padding:0 18px;color: #333;">
+			    	<div class="biao_xxn_xmms_b1">项目描述</div>
+			        <div><div class="biao_xxn_xmms_ms"><p style="font-size: 15px;line-height: 25px;">{{#borrow.borrow_contents}}</p></div></div>
+			    </div>
+			</div>
+			<!--//项目图片-->
+			<div class="text-box c3 pshow-tab" style="padding: 5px;padding-top: 0px;" >
+			{{each borrow.pics as pic i}}
+			    <a rel="example_group" href="{{pic.fileurl}}"><img style="margin-top: 8px;" alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
+			{{/each}}
+			</div>
+			<!--//合规-->
+			<div class="" style="background-color: #EFEFF4;padding:0px;">
+				<img width="100%" src="images/heguiTop.png"/>
+				<p style="padding:0 18px;font-size: 13px;line-height: 25px;"> 浙江铁诚律师事务所专业律师对基础债权的形成过程全程进行审核和见证，并对基础债权的真实性、合法性、有效性出具了专业的法律意见</p>
+			</div>
+		</div>
+		<div class="clear"></div>
+	
+		<nav class="bot-bar" style="opacity: 0.95;">
+			{{if borrow.borrow_account_scale == '100'}}
+				{{if BtenderDetail.has_repay < 1}}
+				<a href="javascript:;" class="ljtz-btn ljtz-btn-ccc" >还款中</a>
+				{{else}}	
+				<a href="javascript:;" class="ljtz-btn" >已还款</a>
+				{{/if}}
+			{{else}}
+			{{if borrow.borrow_end_time > nowtime }}
+			<a href="javascript:;" class="ljtz-btn" id="ljtz-btn" data="{'article_id':'{{borrow.article_id}}','id':'{{borrow.id}}','borrow_account_wait':'{{borrow.borrow_account_wait}}','borrow_nid':'{{borrow.borrow_nid}}','borrow_apr':'{{borrow.borrow_apr}}','borrow_period':'{{borrow.borrow_period}}','borrow_style':'{{borrow.borrow_style}}'}" data-scale="{{borrow.borrow_account_scale}}"><i class="ico-ljtz icon"></i>立即投资</a>
+			{{else}}
+			<a href="javascript:;" class="ljtz-btn" >已结束</a>
+			{{/if}}
+			{{/if}}
+		</nav>
+		</script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="js/api.js" ></script>
+		<script src="js/common.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+
+			mui.init({
+		
+			})
+			mui.plusReady(function(){
+		
+				//ljzt.html传入的重载
+				window.addEventListener('refresh',function(){	
+					window.scrollTo(0,0);	
+					getdata(wddata);
+				});
+				mui('#blayer').on('tap','.cancel',function(){
+					$("#blayer").removeClass('active');
+					$('#layer-bg').removeClass('active');
+				})
+
+				mui('body').on('tap','#ljtz-btn',function(){
+					turnLjtz()
+				})
+			});
+			
+			function turnLjtz(){
+				var this2=document.getElementById("ljtz-btn")
+				uid = user.uid();
+				if(!uid){
+					login();
+					return;
+				}
+				scale = parseFloat(this2.getAttribute('data-scale'));
+				if(scale >= 100){
+					alert("此标的投资已满！");
+					return;
+				}
+				var detailWV = plus.webview.getWebviewById('ljtz.html');
+				plus.nativeUI.showWaiting();
+				if(detailWV == null){
+					detailWV = plus.webview.create('ljtz.html','ljtz.html');
+					detailWV.setStyle({ 'popGesture': 'close' })
+				}
+				setTimeout(function(){
+					detailWV.show('slide-in-right',150);
+				},150);
+				detailWV.addEventListener( "loaded", function(){
+					//mui.fire(detailWV,"ljtzId",wddata);
+					plus.nativeUI.closeWaiting()
+		//			detailWV.show('slide-in-right',150);
+					mui.fire(detailWV,"mui.view.show",wddata);
+				}, false );	
+				
+			}
+			/*******投标成功后返回页面的data数据*********/
+			document.addEventListener("mui.view.show",function(e){
+				console.log(JSON.stringify(e.detail));
+				window.scrollTo(0,0);
+				var data = e.detail;
+				wddata=data;
+				getdata(data);
+			},false);
+			
+			function getdata(data){
+				var request = data;//含有上个页面传来article_id、id、has_repay的对象
+				request.borrow_nid = data.article_id;
+				product.detail({"request":request},function(res){
+					
+					console.log(JSON.stringify(res));
+					if(res){
+						res.is_login = user.uid();
+						res.nowtime = new Date().getTime() / 1000;
+						var html = template('tpl',res);
+						console.log(res.borrow.maincode)
+						$('#bodybox').html(html);
+						$('#title').html(res.borrow.name);
+						if(res.borrow.recordNo){
+							$('#ACWY').attr({href:"https://www.51cunzheng.com/webjsapi/downLoad?recordNo="+res.borrow.recordNo,'data-href2':res.borrow.ancun_url_full})
+						}
+						$("#ACWY").on('tap',function(e){
+							e.stopPropagation();
+							if(plus.os.name=='iOS'){
+								var href = this.getAttribute('href');
+								//通知模板修改标题，并显示隐藏右上角图标；
+								inittemplate = getTemplate('template', 'template.html');
+									//获得共用父模板
+								var headerWebview = inittemplate.header;
+									//获得共用子webview
+								var contentWebview = inittemplate.content;
+								contentWebview.loadURL(href);
+								mui.fire(headerWebview, 'updateHeader', {
+									title: '无忧存证',
+									showMenu: false
+								});
+								
+								mui.fire(headerWebview, 'loading');
+								headerWebview.show('slide-in-right', 150);
+							}
+							else{
+								var href = this.getAttribute('data-href2');
+								//console.log(href)
+								plus.runtime.openURL(href);plus.runtime.openURL(href);
+							}	
+						})
+						$('#mui-loader').hide();
+						$('#bodybox').show();
+						
+					}else{
+						
+					}
+					plus.nativeUI.closeWaiting();
+					var self = plus.webview.currentWebview();
+				})
+				
+			}	
+				var old_back = mui.back;
+				mui.back = function(){
+					plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+					mui.fire(plus.webview.currentWebview().opener(),'refresh');
+		//			plus.webview.currentWebview().opener().reload(true);
+					old_back();
+					$('#bodybox').html("").hide();
+					$('#mui-loader').show();
+		//			mui.back = old_back;
+				}
+		
+		</script>
+	</body>
+</html>
