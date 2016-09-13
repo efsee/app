@@ -223,26 +223,34 @@
 		plus.webview.currentWebview().setStyle({scrollIndicator:"none"});
 		var template = getTemplate('usertemplate', 'template.html');
 		mui("body").on('tap','a.phonecharge',function(){
-			uid = user.uid();
-			if(!uid){
-				login();
-				return;
-			}
-			if(this.classList.contains('noopen')){
-				return;
-			}
-			var phonecharge = plus.webview.create('phone-charge.html');
-			//var phonecharge = plus.webview.getWebviewById('phone-charge.html');
-			//plus.nativeUI.showWaiting();
-			setTimeout(function(){
-				phonecharge.show("slide-in-right",100);
-			},150);
-			//触发详情页面的newsId事件
-			/*phonecharge.addEventListener('loaded',function(){
-				mui.fire(phonecharge,'getnumber',{
-				arr:arr
-				});
-			});*/
+			that=this
+			var request={}
+			closePhone.GetPhoneChargeStatus({'request':request},function(res){
+				if(res.status>0){
+					console.log(JSON.stringify(res))
+					uid = user.uid();
+					if(!uid){
+						login();
+						return;
+					}
+					if(that.classList.contains('noopen')){
+						return;
+					}
+					var phonecharge = plus.webview.create('phone-charge.html');
+					phonecharge.addEventListener('loaded',function(){
+						mui.fire(phonecharge,'initpage')	
+					});
+					//var phonecharge = plus.webview.getWebviewById('phone-charge.html');
+					//plus.nativeUI.showWaiting();
+					setTimeout(function(){	
+						phonecharge.show("slide-in-right",100);
+					},150);	
+				}else{
+					console.log(JSON.stringify(res))
+					mui.alert(res.msg)
+				}
+				
+			})
 		})
 		
 		mui("body").on('tap','a.hkjl',function(){

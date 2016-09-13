@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>聚车金融</title>
+	 	<link href="css/mui.min.css" rel="stylesheet"/>
+	    <link href="css/css.css" rel="stylesheet" type="text/css">
+	    <link href="css/integral.css" rel="stylesheet" type="text/css">
+	    <link href="css/layer.css" rel="stylesheet"/>  
+	    <script src="js/mui.min.js"></script>
+	    <script src="js/api.js"></script>
+	    <script src="js/common.js"></script>
+	    <script type="text/javascript" src="js/layer.js" ></script>
+	  	<script src="js/jquery-1.11.2.min.js"></script>
+	    <style>
+	        body{ 
+	        	background-color:#FFFFFF;	
+	        }
+	        .layermanim{
+	        	border-radius: 10px;	
+	        }	
+	    	.layermchild h3{
+	    		border-bottom: none;	 
+	    	}
+	    	.layermcont{
+	    		margin-top: -24px;	
+	    	}
+	    	.layermend::after, .layermend::before{
+	    		width: 30px;	
+	    	}
+	    	.layermend {
+			    position: absolute;
+			    right: 16px;
+			    top: 11px;
+			    width:36px;    
+	   		}
+	   		.layermend::after, .layermend::before {
+	   			 width: 30px;
+	    	} 
+	    </style>
+	</head>
+	<body>
+		<div class="mui-content" style="background-color: #fff;" >
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+				    <div class="integral-main" style="background-color: #fff;">      
+				    	<div class="integral-fen">
+				    		<h5 class="integral-title">我的积分</h5>
+				    		<div class="integral-zong">0</div>
+				    		<div class="integral-ts">随机获取1-5积分</div> 	
+				    	</div>
+				    	<p class="integral-gz"><a id="turnRule" href="rule.html"><span class="integral-gzico"></span>规则说明</a></p>
+				    	<a class="integral-botton" id='getSign' style="display: none;">签到领积分</a>
+				    	<a class="integral-yqd" style="display: none;">已签到</a>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {	 
+						callback: pulldownRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				//获取所有积分
+				request={'user_id': user.uid(),'type_nid':'sign'};
+				credit.GetTypeCount({'request':request},function(res){
+					if(res==null){
+						$(".integral-zong").html("0")
+					}else{
+						$(".integral-zong").html(res)
+					}	
+				})
+				//判断是否签到
+				req2={'username': store.get('username'),
+					 'limit':1,
+					 'nid':'sign'
+				};
+				credit.GetLogList({'request':req2},function(res){
+					console.log(JSON.stringify(res))
+					var nowDate=new Date().getTime()
+					var remainDate=nowDate-nowDate%86400000
+					if(res==""){
+						$("#getSign").css("display","block")
+						$('.integral-yqd').css("display","none")
+					}
+					else{
+						if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
+							$("#getSign").css("display","block")
+							$('.integral-yqd').css("display","none")
+						}else{
+							$('.integral-yqd').css("display","block")
+							$("#getSign").css("display","none")
+						}
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();//refresh completed
+				})		
+			}	
+			mui.plusReady(function(){
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+				document.addEventListener("top-right-btn",function(){
+					href = 'sign.html';
+					inittemplate = getTemplate('template', 'template.html');
+					var headerWebview = inittemplate.header;
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '签到记录',
+						showMenu: false,
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 100);
+				})
+				mui('body').on('tap','.integral-botton',function(e){
+					//console.log(JSON.stringify(res))
+					e.stopPropagation()
+					request={'user_id': user.uid()};
+					credit.GetSign({'request':request},function(res){
+						if(res.code==1){
+							layer.open({
+								title:[''],		
+								content: '<div class="integral-tan">签到成功<p class="integral-chengg">已成功获得</p><div class="integral-tan-bg">'+res.value+'</div></div>'
+							});	
+						}else{
+							mui.toast(res.msg);
+						}	
+						pulldownRefresh()
+					})	
+				})
+				mui('body').on('tap','#turnRule',function(e){
+					e.stopPropagation()
+					mui.openWindow({
+						url:'rule.html',
+						id:'rule.html',
+						styles:{popGesture:'close'},
+						show:{autoShow:true,aniShow:'slide-in-right'},
+						waiting:{autoShow:false}
+					});	
+				})
+			})
+		</script>
+	</body>
+</html>

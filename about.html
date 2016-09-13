@@ -1,91 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta name="format-detection" content="telephone=no, email=no" />
-<title>聚车金融</title>
-<link href="css/css.css" rel="stylesheet" type="text/css" />
-    <script src="js/mui.min.js"></script>
-    <link href="css/mui.min.css" rel="stylesheet"/>
-    <script type="text/javascript" charset="utf-8">
-      	mui.init();
-    </script>
-    <style type="text/css">
-.header{
-	width:100%;
-	height:45px;
-	background:#e4393c;
-	text-align:center;
-	font-size:0px;
-	line-height:0px;
-	position:fixed;
-	z-index:999;
-	left:0;
-	top:0;
-	border-bottom:#bf494b 1px solid;
-	b-webkit-box-sizing:border-box;
-	-o-box-sizing:border-box;
-	-ms-box-sizing:border-box;
-	box-sizing:border-box;
-	}
-.header:after{
-	width:100%;
-	height:1px;
-	position:absolute;
-	left:0;
-	bottom:0;
-	background:#e14b4d;
-	content:"";
-	font-size:0;
-	}
-header .mui-icon { color: #ffffff; font-size: 14px; }
-header .mui-title { color: #ffffff; }
-    	#main-box img { max-width: 100%; margin: 0; }
-    	#main-box p { margin: 0px; padding: 0px; background: #fff;  }
-    	
-.mui-loader { color: #999; line-height: 20px; font-size: 12px; padding-top: 50px; }
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/about.css" media="all" />
+<title>我要投资--聚车汇</title>
 
-    </style>
-</head>
-<body>
-<div class="mui-content">
-	<div class="mui-loader mui-text-center" id="mui-loader">
-		<span class="mui-spinner"></span> <span id="loading-text">内容正在加载，请稍后...</span>
-	</div>
-	<div id="main-box">
-	</div>
-</div>
 
-<script type="text/html" id="tpl-html">
-<!--	<div class="">-->
-		<!--<div class="news-bt">
-			<h1 class="title">{{name}}</h1>
-			<p class="date">{{publish}}</p>
-		</div>-->
-		<div class="content">
-			{{#contents}}
-		</div>
-<!--	</div>-->
-</script>
-
-<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-	mui.plusReady(function(){
-			articles.GetPage({'request':{'id':32}},function(res){
-				//console.log(JSON.stringify(res));
-//				document.getElementById("title").innerHTML = res.name;
-				html = template('tpl-html',res);				
-				document.getElementById("main-box").innerHTML = html;
-				document.getElementById("mui-loader").style.display = 'none';
-//				plus.webview.currentWebview().show('slide-in-right');
-			})
-
-	})
-</script>
-</body>
+	<body>
+  <!--内容-->
+  <div class="about_nr">
+		<img style="margin:10% 0 ;"  src="images/img/bt1.png">
+		<div class="about_img1">
+			<img src="images/img/top1.png">
+		</div>    
+			<p style=" text-indent:2em;line-height: 28px;">聚车金融成立于2014年11月27日，注册资金1000万。公司全称为“杭州聚车汇信息技术有限公司”，总部位于美丽的西子湖畔—杭州。聚车金融网融合“互联网+金融+汽车”，以健全的风险管控体系为基础，为广大投资者提供专业、高效、安全的互联网汽车金融理财服务，致力于通过优质服务与产业模式创新，提升投资效率，优化金融资产配置，成为行业领先并具有重要国际影响力的互联网汽车金融理财服务平台。</p>
+		
+		<img style="margin:10% 0 ;" src="images/img/bt2.png">
+			<img src="images/img/img1.jpg"/>
+			<img src="images/img/img2.jpg"/>
+			<img src="images/img/img3.jpg"/>
+			<img src="images/img/img4.jpg"/>
+			<img src="images/img/img5.jpg"/>
+			<img src="images/img/img6.jpg"/>
+			<img src="images/img/img7.jpg"/>
+			<img src="images/img/img8.jpg"/>
+			<img src="images/img/img9.jpg"/>
+			<img src="images/img/img10.jpg"/> 
+			<img src="images/img/img11.jpg"/>
+			<img src="images/img/img12.jpg"/>
+		
+		<img style="margin:10% 0 ;" src="images/img/bt3.png">                         
+		<img  src="images/img/about6.jpg"/>
+		
+		<img style="margin:10% 0 ;" src="images/img/bt4.png">
+			<div class="about_lc"> 
+				<div class="lc_left">              
+					
+							<p>   
+								<span>2014年11月</span><br>杭州聚车汇信息技术有限公司注册成立，注册资金1000万。
+						    </p>
+						    
+						    <p>   
+								<span>2015年01月</span><br>聚车金融核心团队组建完成。
+						    </p>
+					 
+							<p>
+								<span>2015年03月</span><br>聚车金融网站开始内测，初始投资用户超400人。
+							</p> 
+							
+							<p>
+								<span>2015年05月</span><br>聚车金融官方微信上线。
+							</p> 
+					 
+							<p>
+								<span>2015年08月</span><br>聚车金融网站改版升级，正式上线运营。  
+							</p>
+							
+							<p>
+								<span>2015年11月</span><br>聚车金融APP正式上线。
+							</p>
+					  
+							<p>
+								<span>2015年12月</span><br>聚车金融单月投资额突破1000万。
+							</p>
+							
+							<p>
+								<span>2016年01月</span><br> 聚车金融接入安存无忧。
+							</p>
+							
+						    <p>
+								<span>2016年05月</span><br>聚车金融累计投资总额突破1亿元。
+							</p>
+							
+							<p>
+								财富路上我们一直在努力...  
+							</p>
+					
+				</div> 
+			           
+				              
+			</div> 
+  </div>     
+	</body>
 </html>

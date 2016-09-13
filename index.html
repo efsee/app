@@ -225,7 +225,11 @@
 			})
 			
 			document.getElementById("top-contact").addEventListener('tap',function(){
-				href = 'userinfo.html';
+				if(!user.uid()){
+					login();
+					return false;
+				}
+				href = 'integral.html';
 				inittemplate = getTemplate('template', 'template.html');
 				var headerWebview = inittemplate.header;
 				var contentWebview = inittemplate.content;
