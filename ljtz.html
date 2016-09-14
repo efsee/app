@@ -307,16 +307,6 @@
 			mui.plusReady(function(){
 				console.log(store.get('username'))
 				initNativeObjects();
-				//测试签到
-				req={'user_id': user.uid()};	
-				credit.GetSign({'request':req},function(res){
-					console.log(JSON.stringify(res));					
-				})
-				req2={'username': store.get('username')};
-				credit.GetList({'request':req2},function(res){
-					console.log(JSON.stringify(res));					
-				})
-				//结束
 				//获取红包
 				hbrequest = {};
 				hbrequest = {'user_id': user.uid()};

@@ -37,7 +37,6 @@
 		}
 	.integral-main{
 		 margin: 0 auto;
-		 margin-top: 44px;
 		 overflow: hidden;
 		             	
 	
@@ -185,3 +184,33 @@
 
 }
 
+/*弹窗样式*/
+.integral-tan{
+	color: #f95453;
+	font-size: 28px;
+	
+}
+.integral-chengg{
+	font-size: 16px;
+	margin: 20px 0px;
+	color: #7a7a7a;
+	}
+.integral-tan-bg{
+	background: url(../images/icon.png) no-repeat center;
+	width: 150px;
+	height: 150px;
+	display: block;
+  background-position: -743px -542px;
+	line-height: 150px;
+	font-size: 80px;
+	color: #FFFFFF;
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 15px;
+	
+}
+
+.layermchild  {
+    width: 86%;
+}
+	

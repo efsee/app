@@ -574,13 +574,25 @@ var credit = {
 		var url = apiurl + '?module=credit&action=Sign';
 		ajax.post(url, $data, callback);
 	},
-	"GetList" : function($data, callback){
-		var url = apiurl + '?module=credit&action=GetList';
+	"GetLogList" : function($data, callback){
+		var url = apiurl + '?module=credit&action=GetLogList';
+		ajax.post(url, $data, callback);
+	},
+	"GetTotal" : function($data, callback){
+		var url = apiurl + '?module=credit&action=GetTotal';
+		ajax.post(url, $data, callback);
+	},
+	"GetTypeCount" : function($data, callback){
+		var url = apiurl + '?module=credit&action=GetTypeCount';
+		ajax.post(url, $data, callback);
+	},
+}
+var closePhone = {
+	"GetPhoneChargeStatus" : function($data, callback){
+		var url = apiurl + '?module=account&action=PhoneChargeStatus';
 		ajax.post(url, $data, callback);
 	}
 }
-
-
 var system = {
 	'get': function(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
