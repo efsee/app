@@ -279,7 +279,10 @@
 							},300);
 						}
 						else{
-							var detailPage = plus.webview.create('pshow.html');	
+							var detailPage = plus.webview.create('pshow.html');
+							detailPage.setStyle({
+								'popGesture': 'close'
+							})
 							plus.nativeUI.showWaiting();
 							setTimeout(function(){
 								detailPage.show("slide-in-right",100);

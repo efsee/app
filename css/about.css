@@ -21,7 +21,7 @@ body {
 .about_nr {
     
     margin:auto;
-    margin:0 10px;
+    margin:0 20px;
     overflow:hidden;
     
 }
@@ -48,11 +48,9 @@ body {
 	background: url(../images/img/lc.png) repeat-y;
 	background-size:100%;
 	overflow: hidden;
+	margin-bottom: 20px;;
 }
-.about_lc p span{
-	font-size:1.1em;
-	font-weight:bold;
-}
+
 /*.about_lc .lc_left{
 	float:left;
 	width:55.5%;
@@ -84,6 +82,13 @@ body {
 .lc_left p:last-child{
 	margin-bottom:20%;
 	height:350%;
+}
+.about_lc p span{
+	font-size:1.1em;
+	font-weight:bold;
+	line-height: 30px;
+	
+	
 }
 /*.about_lc .lc_right{
 	float:right;

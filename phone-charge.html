@@ -104,22 +104,56 @@
 	<script type="text/javascript" charset="utf-8">
 		//mui初始化
 		mui.init();
+		//获取手机号
+		document.addEventListener('initpage',function(e){
+			userMobile=store.get('username');
+			console.log("3")
+			mobileType=testType(userMobile);
+			$('#mobile').val(userMobile);
+			$('#myDIV').html(mobileType);
+			initprice()
+		},false);
+		//获取标签信息
+		function initprice(){
+			request = {'type':mobileType,'mobile':userMobile,'user_id': user.uid()};
+			user.GetllczPrice({'request':request},function(res){
+				console.log(JSON.stringify(request))
+				//console.log(JSON.stringify(res))
+				if(res.status==1){
+					$('.item').each(function(i,e){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').text(face_price*res.discount);
+						$(this).addClass('phone-icosc');
+					});
+				}
+				else if(res.status==2){
+					$('.item').each(function(){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').html(face_price*res.discount);
+						if(res.status==2){
+							$(this).removeClass('phone-icosc').addClass('phone-icoyh');
+						}
+					    //alert($(this).find('.sale_price').text());
+					  });
+				}
+				else{
+					$('.item').each(function(){
+						var face_price=$(this).find('.face_price').text();
+						$(this).find('.sale_price').html(face_price*res.discount);
+						if(res.status==2){
+							$(this).removeClass('phone-icosc').removeClass('phone-icoyh');
+						}
+					});
+				}
+				
+			})	
+		}
 		mui.plusReady(function(){	
 			var wv=plus.webview.currentWebview();
 			// 侧滑返回后关闭webview
 			wv.setStyle({'popGesture':'close'});		
 			var parent = plus.webview.getWebviewById('user.html');
 			mui.fire(parent,'initpage');	
-			
-			//获取手机号
-			document.addEventListener('initpage',function(e){
-				userMobile=store.get('username');
-				mobileType=testType(userMobile);
-				$('#mobile').val(userMobile);
-				$('#myDIV').html(mobileType);
-				initprice()
-			},false);
-
 			$(document).on('tap','.item',function(){
 				if($('#mobile').val()){
 					var order_no=new Date().getTime() + "_" + user.uid();
@@ -213,7 +247,7 @@
 														}
 													})
 									            }  
-									            
+		    
 									        }); 
 										}
 									});	
@@ -228,41 +262,6 @@
 				}
 				
 			})
-			//获取标签信息
-			function initprice(){
-				request = {'type':mobileType,'mobile':userMobile,'user_id': user.uid()};
-				user.GetllczPrice({'request':request},function(res){
-					console.log(JSON.stringify(request))
-					//console.log(JSON.stringify(res))
-					if(res.status==1){
-						$('.item').each(function(i,e){
-							var face_price=$(this).find('.face_price').text();
-							$(this).find('.sale_price').text(face_price*res.discount);
-							$(this).addClass('phone-icosc');
-						});
-					}
-					else if(res.status==2){
-						$('.item').each(function(){
-							var face_price=$(this).find('.face_price').text();
-							$(this).find('.sale_price').html(face_price*res.discount);
-							if(res.status==2){
-								$(this).removeClass('phone-icosc').addClass('phone-icoyh');
-							}
-						    //alert($(this).find('.sale_price').text());
-						  });
-					}
-					else{
-						$('.item').each(function(){
-							var face_price=$(this).find('.face_price').text();
-							$(this).find('.sale_price').html(face_price*res.discount);
-							if(res.status==2){
-								$(this).removeClass('phone-icosc').removeClass('phone-icoyh');
-							}
-						});
-					}
-					
-				})	
-			}
 			//手机号正则
 			/*function mobileTest(mobile){
 				var mobileReg=/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/;
@@ -277,6 +276,7 @@
 			
 			function AddCharge(request){
 				user.AddCharge({'request':request},function(res){
+					
 					var w = plus.nativeUI.showWaiting();
 					//console.log(JSON.stringify(res));
 					if(res.result==1){
@@ -334,6 +334,24 @@
 				contentWebview.loadURL(href);
 				mui.fire(headerWebview, 'updateHeader', {
 					title: '充值记录',
+					showMenu: false
+				});
+				mui.fire(headerWebview, 'loading');
+				headerWebview.show('slide-in-right', 150);
+			})
+			$('.czhd').on('click',function(e){
+				e.preventDefault();
+				href=$(this).attr('href');
+				//alert(href)
+				inittemplate = getTemplate('template', 'template.html');
+				//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href);
+				//var right_btn = data.right_btn || "";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: '活动详情',
 					showMenu: false
 				});
 				mui.fire(headerWebview, 'loading');

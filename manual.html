@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+		<link href="css/integral.css" rel="stylesheet" type="text/css" />  
+		<script src="js/mui.min.js"></script>
+		<style>
+			.header h1{
+				color: #333;
+			}
+			.mui-table-view-cell{
+				height:55px;
+				line-height: 55px;
+				font-size: 14px;	
+				/*padding: 18px 15px;*/
+				padding: 0;
+
+				
+			}
+			.mui-table-view-cell a{
+				height:55px;
+				line-height: 55px;
+				margin:0!important;
+				padding-left: 20px!important;
+				
+			}
+			.mui-table-view-cell:after {
+				position: absolute;
+				right: 0px;
+				bottom: 0;
+				left: 3%;
+				height: 1px;
+				width:94%;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-content>.mui-table-view:first-child{ 
+				margin-top: 0;
+			}
+			.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+				font-size: 23px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
+			<h1 id="title" class="mui-title">操作指南</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view sign-main" style="padding: 0;">
+				<li class="mui-table-view-cell ">
+					<a href="javascript:;"  class="mui-navigate-right tap" data='{"url":"rh-reg.html"}'>如何注册聚车金融帐号？</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"  class="mui-navigate-right tap" data='{"url":"re-reg.html"}'>如何充值、认证以及绑定银行卡？</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"  class="mui-navigate-right tap" data='{"url":"rs-reg.html"}'>如何投资？</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"  class="mui-navigate-right tap" data='{"url":"rz-reg.html"}'>如何提现？</a>
+				</li>
+		
+			</ul>
+		</div>
+		<script>
+			mui.init()
+			mui.plusReady(function(){
+				mui(".sign-main").on('tap', 'a.tap', function(e){
+					e.stopPropagation();					
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+					var detailWV = plus.webview.create(data.url,data.url,{'popGesture':'close'});
+					setTimeout(function(){
+						detailWV.show('slide-in-right',150);
+					},150);
+				})	
+			})
+		</script>
+	</body>
+</html>

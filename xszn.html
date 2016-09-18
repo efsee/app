@@ -36,7 +36,11 @@
 <script id="tpl-item" type="text/html">
 	{{each list as item to i}}
 <li>
-<a href="javascript:;" class="tap" data='{"id":{{item.id}},"title":"{{item.name}}"}'>
+	{{if item.id==242}}
+	<a href="javascript:;" class="tap" data='{"id":"manual.html"}'>
+	{{else}}
+	<a href="javascript:;" class="tap" data='{"id":{{item.id}},"title":"{{item.name}}"}'>
+	{{/if}}
 <i class="ico-news ico24 icon"></i>
 <p class="title" style=" line-height: 35px;">{{item.name}}</p>
 <!--<p class="date">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</p>-->
@@ -59,13 +63,22 @@
 					e.stopPropagation();					
 					var data = this.getAttribute('data');
 					data = eval("(" + data + ")");
-					var detailWV = plus.webview.create('article_detail.html');
-					detailWV.addEventListener( "loaded", function(){
-						mui.fire(detailWV,"mui.view.show",data);
-					}, false );	
-					setTimeout(function(){
-						detailWV.show('slide-in-right');
-					},150);
+					if(data.id=="manual.html"){
+						mui.openWindow({
+							id:data.id,
+							url:data.id,
+							styles:{popGesture:'close'}	
+						})
+					}else{
+						var detailWV = plus.webview.create('article_detail.html');
+						detailWV.addEventListener( "loaded", function(){
+							mui.fire(detailWV,"mui.view.show",data);
+						}, false );	
+						setTimeout(function(){
+							detailWV.show('slide-in-right');
+						},150);
+					}
+					
 					
 				})
 			});

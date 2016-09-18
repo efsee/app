@@ -67,69 +67,19 @@
 		</nav>
 	</body>
 	<script>
+		document.addEventListener("showFresh",function(){
+			
+		})
 		mui.plusReady(function(){
-			if(!store.get('diffrent')){
-				var appinfo={};
-				plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-					//appid属性
-					appinfo.appid = wgtinfo.appid;
-					//version属性
-					appinfo.version = wgtinfo.version;
-					//name属性
-					appinfo.name = wgtinfo.name;
-					
-					var request = {};
-					request.style="1";
-					console.log(JSON.stringify(request));
-					product.getversion({"request":request},function(res){
-						//console.log(JSON.stringify(res));
-						if(res){
-							if(appinfo.version<res.version){
-								var content='';
-								$.each(res.content, function(i, item) {
-									content+='\r\n'+item;
-								});
-								console.log(content);
-								store.set('diffrent', 1, res.time);	//标志暂存时间30秒
-								var btnArray = ['取    消', '立即更新'];
-								mui.confirm(content,res.title, btnArray, function(e) {
-									if (e.index == 1) {
-										/*if(plus.os.name=='iOS'){
-											url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
-											plus.runtime.openURL(url);
-										}
-										else{
-											url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
-											plus.runtime.openURL(url);
-										}*/
-										url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
-										plus.runtime.openURL(url);
-										
-									} else {
-									}
-								})
-							}else{
-								mui.alert(content,'1.7.0版本更新','关闭')
-							}
-						}
-						
-					})
-					
-				})
-				
-			}
-			/*else{
-				alert('时间未到')
-					
-			}*/
-	
+			//先执行welcome
 			if(!plus.storage.getItem('welcome'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
 			}
-			if(user.uid()){
+			//暂时取消手势密码
+			/*if(user.uid()){
 				//验证或设置手势密码
 				if(plus.storage.getItem('shoushimima')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
@@ -137,14 +87,75 @@
 	            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }
 	//            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
-		    }
+		    }*/
 	
 	/**********************************底部导航子页面webview实现****************************************/
 			document.addEventListener("turnUser",function(){
 				var $botNav=$(".bot-nav a")
 				$botNav.eq(3).tap()
 			})
-			
+			document.addEventListener("turnVersion",function(){
+				if(!store.get('diffrent')){
+					var appinfo={};
+					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
+						//appid属性
+						appinfo.appid = wgtinfo.appid;
+						//version属性
+						appinfo.version = wgtinfo.version;
+						//name属性
+						appinfo.name = wgtinfo.name;
+						
+						var request = {};
+						//request.style="1";
+						//console.log(JSON.stringify(request));
+						product.getversion({"request":request},function(res){
+							console.log(JSON.stringify(res));
+							if(res){
+								if(appinfo.version<res.version){
+									var content='';
+									$.each(res.content, function(i, item) {
+										content+='\r\n'+item;
+									});
+									console.log(content);
+									store.set('diffrent', 1, res.time);	//标志暂存时间30秒
+									var btnArray = ['取    消', '立即更新'];
+									mui.confirm(content,res.title, btnArray, function(e) {
+										if (e.index == 1) {
+											/*if(plus.os.name=='iOS'){
+												url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
+												plus.runtime.openURL(url);
+											}
+											else{
+												url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
+												plus.runtime.openURL(url);
+											}*/
+											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
+											plus.runtime.openURL(url);
+											
+										} else {
+										}
+									})
+								}else{
+									store.set('diffrent', 1, res.time);
+									var content='';
+									$.each(res.content, function(i, item) {
+										content+='\r\n'+item;
+									});
+									mui.alert(content,'1.7.0 版本更新','关闭')
+								}
+							}
+							
+						})
+						
+					})
+					
+				}
+				/*else{
+					alert('时间未到')
+						
+				}*/
+				
+			})
 			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
 			var activeTab = subpages[0];
@@ -270,7 +281,7 @@
 			
 			
 			
-			document.addEventListener('permission',function(e){
+		/*	document.addEventListener('permission',function(e){
 				
 				if(!plus.storage.getItem('ssmms')){
 					mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
@@ -280,7 +291,7 @@
 					});
 				}
 				
-			},false);
+			},false);*/
 		});//plusReady结束
 		
 		 //自定义事件，模拟点击“首页选项卡”

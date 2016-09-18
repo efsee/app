@@ -192,7 +192,6 @@
 			document.addEventListener('initpage',function(e){
 				plus.webview.currentWebview().reload(true)
 			})
-		
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
     			console.log(JSON.stringify(res));
