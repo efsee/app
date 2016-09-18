@@ -195,8 +195,8 @@
 			<input type="hidden" name="borrow_period" id="borrow_period" value="0" />
 			<input type="hidden" name="borrow_style" id="borrow_style" value="" />
 			<div id="borrow_account_wait" style=" display:none;"></div>	
-			<div id="ktje" class='moneyList'>可投金额：<span  id="span_borrow_account">{{borrow.borrow_account_wait}}</span>元</div>
-			<div class='moneyList'>账户余额：<span class="moneyfont" id="balance">0.00元</span></div>
+			<div id="ktje" class='moneyList'>可投金额：<span  id="span_borrow_account">{{borrow.borrow_account_wait}}</span>元	<a style="float: right; color: #999;font-size: 13px;">（100元起投）</a></div>
+			<div class='moneyList'>账户余额：<span class="moneyfont" id="balance">0.00</span><span style="color:#f13f3f ;">元</span></div>
 			<div class="mui-input-row moneyList">
 				<label style="width: auto;">投资金额：</label>
 				<input style="float: left;width: 40%;" type="number" pattern="[0-9]*" id="money" name="money"  value="" />元
@@ -227,7 +227,7 @@
 				</li>
 			{{each list as $item i}}
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" data-value="{{$item.id}}-{{$item.money}}" data-id='{{$item.id}}' data-money='{{$item.money}}'>
+					<a class="mui-navigate-right hbNum" data-value="{{$item.id}}-{{$item.money}}" data-id='{{$item.id}}' data-money='{{$item.money}}'>
 						{{$item.money}}元红包
 					</a>
 				</li>
@@ -312,7 +312,7 @@
 				hbrequest = {'user_id': user.uid()};
 				hbrequest.status = 1;
 				user.GetHongbao({'request':hbrequest},function(res){
-		//			console.log(JSON.stringify(res));					
+					//console.log(JSON.stringify(res));					
 					var html = template('tpl-hongbao-item',res);
 					document.getElementById("hongbaolist").innerHTML = html;
 				})
@@ -373,7 +373,7 @@
 				request2 = {'user_id':user.uid()};
 				account.GetOne({'request':request2},function(res2){
 					//console.log(JSON.stringify(res));	
-					yourBalance=res2.balance+'元'
+					yourBalance=res2.balance
 					
 				})
 			}
@@ -397,7 +397,7 @@
 						res.is_login = user.uid();
 						res.nowtime = new Date().getTime() / 1000;
 						if(parseFloat(res.borrow.borrow_account_wait)>100){
-							$('#span_borrow_account').html("100~"+res.borrow.borrow_account_wait)
+							$('#span_borrow_account').html(res.borrow.borrow_account_wait)
 						}else{
 							$('#span_borrow_account').html(res.borrow.borrow_account_wait)
 						}
@@ -407,7 +407,7 @@
 							request2 = {'user_id':user.uid()};
 							account.GetOne({'request':request2},function(res2){
 								//console.log(JSON.stringify(res));	
-								$('#balance').html(res2.balance+'元');	
+								$('#balance').html(res2.balance);	
 							})
 						}else{
 							$('#balance').html(yourBalance);
@@ -578,16 +578,22 @@
 			//全额投资
 			mui('body').on('tap','#qetx',function(){	
 				plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+				hbaomoney = $("#hongbaolist li");
 				var money = parseInt($("#balance").html());		
 				var account_wait = parseInt($("#borrow_account_wait").html());
 				var moneyb = parseInt(money/100);		
 	            var moneyd = moneyb*100;	
 				if(money>100){
 					if (money>account_wait){				
-				        $("#money").val(account_wait);			      
+				        $("#money").val(account_wait);
+				         moneyvalue  = account_wait;
+				       // console.log(moneyvalue)
+				       
 					} else{
-				       $("#money").val(moneyd);
-				      }
+				        $("#money").val(moneyd);
+				         moneyvalue  = moneyd;
+				       // console.log(moneyvalue)
+				    }
 					 				
 				}else{
 					 mui.alert('您的余额不足100，请充值！', function() {
@@ -595,7 +601,7 @@
 	                    plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
 	               });	
 				}
-				
+				changeHb()
 				var borrow_nid    = $("#borrow_nid").val();
 				var borrow_apr    = $("#borrow_apr").val();
 				var borrow_period = $("#borrow_period").val();
@@ -642,54 +648,91 @@
 				}
 			})
 			mui('body').on('keyup','#money',function(){
+				hbaomoney = $("#hongbaolist li");
 				var borrow_nid    = $("#borrow_nid").val();
 				var borrow_apr    = $("#borrow_apr").val();
 				var borrow_period = $("#borrow_period").val();
 				var borrow_style  = $("#borrow_style").val();
-				var money  = $("#money").val();
+				moneyvalue  = $("#money").val();
 				request = {};
 				request.borrow_nid = borrow_nid;
 				request.borrow_apr = borrow_apr;
 				request.borrow_period = borrow_period;
 				request.borrow_style = borrow_style;
-				request.money = money;
+				request.money = moneyvalue;
 				//console.log(JSON.stringify(request));
-					borrow.sy({'request':request},function(res){
-						if(res) {
-							$('#span_borrow_sy').html(res);
-						}else{
-							$('#span_borrow_sy').html("0.00");
-						}
-					})
+				borrow.sy({'request':request},function(res){
+					if(res) {
+						$('#span_borrow_sy').html(res);
+					}else{
+						$('#span_borrow_sy').html("0.00");
+					}
+				})
+				//判断红包
+				changeHb()	
 			})
+			
 			$('body').on('blur','#money',function(){
 				if($("#hmoney").val() != 0){
 					$("#hmoney").val('0');
-					$("#hongbao").html("未选择");
+					//$("#hongbao").html("未选择");
 				}
 				var hbaomoney = $("#hongbaolist li");
-				var moneyvalue = $("#money").val();//原为#money：text
+				var moneyvalue = $("#money").val();//原为#money：text	
 				if(!isNaN(moneyvalue)){
+					var hbNum=0
 					hbaomoney.each(function(){
 					 var str = $(this).find('a').attr('data-value');
 					  strs=str.substr(str.indexOf('-')+1,9);
-					 if( (moneyvalue)*(0.01) < 20 ){
-					 	if ( (strs) > (moneyvalue)*(0.01) ){
+					 if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
+					 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
 							$(this).hide();
+							//hbNum-=1
 						}else{
-							$(this).show();
+							$(this).show();//第一个默认显示
+							hbNum+=1
 						}
 					 }else{
 					 	if ( (strs) > (moneyvalue)*(0.005) ){
 							$(this).hide();
 						}else{
 							$(this).show();
+							hbNum+=1
 							}
 						}
 					});
 				}	
 			})
-
+			function changeHb(){
+				if(!isNaN(moneyvalue)){
+					var hbNum=0
+					hbaomoney.each(function(){
+					 var str = $(this).find('a').attr('data-value');
+					  strs=str.substr(str.indexOf('-')+1,9);
+					 if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
+					 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
+							$(this).hide();
+							//hbNum-=1
+						}else{
+							$(this).show();//第一个默认显示
+							hbNum+=1
+						}
+					 }else{
+					 	if ( (strs) > (moneyvalue)*(0.005) ){
+							$(this).hide();
+						}else{
+							$(this).show();
+							hbNum+=1
+							}
+						}
+					});
+					if((hbNum-1)>0){
+						$("#hongbao").html((hbNum-1)+"个可用红包");
+					}else{
+						$("#hongbao").html("无可用红包");
+					}
+				}
+			}
 
 		</script>
 	</body>

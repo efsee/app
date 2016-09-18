@@ -88,11 +88,7 @@ var count=0;
 			request.mobilecode = $("#mobilecode").val();
 			request.password = $("#password").val();
 			request.confirm_password = $("#confirm_password").val();
-			if($("#invite_userid").val()){
-				request.invite_userid = $("#invite_userid").val();	
-			}else{
-				request.invite_userid = '9049'
-			}		
+			request.invite_userid = $("#invite_userid").val();		
 			request.username = $("#mobile").val();
 			if(request.mobile == ''){
 				alert('请输入手机号码注册');
@@ -114,7 +110,7 @@ var count=0;
 			$("input:focus").blur();
 			console.log(JSON.stringify(request));
 			user.register(request,function(res){
-				//console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res));
 				if(res.status == 1){
 					plus.nativeUI.toast("注册成功！");
 					if(res.uid){

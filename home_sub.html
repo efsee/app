@@ -347,7 +347,7 @@
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
 				//console.log(JSON.stringify(data))
-				var pshow = plus.webview.create('pshow.html','pshow-borrow');
+				var pshow = plus.webview.create('pshow.html','pshow-borrow',{'popGesture': 'close'});
 				pshow.addEventListener('loaded',function(){
 				mui.fire(pshow,"mui.view.show",data);
 				});
