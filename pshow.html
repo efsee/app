@@ -290,7 +290,10 @@ p.price span.small{
 
 	})
 	mui.plusReady(function(){
-
+		plus.webview.currentWebview().addEventListener( "popGesture", function(e){
+			var indexSubSx=plus.webview.currentWebview().opener()
+			mui.fire(indexSubSx,"initpage")
+		}, false );
 		//下级页面返回传入传入的重载
 		window.addEventListener('refresh',function(){	
 			window.scrollTo(0,0);	

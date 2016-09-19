@@ -107,6 +107,7 @@
 			mui("body").on('tap','.iphone-fin-botton',function(){
 				mui.fire(plus.webview.getLaunchWebview(),'gouser');
 				plus.webview.getLaunchWebview().show()
+				selfPage.opener().opener().close()
 				selfPage.close()
 			})
 			//充值问题跳转

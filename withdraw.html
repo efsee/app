@@ -189,9 +189,9 @@
 	};
 	
 	mui.plusReady(function(){
-			document.addEventListener('initpage',function(e){
+			/*document.addEventListener('initpage',function(e){
 				plus.webview.currentWebview().reload(true)
-			})
+			})*/
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
     			console.log(JSON.stringify(res));
@@ -346,7 +346,7 @@
 									mui.openWindow({
 										url:"txtj.html",
 										id:"txtj.html",
-										styles:{"aniShow":"slide-in-right"},
+										styles:{"aniShow":"slide-in-right",popGesture:'close'},
 										waiting:{"autoShow":false}
 									})
 									mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
