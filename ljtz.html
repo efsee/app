@@ -579,7 +579,8 @@
 			mui('body').on('tap','#qetx',function(){	
 				plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
 				hbaomoney = $("#hongbaolist li");
-				var money = parseInt($("#balance").html());		
+				//var money = parseInt($("#balance").html());		
+				var money = parseFloat($("#balance").html());	
 				var account_wait = parseInt($("#borrow_account_wait").html());
 				var moneyb = parseInt(money/100);		
 	            var moneyd = moneyb*100;	
@@ -594,6 +595,7 @@
 				         moneyvalue  = moneyd;
 				       // console.log(moneyvalue)
 				    }
+					changeHb()
 					 				
 				}else{
 					 mui.alert('您的余额不足100，请充值！', function() {
@@ -601,7 +603,6 @@
 	                    plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
 	               });	
 				}
-				changeHb()
 				var borrow_nid    = $("#borrow_nid").val();
 				var borrow_apr    = $("#borrow_apr").val();
 				var borrow_period = $("#borrow_period").val();
