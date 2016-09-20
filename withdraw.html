@@ -283,6 +283,10 @@
 				alert("请输入提现金额");
 				return false;
 			}
+			if(parseFloat(request.money)<1){
+  				plus.nativeUI.toast("最低提现1元");
+  				return false;
+  			}
 			if(parseFloat($('#money').val()) > parseFloat($('#balance').html())){
 				alert("提现金额大于可提现金额");
 				return false;
