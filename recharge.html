@@ -527,6 +527,10 @@ header .mui-title { color: #333; }
       				alert("请输入正确的充值金额！");
       				return false;
       			}
+      			if(parseFloat(money)<1){
+      				plus.nativeUI.toast("最低充值1元");
+      				return false;
+      			}
 				request = {"user_id":user.uid()};
       			user.UserInfo({'request':request},function(res){
 	      			//console.log(JSON.stringify(res))
