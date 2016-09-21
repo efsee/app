@@ -482,7 +482,7 @@ header .mui-title { color: #333; }
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
 		      			////console.log(JSON.stringify(!bank_res.status));
-		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank||bank_res.status==2){//已经实名认证但没有绑定银行卡
+		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 		 					res.bank=bank_res.bank;
 	      					res.account=bank_res.account;
 		 					
