@@ -48,7 +48,7 @@
 				    	<div class="integral-fen">
 				    		<h5 class="integral-title">我的积分</h5>
 				    		<div class="integral-zong">0</div>
-				    		<div class="integral-ts">随机获取1-5积分</div> 	
+				    		<div class="integral-ts">随机获取1-50积分</div> 	
 				    	</div>
 				    	<p class="integral-gz"><a id="turnRule" href="rule.html"><span class="integral-gzico"></span>规则说明</a></p>
 				    	<a class="integral-botton" id='getSign' style="display: none;">签到领积分</a>
@@ -72,13 +72,22 @@
 			function pulldownRefresh() {
 				//获取所有积分
 				request={'user_id': user.uid(),'type_nid':'sign'};
-				credit.GetTypeCount({'request':request},function(res){
-					if(res==null){
+				credit.GetTypeCount({'request':request},function(res1){
+					if(res1==null){
 						$(".integral-zong").html("0")
 					}else{
-						$(".integral-zong").html(res)
+						request2={'user_id': user.uid(),'type_nid':'sign_reward'};
+						credit.GetTypeCount({'request':request2},function(res2){
+							console.log(res2)
+							if(res2==null){
+								$(".integral-zong").html(parseInt(res1))
+							}else{
+								$(".integral-zong").html(parseInt(res1)+parseInt(res2))
+							}	
+						})	
 					}	
 				})
+				
 				//判断是否签到
 				req2={'username': store.get('username'),
 					 'limit':1,
