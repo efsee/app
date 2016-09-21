@@ -482,7 +482,7 @@ header .mui-title { color: #333; }
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
 		      			////console.log(JSON.stringify(!bank_res.status));
-		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
+		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank||bank_res.status==2){//已经实名认证但没有绑定银行卡
 		 					res.bank=bank_res.bank;
 	      					res.account=bank_res.account;
 		 					
@@ -516,8 +516,6 @@ header .mui-title { color: #333; }
       			}
       			
       		})
-      		
-      		
       		//完成提交
       		$(document).on('tap','#card-btn',function(e){
       			e.stopPropagation();
@@ -607,6 +605,10 @@ header .mui-title { color: #333; }
 											}	
 						 					//return false;
 						 				}
+						 				else if(bank_res.status==2){
+						 					plus.nativeUI.toast("认证审核中，请稍后...")
+						 					return false;
+						 				}
 						 				else{//need to do
 					 						////console.log(JSON.stringify(bank_res))
 						 					$("#bank_id").val(bank_res.account);
@@ -684,9 +686,6 @@ header .mui-title { color: #333; }
 							      			$("#acct_name").val($('.realname').val());
 							      			var no_order=fRandomBy(1000, 9999)+ "00504" +user.uid()+ fRandomBy(1000, 9999);
 							      			$('#no_order').val(no_order);
-							      			
-							      			
-				      						
 							      			////console.log($('#user_id').val())
 							      			risk_item = {};
 							  				risk_item.frms_ware_category = "2009";
@@ -709,6 +708,10 @@ header .mui-title { color: #333; }
 						    		});
 								}		
 			 					//return false;
+			 				}
+			 				else if(bank_res.status==2){
+			 					plus.nativeUI.toast("认证审核中，请稍后...")
+			 					return false;
 			 				}
 			 				else{//实名且绑定银行卡
 			 					//openLayer开始
