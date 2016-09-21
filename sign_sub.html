@@ -44,12 +44,20 @@
 		   		<li class="mui-table-view-cell" style="padding-top:6px;padding-bottom: 6px;">
 					<div class="mui-table">
 					    <div class="mui-table-cell mui-col-xs-6">
-					        <h4 style="font-size: 16px;line-height:23px;">已签到</h4>
+					    	{{if item.type=="sign_reward"}}
+					    	<h4 style="font-size: 16px;line-height:23px;">签到奖励</h4>
+					    	{{else}}
+					    	<h4 style="font-size: 16px;line-height:23px;">已签到</h4>
+					    	{{/if}}
 					        <h5 style="line-height: 23px;">{{item.addtime | dateFormat:'yyyy-MM-dd'}}</h5>
 					    </div>
 						<div class="mui-table-cell mui-col-xs-6 mui-text-right">
-							<h4 class="c5" style="font-size: 16px;line-height:23px ;">+{{item.value}}</h4>	
-					        <h5 style="line-height: 23px;">签到积分</h5> 
+							<h4 class="c5" style="font-size: 16px;line-height:23px ;">+{{item.value}}</h4>
+							{{if item.type=="sign_reward"}}
+					    	<h5 style="line-height: 23px;">奖励积分</h5> 
+					    	{{else}}
+					    	<h5 style="line-height: 23px;">签到积分</h5> 
+					    	{{/if}}
 					    </div>
 					</div>
 				</li>
