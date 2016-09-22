@@ -52,7 +52,8 @@
 
 <script id="tpl-item" type="text/html">
 	{{each list as item i}}
-   		<li class="mui-table-view-cell">
+		{{if item.status!=0}}
+		<li class="mui-table-view-cell">
 			<div class="mui-table">
 			    <div class="mui-table-cell mui-col-xs-6">
 			        <h4>+{{item.money}}</h4>
@@ -75,6 +76,7 @@
 			    </div>
 			</div>
 		</li>
+	    {{/if}}
 	{{/each}}
 </script>
 
