@@ -209,7 +209,9 @@
 									    	initNativeObjects();
 		   									showSoftInput();
 									    	var $input = $(".fake-box input");  
-									        $("#pwd-input").on("input", function() {  
+									    	j=0;
+									        $("#pwd-input").on("input", function() { 
+									        	j++
 									            var pwd = $(this).val().trim();  
 									            for (var i = 0, len = pwd.length; i < len; i++) {  
 									                $input.eq("" + i + "").val(pwd[i]);  
@@ -221,7 +223,7 @@
 									                }  
 									            });  
 									            console.log($(this).val());
-									            if (len >=6) {
+									            if (j==6) {
 									            	paypassword=$(this).val()
 									            	console.log("我的密码是："+$(this).val());
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};

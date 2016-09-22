@@ -206,7 +206,7 @@ header .mui-title { color: #333; }
 
 
 </form>
-<div class="recharge-foot" id="recFotId">
+<div class="recharge-foot" style="position: relative;margin-top:20px" id="recFotId">
 	<a data-href="recharge_qaq.html"><i class="footer-ico"></i>充值常见问题</a>
 </div>
 </div>
@@ -506,7 +506,7 @@ header .mui-title { color: #333; }
 		      					
 		      				})
 		      				$(".money_order").blur(function(){
-		      					$("#recFotId").css("position","absolute")
+		      					//$("#recFotId").css("position","absolute")
 		      					//console.log(document.querySelector("body").offsetHeight);
 		      				})
 		      				returnXe()
@@ -738,8 +738,10 @@ header .mui-title { color: #333; }
 										success:function(layero, index){
 											initNativeObjects();
 						   					showTcInput();
-						   					var $input = $(".fake-box input");  
+						   					var $input = $(".fake-box input"); 
+						   					j=0;
 									        $("#pwd-input").on("input", function() {  
+									        	j++
 									            var pwd = $(this).val().trim();  
 									            for (var i = 0, len = pwd.length; i < len; i++) {  
 									                $input.eq("" + i + "").val(pwd[i]);  
@@ -751,7 +753,7 @@ header .mui-title { color: #333; }
 									                }  
 									            });  
 									            console.log($(this).val());
-									            if (len >=6) {
+									            if (j==6) {
 									            	//paypassword=$(this).val()
 									            	console.log("我的密码是："+$(this).val());
 											    	paypassword=$.md5($(this).val());

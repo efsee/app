@@ -62,7 +62,7 @@
 					    </div>
 						<div class="mui-table-cell mui-col-xs-6 mui-text-right">
 							{{if item.status==3}}
-							<h4 style="font-size: 16px;">审核中</h4>
+							<h4 style="font-size: 16px;">处理中</h4>
 							{{else if item.status==2}}
 							<h4 style="font-size: 16px;">提现失败</h4>
 							{{else if item.status==1}}
@@ -158,7 +158,7 @@
 			});
 	//			
 			function getdata(page){	
-				request = {'user_id':user.uid(),'epage':10};
+				request = {'user_id':user.uid(),'epage':10,'style':'new'};
 				request.page = page;
 				account.GetCashList({'request':request},function(res){//$data和回调函数
 					console.log(JSON.stringify(res));

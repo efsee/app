@@ -504,8 +504,10 @@
 							    success:function(layero, index){
 										//initNativeObjects();
    										showTcInput();
-   										var $input = $(".fake-box input");  
-								        $("#pwd-input").on("input", function() {  
+   										var $input = $(".fake-box input"); 
+   										j=0
+								        $("#pwd-input").on("input", function() { 
+								        	j++
 								            var pwd = $(this).val().trim();  
 								            for (var i = 0, len = pwd.length; i < len; i++) {  
 								                $input.eq("" + i + "").val(pwd[i]);  
@@ -516,13 +518,14 @@
 								                    $(this).val("");  
 								                }  
 								            });  
-								           // console.log($(this).val());
-								            if (len >=6) {
+								            console.log(len);
+								            if (j==6) {
+								            
 										    	paypassword=$.md5($(this).val());	
 												if(paypassword==upayWord){
 													console.log("密码正确")
 													borrow.tender(request,function(res){
-													//console.log(JSON.stringify(res));
+													console.log(8+JSON.stringify(res));
 													plus.nativeUI.showWaiting();
 													if(res.status == 1){
 														//alert("投标成功");
