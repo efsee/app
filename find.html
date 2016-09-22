@@ -203,7 +203,7 @@ mui.plusReady(function(){
 								});
 								
 								store.set('diffrent', 1, res.time);	//标志暂存时间30秒
-								var btnArray = ['取    消', '立即更新'];
+								var btnArray = ['取消','立即更新'];
 								mui.confirm(content,res.title, btnArray, function(e){
 									if (e.index == 1) {
 										/*if(plus.os.name=='iOS'){
@@ -225,7 +225,7 @@ mui.plusReady(function(){
 								$.each(res.content, function(i, item) {
 									content+='\r\n'+item;
 								});
-								mui.alert(content,'1.7.0 版本更新','关闭')
+								mui.alert(content,res.version+' 版本更新','关闭')
 							}
 						}
 						
