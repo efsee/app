@@ -213,7 +213,7 @@ p.price span.small{
 			<p>项目期限</p>
 		</li>
 		<li>
-			<p>满标后计息</p>
+			<p>满标即计息</p>
 			<p>计息方式</p>
 		</li>
 		<li>
@@ -300,19 +300,14 @@ p.price span.small{
 			getdata(wddata);
 		});
 		mui('body').on('tap','#tzjl',function(e){
-				var data = this.getAttribute('data');
-				console.log(data);
-				edata = JSON.parse(data);
-//				data = eval("(" + data + ")");
-					var detailWV = plus.webview.create('tzjl.html','tzjl-borrow');
-					detailWV.setStyle({ 'popGesture': 'close' })
-					detailWV.addEventListener('loaded',function(){
-						mui.fire(detailWV,"mui.view.show",edata);
-					})
-					
-					setTimeout(function(){
-						detailWV.show('slide-in-right',150);
-					},300);
+			var data = this.getAttribute('data');
+			console.log(data);
+			edata = JSON.parse(data);
+			mui.openWindow({url:'tzjl.html', id:'tzjl.html',styles:{popGesture:'close'},show:{autoShow:true,aniShow:'slide-in-right'},waiting:{autoShow:false}});
+			var detailWV = plus.webview.getWebviewById('tzjl.html');
+			detailWV.addEventListener('loaded',function(){
+				mui.fire(detailWV,"mui.view.show",edata);
+			})
 		})
 		
 		mui("body").on('tap','#ACWY',function(e){

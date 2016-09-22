@@ -38,19 +38,19 @@
     	<div class="ui_wrap_cell">
        <ul class="ui_item_cell find-top">
 		   		<li>
-		   			<a href="notice.html" open-type="common" class="tap" data='{"title":"消息通知"}'>		
+		   			<a open-type="common" class="tap" data='{"title":"消息通知","href":"notice.html"}'>		
 		   				<span class="icon_news"></span>
 		   				<p>消息通知</p>					
 		   			</a>
 		   		</li>
 		  	    <li>
-		   			<a href="active.html" class="tap" data='{"title":"精彩活动"}'>
+		   			<a  class="tap" data='{"title":"精彩活动","href":"active.html"}'>
 		   				<span class="icon_activity"></span>
 		   				精彩活动
 		   			</a>
 		   		</li>
 		   		<li>
-		   			<a href="sxy_article_list.html" class="tap" data='{"title":"聚车商学院"}'>		
+		   			<a class="tap" data='{"title":"聚车商学院","href":"sxy_article_list.html"}'>		
 		   				<span class="icon_College"></span>
 		   				<p>聚车商学院</p>					
 		   			</a>
@@ -60,19 +60,19 @@
 		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
 		   	
 		   		<li class="ui-jcts">
-		   			<a href="guide-show.html" class="tap">
+		   			<a open-type="common" class="tap" data='{"href":"guide-show.html"}'>
 		   				<span class="icon_jcts"></span>
 		   				聚车特色
 		   			</a>
 		   		</li>
 		   			<li>
-		   			<a href="newbie.html" class="tap" data='{"title":"新手指南"}'>
+		   			<a class="tap" data='{"title":"新手指南","href":"newbie.html"}'>
 		   				<span class="icon_mall"></span>
 		   				新手指南
 		   			</a>
 		   		</li>
 		   			<li>
-		   			<a href="security.html" class="tap" data='{"title":"安全保障"}'>
+		   			<a class="tap" data='{"title":"安全保障","href":"security.html"}'>
 		   			   <span class="icon_forum"></span>
 		   				安全保障
 		   			</a>
@@ -82,7 +82,7 @@
 		    
 		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
 		   		<li>
-		   			<a href="xszn.html" class="tap" data='{"title":"帮助中心"}'>
+		   			<a class="tap" data='{"title":"帮助中心","href":"xszn.html"}'>
 		   				 <span class="icon_help"></span>
 		   				帮助中心
 		   			</a>
@@ -95,7 +95,7 @@
 		   		</li>
 		   		
 		   		<li>
-		   			<a href="about.html" class="tap" data='{"title":"关于聚车金融"}'>
+		   			<a class="tap" data='{"title":"关于聚车金融","href":"about.html"}'>
 		   			   <span class="icon_about"></span>
 		   				关于聚车金融
 		   			</a>
@@ -277,12 +277,11 @@ mui.plusReady(function(){
 	
 		
 		mui("body").on('tap','a.tap',function(){
-			
-			var id = this.getAttribute('href');
-			var href = this.href;
+			var data = this.getAttribute('data');
+			data = eval("(" + data + ")");
+			var id = data.href;
+			var href = data.href;
 			var type = this.getAttribute("open-type");
-			//console.log(type);
-			//console.log(22222222);
 			//不使用父子模板方案的页面
 			if (type == "common") {
 				var webview_style = {
@@ -290,7 +289,7 @@ mui.plusReady(function(){
 				};
 				mui.openWindow({
 					id: id,
-					url: this.href,
+					url:href,
 					styles: webview_style,
 					waiting: {
 						autoShow: false
@@ -300,9 +299,9 @@ mui.plusReady(function(){
 				mui.fire(subnews,'initpage');
 			}
 			else{
-				var url = this.getAttribute('href');
-				href = this.href;
-				if(url == "") return;
+				/*var url = this.getAttribute('href');
+				href = this.href;*/
+				if(href == "") return;
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
 				//通知模板修改标题，并显示隐藏右上角图标；
@@ -320,9 +319,7 @@ mui.plusReady(function(){
 				});
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 150);
-			}
-			
-				
+			}		
 		})
 		
 		
