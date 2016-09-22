@@ -42,7 +42,7 @@
 	</head>
 	<body>
 		<div class="mui-content" style="background-color: #fff;" >
-			<div id="pullrefresh" class="mui-content mui-scroll-wrapper" >
+			<div  class="mui-content mui-scroll-wrapper" >
 				<div class="mui-scroll" style="top: 0;bottom: -55px;background-color: #fff;">
 				    <div class="integral-main" style="background-color: #fff;">      
 				    	<div class="integral-fen">
@@ -112,9 +112,10 @@
 					}
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();//refresh completed
 				})		
-			}	
+			}
 			mui.plusReady(function(){
-				mui('#pullrefresh').pullRefresh().pulldownLoading();
+				pulldownRefresh()
+				//mui('#pullrefresh').pullRefresh().pulldownLoading();
 				document.addEventListener("top-right-btn",function(){
 					mui.openWindow({
 						url:'sign.html',
