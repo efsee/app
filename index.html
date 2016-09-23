@@ -69,7 +69,7 @@
 	<script>
 		mui.plusReady(function(){
 			//先执行welcome
-			if(!plus.storage.getItem('welcome'))
+			if(!plus.storage.getItem('welcome17'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
@@ -96,7 +96,7 @@
 										content+='\r\n'+item;
 									});
 									console.log(content);
-									store.set('diffrent', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent17', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -140,7 +140,7 @@
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent')){
+				if(!store.get('diffrent17')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
