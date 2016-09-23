@@ -52,7 +52,7 @@
 
 <script id="tpl-item" type="text/html">
 	{{each list as item i}}
-		{{if item.status!=0}}
+		{{if item.status==1}}
 		<li class="mui-table-view-cell">
 			<div class="mui-table">
 			    <div class="mui-table-cell mui-col-xs-6">
@@ -67,16 +67,31 @@
 					{{else}}
 			        <h4 style="font-size: 16px;">{{item.payment_name}}</h4>
 			        {{/if}}
-					{{if item.status==2}}
-					<h5 style="line-height: 25px;">充值失败</h5>
-				    {{/if}}
-				    {{if item.status==1}}
 					<h5 style="line-height: 25px;">充值成功</h5>
-				    {{/if}}
 			    </div>
 			</div>
 		</li>
-	    {{/if}}
+		{{/if}}
+		{{if item.status==2}}
+		<li class="mui-table-view-cell">
+			<div class="mui-table">
+			    <div class="mui-table-cell mui-col-xs-6">
+			        <h4 style="color: #999;">+{{item.money}}</h4>
+			        <h5 style="line-height: 25px;color:#CCCCCC;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
+			    </div>
+				<div class="mui-table-cell mui-col-xs-6 mui-text-right">
+					{{if item.payment==99}}
+					<h4 style="font-size: 16px;color: #999;">连连支付</h4>
+					{{else if item.payment_name==null}}
+					<h4 style="font-size: 16px;color: #999;">手动支付</h4>
+					{{else}}
+			        <h4 style="font-size: 16px;color: #999;">{{item.payment_name}}</h4>
+			        {{/if}}
+					<h5 style="line-height: 25px;color:#CCCCCC;">充值失败</h5>
+			    </div>
+			</div>
+		</li>
+		{{/if}}
 	{{/each}}
 </script>
 
