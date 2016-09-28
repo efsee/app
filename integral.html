@@ -131,6 +131,15 @@
 						waiting:{autoShow:false}
 					});
 				})
+				mui('body').on('tap','.integral-zong',function(e){
+					mui.openWindow({
+						url:'sign.html',
+						id:'sign.html',
+						styles:{popGesture:'close'},
+						show:{autoShow:true,aniShow:'slide-in-right'},
+						waiting:{autoShow:false}
+					});	
+				})
 				mui('body').on('tap','.integral-botton',function(e){
 					//console.log(JSON.stringify(res))
 					e.stopPropagation()
