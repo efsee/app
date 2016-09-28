@@ -60,10 +60,11 @@
 		<script>
 			mui.init({
 				pullRefresh: {
-					container: '#pullrefresh',
-					down: {	 
+					container: '#pullrefresh'
+					//针对华为手机
+					/*down: {	 
 						callback: pulldownRefresh
-					}
+					}*/
 				}
 			});
 			/**
@@ -95,8 +96,12 @@
 				};
 				credit.GetLogList({'request':req2},function(res){
 					console.log(JSON.stringify(res))
-					var nowDate=new Date().getTime()
-					var remainDate=nowDate-nowDate%86400000
+					//var nowDate=1475040300000+28800000
+					var nowDate=new Date().getTime()+28800000
+					console.log(nowDate)
+					console.log(nowDate%86400000)
+					var remainDate=nowDate-nowDate%86400000-28800000
+					console.log(remainDate)
 					if(res==""){
 						$("#getSign").css("display","block")
 						$('.integral-yqd').css("display","none")

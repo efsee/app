@@ -207,10 +207,10 @@
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin:10px 0;"> 
 				<li class="mui-table-view-cell" id="hongbao-offCanvas" style="padding-right: 12px;">
 			        <div class="mui-table">
-			            <div class="mui-table-cell mui-col-xs-6">
+			            <div class="mui-table-cell mui-col-xs-4">
 			            	<span class="name">红包</span>
 			            </div>
-			            <div class="mui-table-cell mui-col-xs-6 mui-text-right">
+			            <div class="mui-table-cell mui-col-xs-8 mui-text-right">
 			                <span class="c5" id="hongbao">未选择</span>
 			                <input type="hidden" name="hmoney" id="hmoney" value="0" />
 			            </div>
@@ -228,7 +228,7 @@
 			{{each list as $item i}}
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right hbNum" data-value="{{$item.id}}-{{$item.money}}" data-id='{{$item.id}}' data-money='{{$item.money}}'>
-						{{$item.money}}元红包
+						{{$item.money}}元红包	&nbsp;&nbsp;<span style="color: #999;font-size: 9px;">{{$item.tday}}过期</span>
 					</a>
 				</li>
 			{{/each}}
@@ -312,14 +312,15 @@
 				hbrequest = {'user_id': user.uid()};
 				hbrequest.status = 1;
 				user.GetHongbao({'request':hbrequest},function(res){
-					//console.log(JSON.stringify(res));					
+					console.log("hb"+JSON.stringify(res));					
 					var html = template('tpl-hongbao-item',res);
 					document.getElementById("hongbaolist").innerHTML = html;
 				})
 				//选择红包显示
 				mui("#hongbaolist").on('tap','a', function(e){
 					$("#hmoney").val(this.getAttribute('data-value'));
-					$("#hongbao").html(this.innerText);
+					$("#hongbao").html(this.innerHTML);
+					$("#hongbao span").css("font-size","14px");
 					offCanvasWrapper.offCanvas('close');
 				})
 				//显示右滑菜单
