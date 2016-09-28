@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>聚车金融</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+		<style>
+			.clear{
+				clear: both;
+			}
+			.user-info{
+				background: #fff;
+			}
+			.user-info li{
+				color: #333;
+				text-align:center;
+				float: left;
+				width:25%;
+				padding:15px 0;
+			}
+			.user-info li:first-child{
+				width: 50%;
+			}
+			.info-item p:first-child{
+				height:25px;
+				line-height: 25px;
+				font-size: 28px;
+			}
+			.info-item p:last-child{
+				color: #333;
+				height:25px;
+				line-height: 25px;
+				font-size: 14px;
+			}
+			.user-login{
+				line-height: 50px;
+				font-size: 16px;
+			}
+			.product-box{
+				background-color: #fff;
+			}
+			.product-floor h4{
+				font-size: 14px;
+				line-height: 35px;
+				background: pink;
+			}
+			.product-floor .product-detail{
+				position: relative;
+				text-align: center;
+				float: left;
+				width: 50%;
+			}
+			.product-floor .product-detail:first-child:after{
+				content: "";
+				position: absolute;
+				width: 1px;
+				height: 100%;
+				transform:scaleX(.5);
+				-webkit-transform: scaleX(.5);
+				right: 0;
+				top: 0;
+				background-color: #999;
+			}
+			.product-floor .product-detail .product-img{
+				height:120px;
+			}
+			.product-floor .product-detail p{
+				text-align: left;
+				padding-left: 10px;
+				color: #333;
+			}
+			.product-floor .product-detail img{
+				height: 120px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<a id="top_right_btn" class="mui-pull-right" style="display: block;font-size: 14px;line-height: 45px;">规则</a>
+			<h1 id="title" style="color：#333;" class="mui-title">积分商城</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="user-info">
+					<!--<li class="info-item user-integral">
+						<p class="c5">200</p>
+						<p>我的积分</p>
+					</li>-->
+					<li class="info-item ">
+						<a class="user-login c5">登录/注册</a>
+					</li>
+					<li class="info-item change-list">
+						<p>200</p>
+						<p>兑换记录</p>
+					</li>
+					<li class="info-item ship-address">
+						<p>200</p>
+						<p>收货地址</p>
+					</li>
+					<div class="clear"></div>
+				</ul>
+				
+				<div class="product-box">
+					<div class="product-floor">
+						<h4>特价专区</h4>
+						<ul>
+							<li class="product-detail" data='{"url":"","title":"",id:""}'>
+								<div class="product-img">
+									<img src="images/ewm.jpg" />
+								</div>
+								<p class="product-title">name</p>
+								<p class="product-integral">积分：<span>integral</span></p>
+								<p class="product-price">市场价：￥<span>price</span></p>
+								<p class="product-number">当期库存：<span>number</span>件</p>
+							</li>
+							<li class="product-detail" data='{"url":"","title":"",id:""}'>
+								<div class="product-img">
+									<img src="images/ewm.jpg" />
+								</div>
+								<p class="product-title">name</p>
+								<p class="product-integral">积分：<span>integral</span></p>
+								<p class="product-price">市场价：￥<span>price</span></p>
+								<p class="product-number">当期库存：<span>number</span>件</p>
+							</li>
+							<div class="clear"></div>
+						</ul>
+					</div>
+					<div class="product-floor">
+						<h4>聚车专区</h4>
+						<ul>
+							<li class="product-detail" data='{"url":"","title":"",id:""}'>
+								<div class="product-img">
+									<img src="images/ewm.jpg" />
+								</div>
+								<p class="product-title">name</p>
+								<p class="product-integral">积分：<span>integral</span></p>
+								<p class="product-price">市场价：￥<span>price</span></p>
+								<p class="product-number">当期库存：<span>number</span>件</p>
+							</li>
+							<li class="product-detail" data='{"url":"","title":"",id:""}'>
+								<div class="product-img">
+									<img src="images/ewm.jpg" />
+								</div>
+								<p class="product-title">name</p>
+								<p class="product-integral">积分：<span>integral</span></p>
+								<p class="product-price">市场价：￥<span>price</span></p>
+								<p class="product-number">当期库存：<span>number</span>件</p>
+							</li>
+							<div class="clear"></div>
+						</ul>
+					</div>
+				</div>
+					
+				
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>
