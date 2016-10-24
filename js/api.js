@@ -1,13 +1,13 @@
 ﻿var utoken, uid;
 var host = 'http://test.ifcar99.com/';
 var apiurl = 'http://test.ifcar99.com/api.php';
+var apiurl_new = 'http://apitest.ifcar99.com/api.php';
 var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
 var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
 //var host = 'http://192.168.1.10/';
 
 var appinfo = {};
-
 mui.plusReady(function() {
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 		//appid属性
@@ -336,6 +336,10 @@ var user = {
 		var url = apiurl + '?module=user&action=setpaypwd';
 		ajax.post(url, $data, callback);
 	},
+	"modifypaypwd" : function($data, callback){
+		var url = apiurl + '?module=user&action=modifypaypwd';
+		ajax.post(url, $data, callback);
+	},
 //	"loginbbs" : function($data, callback){
 //		var url = apiurl + '?module=user&action=loginbbs';
 //		ajax.post(url, $data, callback);
@@ -566,7 +570,15 @@ var articles = {
 	"GetAdBox" : function($data, callback){
 		var url = apiurl + '?module=articles&action=GetAdBox';
 		ajax.post(url, $data, callback);
-	}	
+	},
+	"GetNoticeStatus" : function($data, callback){
+		var url = apiurl + '?module=articles&action=GetNoticeStatus';
+		ajax.post(url, $data, callback);
+	},
+	"SetNoticeStatus" : function($data, callback){
+		var url = apiurl + '?module=articles&action=SetNoticeStatus';
+		ajax.post(url, $data, callback);
+	}
 }
 
 var credit = {
@@ -585,7 +597,7 @@ var credit = {
 	"GetTypeCount" : function($data, callback){
 		var url = apiurl + '?module=credit&action=GetTypeCount';
 		ajax.post(url, $data, callback);
-	},
+	}
 }
 var closePhone = {
 	"GetPhoneChargeStatus" : function($data, callback){
@@ -593,6 +605,87 @@ var closePhone = {
 		ajax.post(url, $data, callback);
 	}
 }
+
+//使用新api
+var goods = {
+	"GetGoodsList" : function($data, callback){
+		var url = apiurl_new + '/goods/lists';
+		ajax.post(url, $data, callback);
+	},
+	"GetGoodsZoneList" : function($data, callback){
+		var url = apiurl_new + '/goods/zone/lists';
+		ajax.post(url, $data, callback);
+	},
+	"GetGoodsDetail" : function($data, callback){
+		var url = apiurl_new + '/goods/get';
+		ajax.post(url, $data, callback);
+	}
+}
+
+//用户
+var newUser = {
+	"login" : function($data, callback){
+		var url = apiurl_new + '/user/login';
+		ajax.post(url, $data, callback);
+	},
+	"get" : function($data, callback){
+		var url = apiurl_new + '/user/get';
+		ajax.post(url, $data, callback);
+	}
+	
+}
+//地址
+var address={
+	"Getlists" : function($data, callback){
+		var url = apiurl_new + '/address/lists';
+		ajax.post(url, $data, callback);
+	},
+	"AddAddress": function($data, callback){
+		var url = apiurl_new + '/address/add';
+		ajax.post(url, $data, callback);
+	},
+	"DelAddress": function($data, callback){
+		var url = apiurl_new + '/address/delete';
+		ajax.post(url, $data, callback);
+	},
+	"UpdateAddress": function($data, callback){
+		var url = apiurl_new + '/address/update';
+		ajax.post(url, $data, callback);
+	}
+	
+}
+//新积分
+var newCredit = {
+	"GetLogList" : function($data, callback){
+		var url = apiurl_new + '/credit/log/lists';
+		ajax.post(url, $data, callback);
+	},
+	"CreditEnough" : function($data, callback){
+		var url = apiurl_new + '/credit/enough';
+		ajax.post(url, $data, callback);
+	},
+	"GetTotal" : function($data, callback){
+		var url = apiurl_new + '/credit/get';
+		ajax.post(url, $data, callback);
+	}
+}
+//兑换订单
+var order = {
+	"GetLogList" : function($data, callback){
+		var url = apiurl_new + '/order/lists';
+		ajax.post(url, $data, callback);
+	},
+	"Add" : function($data, callback){
+		var url = apiurl_new + '/order/add';
+		ajax.post(url, $data, callback);
+	},
+	"Get" : function($data, callback){
+		var url = apiurl_new + '/order/get';
+		ajax.post(url, $data, callback);
+	}
+}
+
+
 var system = {
 	'get': function(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -667,3 +760,30 @@ var system = {
 		return isjson;
 	}
 }
+var functionCom = {
+	checkToken : function(callback){
+		//判断异地登录
+	newUser.get({"token":user.utoken()},function(res){
+		console.log("验证"+JSON.stringify(res))
+		if(res.error_no==401){
+			$("input").blur();
+			user.logout({},function(res){
+				console.log('logout');
+				mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+					if (e.index == 0) {
+						//return false;
+						login();
+						//mui.fire(plus.webview.getLaunchWebview(),'gohome');
+					}
+				})
+			});	
+		}else{
+		}
+		callback(res)
+	})//结束*/
+	}	
+}
+
+
+
+

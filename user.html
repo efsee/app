@@ -120,22 +120,22 @@
 								<div class="mui-media-body">个人中心</div>
 							</a>
 						</li>
-						<li id="mytz" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new">
+						<li id="mytz" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 						<a href="user/hkjl.html" class="hkjl tap" data='{"title":"回款记录"}'>
 								<span class="icon icon-tz"></span>
 								<div class="mui-media-body">回款记录</div>
 							</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">			
-							<a href="user/zjjl.html" class="tap" data='{"title":"资金明细"}'>
+							<a href="user/zjjl.html" id="zjmx" data='{"title":"资金明细"}'>
 								<span class="icon icon-zd"></span>
 								<div class="mui-media-body">资金明细</div>
 							</a>
 						</li>
-						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-						   <a href="mortgage.html" class="tap" data='{"title":"我要按揭"}' >
-								<span class="icon icon-aj"></span>
-								<div class="mui-media-body">我要按揭</div>
+						<li id='jfMall' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new-jf">
+						<a href="integral_mall.html" class="tap" data='{"title":"积分商城","right_btn":"规则"}'>
+								<span class="icon icon-hdjf"></span>
+								<div class="mui-media-body">积分商城</div>
 							</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
@@ -151,19 +151,19 @@
 							</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-						<a href="#"  id="click_dialog2" data='{"title":"积分兑换"}'>
-								<span class="icon icon-hdjf"></span>
-								<div class="mui-media-body">积分兑换</div>
+						   <a href="mortgage.html" class="tap" data='{"title":"我要按揭"}' >
+								<span class="icon icon-aj"></span>
+								<div class="mui-media-body">我要按揭</div>
 							</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
 						<a href="#" id="click_dialog3" data='{"title":"免费电话"}'>
 								<span class="icon icon-dh"></span>
-								<div class="mui-media-body">免费电话</div>
+								<div class="mui-media-body">体验金</div>
 							</a>
 						</li>
 					
-						<li id='llcz' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new-l">
+						<li id='llcz' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 						   <a href="phone-charge.html" class="phonecharge" data='{"title":"手机充值"}' >
 								<span class="icon icon-cz"></span>
 								<div class="mui-media-body">手机充值</div>
@@ -191,14 +191,18 @@
 			});
 			
 			mui.plusReady(function(){
-				$('#mytz').removeClass('user-new');
-				$('#llcz').removeClass('user-new-l');
-				
-				if(!store.get('mytzopen')){
-					$('#mytz').addClass('user-new');
+				if(user.utoken()){
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							
+						}
+					})	
 				}
-				if(!store.get('llczopen')){
-					$('#llcz').addClass('user-new-l');
+				$('#jfMall').removeClass('user-new-jf');
+				if(!store.get('myjfopen')){
+					$('#jfMall').addClass('user-new-jf');
 				}
 				mui.preload({
 					url:'user/hkjl.html',
@@ -207,30 +211,25 @@
 					}
 				});
 				document.getElementById("zzck").addEventListener('tap', function() {
-					mui.openWindow({
-						url:"zcmx.html",
-						id:"zcmx.html",
-						styles:{
-							"popGesture":"close"
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							mui.openWindow({
+								url:"zcmx.html",
+								id:"zcmx.html",
+								styles:{
+									"popGesture":"close"
+								}
+							})
+							var zcmx = plus.webview.getWebviewById('zcmx.html');
+							zcmx.addEventListener('loaded',function(){
+								mui.fire(zcmx,'initpage',{	
+								});
+							});
 						}
 					})
-					var zcmx = plus.webview.getWebviewById('zcmx.html');
-					zcmx.addEventListener('loaded',function(){
-						mui.fire(zcmx,'initpage',{	
-						});
-					});
 				})
-				document.getElementById("click_dialog2").addEventListener('tap', function() {
-					var btnArray = ['确定'];
-					mui.confirm(' ','敬请期待...', btnArray, function(e) {
-						if (e.index == 1) {
-		//						window.location.href = 'weixin:WXSceneSession';	
-							return false;
-						} else {
-							return false;
-						}
-					})
-				});	
 					
 				document.getElementById("click_dialog3").addEventListener('tap', function() {
 					var btnArray = ['确定'];
@@ -243,9 +242,7 @@
 						}
 					})
 				});
-		
 				getdata();
-		
 				plus.webview.currentWebview().setStyle({scrollIndicator:"none"});
 				var template = getTemplate('usertemplate', 'template.html');
 				mui("body").on('tap','a.phonecharge',function(){
@@ -262,17 +259,25 @@
 							if(that.classList.contains('noopen')){
 								return;
 							}
-							mui.openWindow({
-								url:'phone-charge.html', 
-								id:'phone-charge.html',
-								styles:{popGesture:'close'},
-								show:{autoShow:true,aniShow:'slide-in-right'},
-								waiting:{autoShow:false}
-							});
-							var phonecharge = plus.webview.getWebviewById('phone-charge.html');
-							phonecharge.addEventListener('loaded',function(){
-								mui.fire(phonecharge,'initpage')	
-							});
+							
+							//判断异地登录
+							functionCom.checkToken(function(res){
+								//console.log(res.error_no)
+								if(res.error_no!=401){
+									mui.openWindow({
+										url:'phone-charge.html', 
+										id:'phone-charge.html',
+										styles:{popGesture:'close'},
+										show:{autoShow:true,aniShow:'slide-in-right'},
+										waiting:{autoShow:false}
+									});
+									var phonecharge = plus.webview.getWebviewById('phone-charge.html');
+									phonecharge.addEventListener('loaded',function(){
+										mui.fire(phonecharge,'initpage')	
+									});	
+								}
+							})
+							
 						}else{
 							console.log(JSON.stringify(res))
 							mui.alert(res.msg)
@@ -286,6 +291,7 @@
 						login();
 						return;
 					}
+					
 					if(this.classList.contains('noopen')){
 						return;
 					}
@@ -311,53 +317,82 @@
 						showMenu: false,
 						right_btn:right_btn
 					});
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							headerWebview.show('slide-in-right', 150);
+						}
+					})//结束	
 					mui.fire(headerWebview, 'loading');
-					headerWebview.show('slide-in-right', 150);
-					//监听侧滑稍显卡顿
-					/*headerWebview.addEventListener( "popGesture", function(e){
-						var indexSubSx=headerWebview.opener()
-						mui.fire(indexSubSx,"initpage")
-					}, false );*/
 						
 				})
 				document.getElementById("turnWithdraw").addEventListener("tap",function(e){
-					mui.openWindow({
-						url:"withdraw_header.html",
-						id:"withdraw_header.html",
-						styles:{
-							"popGesture":"close"
+					uid = user.uid();
+					if(!uid){
+						login();
+						return;
+					}
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							mui.openWindow({
+								url:"withdraw_header.html",
+								id:"withdraw_header.html",
+								styles:{
+									"popGesture":"close"
+								}
+							})
+							withdrawDel=plus.webview.getWebviewById("withdraw_header.html")
+							withdrawDel.addEventListener( "popGesture", function(e){
+								var indexSubSx=withdrawDel.opener()
+								mui.fire(indexSubSx,"initpage")
+							}, false );
+							mui.fire(withdrawDel,"initpage")
+							
 						}
-					})
-					withdrawDel=plus.webview.getWebviewById("withdraw_header.html")
-					withdrawDel.addEventListener( "popGesture", function(e){
-						var indexSubSx=withdrawDel.opener()
-						mui.fire(indexSubSx,"initpage")
-					}, false );
-					mui.fire(withdrawDel,"initpage")
+					})	//结束
 				})
 				document.getElementById("recharge").addEventListener('tap',function(e){
-					//console.log("recharge");
-					mui.openWindow({
-						'url':'w_recharge.html','id':'w_recharge.html', 
-						'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
-						'show':{'autoShow':true},'waiting':{'autoShow':false}
-					});
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							mui.openWindow({
+								'url':'w_recharge.html','id':'w_recharge.html', 
+								'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
+								'show':{'autoShow':true},'waiting':{'autoShow':false}
+							});
+						}
+					})//结束
+					
 				})
+				document.getElementById("zjmx").addEventListener('tap',function(e){
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						if(res.error_no!=401){
+							mui.openWindow({
+								'url':'user/zjjl.html','id':'zjjl.html', 
+								'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
+								'show':{'autoShow':true},'waiting':{'autoShow':false}
+							});
+						}
+					})//结束
+					
+				})
+				
 				document.addEventListener('mui.view.refresh',function(){
 					getdata();
 				},false);
 			})
 			
 			document.addEventListener('initpage',function(e){
-				//console.log("shuaxin")
-				mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
-				$('#mytz').removeClass('user-new');
-				$('#llcz').removeClass('user-new-l');	
-				if(!store.get('mytzopen')){
-					$('#mytz').addClass('user-new');
-				}
-				if(!store.get('llczopen')){
-					$('#llcz').addClass('user-new-l');
+
+				mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
+				$('#jfMall').removeClass('user-new-jf');
+				if(!store.get('myjfopen')){
+					$('#jfMall').addClass('user-new-jf');
 				}
 				mui("body").on('tap','#mytz',function(){
 					store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
@@ -365,13 +400,16 @@
 				mui("body").on('tap','#llcz',function(){
 					store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
+				mui("body").on('tap','#jfMall',function(){
+					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
+				})
 				getdata();
 				//console.log("as")
 				/*request = {};
 				request.user_id = user.uid();*/
 			},false);
 			
-			function getdata(){	
+			function getdata(){
 				user.getInfo(function(res){
 					if(res){
 		//				console.log(JSON.stringify(res));

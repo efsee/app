@@ -79,9 +79,14 @@ header .mui-title { color: #333; }
                 </p>
             </div>
             <div class="mui-table-cell mui-col-xs-4 mui-text-right">
-                <span class="mui-h5">
+                <!--<span class="mui-h5">
                 	<font style="font-size: 18px;" color="#FF0000">￥{{item.account | toFixed}}</font>
-                </span>
+                </span>-->
+                <h4 class="mui-ellipsis" style="font-size: 18px; color:#FF0000;">￥{{item.account | toFixed}}</h4>
+                {{if item.hbagmoney!="0"}}
+                	<h5 style="padding-left: 2px;">已使用<span class="c5">{{item.hbagmoney}}元</span>红包</h5>
+                {{/if}}
+                
             </div>
         </div>
     </li>

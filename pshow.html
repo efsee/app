@@ -385,6 +385,7 @@ p.price span.small{
 			login();
 			return;
 		}
+		//functionCom.checkToken()
 		scale = parseFloat(this2.getAttribute('data-scale'));
 		if(scale >= 100){
 			alert("此标的投资已满！");
@@ -396,9 +397,16 @@ p.price span.small{
 			detailWV = plus.webview.create('ljtz.html','ljtz.html');
 			detailWV.setStyle({ 'popGesture': 'close' })
 		}
-		setTimeout(function(){
-			detailWV.show('slide-in-right',150);
-		},150);
+		//判断异地登录
+		functionCom.checkToken(function(res){
+			//console.log(res.error_no)
+			if(res.error_no!=401){
+				setTimeout(function(){
+					detailWV.show('slide-in-right',150);
+				},150);
+			}
+		})//结束	
+		
 		detailWV.addEventListener( "loaded", function(){
 			//mui.fire(detailWV,"ljtzId",wddata);
 			plus.nativeUI.closeWaiting()

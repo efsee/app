@@ -39,17 +39,26 @@
     	.form-txt{ padding: 0px; padding: 18px 0px; font-size: 18px;width: 60%;}
     	.btn.Large{ margin-top: 10px; height: 45px; line-height: 45px; background: #f95453; } 
     	.btn.Large:hover{ background: #e4393c}
-    	.recharge-foot{ margin: 0 auto;
+    	.recharge-foot{ text-align: center; 			
+				width: 120px;
+				margin:0 auto;
+				margin-top: 30px;
+				height: 35px;	
+    				
+				}
+		.android-recharge-foot{
+				margin: 0 auto;
 				text-align: center; 			
 				width: 120px;
-				padding-top: 10px;
+				margin-top: 20px;
 				height: 35px;				
 				position:absolute;
 				bottom: 10%;
 				left: 50%;
 				margin-left: -60px;
 				overflow: hidden;			
-				}
+
+		}
 		.recharge-foot a{font-size: 14px;
 						color: #656565;
 						
@@ -116,7 +125,7 @@
 		</ul>
 		<input type="hidden" name="bank_id" id="bank_id" value="" />
 		<input type="hidden" name="bank" id="bank" value="" />
-		<div class="recharge-foot" id="recFotId">
+		<div class="recharge-foot android-recharge-foot" id="recFotId">
 			<a class="txPro" data-href="txPro.html"><i class="footer-ico"></i>提现常见问题</a>
 		</div>
 	</div>
@@ -192,6 +201,9 @@
 			/*document.addEventListener('initpage',function(e){
 				plus.webview.currentWebview().reload(true)
 			})*/
+			if(plus.os.name=="Android"){
+				$(".recharge-foot").removeClass("android-recharge-foot")
+			}
       		request = {"user_id":user.uid()};
       		account.GetUsersBankOne({'request':request},function(res){
     			console.log(JSON.stringify(res));
@@ -252,6 +264,7 @@
 		/**********忘记密码页面跳转**********/
 		mui("body").on('tap','#wjmm',function(e){
 			layer.close(index)
+			//functionCom.checkToken()
 			e.preventDefault();
 			href=$(this).attr('data-href');
 			inittemplate = getTemplate('template', 'template.html');
@@ -269,7 +282,7 @@
 		});
 		
 		document.getElementById("btn_submit").addEventListener('tap',function(){
-			
+			//functionCom.checkToken()
 			request = {};
 			request.money = $('#money').val();
 			request.bank = $('#bank').val();
@@ -291,7 +304,6 @@
 				alert("提现金额大于可提现金额");
 				return false;
 			}
-			
 			//此处写入弹窗need to do（需要提现api）
 				$(".recharge-foot").css("display","none")
 				money=$('#money').val()
@@ -337,34 +349,40 @@
 			            console.log($(this).val());
 			            if (j==6) {
 			            	//paypassword=$(this).val()
-			            	console.log("我的密码是："+$(this).val());
+			            	//console.log("我的密码是："+$(this).val());
 					    	paypassword=$.md5($(this).val());
 							//if(paypassword==upayWord){
 								
-							console.log("密码正确")
+							//console.log("密码正确")
 							request.paypassword =$(this).val();
-							console.log(JSON.stringify(request));
-							account.cash_new(request, function(res){
-								if(res.status==1){
-									console.log(JSON.stringify(res));
-									$(".recharge-foot").css("position","absolute")
-									closelayer()
-									mui.openWindow({
-										url:"txtj.html",
-										id:"txtj.html",
-										styles:{"aniShow":"slide-in-right",popGesture:'close'},
-										waiting:{"autoShow":false}
-									})
-									mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
-								}else{
-									console.log(JSON.stringify(res));
-									$(".recharge-foot").css("display","block")
-									closelayer()
-									layer.close(index);
-									mui.toast(res.msg)
-								}	
+							//console.log(JSON.stringify(request));
+							//判断异地登录
+							functionCom.checkToken(function(res){
+								//console.log(res.error_no)
+								if(res.error_no!=401){
+									account.cash_new(request, function(res){
+										if(res.status==1){
+											//console.log(JSON.stringify(res));
+											$(".recharge-foot").css("position","absolute")
+											$("input").blur();
+											closelayer()
+											mui.openWindow({
+												url:"txtj.html",
+												id:"txtj.html",
+												styles:{"aniShow":"slide-in-right",popGesture:'close'},
+												waiting:{"autoShow":false}
+											})
+											mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
+										}else{
+											//console.log(JSON.stringify(res));
+											$(".recharge-foot").css("display","block")
+											closelayer()
+											layer.close(index);
+											mui.toast(res.msg)
+										}	
+									})	
+								}
 							})
-
 						}
 					})
 				}
@@ -382,7 +400,7 @@
 				
 		},false);
 	
-	$(document).ready(function(){
+	/*$(document).ready(function(){
 	  $("#money").focus(function(){	       	
 	       	$(".recharge-foot").css("position","relative");
 	       	$(".recharge-foot").css("margin-top","20px");
@@ -391,7 +409,7 @@
 	       $(".recharge-foot").css("position","absolute");
 	         $(".recharge-foot").css("bottom","10%");
 	  });
-	});
+	});*/
 	//安卓bug
 	
 </script>

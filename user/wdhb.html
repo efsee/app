@@ -10,6 +10,69 @@
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
+    <style>
+	    .Red-envelopes{
+	    	margin: 0;
+	    }
+	    .Red-envelopes li{
+	    	margin-top: 20px;
+	    }
+    	.hongbao-num,.hongbao-cond{
+    		margin:0 auto;
+    		width: 94%;
+    		height: 100px;
+    		background-color: #fff;
+    		border-radius: 6px;
+    	}
+    	.hongbao-num img{
+    		display: block;
+    		width: 100%;
+    		height: auto;     
+    	}
+    	.hb-je{
+    		margin-top: 20px;
+    		width: 40%;
+    		float: left;
+    		line-height: 50px;
+    		font-size: 30px;
+    		padding-left: 15px;
+    	}
+    	.hongbao-num h5{
+    		width: 60%;
+    		margin-top: 20px;
+    		float: left;
+    		line-height: 30px;
+    		color: #3B3B3B;
+    		font-size: 18px;
+    	}
+    	.hongbao-num p{
+    		line-height: 20px;
+    		float: left;
+    		color: #b2b2b2;
+    		font-size: 12px;
+    	}
+    	.hongbao-cond{
+    		padding: 0 15px;
+    		margin-top: 2px;
+    		height: 35px;
+    		line-height: 35px;
+    		color: #6b6b6b;
+    	}
+    	.hongbao-cond span,{
+    		color: #6b6b6b;
+    	}
+    	.hongbao-cond a{
+    		color: #6b6b6b;
+    		float: right;
+    	}
+    	.mengban{
+    		position: absolute;
+    		width: 100%;
+    		height: 100%;
+    		background: rgba(255,255,255,0.6);
+    		border-radius: 6px;
+    	}
+    </style>
     
 </head>
 <body>
@@ -29,7 +92,7 @@
 
 		<div id="tabbar-unused" class="mui-control-content mui-active">
 			<ul class="Red-envelopes" id="hblist-1">
-			
+				
 			</ul>
 
 
@@ -60,17 +123,18 @@
 
 <script id="tpl-item-1" type="text/html">
 	{{each list as $item i}}
-<li class="clearfix">
-	<div class="price">
-		<div class="number"><span class="small">&yen; </span>{{$item.money}}</div>
-		<img src="../images/Red-envelopes.png">
-	</div>
-	<div class="info">		
-		<p class="name">单笔投资满{{$item.tmoney}}元及以上可用</p>
-		<p class="date">还有<span class="hongb_q">{{$item.tday}}</span>过期</p>
-	</div>
-	<div class="bg"></div>
-</li>
+	<li>
+		<div class="hongbao-num">
+			<img src="../images/wsy_hb.png"/>
+			<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">{{$item.money}}</span></div>
+			<h5>还有{{$item.tday}}过期</h5>
+			<p>有效期至{{$item.endtime | dateFormat:"yyyy年MM月dd日"}}</p>
+		</div>
+		<div class="hongbao-cond">
+			<span class="hb-type">{{$item.remarks}}</span>
+			<a>单笔投资满{{$item.tmoney}}元及以上可用</a>
+		</div>
+	</li>
 	{{/each}}
 	{{if list.length == 0}}
 	<li class="clearfix"> 暂无红包记录 </li>
@@ -79,18 +143,18 @@
 <!-- 已使用  -->
 <script id="tpl-item-2" type="text/html">
 	{{each list as $item i}}
-<li class="clearfix">
-	<div class="price">
-		<div class="number"><span class="small">&yen; </span>{{$item.money}}</div>
-		<img src="../images/Red-envelopes2.png">
-	</div>
-	<div class="info">		
-		<p class="date">领取时间 {{$item.addtime | dateFormat:"yyyy-MM-dd hh:mm"}}</p>
-		<p class="date">使用时间 {{$item.usetime | dateFormat:"yyyy-MM-dd hh:mm"}}</p>
-		<p class="name date">使用的标  <span class="yuan_x1" style="color: #555;"> {{$item.pname}}</span></p>
-	</div>
-	<div class="bg"></div>
-</li>
+	<li>
+		<div class="hongbao-num">
+			<img src="../images/ysy_hb.png"/>
+			<div class="hb-je " style="color:#727272;">￥<span style="font-size: 50px;">{{$item.money}}</span></div>
+			<h5>已使用</h5>
+			<p>使用时间：{{$item.usetime | dateFormat:"yyyy年MM月dd日"}}</p>
+		</div>
+		<div class="hongbao-cond">
+			<span class="hb-type">{{$item.remarks}}</span>
+			<a>投资项目{{$item.pname}}</a>
+		</div>
+	</li>
 	{{/each}}
 	{{if list.length == 0}}
 	<li class="clearfix"> 暂无红包记录 </li>
@@ -100,18 +164,20 @@
 <!-- 已过期  -->
 <script id="tpl-item-3" type="text/html">
 	{{each list as $item i}}
-<li class="clearfix">
-	<div class="price">
-		<div class="number"><span class="small">&yen; </span>{{$item.money}}</div>
-		<img src="../images/Red-envelopes2.png">
-	</div>
-	<div class="info">
-		<p class="date">领取时间 {{$item.addtime | dateFormat:"yyyy-MM-dd hh:mm"}}</p>
-		<p class="date">过期时间 {{$item.endtime | dateFormat:"yyyy-MM-dd hh:mm"}}</p>
-	</div>
-	<div class="flag"><img src="../images/over-Expired.png"></div>
-	<div class="bg"></div>
-</li>
+	<li>
+		<div class="hongbao-num" style="position: relative;">
+			<div class="mengban"></div>
+			<img src="../images/ysy_hb.png"/>
+			<div class="hb-je " style="color:#727272;">￥<span style="font-size: 50px;">{{$item.money}}</span></div>
+			<h5>已过期</h5>
+			<p>过期时间：{{$item.endtime | dateFormat:"yyyy年MM月dd日"}}</p>
+		</div>
+		<div class="hongbao-cond" style="position: relative;">
+			<div class="mengban" style="width: 94%;"></div>
+			<span class="hb-type">{{$item.remarks}}</span>
+			<a>单笔投资满{{$item.tmoney}}元及以上可用</a>
+		</div>
+	</li>
 	{{/each}}
 	{{if list.length == 0}}
 	<li class="clearfix"> 暂无红包记录 </li>
@@ -130,6 +196,7 @@ mui.plusReady(function(){
 	request = {'user_id': user.uid()};
 	request.status = 1;
 	user.GetHongbao({'request':request},function(res){
+		console.log(JSON.stringify(res))
 		var html = template('tpl-item-1',res);
 		document.getElementById("hblist-1").innerHTML = html;
 	});
@@ -137,6 +204,7 @@ mui.plusReady(function(){
 	request = {'user_id': user.uid()};
 	request.status = 2;
 	user.GetHongbao({'request':request},function(res){
+		console.log(JSON.stringify(res))
 		var html = template('tpl-item-2',res);
 		document.getElementById("hblist-2").innerHTML = html;
 	});
@@ -144,6 +212,7 @@ mui.plusReady(function(){
 	request = {'user_id': user.uid()};
 	request.status = 3;
 	user.GetHongbao({'request':request},function(res){
+		console.log(JSON.stringify(res))
 		var html = template('tpl-item-3',res);
 		document.getElementById("hblist-3").innerHTML = html;
 	});

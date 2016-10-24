@@ -205,8 +205,8 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 .mui-table-view .mui-table-view-cell .icon-aj{background-position: -106px 0px;}
 .mui-table-view .mui-table-view-cell .icon-yq{background-position: -178px 0px;} 
 .mui-table-view .mui-table-view-cell .icon-cz{background-position: 8px -142px;} 
-.mui-table-view .mui-table-view-cell .icon-dh{background-position: -30px -142px;} 
-.mui-table-view .mui-table-view-cell .icon-hdjf{background-position: -70px -142px;} 
+.mui-table-view .mui-table-view-cell .icon-dh{background-position: -110px -144px;} 
+.mui-table-view .mui-table-view-cell .icon-hdjf{background-position: -152px -147px;} 
 .mui-table-view .mui-badge {
     font-size: 10px;
     line-height: 1.4;
@@ -419,6 +419,13 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
             background: url(../images/new1.png) no-repeat top right;
          	display: block;		 					
 			background-size:40px;
+			
+	 		
+			}	
+.user-new-jf{   		 			
+            background: url(../images/new2.png) no-repeat top right;
+         	display: block;		 					
+			background-size:45px;
 			
 	 		
 			}	

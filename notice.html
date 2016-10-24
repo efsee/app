@@ -29,6 +29,11 @@
 			gestureConfig:{
 				doubletap:true
 			},
+			beforeback: function(){
+				var thisIndex= plus.webview.getLaunchWebview();
+				mui.fire(thisIndex,'refresh');
+				return true;
+			},
 			subpages:[{
 				url:'notice_sub.html',
 				id:'notice_sub.html',

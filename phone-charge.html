@@ -19,6 +19,13 @@
 	    	.layermend{
 	    		display: ;
 	    	}
+	    	 .android-iphone-czjl {
+ 				width: 109px;                    
+               font-size: 14px;
+               color: #333333;
+               position: relative;
+               margin-top: 60px;                  
+               } 
 	    </style>
 	</head>
 	<body>
@@ -50,7 +57,7 @@
 						<div class="iphone-active-syts" id='confirmBtn'>
 							话费一般30分钟内到账。月初高峰期会有延迟的情况。若迟迟未到账可点击<span class="iphone-active-kf">联系客服</span>
 						</div>
-						<div class="iphone-czjl">
+						<div class="iphone-czjl android-iphone-czjl">
 							<a class="note" href="notes.html"><i class="iphone-czjl-icon"></i>我的充值记录</a>
 						</div>
 					</div>	
@@ -148,7 +155,10 @@
 				
 			})	
 		}
-		mui.plusReady(function(){	
+		mui.plusReady(function(){
+			if(plus.os.name=="iOS"){
+				$(".iphone-czjl").removeClass("android-iphone-czjl")
+			}
 			var wv=plus.webview.currentWebview();
 			// 侧滑返回后关闭webview
 			wv.setStyle({'popGesture':'close'});		
@@ -189,7 +199,8 @@
 									})
 								}
 								else{
-									$(".iphone-czjl").css("position","relative")
+
+								//	$(".iphone-czjl").css("position","relative")
 									$('.paypassword').val('');
 									
 									function closelayer(){
@@ -224,30 +235,39 @@
 									            });  
 									            console.log($(this).val());
 									            if (j==6) {
+									            	$("input").blur()
 									            	paypassword=$(this).val()
 									            	console.log("我的密码是："+$(this).val());
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
 													//console.log(JSON.stringify(request))
-													account.Cost_llcz({'request':request},function(res){//扣款
-														console.log(JSON.stringify(res))
-														if(res){
-															if(res.status>0){//支付成功
-																console.log("s")
-																var time=new Date().getTime();
-																request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
-																addresult=AddCharge(request);//充值话费
-																$(".iphone-czjl").css("position","absolute")
-																closelayer()
-															}
-															else{
-																//根据status状态判断密码是否错误
-																$(".iphone-czjl").css("position","absolute")
-																mui.toast(res.msg)
-																closelayer()
-																//mui.toast("交易密码错误");	//need to do
-															}
+													//判断异地登录
+													functionCom.checkToken(function(res){
+														//console.log(res.error_no)
+														if(res.error_no!=401){
+															account.Cost_llcz({'request':request},function(res){//扣款
+																console.log(JSON.stringify(res))
+																if(res){
+																	if(res.status>0){//支付成功
+																		//console.log("s")
+																		var time=new Date().getTime();
+																		request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
+																		console.log(JSON.stringify(request))
+																		addresult=AddCharge(request);//充值话费
+																		//$(".iphone-czjl").css("position","absolute")
+																		closelayer()
+																	}
+																	else{
+																		//根据status状态判断密码是否错误
+																		//$(".iphone-czjl").css("position","absolute")
+																		mui.toast(res.msg)
+																		closelayer()
+																		//mui.toast("交易密码错误");	//need to do
+																	}
+																}
+															})
 														}
-													})
+													})//结束
+													
 									            }  
 		    
 									        }); 

@@ -13,6 +13,7 @@
 	    <script src="js/common.js"></script>
 	    <script type="text/javascript" src="js/layer.js" ></script>
 	  	<script src="js/jquery-1.11.2.min.js"></script>
+	  	
 	    <style>
 	        body{ 
 	        	background-color:#FFFFFF;	
@@ -46,9 +47,9 @@
 				<div class="mui-scroll" style="top: 0;bottom: -55px;background-color: #fff;">
 				    <div class="integral-main" style="background-color: #fff;">      
 				    	<div class="integral-fen">
-				    		<h5 class="integral-title">我的积分</h5>
+				    		<h5 class="integral-title">我的积分</h5> 
 				    		<div class="integral-zong">0</div>
-				    		<div class="integral-ts">随机获取5-30积分</div> 	
+				    		<div class="integral-ts">随机获取5-30积分</div> 
 				    	</div>
 				    	<p class="integral-gz"><a id="turnRule" href="rule.html"><span class="integral-gzico"></span>规则说明</a></p>
 				    	<a class="integral-botton" id='getSign' style="display: none;">签到领积分</a>
@@ -57,19 +58,27 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/scrollNum.js"></script>
 		<script>
 			mui.init({
-				pullRefresh: {
+				/*pullRefresh: {
 					container: '#pullrefresh'
 					//针对华为手机
-					/*down: {	 
+					down: {	 
 						callback: pulldownRefresh
-					}*/
-				}
+					}
+				}*/
 			});
 			/**
 			 * 下拉刷新具体业务实现
 			 */
+			/*layer.open({
+					title:[''],		
+					content: '<div class="integral-tan">签到成功<p class="integral-chengg">连续签到1天</p><div class="integral-tan-bg"><span class="timer c5" data-to="23"  data-speed="1000">99</span></div></div>',
+					success:function(layero, index){
+						scrollNum()	
+					}
+				});*/
 			function pulldownRefresh() {
 				//获取所有积分
 				request={'user_id': user.uid(),'type_nid':'sign'};
@@ -95,14 +104,14 @@
 					 'nid':'sign'
 				};
 				credit.GetLogList({'request':req2},function(res){
-					console.log(JSON.stringify(res))
+					//console.log(JSON.stringify(res))
 					//var nowDate=1475040300000+28800000
 					var nowDate=new Date().getTime()+28800000
 					
-					console.log(nowDate)
-					console.log(nowDate%86400000)
+					//console.log(nowDate)
+					//console.log(nowDate%86400000)
 					var remainDate=nowDate-nowDate%86400000-28800000
-					console.log(remainDate)
+				//	console.log(remainDate)
 					if(res==""){
 						$("#getSign").css("display","block")
 						$('.integral-yqd').css("display","none")
@@ -114,12 +123,15 @@
 						}else{
 							$('.integral-yqd').css("display","block")
 							$("#getSign").css("display","none")
+							//$("#getSign").css("display","block")
 						}
 					}
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();//refresh completed
 				})		
 			}
 			mui.plusReady(function(){
+				mui('#pullrefresh').pullRefresh().setStopped(true) 
+				//mui('#pullrefresh').pullRefresh().disablePullupToRefresh()
 				pulldownRefresh()
 				//mui('#pullrefresh').pullRefresh().pulldownLoading();
 				document.addEventListener("top-right-btn",function(){
@@ -145,11 +157,25 @@
 					e.stopPropagation()
 					request={'user_id': user.uid()};
 					credit.GetSign({'request':request},function(res){
+						console.log(JSON.stringify(res))
 						if(res.code==1){
-							layer.open({
-								title:[''],		
-								content: '<div class="integral-tan">签到成功<p class="integral-chengg">已成功获得</p><div class="integral-tan-bg">'+res.value+'</div></div>'
-							});	
+							if(res.count=="15"){
+								layer.open({
+									title:[''],		
+									content: '<div class="integral-tan">签到成功<p class="integral-chengg">获得额外奖励<span style="color:##F95453">200</span>积分</p><div class="integral-tan-bg"><span class="timer" data-to="'+res.value+'"  data-speed="50">99</span></div></div>',
+									success:function(layero, index){
+										scrollNum()	
+									}
+								});
+							}else{
+								layer.open({
+									title:[''],		
+									content: '<div class="integral-tan">签到成功<p class="integral-chengg">连续签到<span style="color:##F95453">'+res.count+'</span>天</p><div class="integral-tan-bg"><span class="timer" data-to="'+res.value+'"  data-speed="1000">99</span></div></div>',
+									success:function(layero, index){
+										scrollNum()	
+									}
+								});	
+							}
 						}else{
 							mui.toast(res.msg);
 						}	

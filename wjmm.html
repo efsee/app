@@ -28,11 +28,7 @@
 </style>
 </head>
 <body>
-<header class="mui-bar mui-bar-nav header">
-<h1 class="name">找回密码</h1>
-<a href="javascript:void(0);" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
-</header>
-<div class="wrap clearfix mui-content">
+<div class=" clearfix mui-content">
 <ul class="reg-form clearfix">
 <li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" pattern="[0-9]*" name="mobile" class="reg-txt" placeholder="手机号"></div></li>
 <li><div class="input-box yzm"><i class="ico-yzm ico24 icon"></i><input type="text" pattern="[0-9]*" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码"><a href="javascript:" class="getyzm" id="getyzm">发送验证码</a></div></li>
@@ -80,41 +76,48 @@
 <script type="text/javascript">
 	$(function(){
 		$('#reg-btn').on('click',function(){
-			request = {};
-			request.reg_type = 'phone';
-			request.mobile = $("#mobile").val();
-			request.mobilecode = $("#mobilecode").val();
-			request.password = $("#password").val();
-			request.confirm_password = $("#confirm_password").val();
-			request.invite_userid = $("#invite_userid").val();			
-			request.username = $("#mobile").val();
+			//判断异地登录
+			functionCom.checkToken(function(res){
+				//console.log(res.error_no)
+				if(res.error_no!=401){
+					request = {};
+					request.reg_type = 'phone';
+					request.mobile = $("#mobile").val();
+					request.mobilecode = $("#mobilecode").val();
+					request.password = $("#password").val();
+					request.confirm_password = $("#confirm_password").val();
+					request.invite_userid = $("#invite_userid").val();			
+					request.username = $("#mobile").val();
+		
+					if(request.mobile == ''){
+						alert('请输入注册时的手机号码');
+						return false;
+					}
+					if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(request.mobile)){
+						alert('手机号码错误');
+						return false;
+					}
+					if(request.mobilecode == ''){
+						alert('请输入您的短信验证码');
+						return false;
+					}
+					if(request.confirm_password != request.password){
+						alert('两次输入的密码不一致');
+						return false;
+					}
+					$("input:focus").blur();
+					user.setpwd(request,function(res){
+						if(res.status == 1){
+							plus.nativeUI.toast("重置密码成功，请您登陆！");
+								// 关闭页面
+								mui.back();
+						}else{
+							alert(res.msg);
+						}
+					})
 
-			if(request.mobile == ''){
-				alert('请输入注册时的手机号码');
-				return false;
-			}
-			if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(request.mobile)){
-				alert('手机号码错误');
-				return false;
-			}
-			if(request.mobilecode == ''){
-				alert('请输入您的短信验证码');
-				return false;
-			}
-			if(request.confirm_password != request.password){
-				alert('两次输入的密码不一致');
-				return false;
-			}
-			$("input:focus").blur();
-			user.setpwd(request,function(res){
-				if(res.status == 1){
-					plus.nativeUI.toast("重置密码成功，请您登陆！");
-						// 关闭页面
-						mui.back();
-				}else{
-					alert(res.msg);
 				}
-			})
+			})//结束
 		})
 		
 		$('#getyzm').on('click',function(){
