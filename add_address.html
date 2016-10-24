@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>聚车金融</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<style>
+			body{
+				background: #fff;
+			}
+			.mui-content{
+				background: #fff;
+			}
+			.mui-input-row{
+				margin-top: 30px;
+				background: #fff!important;
+			}
+			.mui-input-row input,.mui-input-row textarea{
+				width: 82%;
+				margin:10px 9%;
+				height: 52px;
+				line-height: 50px;
+				padding:0;
+				padding-left:15px;
+				font-size: 16px;
+				line-height: 20px;
+				background: #FBFBFB;
+				border:1px solid #C7C7C7;
+			}
+			.mui-input-row textarea{
+				height: 80px;
+				padding:8px 15px;
+				line-height: 20px;
+			}
+			.def-address{
+				width: 82%;
+				margin:10px 9%;
+				font-size: 16px;
+				color: #333;
+			}
+			.sub-btn{
+				width: 82%;
+				height: 50px;
+				line-height: 50px;
+				margin: 30px 9%;
+			}
+			#add-address-btn{
+				color: #fff;
+				background: #F95453;
+				width: 100%;
+				display: block;
+				text-align: center;
+				font-size: 16px;
+				border-radius:5px;
+				-webkit-border-radius:5px ;
+			}
+			.def-address i{
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				margin-bottom: -4px;
+				margin-right: 8px;
+			}
+			.un-xuanzhong{
+				background: url(images/jfsc/xz_wxz.png) 0 0 no-repeat;
+				background-size: 20px;	
+			}
+			.xuanzhong{
+				background: url(images/jfsc/xz_wxz.png) 0 -22px no-repeat;
+				background-size: 20px;	
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title">添加地址</h1>
+		</header>
+		<div class="mui-content">
+	        <div class="mui-input-row">
+		        <input class="con-name"  type="text" placeholder="请输入联系人">
+		        <input class="con-tel" type="tel"  placeholder="请输入手机号码">
+		        <textarea class="con-add" placeholder="请输入收货地址"></textarea>
+		        <p class="def-address"><i class="un-xuanzhong"></i>设为默认收货地址</p>
+	        </div>
+	        <div class="sub-btn"><a id="add-address-btn">确认添加</a></div>
+		</div>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/api.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui('body').on('tap','.def-address',function(e){
+				this.firstChild.className=(this.firstChild.className=="un-xuanzhong"?"xuanzhong":"un-xuanzhong")
+			})
+			mui.plusReady(function(){
+				var selfPage=plus.webview.currentWebview()
+				console.log(selfPage.opener().id)
+				mui('body').on('tap','#add-address-btn',function(e){
+					var request={};
+					request.token=user.utoken();
+					request.name=document.getElementsByClassName("con-name")[0].value;
+					request.mobile=document.getElementsByClassName("con-tel")[0].value;
+					request.area=document.getElementsByClassName("con-add")[0].value;
+					if(document.getElementsByClassName("def-address")[0].firstChild.className=="xuanzhong"){
+						request.is_default="1";
+					}
+					//console.log(JSON.stringify(request))
+					address.AddAddress(request,function(res){
+						//console.log(JSON.stringify(res))
+						if(selfPage.opener().id=="goods_detail.html"){
+							var reqShipAddress={"token":user.utoken()}
+							address.Getlists(reqShipAddress,function(res){
+								console.log(JSON.stringify(res))
+								//console.log(res.result.rows[0].address_id)
+								var address_id = res.result.rows[0].address_id
+								//下订单
+								var requestPay={}
+								requestPay.token = user.utoken();
+								requestPay.order_goods = '[{"iid":"'+selfPage.iid+'","num":"'+selfPage.num+'"}]';
+								requestPay.address_id = address_id+"";
+								order.Add(requestPay,function(res){
+									console.log(JSON.stringify(requestPay))
+									console.log(JSON.stringify(res))
+									if(res.error_no==200){
+										//投资成功
+										var btnArray = ['确定'];
+										mui.confirm("订单已提交，商家即将发货，请耐心等待...","恭喜", btnArray, function(e) {
+											if (e.index == 0) {
+												mui.back()
+											}else{
+											
+											}
+										})
+									}else if(res.error_no==401){
+										user.logout({},function(res){
+											mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+												if (e.index == 0) {
+													login();
+												}
+											})
+										});
+									}else{
+										var btnArray = ['确定'];
+										mui.confirm(res.error_msg,"提醒\n", btnArray, function(e) {
+											if (e.index == 0) {
+												mui.back()
+											}else{
+											
+											}
+										})
+									}
+									
+								})
+							})
+							
+						}else{
+							if(res.error_no==401){
+								user.logout({},function(res){
+									mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+										if (e.index == 0) {
+											login();
+										}
+									})
+								});
+							}else if(res.error_no==200){
+								mui.back()
+							}else{
+								plus.nativeUI.toast(res.error_msg)
+							}
+							
+						}
+						
+						
+						
+					})
+	
+				})
+				oldback = mui.back;
+				mui.back = function(){
+					//console.log("as");
+					var parentPage=plus.webview.currentWebview().opener()
+					mui.fire(parentPage,"initpage")
+					oldback();
+				}	
+			})
+		</script>
+	</body>
+
+</html>

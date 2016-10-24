@@ -11,23 +11,43 @@
 			.clear{
 				clear: both;
 			}
+			.mui-loader {
+				position: absolute;
+				top: 25%;
+				width: 100%;
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
 			.user-info{
+				padding-top: 5px;
 				background: #fff;
+				position: relative;
+			}
+			.user-info:after{
+				
 			}
 			.user-info li{
 				color: #333;
 				text-align:center;
 				float: left;
-				width:25%;
+				width:30%;
 				padding:15px 0;
 			}
 			.user-info li:first-child{
-				width: 50%;
+				width: 40%;
+				text-align: left;
+				padding-left: 40px;
+			}
+			.user-info li:nth-child(3){
+				text-align: center;
+				padding-right: 20px;	
 			}
 			.info-item p:first-child{
-				height:25px;
-				line-height: 25px;
-				font-size: 28px;
+				height:35px;
+				line-height: 35px;
+				font-size: 30px;
 			}
 			.info-item p:last-child{
 				color: #333;
@@ -39,13 +59,27 @@
 				line-height: 50px;
 				font-size: 16px;
 			}
-			.product-box{
+			#product-box{
 				background-color: #fff;
 			}
 			.product-floor h4{
+				position: relative;
+				color:#333;
+				padding-left: 15px;
 				font-size: 14px;
 				line-height: 35px;
-				background: pink;
+				background: #F8F8F8;
+			}
+			.user-info:after,.product-floor h4:after{
+				content: "";
+				position: absolute;
+				width: 100%;
+				height: 1px;
+				transform:scaleY(.5);
+				-webkit-transform: scaleY(.5);
+				right: 0;
+				bottom: 0;
+				background-color: #DDDDDD;
 			}
 			.product-floor .product-detail{
 				position: relative;
@@ -53,7 +87,12 @@
 				float: left;
 				width: 50%;
 			}
-			.product-floor .product-detail:first-child:after{
+			.product-floor ul li{
+				background: #fff;
+				padding-bottom: 10px;
+			}
+			.product-floor ul li:nth-child(2n+1):after{
+				z-index: 99;
 				content: "";
 				position: absolute;
 				width: 1px;
@@ -62,107 +101,268 @@
 				-webkit-transform: scaleX(.5);
 				right: 0;
 				top: 0;
-				background-color: #999;
+				background-color: #DDDDDD;
+			}
+			.product-floor ul li:before{
+				z-index: 999;
+				content: "";
+				position: absolute;
+				width: 100%;
+				height: 1px;
+				transform:scaleY(.5);
+				-webkit-transform: scaleY(.5);
+				left: 0;
+				bottom: 0;
+				background-color: #DDDDDD;
 			}
 			.product-floor .product-detail .product-img{
 				height:120px;
+				padding:10px;	
 			}
 			.product-floor .product-detail p{
-				text-align: left;
-				padding-left: 10px;
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
 				color: #333;
 			}
 			.product-floor .product-detail img{
-				height: 120px;
+				height: 100%;
+			}
+			.product-integral > img{
+				margin-bottom:-2px;
+				height:15px!important;
+				width: auto!important;
+			}
+			.change-list p:first-child{
+				margin:0 auto;
+				width: 35px;
+				background: url(images/jfsc/sc_icon.png) 0px 2px no-repeat;
+				background-size: 30px;
+			}
+			.ship-address p:first-child{
+				margin:0 auto;
+				width: 35px;
+				background: url(images/jfsc/sc_icon.png) 0px -33px no-repeat;
+				background-size: 30px;
+			}
+			.sold-out{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(255,255,255,0.5);
+			}
+			.sold-out img{
+				display: block;
+				width: 60px;
+				height: auto!important;
+				float: right;
+				margin-right: 15px;
+				margin-top: 5px;
+			}
+			.sc-shengming{
+				color: #bfbfbf;
+				padding-bottom:20px;
+				text-align: center;
+				line-height: 45px;
+			
+			}
+			.sold-out .xiangou11{
+				float: left;
+				margin-top: 0px;
+			}
+			.xiangou-time{
+				margin-left: 20px;
 			}
 			
 		</style>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav header">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
-			<a id="top_right_btn" class="mui-pull-right" style="display: block;font-size: 14px;line-height: 45px;">规则</a>
-			<h1 id="title" style="color：#333;" class="mui-title">积分商城</h1>
-		</header>
-		<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-loader" id="mui-loader">
+			<span class="mui-spinner"></span>
+			<span id="loading-text" class="mui-hidden">请耐心等候</span>
+		</div>
+		<div class="mui-content mui-scroll-wrapper" style="display: none;">
 			<div class="mui-scroll">
 				<ul class="user-info">
-					<!--<li class="info-item user-integral">
-						<p class="c5">200</p>
+					<li class="info-item user-integral" data="{'url':'integral_list.html','title':'积分记录'}">
+						<p class="c5" id="creditTotal">0</p>
 						<p>我的积分</p>
-					</li>-->
-					<li class="info-item ">
-						<a class="user-login c5">登录/注册</a>
 					</li>
-					<li class="info-item change-list">
-						<p>200</p>
+					<!--<li class="info-item ">
+						<a class="user-login c5">登录/注册</a>
+					</li>-->
+					<li class="info-item change-list" data="{'url':'exchange_list.html','title':'兑换记录'}">
+						<p></p>
 						<p>兑换记录</p>
 					</li>
-					<li class="info-item ship-address">
-						<p>200</p>
+					<li class="info-item ship-address" data="{'url':'shipping_address.html','title':'收货地址'}">
+						<p class="ship-address-num"></p>
 						<p>收货地址</p>
 					</li>
 					<div class="clear"></div>
 				</ul>
 				
-				<div class="product-box">
-					<div class="product-floor">
-						<h4>特价专区</h4>
-						<ul>
-							<li class="product-detail" data='{"url":"","title":"",id:""}'>
-								<div class="product-img">
-									<img src="images/ewm.jpg" />
-								</div>
-								<p class="product-title">name</p>
-								<p class="product-integral">积分：<span>integral</span></p>
-								<p class="product-price">市场价：￥<span>price</span></p>
-								<p class="product-number">当期库存：<span>number</span>件</p>
-							</li>
-							<li class="product-detail" data='{"url":"","title":"",id:""}'>
-								<div class="product-img">
-									<img src="images/ewm.jpg" />
-								</div>
-								<p class="product-title">name</p>
-								<p class="product-integral">积分：<span>integral</span></p>
-								<p class="product-price">市场价：￥<span>price</span></p>
-								<p class="product-number">当期库存：<span>number</span>件</p>
-							</li>
-							<div class="clear"></div>
-						</ul>
-					</div>
-					<div class="product-floor">
-						<h4>聚车专区</h4>
-						<ul>
-							<li class="product-detail" data='{"url":"","title":"",id:""}'>
-								<div class="product-img">
-									<img src="images/ewm.jpg" />
-								</div>
-								<p class="product-title">name</p>
-								<p class="product-integral">积分：<span>integral</span></p>
-								<p class="product-price">市场价：￥<span>price</span></p>
-								<p class="product-number">当期库存：<span>number</span>件</p>
-							</li>
-							<li class="product-detail" data='{"url":"","title":"",id:""}'>
-								<div class="product-img">
-									<img src="images/ewm.jpg" />
-								</div>
-								<p class="product-title">name</p>
-								<p class="product-integral">积分：<span>integral</span></p>
-								<p class="product-price">市场价：￥<span>price</span></p>
-								<p class="product-number">当期库存：<span>number</span>件</p>
-							</li>
-							<div class="clear"></div>
-						</ul>
-					</div>
-				</div>
+				<div id="product-box">
 					
-				
+				</div>
+				<div class="sc-shengming">积分商城活动由聚车金融提供，与Apple Inc无关</div>
 			</div>
 		</div>
+		<script id="tpl" type="text/html">
+			
+			{{each rows as item i}}
+			<li class="product-detail" data='{"iid":"{{item.iid}}","cid":"{{item.category.id}}"}'>
+				{{if item.store=="0"}}<!--库存不足，限购-->
+				<div class="sold-out"><img src="images/jfsc/sold_out.png"/></div>
+				{{/if}}
+				<div class="product-img">
+					<img src="http://apitest.ifcar99.com{{item.pic_small}}"/>
+				</div>
+				<p class="product-title">{{item.title}}</p>
+				<p class="product-integral"><img src="images/jfsc/jf_icon_03.png"/>&nbsp;<span>{{item.price}}</span></p>
+			</li>
+			{{/each}}
+			<div class="clear"></div>
+					
+		</script>
 		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/api.js" ></script>
+		<script src="js/common.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			mui('.mui-scroll-wrapper').scroll({
+		    	deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			mui.plusReady(function(){
+				getdata()
+				//商品详情跳转(现载)
+				var opening=false;//变量防止多次点击
+				mui("#product-box").on('tap','li.product-detail',function(e){
+					e.stopPropagation();
+					if(opening){
+						return
+					}else{
+						opening = true;
+						setTimeout(function(){
+							opening = false;
+						}, 1000);
+					}
+					var data = this.getAttribute('data');
+					//console.log(data)
+					data = eval("(" + data + ")");
+					//预加载底层
+					var goodsDetail = plus.webview.create('goods_detail.html','goods_detail.html',{popGesture:"close"},data);
+					goodsDetail.addEventListener('loaded',function(){
+						mui.fire(goodsDetail,"mui.view.show",data);
+					});
+					setTimeout(function(){
+						goodsDetail.show("slide-in-right",100);
+					},300);	
+				})
+				
+				//地址、记录等
+				mui(".user-info").on('tap','li.info-item',function(e){
+					e.stopPropagation();
+					var data = this.getAttribute('data')
+					data=eval("(" + data + ")");
+					//通知模板修改标题，并显示隐藏右上角图标；
+					inittemplate = getTemplate('template', 'template.html');
+						//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(data.url);
+					mui.fire(headerWebview, 'updateHeader', {
+						title: data.title,
+						showMenu: false
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				})
+				
+				function getdata(){
+					//获取专区列表
+					goods.GetGoodsZoneList({"token":user.utoken()},function(res){
+						//console.log(JSON.stringify(res))
+						//遍历专区添加列表
+						if(res.error_no==401){
+							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								if (e.index == 0) {
+									login();
+								}
+							})
+						}else{
+							$(res.result.rows).each(function(k,val){
+								if($('#productContent'+val.zone_id).length==0){
+									$("#product-box").append(
+									'<div class="product-floor">'+
+										'<h4>'+val.title+'<span class="c5 xiangou-time" >'+val.desc+'</span></h4>'+
+										'<ul id="productContent'+val.zone_id+'"></ul>'+
+									'</div>'
+									)
+								}
+								//获取商品列表
+								goods.GetGoodsList({"zone_id":val.zone_id,"status":"1"},function(res){
+									//console.log(JSON.stringify(res))
+									if(res){
+										var html = template('tpl',res.result);
+										//console.log('#productContent'+val.zone_id)
+										$('#productContent'+val.zone_id).html(html);
+										$('#mui-loader').hide();
+										$('.mui-scroll-wrapper').show();
+										
+									}else{
+										
+									}
+								})
+							})	
+						}
+					})
+					newCredit.GetTotal({'token':user.utoken()},function(res){
+						//console.log(JSON.stringify(res))
+						if(res.error_no==401){
+							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								if (e.index == 0) {
+									login();
+								}
+							})
+						}
+						if(res){
+							//var html = template('tpl',res.result);
+							if(res.result==false){
+								$('#creditTotal').html(0);
+							}else{
+								$('#creditTotal').html(res.result.current);
+							}
+							
+							/*$('#mui-loader').hide();
+							$('.mui-scroll-wrapper').show();*/
+						}else{
+							
+						}
+					})
+				}
+				//返回刷新
+				document.addEventListener("initpage",function(e){
+					//plus.webview.currentWebview().reload()
+					getdata()
+					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
+					console.log("刷新啦")
+				})
+				//规则查看
+				document.addEventListener("top-right-btn",function(e){
+					mui.openWindow({
+						"url":"rule.html",
+						"id" :"rule.html",
+						"styles": {popGesture:'close'},
+						"waiting": {autoShow:false} 
+					})
+				})
+			})
 		</script>
 	</body>
 

@@ -110,7 +110,16 @@ header .mui-title { color: #333; }
 			//alert(event);
 			//
 			articles.detail({'request':{'id':id}},function(res){
-//				console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res));
+				articles.SetNoticeStatus({"request":{"user_id":user.uid(),"notice_id":id}},function(res){
+					console.log(JSON.stringify({"request":{"user_id":user.uid(),"notice_id":id}}))
+					console.log(7+JSON.stringify(res))
+				})
+				/*if(!store.get('article_'+id)){
+					store.set('article_'+id, "1", 3600 * 24 * 365);
+					store.set("msg",parseInt(store.get("msg"))+1,3600 * 24 * 365)
+					//store.set("noticeNum",parseInt(res.total)-parseInt(store.get("msg")))
+				}*/
 				html = template('tpl-html',res);
 				document.getElementById("main-box").innerHTML = html;
 				document.getElementById("mui-loader").style.display = 'none';

@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<style>
+			.clear{
+				clear:both;
+			}
+			.mui-bar{
+				background-color: #fff;
+			}
+			.goods-detail-item{
+				margin-bottom: 12px;
+				background-color: #fff;
+			}
+			.goodsitem-1{
+				position: relative;
+				margin-top: 5px;
+				padding:0 15px 5px 15px;
+			}
+			.goodsitem-1,.goodsitem-2{
+				position: relative;
+			}
+			.goodsitem-1:after,.goodsitem-2:after{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				left: 0;
+				bottom: 0;
+				background: #D2D2D2;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+			}
+			.goodsitem-1:before,.goodsitem-2:before{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				left: 0;
+				top: 0;
+				background: #D2D2D2;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+			}
+			.goodsitem-1 ul{
+				position: relative;
+			}
+			.goodsitem-1 ul:after{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				left: 0;
+				bottom: 0;
+				background: #D2D2D2;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);	
+			}
+			.goodsitem-1 li{
+				line-height: 40px;
+				font-size: 14px;
+				float: left;
+				color: #999;
+			}
+			.goodsPicTit-box div.img-box{
+				width: 110px;
+				height: 110px;
+				float: left;
+			}
+			.img-box img{
+				width: 100%;
+				height: auto;
+			}
+			.goodsPicTit-box .img-box{
+				padding: 15px;
+				padding-bottom: 0;
+			}
+			.goodsPicTit-box div.goods-title{
+				padding-left: 15px;
+				float: left;
+			}
+			.goodsPicTit-box div.goods-title h5{
+				color: #333;
+				line-height: 50px;
+				font-size: 15px;
+			}
+			.goodsPicTit-box div.goods-title p{
+				color: #333;
+				font-size: 15px;
+			}
+			.goodsitem-2{
+				padding:15px;
+			}
+			.goodsitem-2 h5{
+				color: #333;
+				line-height: 30px;
+			}
+			.goodsitem-2 p{
+				color: #333;
+				line-height: 20px;
+			}
+			.goodsitem-3 li:first-child,.goodsitem-4 li:first-child{
+				padding-top: 15px;
+			}
+			.goodsitem-3 li,.goodsitem-4 li{
+				font-size: 14px;
+				line-height: 25px;
+			}
+			.goodsitem-3 li span img{
+				width: 18px;
+				margin-bottom: -4px;
+				margin-right: 5px;
+			}
+			.goodsitem-3 li span{
+				float: right;
+			}
+			.goodsitem-4 li span{
+				float: right;
+			}
+			.mui-table-view-cell:after,.mui-table-view:before,.mui-table-view:after{
+				background-color: #D2D2D2;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" style="color: #999;" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content" id="orderDetBox">
+
+		</div>
+		<script id="tpl" type="text/html">
+			<div class="goods-detail-item goodsitem-1">
+				<ul>
+					<li class="mui-col-xs-8">订单号：{{result.order_sn}}</li>
+					<li class="mui-col-xs-4" style="text-align: right;">{{if result.status.text=="已完成"}}<a style="color: #797979;">{{result.status.text}}</a>{{else}}<a style="color:#26B3E1;">{{result.status.text}}</a>{{/if}}</li>
+					<div class="clear"></div>
+				</ul>
+				<div class="goodsPicTit-box">
+					<div class="img-box">
+						<img src="http://apitest.ifcar99.com{{result.order_goods[0].pic}}"/>
+					</div>
+					<div class="goods-title">
+						<h5>商品名称</h5>
+						<p>{{result.order_goods[0].title}}</p>
+					</div>
+					
+					<div class="clear"></div>
+				</div>	
+			</div>
+			{{if result.order_goods[0].category.id=="1"}}
+			<div class="goods-detail-item goodsitem-2">
+				<h5>收货地址</h5>
+				<p>{{result.address.area}}</p>
+				<p>联系人：{{result.address.name}}</p>
+				<p>手机号码：{{result.address.mobile}}</p>
+			</div>
+			{{/if}}
+			<ul class="mui-table-view goods-detail-item goodsitem-3">
+		        <li class="mui-table-view-cell">
+		          	使用积分
+		          	<span class="c5"><img src="images/jfsc/jf_icon_02.png"/>{{result.order_goods[0].price*result.order_goods[0].num}}</span>
+		        </li>
+		        {{if result.order_goods[0].category.id=="1"}}
+		        <li class="mui-table-view-cell">
+		          	市场价
+		          	<span>￥{{result.order_goods[0].price_retail}}</span>
+		        </li>
+		        {{/if}}
+		        <li class="mui-table-view-cell">
+		          	兑换数量
+		          	<span>X {{result.order_goods[0].num}}</span>
+		        </li>
+		    </ul>
+		    <ul class="mui-table-view goods-detail-item goodsitem-4">
+		        <li class="mui-table-view-cell">
+		          	兑换时间
+		          	<span>{{result.pay_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>
+		        </li>
+		        <li class="mui-table-view-cell">
+		          	发货时间
+		          	{{if result.shipping.time=="0"}}
+		          	<span>未发货</span>
+		          	{{else}}
+		          	<span>{{result.shipping.time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>
+		          	{{/if}}
+		        </li>
+		    </ul>
+		</script>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/api.js" ></script>
+		<script type="text/javascript" src="js/template.js" ></script>
+		<script type="text/javascript" src="js/template.function.js" ></script>
+		<script type="text/javascript">
+			
+			mui.init()
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview()
+				oid = self.oid
+				console.log(oid)
+				request = {"oid":oid,"token":user.utoken()}
+				order.Get(request,function(res){
+					console.log(JSON.stringify(res)) 
+					var html = template('tpl',res);
+					document.getElementById("orderDetBox").innerHTML = html;
+				})
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+	    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+	    <link rel="stylesheet" href="../css/iphone.css" />
+	    <style>
+	    	.hkjl-list { 
+	    		padding: 0 10px;
+	    	}
+	    	.mui-table h4{
+		        line-height: 25px;
+		        font-weight: 500;
+			}
+			.mui-table-view-cell:after {
+				left: 0px;
+			}
+			#yueSe{
+				line-height: 40px;
+				padding-left: 18px;
+				font-size: 16px;
+				color: #333;
+				background: #EFEFF4;	
+			}
+			.mui-scroll{
+				top:-40px;	
+			}
+			/*.mui-pull-bottom-pocket{
+				bottom: -40px;
+			}*/
+	    </style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<!--下拉刷新容器-->
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+	
+				</div>
+			</div>
+		</div>
+	
+		<script src="../js/jquery-1.11.2.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/api.js"></script>
+		<script type="text/javascript" charset="utf-8">  
+	    	var curr_page = 0;
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});			
+			/*
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					curr_page = 1;
+					clearOldList()
+					getdata(curr_page);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 100);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+					curr_page = curr_page + 1;
+					getdata(curr_page);
+				}, 100);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			function clearOldList(){
+				$(".mui-scroll").empty().css("top","0")	
+			}
+			function getdata(page){
+				request = {'type':'','user_id':user.uid(),'epage':10,'_where':' and balance>0 '};
+				request.page = page;
+				account.GetLogList({'request':request},function(res){//$data和回调函数
+					var upflag = res.page >= res.total_page ? true : false;
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+					console.log(JSON.stringify(res));
+					$(res.list).each(function(k,val){
+						time=new Date(parseInt(val.addtime)*1000)
+						year=time.getFullYear()
+						yue=time.getMonth()+1
+						addtime=getTime(val.addtime,"yyyy-MM-dd hh:mm")
+						if(!$('.mui-scroll').find('.y-'+yue).length){
+							$(".mui-scroll").append("<h5 id='yueSe' class='x-"+year+" y-"+yue+"'>"+year+"年"+yue+"月份</h5>"+
+							"<ul id='zjjl-list' class='mui-table-view mui-table-view-striped mui-table-view-condensed year-"+year+" yy-"+yue+"'>"+
+							"</ul>"
+							)
+						}
+						if(val.money!=0){
+							//+钱
+							if(parseFloat(val.balance)>parseFloat(val.balance_old)){
+								//收到本金和利息分离
+								if(val.account_type=="投资收到还款"){
+									$(".year-"+year+".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>投资收到利息</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.interest+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"+
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.capital+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+parseFloat(val.balance-val.interest).toFixed(2)+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	)
+								}else{
+									$(".year-"+year+".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#26B3E1;'><span>+</span>"+val.money+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	)
+								}
+								
+							}else{
+								//-钱
+								if(val.account_type=="投资成功"){
+									$(".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#FD585E;'><span>-</span>"+val.capital+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	
+									    )
+								}else{
+									$(".yy-"+yue).append(
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.account_type+"</h4>"+
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#FD585E;'><span>-</span>"+val.money+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	
+									)
+								}//-钱不涉及利息结束
+								
+								
+							}//-钱结束
+						}
+	
+					})
+	
+					
+					if(res.total == 0){
+						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
+							'<i class="notes-moblie"></i>'+
+							'<p class="no-records-size">暂无记录</p>'+
+							'</div>';
+						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					}
+				});
+			}
+			oldback = mui.back;
+			mui.back = function(){
+				//console.log("as");
+				var userPage=plus.webview.getWebviewById("user.html")
+				mui.fire(userPage,"initpage")
+				
+				/*inittemplate = getTemplate('userinfo_template', 'template.html');
+							//获得共用父模板
+						var headerWebview = inittemplate.header;
+							//获得共用子webview
+						var contentWebview = inittemplate.content;
+						mui.closeAll(headerWebview);*/
+						oldback();
+			}
+			function  getTime(date, format) {
+			    date = new Date(date * 1000);
+			    var map = {
+			        "M": date.getMonth() + 1, //月份 
+			        "d": date.getDate(), //日 
+			        "h": date.getHours(), //小时 
+			        "m": date.getMinutes(), //分 
+			        "s": date.getSeconds(), //秒 
+			        "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+			        "S": date.getMilliseconds() //毫秒 
+			    };
+			    format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+			        var v = map[t];
+			        if(v !== undefined){
+			            if(all.length > 1){
+			                v = '0' + v;
+			                v = v.substr(v.length-2);
+			            }
+			            return v;
+			        }
+			        else if(t === 'y'){
+			            return (date.getFullYear() + '').substr(4 - all.length);
+			        }
+			        return all;
+			    });
+			    return format;
+			}
+	    </script>
+	                       
+	</body>
+</html>

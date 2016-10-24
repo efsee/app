@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>聚车金融</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" href="css/iphone.css" />
+		<style>
+			.clear{
+				clear: both;
+			}
+			.mui-table-view-cell:after{
+				height: 0;
+			}
+			#echangeList{
+				background: #EFEFF4;
+			}
+			.goodsItem{
+			padding-top: 0px;
+				padding-bottom:5px;
+				background-color: #fff;
+				margin-bottom: 8px;
+			}
+			p.shopping-time{
+				padding-left: ;
+				font-size: 15px;
+				height: 40px;
+				line-height: 40px;
+				color: #797979;
+				position: relative;
+			}
+			p.shopping-time i{
+				display: inline-block;
+				margin-bottom: -3px;
+				width: 18px;
+				height: 18px;
+				background: url(images/jfsc/sc_icon.png) 0 -41px no-repeat;
+				background-size: 18px;
+				
+			}
+			p.shopping-time:after{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				background: #d8d8d8;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+				bottom: 0;
+				left: 0;
+			}
+			p.shopping-time a{
+				float: right;
+			}
+			.goods-img{
+				width:80px;
+				padding-left: 5px;
+				height:auto;
+				float: left;
+			}
+			.goods-img img{
+				width: 100%;
+				height: auto;
+			}
+			.goods-details{
+				margin-left: 85px;
+				margin-top: 5px;
+				/*float: left;*/
+			}
+			.goods-details li{
+				height: 35px;
+				/*line-height: 40px;*/
+				padding-left: 10px;
+				margin-bottom: 2px;
+				font-size: 14px;
+			}
+			.goods-details li.li-price{
+				padding-top: 12px;
+				font-size: 15px;
+			}
+			.li-price img{
+			margin-bottom: -3px;
+				width: 18px;
+			}
+			.li-price span{
+				color:#b6b6b6;
+			}
+			.li-price a{
+				font-size: 15px;
+			}
+			.goods-details li:first-child span{
+				width: 105px;
+				display: inline-block;
+			}
+			.goods-details a{
+				float: right;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" >
+			<!--下拉刷新容器-->
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul id='echangeList' class="mui-table-view">
+			
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script id="tpl-item" type="text/html">
+			{{each rows as item i}}
+			<li class="mui-table-view-cell goodsItem" data={"oid":{{item.oid}}}>
+				<p class="shopping-time"><i></i>&nbsp;&nbsp;<span>{{item.create_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>{{if item.status.text=="已完成"}}<a style="color: #797979;">{{item.status.text}}</a>{{else}}<a style="color:#26B3E1;">{{item.status.text}}</a>{{/if}}</p>
+				<div id="" style="padding:10px 0 6px 0;">
+					<div class="goods-img">
+						<img src="http://apitest.ifcar99.com{{item.order_goods[0].pic}}" />
+					</div>
+					<ul class="goods-details">
+						<li><span class="">{{item.order_goods[0].title}}</span><a>X {{item.order_goods[0].num}}</a></li>
+						<li class="li-price">{{if item.order_goods[0].category.id=="1"}}<span class="">市场价：￥{{item.order_goods[0].price_retail}}</span>{{/if}}<a class="c5"><img src="images/jfsc/jf_icon_02.png"/> {{item.order_goods[0].num*item.price}}</a></li>
+						<div class="clear">	
+						</div>
+					</ul>
+					<div class="clear">	
+					</div>
+				</div>
+			</li>	
+			{{/each}}
+		</script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script src="js/api.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+	    	var curr_page = 0;
+			mui.init({
+				beforeback: function(){
+				//获得a界面的webview
+				var thisIndex= plus.webview.getWebviewById('withdraw.html');
+	//				//触发a的自定义事件（refresh）,从而进行数据刷新
+				mui.fire(thisIndex,'refresh');
+				//返回true，继续页面关闭逻辑
+				return true;
+				},
+				gestureConfig: {
+					longtap: true
+				},
+				swipeBack:true ,//启用右滑关闭功能
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						contentnomore: '没有更多数据了',
+						callback: pullupRefresh
+					}
+				}
+			});			
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					curr_page = 1;
+					getdata(curr_page);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 400);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					curr_page = curr_page + 1;
+					//console.log(curr_page);
+					getdata(curr_page);
+				}, 100);
+			}
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+	  	
+			mui.plusReady(function(){
+				oldback = mui.back;
+				mui.back = function(){
+					//console.log("as");
+					var parentPage=plus.webview.currentWebview().opener()
+					mui.fire(parentPage,"initpage")
+					oldback();
+				}
+				mui("body").on("tap",".goodsItem",function(e){
+					var data = this.getAttribute('data')
+					data=eval("(" + data + ")");
+					mui.openWindow({
+						url : "order_detail.html",
+						id : "order_detail.html",
+						extras:{
+					        "oid" : data.oid+""
+					    }
+					})
+				})
+				
+			});
+	//			
+			function getdata(page){	
+				request = {'token':user.utoken(),'size':"10","pay_status":"1"};
+				request.page = page+"";
+				order.GetLogList(request,function(res){//$data和回调函数
+					if(res.error_no==401){
+						user.logout({},function(res){
+							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								if (e.index == 0) {
+									login();
+								}
+							})
+						});
+						
+					}else{
+						if(res.result.total == "0"){
+							document.querySelector("#pullrefresh").innerHTML = '<div class="notes-box">'+
+							'<i class="notes-moblie"></i>'+
+							'<p class="no-records-size">暂无记录</p>'+
+							'</div>';
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh(true);
+							mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+							mui('#pullrefresh').pullRefresh().setStopped(true)
+						}else{
+							mui('#pullrefresh').pullRefresh().setStopped(false)
+							temHtml = template('tpl-item',res.result);
+							temUl = document.querySelector('#echangeList');
+							upflag = page*10 >= parseInt(res.result.total) ? true : false;
+							if(page > 1){
+							temUl.innerHTML = temUl.innerHTML + temHtml;
+							}else{
+								temUl.innerHTML = temHtml;
+							}
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
+						}
+						console.log(JSON.stringify(request));
+						console.log(JSON.stringify(res));
+					}
+				})	
+			}
+			oldback = mui.back;
+			mui.back = function(){
+				//console.log("as");
+				var parentPage=plus.webview.currentWebview().opener()
+				mui.fire(parentPage,"initpage")
+				oldback();
+			}
+	
+	   </script>                       
+	</body>
+</html>

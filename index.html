@@ -47,13 +47,26 @@
 	    	}
 	    	.mui-pull-right .mui-icon-contact-filled { 
 	    		font-size: 30px;
-	    	} 	
+	    	}
+	    	#noticeNum{
+	    		top: 13px;
+	    		right: -23px;
+	    		border-radius: 100%;
+	    		position: relative;
+	    		display: block;
+		    	width: 8px;
+		    	height: 8px;
+	    		background-color:rgba(228,57,60,1) ;
+	    		color: #fff;
+	    	
+	    	} 
+	    	
 	    </style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left mui-hidden"></a>
-			<a class="mui-pull-right white mui-hidden" id="top-email"><span class="ico19 icon ico-notice1"><span class="badge mui-hidden"></span></span></a>
+			<a class="mui-pull-right white mui-hidden" id="top-email"><span class="ico19 icon ico-notice1"><span class="mui-hidden" id="noticeNum"></span></span></a>
 			<a class="mui-pull-right integral" id="top-contact" ><span class="icon integral-ico"></span>签到</a>
 			<!--<a class="mui-pull-right" style="padding-top: 10px;"><i class="ico-nav icon"></i></a>-->
 			<h1 class="mui-title name" id="title">聚车金融</h1>
@@ -61,7 +74,7 @@
 		<div class="clear"></div>
 		<nav class="bot-nav">
 		<a href="home.html" id="home" class="tab active" title="聚车金融"><i class="ico-Home icon"></i><p>首页</p></a>
-		<a href="product.html" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
+		<a href="product.html" id="product" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
 		<a href="find.html" class="tab" title="发现"><i class="ico-Assets icon"></i><p>发现</p></a>
 		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 		</nav>
@@ -124,16 +137,24 @@
 				}
 			}
 			//暂时取消手势密码
-			/*if(user.uid()){
-				//验证或设置手势密码
+			if(user.uid()){//判断手势密码是否开启
 				if(plus.storage.getItem('shoushimima')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }else{
 	            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }
 	//            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
-		    }*/
-	
+		   }
+			//单点登录验证
+			if(user.utoken()){
+				//判断异地登录
+				functionCom.checkToken(function(res){
+					//console.log(res.error_no)
+					if(res.error_no!=401){
+						
+					}
+				})	
+			}
 	/**********************************底部导航子页面webview实现****************************************/
 			document.addEventListener("turnUser",function(){
 				var $botNav=$(".bot-nav a")
@@ -202,6 +223,15 @@
 					
 				}
 			})
+			
+			//获取未读角标
+			request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
+			articles.GetList({'request':request},function(res){
+				console.log("消息"+JSON.stringify(res))
+				total = res.total
+				store.set("msg",res.total,3600 * 24 * 365)
+				store.set("check",1,1)
+			})
 			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
 			var activeTab = subpages[0];
@@ -217,6 +247,15 @@
 				}
 			//preload ()
 			mui(".bot-nav").on('tap','a',function(){
+				//单点登录验证
+				if(user.utoken()){
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){	
+						}
+					})	
+				}
 				var url = this.getAttribute('href');
 				if(url == 'user.html'){//如果打开了user页面，若没有登录信息，则调出login（）
 					if(!user.uid()){
@@ -232,7 +271,7 @@
 				this.classList.add("active");
 				//plus.webview.currentWebview().hide();
 				document.getElementById("title").innerHTML = this.getAttribute('title');
-				
+				 
 				
 					
 				var sub = plus.webview.getWebviewById(url);
@@ -247,6 +286,17 @@
 				}else if(url == 'user.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏user页头部账号信息
 					document.getElementById("top-email").classList.remove('mui-hidden');
+					//首页消息未读
+					request={"user_id":user.uid()}
+					articles.GetNoticeStatus({"request":request},function(res){
+						if(parseInt(res.count)>0){
+							document.getElementById("noticeNum").classList.remove('mui-hidden');
+						}else{
+							document.getElementById("noticeNum").classList.add('mui-hidden');
+						}
+						//document.getElementById("noticeNum").innerHTML = res.count;
+						console.log(JSON.stringify(res))
+					})
 				}
 				else if(url == 'product.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏product页头部账号信息
@@ -254,7 +304,7 @@
 				}
 				else{
 					document.getElementById("top-contact").classList.remove('mui-hidden');
-					document.getElementById("top-email").classList.add('mui-hidden');
+					document.getElementById("top-email").classList.add('mui-hidden'); 
 				}
 			});
 			
@@ -263,9 +313,9 @@
 	
 			}
 			
-			articles.getnewnotice({},function(res){
+			/*articles.getnewnotice({},function(res){
 				var noticetime = store.get(noticetime);
-	//			console.log(JSON.stringify(res));
+				console.log(8+JSON.stringify(res));
 				if(res.id > 0){
 					store.set('newnoticetime',res.addtime);
 					if(noticetime){
@@ -279,7 +329,7 @@
 						}
 					}
 				}
-			})
+			})*/  
 			
 			document.getElementById("top-contact").addEventListener('tap',function(){
 				if(!user.uid()){
@@ -327,9 +377,8 @@
 			
 			
 			
-		/*	document.addEventListener('permission',function(e){
-				
-				if(!plus.storage.getItem('ssmms')){
+			document.addEventListener('permission',function(e){
+				if(!plus.storage.getItem('ssmms')){//判断有没有设置手势密码，只要设置过就不再提示
 					mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
 						if (e.index === 0) {
 							mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
@@ -337,13 +386,39 @@
 					});
 				}
 				
-			},false);*/
+			},false);
 		});//plusReady结束
-		
+		 //检索消息未读
+		document.addEventListener('refresh', function() {
+			console.log("s")
+			request={"user_id":user.uid()}
+			articles.GetNoticeStatus({"request":request},function(res){
+				if(parseInt(res.count)>0){
+					document.getElementById("noticeNum").classList.remove('mui-hidden');
+				}else{
+					document.getElementById("noticeNum").classList.add('mui-hidden');
+				}
+				//document.getElementById("noticeNum").innerHTML = res.count;
+				console.log(JSON.stringify(res))
+			})	
+		});
 		 //自定义事件，模拟点击“首页选项卡”
 		document.addEventListener('gohome', function() {
 			console.log('home')
 			var defaultTab = document.getElementById("home");
+			//模拟首页点击
+			mui.trigger(defaultTab, 'tap');
+			//切换选项卡高亮
+			var current = document.querySelector(".bot-nav>.tab.active");
+			if (defaultTab !== current) {
+				current.classList.remove('active');
+				defaultTab.classList.add('active');
+			}
+		});
+		 //自定义事件，模拟点击“首页选项卡”
+		document.addEventListener('goproduct', function() {
+			console.log('product')
+			var defaultTab = document.getElementById("product");
 			//模拟首页点击
 			mui.trigger(defaultTab, 'tap');
 			//切换选项卡高亮

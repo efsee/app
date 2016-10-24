@@ -192,22 +192,31 @@
 }
 .integral-chengg{
 	font-size: 16px;
-	margin: 20px 0px;
+	margin-top:20px;
 	color: #7a7a7a;
 	}
 .integral-tan-bg{
-	background: url(../images/icon.png) no-repeat center;
-	width: 150px;
-	height: 150px;
+	background: url(../images/qdjf_bg.png) no-repeat center;
+	width: 100%;
+	height: auto;
 	display: block;
-  background-position: -743px -542px;
-	line-height: 150px;
-	font-size: 80px;
+  background-size: auto 100%;
+	line-height: 230px;
+	height: 230px;
+	font-size: 68px;
 	color: #FFFFFF;
 	margin: 0 auto;
 	text-align: center;
-	margin-bottom: 15px;
+	/*margin-bottom: 15px;*/
 	
+}
+.integral-tan-bg span{
+	/*display: inline-block;*/
+	font-family:"arial";
+	position: relative;
+	top: 12px;
+	color: #F95453;
+
 }
 
 .layermchild  {

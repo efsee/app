@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <title></title>
+	    <script src="js/mui.min.js"></script>
+	    <link href="css/mui.min.css" rel="stylesheet"/>
+	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <style>
+	    .mui-loader {
+			position: absolute;
+			top: 25%;
+			width: 100%;
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
+		    .Red-envelopes{
+		    	margin: 0;
+		    }
+		    .Red-envelopes li{
+		    	margin-top: 20px;
+		    }
+		    .hongbao-num:active,.hongbao-cond:active{
+		    	background-color: #EFEFEF ;
+		    }
+	    	.hongbao-num,.hongbao-cond{
+	    		margin:0 auto;
+	    		width: 94%;
+	    		height: 100px;
+	    		background-color: #fff;
+	    		border-radius: 6px;
+	    	}
+	    	.hongbao-num img{
+	    		display: block;
+	    		width: 100%;
+	    		height: auto;     
+	    	}
+	    	.hb-je{
+	    		margin-top: 20px;
+	    		width: 40%;
+	    		float: left;
+	    		line-height: 50px;
+	    		font-size: 30px;
+	    		padding-left: 15px;
+	    	}
+	    	.hongbao-num h5{
+	    		width: 60%;
+	    		margin-top: 20px;
+	    		float: left;
+	    		line-height: 30px;
+	    		color: #3B3B3B;
+	    		font-size: 18px;
+	    	}
+	    	.hongbao-num p{
+	    		line-height: 20px;
+	    		float: left;
+	    		color: #b2b2b2;
+	    		font-size: 12px;
+	    	}
+	    	.hongbao-cond{
+	    		padding: 0 15px;
+	    		margin-top: 2px;
+	    		height: 35px;
+	    		line-height: 35px;
+	    		color: #6b6b6b;
+	    	}
+	    	.hongbao-cond span,{
+	    		color: #6b6b6b;
+	    	}
+	    	.hongbao-cond a{
+	    		color: #6b6b6b;
+	    		float: right;
+	    	}
+	    </style>
+	    
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title">可用红包</h1>
+		</header>
+
+		<div class="mui-content" >
+			<div class="mui-loader" id="mui-loader">
+				<span class="mui-spinner"></span> <span id="loading-text" >请耐心等候</span>
+			</div>
+			<div id="tabbar-unused" class="mui-control-content mui-active" style="display: none;">
+				<ul class="Red-envelopes" id="hbBox">
+					
+				</ul>
+				<div class="Warm-tip clearfix">
+					<i class="ico-tip icon"></i>
+					<p class="title">红包使用规则：</p>
+					<div>
+						1. 每个红包都有不同的红包类型和使用有效期，红包只能用于投资抵扣，不能用来兑换和提现；<br />
+						2. 红包金额小于20元时，红包金额不能大于投资金额的1%；<br />
+						3. 红包金额大于等于20元时，红包金额不能大于投资金额的0.5%。
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
+		<script src="js/api.js"></script>
+			
+		<script>
+		
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview()
+				var moneyvalue = parseInt(self.money)
+				console.log(moneyvalue)
+				request = {'user_id': user.uid()};
+				request.status = 1;
+				user.GetHongbao({'request':request},function(res){
+					//console.log(JSON.stringify(res))
+					$(res.list).each(function(k,val){
+						strs = parseInt(val.money);
+						//console.log(strs)
+						if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
+						 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
+							
+							}else{
+								$("#hbBox").append(
+									//'<li data-value="'+val.id+'-'+val.money+'" class="mui-table-view-cell" id="hbList">'+
+									'<li data={"hbvalue":"'+val.id+'-'+val.money+'","money":'+val.money+',"tday":"'+val.tday+'"}  id="hbList">'+
+										'<div class="hongbao-num">'+
+											'<img src="images/wsy_hb.png"/>'+
+											'<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'+
+											'<h5>还有'+val.tday+'过期</h5>'+
+											'<p>有效期至'+val.endtime+'</p>'+
+										'</div>'+
+										'<div class="hongbao-cond">'+
+											'<span class="hb-type">'+val.remarks+'</span>'+
+											'<a>单笔投资满'+val.tmoney+'元及以上可用</a>'+
+										'</div>'+
+									'</li>'
+								)
+							}
+						}else{
+						 	if ( (strs) > (moneyvalue)*(0.005) ){
+								
+							}else{
+								$("#hbBox").append(
+									'<li data={"hbvalue":"'+val.id+'-'+val.money+'","money":'+val.money+',"tday":"'+val.tday+'"}  id="hbList">'+
+										'<div class="hongbao-num">'+
+											'<img src="images/wsy_hb.png"/>'+
+											'<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'+
+											'<h5>还有'+val.tday+'过期</h5>'+
+											'<p>有效期至'+val.endtime+'</p>'+
+										'</div>'+
+										'<div class="hongbao-cond">'+
+											'<span class="hb-type">'+val.remarks+'</span>'+
+											'<a>单笔投资满'+val.tmoney+'元及以上可用</a>'+
+										'</div>'+
+									'</li>'
+								)
+							}
+						}
+					});
+					$(".mui-loader").css("display","none")
+					$("#tabbar-unused").css("display","block")
+				})
+				mui("#hbBox").on("tap","#hbList",function(){
+					var hbdata = this.getAttribute('data');
+					//var hbmoney=this.getAttribute('data');
+					hbdata = eval("(" + hbdata + ")");
+					console.log(JSON.stringify(hbdata))  
+					var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+					mui.fire(ljtzPage,"getHongbao",hbdata)
+					mui.back()
+					
+				})
+			})
+			
+		
+		</script>
+		
+	</body>
+</html>

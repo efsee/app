@@ -79,15 +79,26 @@
 							table.innerHTML ="";
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
+								
 								li.className = 'mui-table-view-cell';
 								var item=res['list'][i];
 								if(item){
-									li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-									'<p class="title mui-ellipsis">'+item.name+'</p>'+
-									'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-									'<i class="ico-arrow icon"></i>'+
-									'</a>';
-									table.appendChild(li);
+									if(parseInt(res['list'][i].hits)>0){
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);
+									}else{
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);
+									}
+									
 								}
 							}
 						}
@@ -116,18 +127,29 @@
 					
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':count};
 					articles.GetList({'request':request},function(res){
+						console.log(JSON.stringify(res))
 						if(res){
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
 								li.className = 'mui-table-view-cell';
 								var item=res['list'][i];
 								if(item){
-									li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-									'<p class="title mui-ellipsis">'+item.name+'</p>'+
-									'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-									'<i class="ico-arrow icon"></i>'+
-									'</a>';
-									table.appendChild(li);
+									//console.log(store.get("article"+item.id))
+									if(parseInt(res['list'][i].hits)>0){ 
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);
+									}else{
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);
+									}
 								}else{
 									empty_flag = 1;
 								}

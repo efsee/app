@@ -8,6 +8,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
         <link rel="stylesheet" href="css/mui.min.css" />
         <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+        <script src="js/mui.min.js"></script>
 	    <style type="text/css">
 	        html, body {
 	            margin: 0;
@@ -19,6 +20,18 @@
 	        .mui-title { color: #333;}
 	    </style>
     <script type="text/javascript">
+    mui.init({
+    	beforeback: function(){
+			//获得a界面的webview
+			var userinfoPage= plus.webview.currentWebview().opener();
+	//				//触发a的自定义事件（refresh）,从而进行数据刷新
+			mui.fire(userinfoPage,'refresh');
+			//返回true，继续页面关闭逻辑
+			return true;
+			}
+    })
+    
+    
     //取消浏览器的所有事件，使得active的样式在手机上正常生效
 	document.addEventListener('touchstart',function(){return false;},true);
 	// 禁止选择
@@ -184,6 +197,7 @@
 	                	plus.storage.setItem('shoushimima', LinePoint.join(""));
 	                	plus.storage.setItem('ssmms', '1');
 	                	plus.storage.setItem('ssmminfo', '');
+	                	//console.log(plus.storage.getItem("shoushimima"))
 	                	document.getElementById('log').innerText = '设置成功 请牢记';
 	                	var ssmmwv = plus.webview.getWebviewById('ssmm');
 	                	if(ssmmwv){

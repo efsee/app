@@ -127,6 +127,10 @@ p.price span.small{
 			           </ul>
 				    </div>
 				</div>
+				<div style="padding:0 18px;color: #333;">
+			    	<div class="biao_xxn_xmms_b1">基本信息</div>
+			        <div><div class="biao_xxn_xmms_ms"><p style="font-size: 15px;line-height: 25px;">{{#borrow.userinfo}}</p></div></div>
+			    </div>
 			    <div style="padding:0 18px;color: #333;">
 			    	<div class="biao_xxn_xmms_b1">项目描述</div>
 			        <div><div class="biao_xxn_xmms_ms"><p style="font-size: 15px;line-height: 25px;">{{#borrow.borrow_contents}}</p></div></div>
@@ -137,7 +141,7 @@ p.price span.small{
 			{{each borrow.pics as pic i}}
 			    <a rel="example_group" href="{{pic.fileurl}}"><img style="margin-top: 8px;" alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
 			{{/each}}
-			</div>
+			</div> 
 			<!--//合规-->
 			<div class="" style="background-color: #EFEFF4;padding:0px;padding-bottom: 20px;">
 				<img width="100%" src="images/heguiTop.png"/>
@@ -207,9 +211,15 @@ p.price span.small{
 					detailWV = plus.webview.create('ljtz.html','ljtz.html');
 					detailWV.setStyle({ 'popGesture': 'close' })
 				}
-				setTimeout(function(){
-					detailWV.show('slide-in-right',150);
-				},150);
+				//判断异地登录
+				functionCom.checkToken(function(res){
+					//console.log(res.error_no)
+					if(res.error_no!=401){
+						setTimeout(function(){
+							detailWV.show('slide-in-right',150);
+						},150);
+					}
+				})//结束
 				detailWV.addEventListener( "loaded", function(){
 					//mui.fire(detailWV,"ljtzId",wddata);
 					plus.nativeUI.closeWaiting()
@@ -236,6 +246,8 @@ p.price span.small{
 					if(res){
 						res.is_login = user.uid();
 						res.nowtime = new Date().getTime() / 1000;
+						//res.borrow.userinfo = res.borrow.userinfo.split("|") 
+						console.log(res.borrow.userinfo)
 						var html = template('tpl',res);
 						console.log(res.borrow.maincode)
 						$('#bodybox').html(html);

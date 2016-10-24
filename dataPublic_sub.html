@@ -125,6 +125,14 @@
 	    		width:100%;
 	    		height:300px
 	    	}
+	    	#hzlTime{
+	    		position: absolute; 
+	    		left: 50%; 
+	    		top: 50%;   
+   				transform: translate(-50%, -50%); 
+   				margin-top: 30px;
+   				font-size: 9px;
+   				color: #cacaca;
 	    </style>
 	</head>
 	<body>
@@ -179,8 +187,9 @@
 			</div>
 			<div class="dataList" style="padding-bottom: 30px;">
 				<div class="topTitle hzl"></div>
-				<div class="dataBg" style="padding: 25px 0;">
+				<div class="dataBg" style="padding: 25px 0; position: relative;">
 					<img class="hzlImg" src="images/hzl.png" />
+					<span id="hzlTime"></span>
 				</div>
 			</div>
 		</div>
@@ -194,10 +203,22 @@
 			
 			mui.plusReady(function(){
 				//数据总览
+				function GetDateStr(AddDayCount) {
+				    var dd = new Date();
+				    dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+				    var y = dd.getFullYear();
+				    var m = dd.getMonth()+1;//获取当前月份的日期
+				    var d = dd.getDate();
+				    return "截止"+y+"年"+m+"月"+d+"日";
+				}
+				document.getElementById("hzlTime").innerHTML = GetDateStr(-1)
+				
 				var dataArray=[];
 				var monthArray=[];
+				var diyuArray=[]
 				var request={}
 				product.gettotal({'request':request},function(res){
+					console.log(JSON.stringify(res))
 					document.getElementById('all_tou').innerHTML=res.all_tou;
 					document.getElementById('all_shouyi').innerHTML=res.new_2015_shouyi;
 					document.getElementById('userNumber').innerHTML=res.all_users_num;
@@ -206,6 +227,7 @@
 					document.getElementById('borYesNum').innerHTML=res.borrow_Yesterday_num;
 					console.log(JSON.stringify(res));
 					var month_total=res.month_total;
+					diyuArray=res.arr_province
 					for(var j=0;j<6;j++){
 						//console.log(month_total[j].month);
 						monthArray.unshift(month_total[j].month+'月')
@@ -286,78 +308,80 @@
 						return false;
 					}
 					console.log(JSON.stringify(month_total));
-					console.log(monthArray);	
-				})
-			})
-			//饼形图
-			var myChart_two = echarts.init(document.getElementById('chart_two'));
-			var option2 = {
-				color: ['#FF6600','#3A75D6','#1EC2D7','#F95452'],
-				tooltip : {
-					trigger: 'item',
-					formatter: "{a} <br/>{b} : {c} ({d}%)"
-				},
-				legend: {
-					//orient: 'vertical',
-					itemWidth:16,
-					itemHeight:16,
-					bottom: '40',
-					left: 'center',
-					itemGap:20,
-					data: [{name:'浙江',icon: 'circle'},
-					{name:'广东',icon: 'circle'},"",
-					{name:'上海',icon: 'circle'},
-					{name:'其他',icon: 'circle'}]
-				},
-				series : [
-					{	
-						name: '投资分布',
-						type: 'pie',
-						radius : '55%',
-						center: ['50%', '35%'],
-						label: {
-							normal: {
-								show: true,
-								formatter: '{d}%' ,
-								position:'top',
-								textStyle:{
-									fontSize:'12',
-									fontWeight:'bold'
-								},
-							},
+					console.log(monthArray);
+					//饼形图
+					var myChart_two = echarts.init(document.getElementById('chart_two'));
+					var option2 = {
+						color: ['#FF6600','#3A75D6','#1EC2D7','#F95452'],
+						tooltip : {
+							trigger: 'item',
+							formatter: "{a} <br/>{b} : {c} ({d}%)"
 						},
-						labelLine: {
-							normal: {
-								show: true,
-								length: 0,
-								lineStyle:{
-									width:2
+						legend: {
+							//orient: 'vertical',
+							itemWidth:16,
+							itemHeight:16,
+							bottom: '40',
+							left: 'center',
+							itemGap:20,
+							data: [{name:'浙江',icon: 'circle'},
+							{name:'广东',icon: 'circle'},"",
+							{name:'上海',icon: 'circle'},
+							{name:'其他',icon: 'circle'}]
+						},
+						series : [
+							{	
+								name: '投资分布',
+								type: 'pie',
+								radius : '55%',
+								center: ['50%', '35%'],
+								label: {
+									normal: {
+										show: true,
+										formatter: '{d}%' ,
+										position:'top',
+										textStyle:{
+											fontSize:'12',
+											fontWeight:'bold'
+										},
+									},
+								},
+								labelLine: {
+									normal: {
+										show: true,
+										length: 0,
+										lineStyle:{
+											width:2
+										}
+									}
+								},
+								data:
+									diyuArray,
+								/*	{value:57.68, name:'浙江'},
+									{value:5.51, name:'广东'},
+									{value:4.06, name:'上海'},
+									{value:32.75, name:'其他'}*/
+								
+								itemStyle: {
+									normal: {
+										borderWidth:2,
+										borderColor:'#fff'
+									},
+									emphasis: {
+										borderWidth:0,
+										shadowBlur: 10,
+										shadowOffsetX: 0,
+										shadowColor: 'rgba(0, 0, 0, 0.5)'
+									}
+									
 								}
 							}
-						},
-						data:[
-							{value:57.68, name:'浙江'},
-							{value:5.51, name:'广东'},
-							{value:4.06, name:'上海'},
-							{value:32.75, name:'其他'}
-						],
-						itemStyle: {
-							normal: {
-								borderWidth:2,
-								borderColor:'#fff'
-							},
-							emphasis: {
-								borderWidth:0,
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: 'rgba(0, 0, 0, 0.5)'
-							}
-							
-						}
-					}
-				]
-			};
-			myChart_two.setOption(option2);
+						]
+					};
+					myChart_two.setOption(option2);
+				})
+			})
+			
 			
 			
 				

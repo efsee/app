@@ -21,7 +21,7 @@
 	<p style="text-align: center;color: #333;font-size:20px;">邀请码：<span class="yqCode"></span></p>
 <div class="imgbox"><div id="qrcode" style=" margin: 20px auto; box-sizing: content-box; text-align: center; background: #fff; padding: 10px; width: 250px; height: 250px;"></div></div>
 <!--<div style="font-size: 14px; padding: 20px;">使用邀请码分享:您的邀请码 <textarea cols="15" rows="1" id="yaoqing" style="height:35px; width:120px; font-size:18px; padding-left:20px; font-weight:bold; overflow:auto;line-height:35px;" readonly="readonly"></textarea></div>-->
-<div class="opn" style="padding: 0 10px; display: none;"><button class="btn Large" id="share">邀请好友</button></div>
+<div class="opn" style="padding: 0 10px;"><button class="btn Large" id="share">邀请好友</button></div>
 <input type="hidden" name="share_url" id="share_url" value="http://www.ifcar99.com/" />
 </div>
 
@@ -41,6 +41,9 @@
 	mui.plusReady(function(){
 	//alert(base64encode(user.uid() + "reg_invite"));
 	$("#yaoqing").html(user.uid());
+	if(plus.os.name=="Android"){
+		document.querySelector(".opn").style.display="none";
+	}
 	user.reg_invite({'user_id':user.uid()},function(res){
 		console.log(JSON.stringify(res));
 		$('#qrcode').qrcode({width: 250,height: 250,text: res.url});

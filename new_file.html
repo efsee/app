@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>数字输入框</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<!--<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">-->
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+		<style>
+			html,
+			body,
+			/*.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}*/
+			/*h5.mui-content-padded {
+				margin-left: 0px !important;
+				margin-top: 20px !important;
+			}*/
+			/*.mui-card {
+				margin: 0px;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+				购买数量:
+				<div class="mui-numbox">
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input class="mui-input-numbox" type="number" />
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				</div>
+				<div class="mui-numbox">
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input class="mui-input-numbox" type="number" />
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				</div>
+				<h5 class="mui-content-padded">在表单中</h5>
+				<h5 class="mui-content-padded">通过样式定义大小(220x60)</h5>
+				<div class="mui-numbox" style="width: 220px;height: 60px;">
+					<button class="mui-btn-numbox-minus" type="button">-</button>
+					<input class="mui-input-numbox" type="number" />
+					<button class="mui-btn-numbox-plus" type="button">+</button>
+				</div>
+				<br/>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			/*mui.init();
+			document.getElementById("btn").addEventListener('tap', function(event) {
+				mui.alert('当前值: ' + document.getElementById("box").value, null, "提示");
+			});
+			var testBox=document.getElementById("test");
+			testBox.addEventListener('change',function(){
+				console.log(testBox.value);
+			});*/
+		</script>
+	</body>
+
+</html>
