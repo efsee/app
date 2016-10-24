@@ -58,21 +58,22 @@
 
 	<body>
 		<div class="mui-content">
-			<div class="mui-loader" id="mui-loader">
-				<span class="mui-spinner"></span>
-				<span id="loading-text" class="mui-hidden">请耐心等候</span>
-			</div>
-			<div class="show-address" style="display: none;">
-				<ul id="OA_task" class="mui-table-view">
-				
-				</ul>
-				<div class="add-address">
-					<a class="add-address-btn">
-						添加收货地址
-					</a>
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div class="mui-loader" id="mui-loader">
+					<span class="mui-spinner"></span>
+					<span id="loading-text" class="mui-hidden">请耐心等候</span>
+				</div>
+				<div class="show-address" style="display: none;">
+					<ul id="OA_task" class="mui-table-view">
+					
+					</ul>
+					<div class="add-address">
+						<a class="add-address-btn">
+							添加收货地址
+						</a>
+					</div>
 				</div>
 			</div>
-			
 		</div>
 		<script id="tpl" type="text/html">
 			{{each rows as item i}}
@@ -149,7 +150,7 @@
 					var requestDef={"token":user.utoken(),"is_default":"1","address_id":data.address_id+""}
 					//console.log(JSON.stringify(requestDef))
 					address.UpdateAddress(requestDef,function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res.error_no==401){
 							user.logout({},function(res){
 								mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
@@ -171,7 +172,7 @@
 					
 					//li.parentNode.removeChild(li);
 				});
-				mui('.add-address').on('tap', '.add-address-btn', function(event) {
+				mui('.add-address').on('tap', '.add-address-btn', function(e) {
 					mui.openWindow({
 						id:"add_address.html",
 						url:'add_address.html',
@@ -185,7 +186,7 @@
 					var request={}
 					request.token=user.utoken()
 					address.Getlists(request,function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res){
 							var html = template('tpl',res.result);
 							$("#OA_task").html(html)
@@ -195,6 +196,7 @@
 							
 						}
 					})
+					//
 				}
 				
 			})
