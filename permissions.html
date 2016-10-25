@@ -217,7 +217,10 @@
 					}
                 
                 //alert(password);
-                password = plus.storage.getItem('shoushimima');
+                //password = plus.storage.getItem('shoushimima');
+                console.log(store.get("shoushi_psw"))
+                password = store.get("shoushi_psw")
+                console.log(password+"and"+LinePoint.join(""))
                 if(password == LinePoint.join("")){
                 	var ws=plus.webview.currentWebview();
                 	plus.webview.close(ws,'slide-out-right');
@@ -225,10 +228,15 @@
                 	errors -= 1;
                 	errors = errors > 0 ? errors - 1 : 0;
                 	if(errors <= 0){
-                		plus.storage.clear();
-						plus.storage.removeItem('shoushimima');
-						login();
-                		
+                		store.delete('shoushi_status');
+						store.delete('shoushi_psw');
+						user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
+	            			//关闭手势密码
+	            			store.delete('shoushi_status');
+		                	})
+                		login()
+                		//plus.storage.clear();
+						//plus.storage.removeItem('shoushimima');
                 	}
                 	document.getElementById('log').innerText = '密码错误，您还有'+errors+'次机会';
                 }

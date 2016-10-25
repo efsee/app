@@ -83,7 +83,7 @@
 		<div class="mui-content">
 	        <div class="mui-input-row">
 		        <input class="con-name"  type="text" placeholder="请输入联系人">
-		        <input class="con-tel" type="tel"  placeholder="请输入手机号码">
+		        <input class="con-tel" type="tel" pattern="[0-9]*"  placeholder="请输入手机号码">
 		        <textarea class="con-add" placeholder="请输入收货地址"></textarea>
 		        <p class="def-address"><i class="un-xuanzhong"></i>设为默认收货地址</p>
 	        </div>
@@ -100,12 +100,28 @@
 			})
 			mui.plusReady(function(){
 				var selfPage=plus.webview.currentWebview()
-				console.log(selfPage.opener().id)
+				//console.log(selfPage.opener().id)
 				mui('body').on('tap','#add-address-btn',function(e){
 					var request={};
 					request.token=user.utoken();
+					if(document.getElementsByClassName("con-name")[0].value==""){
+						mui.alert("联系人不能为空")
+						return false;	
+					}
+					if(document.getElementsByClassName("con-tel")[0].value==""){
+						mui.alert("手机号码不能为空")
+						return false;
+					}else if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(document.getElementsByClassName("con-tel")[0].value)){
+						mui.alert("手机号码错误，请重新输入")
+						return false;
+					}else{
+						request.mobile=document.getElementsByClassName("con-tel")[0].value;
+					}
+					if(document.getElementsByClassName("con-add")[0].value==""){
+						mui.alert("收货地址不能为空")
+						return false;
+					}
 					request.name=document.getElementsByClassName("con-name")[0].value;
-					request.mobile=document.getElementsByClassName("con-tel")[0].value;
 					request.area=document.getElementsByClassName("con-add")[0].value;
 					if(document.getElementsByClassName("def-address")[0].firstChild.className=="xuanzhong"){
 						request.is_default="1";
@@ -116,7 +132,7 @@
 						if(selfPage.opener().id=="goods_detail.html"){
 							var reqShipAddress={"token":user.utoken()}
 							address.Getlists(reqShipAddress,function(res){
-								console.log(JSON.stringify(res))
+								//console.log(JSON.stringify(res))
 								//console.log(res.result.rows[0].address_id)
 								var address_id = res.result.rows[0].address_id
 								//下订单
@@ -125,8 +141,8 @@
 								requestPay.order_goods = '[{"iid":"'+selfPage.iid+'","num":"'+selfPage.num+'"}]';
 								requestPay.address_id = address_id+"";
 								order.Add(requestPay,function(res){
-									console.log(JSON.stringify(requestPay))
-									console.log(JSON.stringify(res))
+									//console.log(JSON.stringify(requestPay))
+									//console.log(JSON.stringify(res))
 									if(res.error_no==200){
 										//投资成功
 										var btnArray = ['确定'];
@@ -175,11 +191,14 @@
 							}
 							
 						}
-						
-						
-						
 					})
 	
+				})
+				mui("body").on("input",".con-tel",function(e){
+					if(this.value.length>11){
+						this.value=this.value.slice(0,11)
+						//console.log(this.value)
+					}
 				})
 				oldback = mui.back;
 				mui.back = function(){

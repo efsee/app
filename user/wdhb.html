@@ -7,6 +7,7 @@
     <script src="../js/mui.min.js"></script>
     <link href="../css/mui.min.css" rel="stylesheet"/>
     <link href="../css/css.css" rel="stylesheet" type="text/css" />
+    <link href="../css/iphone.css" rel="stylesheet" type="text/css" /> 
     <script type="text/javascript" charset="utf-8">
       	mui.init();
     </script>
@@ -89,32 +90,29 @@
 			</a>
 		</nav>
 	<div class="mui-content">
-
+		
 		<div id="tabbar-unused" class="mui-control-content mui-active">
-			<ul class="Red-envelopes" id="hblist-1">
-				
+			<div class="notes-box">
+				<i class="notes-moblie"></i>
+				<p class="no-records-size">暂无记录</p>
+			</div>
+			<ul class="Red-envelopes" id="hblist-1">	
 			</ul>
-
-
-<div class="Warm-tip clearfix">
-<i class="ico-tip icon"></i>
-<p class="title">红包使用规则：</p>
-<div>
-1. 每个红包都有不同的红包类型和使用有效期，红包只能用于投资抵扣，不能用来兑换和提现；<br />
-2. 红包金额小于20元时，红包金额不能大于投资金额的1%；<br />
-3. 红包金额大于等于20元时，红包金额不能大于投资金额的0.5%。
-</div>
-
-</div>
-
-
 		</div>
 		<div id="tabbar-with-used" class="mui-control-content">
+			<div class="notes-box">
+				<i class="notes-moblie"></i>
+				<p class="no-records-size">暂无记录</p>
+			</div>
 			<ul class="Red-envelopes" id="hblist-2">
 			
 			</ul>
 		</div>
 		<div id="tabbar-with-guoqi" class="mui-control-content">
+			<div class="notes-box">
+				<i class="notes-moblie"></i>
+				<p class="no-records-size">暂无记录</p>
+			</div>
 			<ul class="Red-envelopes" id="hblist-3">
 			
 			</ul>
@@ -132,13 +130,10 @@
 		</div>
 		<div class="hongbao-cond">
 			<span class="hb-type">{{$item.remarks}}</span>
-			<a>单笔投资满{{$item.tmoney}}元及以上可用</a>
+			<a>单笔投资满{{$item.tmoney}}元可用</a>
 		</div>
 	</li>
 	{{/each}}
-	{{if list.length == 0}}
-	<li class="clearfix"> 暂无红包记录 </li>
-	{{/if}}
 </script>
 <!-- 已使用  -->
 <script id="tpl-item-2" type="text/html">
@@ -156,9 +151,11 @@
 		</div>
 	</li>
 	{{/each}}
-	{{if list.length == 0}}
-	<li class="clearfix"> 暂无红包记录 </li>
-	{{/if}}
+	<!--{{if list.length == 0}}
+	<li class="clearfix">
+		
+	</li>
+	{{/if}}-->
 </script>
 
 <!-- 已过期  -->
@@ -175,17 +172,14 @@
 		<div class="hongbao-cond" style="position: relative;">
 			<div class="mengban" style="width: 94%;"></div>
 			<span class="hb-type">{{$item.remarks}}</span>
-			<a>单笔投资满{{$item.tmoney}}元及以上可用</a>
+			<a>单笔投资满{{$item.tmoney}}元可用</a>
 		</div>
 	</li>
 	{{/each}}
-	{{if list.length == 0}}
-	<li class="clearfix"> 暂无红包记录 </li>
-	{{/if}}
 </script>
 
 
-
+		<script src="../js/jquery-1.11.2.min.js"></script>
 		<script src="../js/template.js"></script>
 		<script src="../js/template.function.js"></script>
 		<script src="../js/api.js"></script>
@@ -197,6 +191,12 @@ mui.plusReady(function(){
 	request.status = 1;
 	user.GetHongbao({'request':request},function(res){
 		console.log(JSON.stringify(res))
+		if(res.list.length==0){
+			document.getElementById("tabbar-unused").style.position="inherit"
+				
+		}else{
+			document.getElementsByClassName("notes-box")[0].style.display="none"
+		}
 		var html = template('tpl-item-1',res);
 		document.getElementById("hblist-1").innerHTML = html;
 	});
@@ -205,6 +205,12 @@ mui.plusReady(function(){
 	request.status = 2;
 	user.GetHongbao({'request':request},function(res){
 		console.log(JSON.stringify(res))
+		if(res.list.length==0){
+			document.getElementById("tabbar-with-used").style.position="inherit"
+				
+		}else{
+			document.getElementsByClassName("notes-box")[1].style.display="none"
+		}
 		var html = template('tpl-item-2',res);
 		document.getElementById("hblist-2").innerHTML = html;
 	});
@@ -213,6 +219,15 @@ mui.plusReady(function(){
 	request.status = 3;
 	user.GetHongbao({'request':request},function(res){
 		console.log(JSON.stringify(res))
+		if(res.list.length==0){
+			document.getElementById("tabbar-with-guoqi").style.position="inherit"
+				
+		}else{
+			
+			document.getElementsByClassName("notes-box")[2].style.display="none"
+			
+		}
+		
 		var html = template('tpl-item-3',res);
 		document.getElementById("hblist-3").innerHTML = html;
 	});

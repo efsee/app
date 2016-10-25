@@ -116,7 +116,7 @@
 		<script id="tpl-item" type="text/html">
 			{{each rows as item i}}
 			<li class="mui-table-view-cell goodsItem" data={"oid":{{item.oid}}}>
-				<p class="shopping-time"><i></i>&nbsp;&nbsp;<span>{{item.create_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>{{if item.status.text=="已完成"}}<a style="color: #797979;">{{item.status.text}}</a>{{else}}<a style="color:#26B3E1;">{{item.status.text}}</a>{{/if}}</p>
+				<p class="shopping-time"><i></i>&nbsp;&nbsp;<span>{{item.create_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>{{if item.status.text=="已完成"||item.status.text=="已关闭"}}<a style="color: #797979;">{{item.status.text}}</a>{{else}}<a style="color:#26B3E1;">{{item.status.text}}</a>{{/if}}</p>
 				<div id="" style="padding:10px 0 6px 0;">
 					<div class="goods-img">
 						<img src="http://apitest.ifcar99.com{{item.order_goods[0].pic}}" />
@@ -215,6 +215,7 @@
 					mui.openWindow({
 						url : "order_detail.html",
 						id : "order_detail.html",
+						styles : {popGesture:'close'},
 						extras:{
 					        "oid" : data.oid+""
 					    }
@@ -238,13 +239,14 @@
 						
 					}else{
 						if(res.result.total == "0"){
-							document.querySelector("#pullrefresh").innerHTML = '<div class="notes-box">'+
+							document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
 							'<i class="notes-moblie"></i>'+
 							'<p class="no-records-size">暂无记录</p>'+
 							'</div>';
+							mui('#pullrefresh').pullRefresh().setStopped(true)
 							mui('#pullrefresh').pullRefresh().endPulldownToRefresh(true);
 							mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
-							mui('#pullrefresh').pullRefresh().setStopped(true)
+							
 						}else{
 							mui('#pullrefresh').pullRefresh().setStopped(false)
 							temHtml = template('tpl-item',res.result);

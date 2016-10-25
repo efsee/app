@@ -138,7 +138,8 @@
 			}
 			//暂时取消手势密码
 			if(user.uid()){//判断手势密码是否开启
-				if(plus.storage.getItem('shoushimima')){
+				
+				if(store.get('shoushi_status')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }else{
 	            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
@@ -378,13 +379,29 @@
 			
 			
 			document.addEventListener('permission',function(e){
-				if(!plus.storage.getItem('ssmms')){//判断有没有设置手势密码，只要设置过就不再提示
+				user.GetShoushi({"request":{"user_id":user.uid()}},function(res){
+					console.log(JSON.stringify(res))
+        			if(res.shoushi_status=="1"){
+        				store.set('shoushi_status', "1", 3600 * 24 * 365);
+        				store.set('shoushi_psw',res.shoushi, 3600 * 24 * 365);
+        				console.log(store.get("shoushi_psw"))
+        				
+        			}else{
+        				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
+							if (e.index === 0) {
+								mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+							}
+						});
+        			}
+            	})
+				
+				/*if(!plus.storage.getItem('ssmms')){//判断有没有设置手势密码，只要设置过就不再提示
 					mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
 						if (e.index === 0) {
 							mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 						}
 					});
-				}
+				}*/
 				
 			},false);
 		});//plusReady结束
