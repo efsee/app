@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/mui.min.css" />
         <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
         <script src="js/mui.min.js"></script>
+        <script src="js/api.js"></script>
 	    <style type="text/css">
 	        html, body {
 	            margin: 0;
@@ -194,9 +195,23 @@
                console.log("first" + first + " password " + password);
                 if(first){
 	                if(password == LinePoint.join("")){
-	                	plus.storage.setItem('shoushimima', LinePoint.join(""));
-	                	plus.storage.setItem('ssmms', '1');
-	                	plus.storage.setItem('ssmminfo', '');
+	                	user.UpdateShoushi({"request":{"user_id":user.uid(),"shoushi":LinePoint.join("")+""}},function(res){
+							//设置了交易密码
+							//console.log(res)
+							if(res){
+	                			store.set('shoushi_psw',LinePoint.join(""), 3600 * 24 * 365);
+							}
+	                	})
+	                	user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"1"}},function(res){
+	                		//开启手势密码
+	                		console.log(JSON.stringify(res)) 
+	                		if(res){
+								store.set('shoushi_status', "1", 3600 * 24 * 365);
+							}
+	                	})
+	                	/*plus.storage.setItem('shoushimima', LinePoint.join(""));
+	                	plus.storage.setItem('ssmms', '1');//标识有没有设置手势密码
+	                	plus.storage.setItem('ssmminfo', '');*/
 	                	//console.log(plus.storage.getItem("shoushimima"))
 	                	document.getElementById('log').innerText = '设置成功 请牢记';
 	                	var ssmmwv = plus.webview.getWebviewById('ssmm');

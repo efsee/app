@@ -383,6 +383,19 @@ var user = {
 	"GetllczPrice" : function($data, callback){
 		var url = apiurl + '?module=user&action=GetllczPrice';
 		ajax.post(url, $data, callback);
+	},
+	//手势密码
+	"UpdateShoushi" : function($data, callback){
+		var url = apiurl + '?module=user&action=UpdateShoushi';
+		ajax.post(url, $data, callback);
+	},
+	"GetShoushi" : function($data, callback){
+		var url = apiurl + '?module=user&action=GetShoushi';
+		ajax.post(url, $data, callback);
+	},
+	"UpdateShoushiStatus" : function($data, callback){
+		var url = apiurl + '?module=user&action=UpdateShoushiStatus';
+		ajax.post(url, $data, callback);
 	}
 }
 

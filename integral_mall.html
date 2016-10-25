@@ -300,7 +300,7 @@
 								if($('#productContent'+val.zone_id).length==0){
 									$("#product-box").append(
 									'<div class="product-floor">'+
-										'<h4>'+val.title+'<span class="c5 xiangou-time" >'+val.desc+'</span></h4>'+
+										'<h4>'+val.title+'<span class="c5 xiangou-time" style="font-size: 12px;" >'+val.desc+'</span></h4>'+
 										'<ul id="productContent'+val.zone_id+'"></ul>'+
 									'</div>'
 									)
@@ -356,8 +356,8 @@
 				//规则查看
 				document.addEventListener("top-right-btn",function(e){
 					mui.openWindow({
-						"url":"rule.html",
-						"id" :"rule.html",
+						"url":"integral_mall_rule.html",
+						"id" :"integral_mall_rule.html",
 						"styles": {popGesture:'close'},
 						"waiting": {autoShow:false} 
 					})

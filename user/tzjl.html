@@ -39,7 +39,7 @@
 			{{each list as item i}}
 		    <li class="mui-table-view-cell" borrow_nid="{{item.borrow_nid}}" has_repay="{{item.repay_account_yes}}">
 		        <div class="mui-table">
-		            <div class="mui-table-cell mui-col-xs-9">
+		            <div class="mui-table-cell mui-col-xs-6">
 		                <h4 class="mui-ellipsis">{{item.name}}</h4>
 		                <h5>{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
 		                <p class="mui-h6">                	
@@ -47,10 +47,10 @@
 						{{if item.borrow_type == 7}}新车汇{{/if}}
 		                </p>
 		            </div>
-		            <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+		            <div class="mui-table-cell mui-col-xs-6 mui-text-right">
 		            	<p>￥{{item.tender_account | toFixed}}</p>
 		                <span class="mui-h5">
-		                	<font color="#FF0000">{{item.borrow_account_scale}}%</font>
+		                	<font color="#FF0000">{{item.borrow_account_scale}}</font>
 		                </span>
 		            </div>
 		        </div>
@@ -147,6 +147,7 @@
 				request = {'type':'','user_id':user.uid(),'epage':10};
 				request.page = page;
 				borrow.GetTenderBorrowList({'request':request},function(res){
+					//console.log(JSON.stringify(res))
 					var html = template('tpl-item',res);
 					var ul = document.querySelector('#tzjl-list');
 					var upflag = res.page >= res.total_page ? true : false;

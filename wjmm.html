@@ -30,7 +30,7 @@
 <body>
 <div class=" clearfix mui-content">
 <ul class="reg-form clearfix">
-<li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" pattern="[0-9]*" name="mobile" class="reg-txt" placeholder="手机号"></div></li>
+<li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" pattern="[0-9]*" name="mobile" class="reg-txt" placeholder="手机号" readonly="readonly"></div></li>
 <li><div class="input-box yzm"><i class="ico-yzm ico24 icon"></i><input type="text" pattern="[0-9]*" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码"><a href="javascript:" class="getyzm" id="getyzm">发送验证码</a></div></li>
 <div class="input-box getYY">长时间收不到验证码，可尝试 <a href="javascript:" class="get_yy_code yy_button" id="yyyzm">语音接听验证码</a></div>
 <li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="password" name="password" class="reg-txt" placeholder="登录密码"></div></li>
@@ -57,6 +57,8 @@
 //		mui('body').on('tap', '#login-btn',function(){
 //			mui.back();
 //		})
+		loginusername=store.get('username');
+		$('#mobile').val(loginusername)
 		document.addEventListener("loginusername",function(e){
 			//console.log(JSON.stringify(e.detail));
 			$('#mobile').val(e.detail.loginusername);
@@ -107,12 +109,13 @@
 					}
 					$("input:focus").blur();
 					user.setpwd(request,function(res){
+						console.log(JSON.stringify(res))
 						if(res.status == 1){
 							plus.nativeUI.toast("重置密码成功，请您登陆！");
 								// 关闭页面
 								mui.back();
 						}else{
-							alert(res.msg);
+							mui.alert(res.msg);
 						}
 					})
 

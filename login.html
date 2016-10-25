@@ -108,12 +108,14 @@
 					$("input:focus").blur();
 					newUser.login({"loginname":username, "password_md5":password,'from':'phone'}, function(rs) {
 						console.log(JSON.stringify(rs));
-						console.log(JSON.stringify(rs.result.token.token))
-						if (rs.error_msg=="请求成功") {
+						//console.log(JSON.stringify(rs.result.token.token))
+						if (rs.error_no==200) {
 							var uid = rs.result.user.user_id;
 							user.deleteCache(uid); //清空缓存 
 							store.delete('uid');
 							store.delete('utoken');
+							store.delete('shoushi_status');
+						    store.delete('shoushi_psw');
 							plus.storage.removeItem('shoushimima');
 							if (!uid) {
 								plus.nativeUI.alert('用户不存在');
@@ -148,7 +150,7 @@
 //							mui.fire(mainWV, 'mui.view.refresh');
 							return true;
 						} else {
-							plus.nativeUI.alert(rs.info || rs.msg || rs.message);
+							plus.nativeUI.alert(rs.info || rs.msg || rs.message|| rs.error_msg);
 							return false;
 						}
 					});

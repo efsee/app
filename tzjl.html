@@ -70,7 +70,7 @@ header .mui-title { color: #333; }
 	{{each list as item i}}
     <li class="mui-table-view-cell">
         <div class="mui-table">
-            <div class="mui-table-cell mui-col-xs-8">
+            <div class="mui-table-cell mui-col-xs-6">
                 <h4 class="mui-ellipsis">{{item.username}}</h4>
                 <h5 style="padding-left: 2px;">{{item.addtime | dateFormat:'yyyy-MM-dd hh:mm'}}</h5>
                 <p class="mui-h6">                	
@@ -78,13 +78,13 @@ header .mui-title { color: #333; }
 				{{if item.borrow_type == 7}}新车汇{{/if}}
                 </p>
             </div>
-            <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+            <div class="mui-table-cell mui-col-xs-6 mui-text-right">
                 <!--<span class="mui-h5">
                 	<font style="font-size: 18px;" color="#FF0000">￥{{item.account | toFixed}}</font>
                 </span>-->
                 <h4 class="mui-ellipsis" style="font-size: 18px; color:#FF0000;">￥{{item.account | toFixed}}</h4>
                 {{if item.hbagmoney!="0"}}
-                	<h5 style="padding-left: 2px;">已使用<span class="c5">{{item.hbagmoney}}元</span>红包</h5>
+                	<h5 style="padding-left: 2px;font-size: 13px;">已使用<span class="c5">{{item.hbagmoney}}元</span>红包</h5>
                 {{/if}}
                 
             </div>

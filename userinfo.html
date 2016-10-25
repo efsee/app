@@ -144,20 +144,25 @@
 			mui.init()
 			mui.plusReady(function(){
 				//有无自动投资
-				user.getInfo(function(res){
+			/*	user.getInfo(function(res){
 					console.log(JSON.stringify(res))
 					if(res){
 				 		if(res.bauto){
 				 			document.getElementById("switch_auto").classList.add('mui-active');
 				 		}
 					}
-				});
-				//判断有无设置手势密码
-				if(plus.storage.getItem('shoushimima')){
+				});*/
+				//判断有无开启手势密码
+				if(store.get("shoushi_status")){
 					document.getElementById("switch_ssmm").classList.add('mui-active');
 				}else{
 					document.getElementById("switch_ssmm").classList.remove('mui-active');
 				}
+				/*if(plus.storage.getItem('shoushimima')){
+					document.getElementById("switch_ssmm").classList.add('mui-active');
+				}else{
+					document.getElementById("switch_ssmm").classList.remove('mui-active');
+				}*/
 				request = {"user_id":user.uid()};
       			account.GetUsersBankOne({'request':request},function(res){
       				console.log(8+JSON.stringify(res))
@@ -227,15 +232,37 @@
 							if (isActive) {
 								mui.openWindow({url:'permission.html', id:'permission'});
 							} else {
-								plus.storage.removeItem('shoushimima');
+								//plus.storage.removeItem('shoushimima');
+								user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
+	                			//关闭手势密码
+	                			store.delete('shoushi_status');
+								//store.delete('shoushi_psw');
+	                			//console.log(JSON.stringify(res))
+			                	})
 							}	
 						}
 					})//结束
 				});
 				
 				document.getElementById("switch_auto").addEventListener('toggle', function(event) {
-					//判断异地登录
-					functionCom.checkToken(function(res){
+					//mui.alert(this.classList.contains('mui-active')+9)
+					if(!this.classList.contains('mui-active')){  
+						
+					}else{
+						mui.alert("功能升级中",function(e){  
+							if(e.index==0){
+								mui('#switch_auto').switch().toggle()
+								
+							}  
+						})
+					} 
+					/*mui.alert("功能升级中",function(e){
+						if(e.index==0){
+							//plus.webview.currentWebview().reload()
+							
+						} 
+					})*/
+					/*functionCom.checkToken(function(res){
 						//console.log(res.error_no)
 						if(res.error_no!=401){
 							request = {};
@@ -250,7 +277,7 @@
 								}
 							});
 						}
-					})//结束
+					})//结束*/
 				});
       			mui('body').on('tap', '#logOut', function(e){
 					e.stopPropagation();
@@ -270,7 +297,6 @@
       			document.addEventListener("refresh",function(e){
       				//判断有无设置手势密码
 					plus.webview.currentWebview().reload()
-					
       			})
 			})
 		</script>
