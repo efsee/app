@@ -777,11 +777,11 @@ var functionCom = {
 	checkToken : function(callback){
 		//判断异地登录
 	newUser.get({"token":user.utoken()},function(res){
-		console.log("验证"+JSON.stringify(res))
+		//console.log("验证"+JSON.stringify(res))
 		if(res.error_no==401){
 			$("input").blur();
 			user.logout({},function(res){
-				console.log('logout');
+				//console.log('logout');
 				mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
 					if (e.index == 0) {
 						//return false;

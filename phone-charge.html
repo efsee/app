@@ -124,7 +124,7 @@
 		function initprice(){
 			request = {'type':mobileType,'mobile':userMobile,'user_id': user.uid()};
 			user.GetllczPrice({'request':request},function(res){
-				console.log(JSON.stringify(request))
+				//console.log(JSON.stringify(request))
 				//console.log(JSON.stringify(res))
 				if(res.status==1){
 					$('.item').each(function(i,e){
@@ -233,11 +233,11 @@
 									                    $(this).val("");  
 									                }  
 									            });  
-									            console.log($(this).val());
+									           // console.log($(this).val());
 									            if (j==6) {
 									            	$("input").blur()
 									            	paypassword=$(this).val()
-									            	console.log("我的密码是："+$(this).val());
+									            	//console.log("我的密码是："+$(this).val());
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
 													//console.log(JSON.stringify(request))
 													//判断异地登录
@@ -245,13 +245,13 @@
 														//console.log(res.error_no)
 														if(res.error_no!=401){
 															account.Cost_llcz({'request':request},function(res){//扣款
-																console.log(JSON.stringify(res))
+															//	console.log(JSON.stringify(res))
 																if(res){
 																	if(res.status>0){//支付成功
 																		//console.log("s")
 																		var time=new Date().getTime();
 																		request = {"order_no":order_no,"account_no":account_no,"user_id":user_id,"face_price":face_price,"sale_price":sale_price,"time":time};
-																		console.log(JSON.stringify(request))
+																	//	console.log(JSON.stringify(request))
 																		addresult=AddCharge(request);//充值话费
 																		//$(".iphone-czjl").css("position","absolute")
 																		closelayer()
