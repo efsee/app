@@ -238,7 +238,7 @@
 									            	$("input").blur()
 									            	paypassword=$(this).val()
 									            	//console.log("我的密码是："+$(this).val());
-									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"paypassword":paypassword};
+									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"face_price":face_price,"paypassword":paypassword};
 													//console.log(JSON.stringify(request))
 													//判断异地登录
 													functionCom.checkToken(function(res){
