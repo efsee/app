@@ -107,7 +107,7 @@
 					mui('#pullrefresh').pullRefresh().setStopped(false)
 					var upflag = page*10 >= res.result.total? true : false;
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res));
 					$(res.result.rows).each(function(k,val){
 						time=new Date(parseInt(val.create_time)*1000)
 						year=time.getFullYear()
@@ -142,7 +142,7 @@
 						)
 					})
 
-					if(res.total == 0){
+					if(res.result.total == 0){
 						document.querySelector(".mui-content").innerHTML = '<div class="notes-box">'+
 							'<i class="notes-moblie"></i>'+
 							'<p class="no-records-size">暂无记录</p>'+

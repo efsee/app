@@ -74,7 +74,8 @@
 			 */
 			function pulldownRefresh() {
 				//获取所有积分
-				request={'user_id': user.uid(),'type_nid':'sign'};
+				
+				/*request={'user_id': user.uid(),'type_nid':'sign'};
 				credit.GetTypeCount({'request':request},function(res1){
 					if(res1==null){
 						$(".integral-zong").html("0")
@@ -89,6 +90,26 @@
 							}	
 						})	
 					}	
+				})*/
+				newCredit.GetTotal({'token':user.utoken()},function(res){
+					//console.log(JSON.stringify(res))
+					if(res.error_no==401){
+						mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+							if (e.index == 0) {
+								login();
+							}
+						})
+					}
+					if(res){
+						//var html = template('tpl',res.result);
+						if(res.result==false){
+							$(".integral-zong").html(0);
+						}else{
+							$(".integral-zong").html(res.result.current);
+						}
+					}else{
+						
+					}
 				})
 				
 				//判断是否签到
@@ -97,12 +118,7 @@
 					 'nid':'sign'
 				};
 				credit.GetLogList({'request':req2},function(res){
-					//console.log(JSON.stringify(res))
-					//var nowDate=1475040300000+28800000
 					var nowDate=new Date().getTime()+28800000
-					
-					//console.log(nowDate)
-					//console.log(nowDate%86400000)
 					var remainDate=nowDate-nowDate%86400000-28800000
 				//	console.log(remainDate)
 					if(res==""){

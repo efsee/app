@@ -101,14 +101,14 @@
 						//request.style="1";
 						//console.log(JSON.stringify(request));
 						product.getversion({"request":request},function(res){
-							console.log(JSON.stringify(res));
+							//console.log(JSON.stringify(res));
 							if(res){
 								if(appinfo.version<res.version){
 									var content='';
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									console.log(content);
+									//console.log(content);
 									store.set('diffrent17', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
@@ -176,14 +176,14 @@
 						//request.style="1";
 						//console.log(JSON.stringify(request));
 						product.getversion({"request":request},function(res){
-							console.log(JSON.stringify(res));
+							//console.log(JSON.stringify(res));
 							if(res){
 								if(appinfo.version<res.version){
 									var content='';
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									console.log(content);
+									//console.log(content);
 									store.set('diffrent17', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
@@ -228,7 +228,7 @@
 			//获取未读角标
 			request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 			articles.GetList({'request':request},function(res){
-				console.log("消息"+JSON.stringify(res))
+			//	console.log("消息"+JSON.stringify(res))
 				total = res.total
 				store.set("msg",res.total,3600 * 24 * 365)
 				store.set("check",1,1)
@@ -296,7 +296,7 @@
 							document.getElementById("noticeNum").classList.add('mui-hidden');
 						}
 						//document.getElementById("noticeNum").innerHTML = res.count;
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 					})
 				}
 				else if(url == 'product.html'){
@@ -345,7 +345,7 @@
 				mui.fire(headerWebview, 'updateHeader', {
 					title: '每日签到',
 					showMenu: false,
-					right_btn:'签到记录'
+					right_btn:'积分记录'
 				});
 				mui.fire(headerWebview, 'loading');
 				headerWebview.show('slide-in-right', 100);
@@ -380,11 +380,11 @@
 			
 			document.addEventListener('permission',function(e){
 				user.GetShoushi({"request":{"user_id":user.uid()}},function(res){
-					console.log(JSON.stringify(res))
+					//console.log(JSON.stringify(res))
         			if(res.shoushi_status=="1"){
         				store.set('shoushi_status', "1", 3600 * 24 * 365);
         				store.set('shoushi_psw',res.shoushi, 3600 * 24 * 365);
-        				console.log(store.get("shoushi_psw"))
+        				//console.log(store.get("shoushi_psw"))
         				
         			}else{
         				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
@@ -407,7 +407,6 @@
 		});//plusReady结束
 		 //检索消息未读
 		document.addEventListener('refresh', function() {
-			console.log("s")
 			request={"user_id":user.uid()}
 			articles.GetNoticeStatus({"request":request},function(res){
 				if(parseInt(res.count)>0){
@@ -416,12 +415,12 @@
 					document.getElementById("noticeNum").classList.add('mui-hidden');
 				}
 				//document.getElementById("noticeNum").innerHTML = res.count;
-				console.log(JSON.stringify(res))
+				//console.log(JSON.stringify(res))
 			})	
 		});
 		 //自定义事件，模拟点击“首页选项卡”
 		document.addEventListener('gohome', function() {
-			console.log('home')
+			//console.log('home')
 			var defaultTab = document.getElementById("home");
 			//模拟首页点击
 			mui.trigger(defaultTab, 'tap');
@@ -434,7 +433,7 @@
 		});
 		 //自定义事件，模拟点击“首页选项卡”
 		document.addEventListener('goproduct', function() {
-			console.log('product')
+			//console.log('product')
 			var defaultTab = document.getElementById("product");
 			//模拟首页点击
 			mui.trigger(defaultTab, 'tap');

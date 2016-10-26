@@ -250,7 +250,7 @@
 					var request={}
 					closePhone.GetPhoneChargeStatus({'request':request},function(res){
 						if(res.status>0){
-							console.log(JSON.stringify(res))
+							//console.log(JSON.stringify(res))
 							uid = user.uid();
 							if(!uid){
 								login();
@@ -279,7 +279,7 @@
 							})
 							
 						}else{
-							console.log(JSON.stringify(res))
+							//console.log(JSON.stringify(res))
 							mui.alert(res.msg)
 						}
 						
