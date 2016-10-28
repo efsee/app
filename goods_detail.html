@@ -24,14 +24,14 @@
 				box-shadow: none;
 			}
 			.goods-preview{
-				padding: 25px 0 8px 0;
+				padding: 0px 0 8px 0;
 				position: relative;
 				background: #fff;
 			}
 			.goods-preview img{
 				display: block;
-				width: 50%;
-				height: ;
+				/*width: 50%;
+				height: ;*/
 				margin:0 auto;
 			}
 			.goods-title{
@@ -52,6 +52,14 @@
 				bottom: 0;
 				left: 0;
 			}
+			.goods-preview{
+				padding:10px 0;	
+			}
+			.goods-preview img{
+				width: 80%;
+				height: auto;
+			}
+				
 			.goods-need{
 				padding:8px 0 8px 15px;	
 			}
@@ -202,7 +210,7 @@
 		</div>
 		<script id="tpl" type="text/html">
 			<div class="goods-preview">
-				<img src="http://apitest.ifcar99.com{{result.pic[0]}}" />
+				<img src="http://apitest.ifcar99.com{{result.pic_small}}" />
 				<h5 class="goods-title">{{result.title}}</h5>
 				<ul class="goods-need" style="padding-left: 15px;">
 					<li><span class="goods-intergral"><img src="images/jfsc/jf_icon_03.png"/> <a class="c5">{{result.price}}</a></span><span class="goods-inventory">当期库存：<a>{{result.store}}件</a></span></li>
@@ -227,10 +235,7 @@
 			<div class="goods-img-details">
 				<h5 >商品介绍</h5>
 				{{each result.pic as item i}}
-				{{if i==0}}
-				{{else}}
 				<img src="http://apitest.ifcar99.com{{item}}" />
-				{{/if}}
 				{{/each}}
 				<div class="good-desc">{{#result.desc | updateimgpath}}</div>
 			</div>
@@ -490,7 +495,7 @@
 				
 				function getdata(){
 					goods.GetGoodsDetail(data,function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res){
 							limitOntime = parseInt(res.result.limit_on_time)
 							limitOfftime = parseInt(res.result.limit_off_time)
@@ -523,7 +528,7 @@
 							goodsPrice = parseInt(res.result.price)
 							goodsLimit = parseInt(res.result.limit)
 							goodsStore = parseInt(res.result.store)
-							console.log(JSON.stringify(res))
+						//	console.log(JSON.stringify(res))
 							var html = template('tpl',res);
 							$("#goodsContent").html(html)
 							if(parseInt(res.result.store)>0){ 
@@ -549,7 +554,6 @@
 				document.addEventListener("initpage",function(e){
 					getdata(data)
 					window.scrollTo(0,0);
-					//console.log("刷新啦")
 				})
 				
 			})

@@ -92,7 +92,7 @@
 				font-size: 15px;
 			}
 			.goods-details li:first-child span{
-				width: 105px;
+				width: 140px;
 				display: inline-block;
 			}
 			.goods-details a{
@@ -166,7 +166,10 @@
 						callback: pullupRefresh
 					}
 				}
-			});			
+			});
+			document.addEventListener("refresh2",function(e){
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+			})
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -204,7 +207,6 @@
 			mui.plusReady(function(){
 				oldback = mui.back;
 				mui.back = function(){
-					//console.log("as");
 					var parentPage=plus.webview.currentWebview().opener()
 					mui.fire(parentPage,"initpage")
 					oldback();
@@ -259,15 +261,15 @@
 							}
 							mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
 						}
-						console.log(JSON.stringify(request));
-						console.log(JSON.stringify(res));
+						//console.log(JSON.stringify(request));
+						//console.log(JSON.stringify(res));
 					}
 				})	
 			}
 			oldback = mui.back;
 			mui.back = function(){
 				//console.log("as");
-				var parentPage=plus.webview.currentWebview().opener()
+				var parentPage=plus.webview.currentWebview().parent().opener()
 				mui.fire(parentPage,"initpage")
 				oldback();
 			}

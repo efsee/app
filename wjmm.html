@@ -48,6 +48,7 @@
 </div>
 <script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
@@ -112,8 +113,20 @@
 						console.log(JSON.stringify(res))
 						if(res.status == 1){
 							plus.nativeUI.toast("重置密码成功，请您登陆！");
+							user.logout({},function(res){
+								//console.log('logout');
+								//plus.nativeUI.toast('成功退出');
+								mui.fire(plus.webview.getLaunchWebview(),'gohome');
+								//plus.runtime.quit();
+								login();
+								setTimeout(function(){
+								 	//mui.back();
+								 	plus.webview.currentWebview().parent().evalJS("mui.back();")
+									plus.webview.currentWebview().parent().opener().parent().evalJS("mui.back();");
+								},1000);
+							});
 								// 关闭页面
-								mui.back();
+								
 						}else{
 							mui.alert(res.msg);
 						}

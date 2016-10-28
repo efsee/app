@@ -165,7 +165,7 @@
 				}*/
 				request = {"user_id":user.uid()};
       			account.GetUsersBankOne({'request':request},function(res){
-      				console.log(8+JSON.stringify(res))
+      				//console.log(JSON.stringify(res))
       				res.mobile = res.mobile.slice(0,3)+"****"+res.mobile.slice(-4)
       				if(res.status=="1"&&res.realname!=null){
 						res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
@@ -236,7 +236,7 @@
 								user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
 	                			//关闭手势密码
 	                			store.delete('shoushi_status');
-								//store.delete('shoushi_psw');
+								store.delete('shoushi_psw');
 	                			//console.log(JSON.stringify(res))
 			                	})
 							}	

@@ -187,10 +187,12 @@
 		        </li>
 		        <li class="mui-table-view-cell">
 		          	发货时间
-		          	{{if result.shipping.time=="0"}}
-		          	<span>未发货</span>
-		          	{{else}}
-		          	<span>{{result.shipping.time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>
+		          	{{if result.status.text=="已关闭"}}
+		          		<span>已关闭</span>
+		          		{{else if result.shipping.time=="0"}}
+		          		<span>未发货</span>
+		          		{{else}}
+		          		<span>{{result.shipping.time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>
 		          	{{/if}}
 		        </li>
 		    </ul>
@@ -203,7 +205,15 @@
 		<script type="text/javascript" src="js/template.function.js" ></script>
 		<script type="text/javascript">
 			
-			mui.init()
+			mui.init({
+				beforeback: function(){
+				var thisIndex=plus.webview.currentWebview().opener()
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+				mui.fire(thisIndex,'refresh2');
+				//返回true，继续页面关闭逻辑
+				return true;
+				}
+			})
 			mui.plusReady(function(){
 				var self = plus.webview.currentWebview()
 				oid = self.oid

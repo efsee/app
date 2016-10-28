@@ -119,6 +119,9 @@
 				height:120px;
 				padding:10px;	
 			}
+			.product-img img{
+				/*width: 100%;*/
+			}
 			.product-floor .product-detail p{
 				height: 25px;
 				line-height: 25px;
@@ -161,7 +164,7 @@
 			}
 			.sc-shengming{
 				color: #bfbfbf;
-				padding-bottom:20px;
+				padding-bottom:65px;
 				text-align: center;
 				line-height: 45px;
 			
@@ -172,6 +175,9 @@
 			}
 			.xiangou-time{
 				margin-left: 20px;
+			}
+			.product-title{
+				padding:0 12px;
 			}
 			
 		</style>
@@ -219,7 +225,7 @@
 				<div class="product-img">
 					<img src="http://apitest.ifcar99.com{{item.pic_small}}"/>
 				</div>
-				<p class="product-title">{{item.title}}</p>
+				<p class="product-title mui-ellipsis">{{item.title}}</p>
 				<p class="product-integral"><img src="images/jfsc/jf_icon_03.png"/>&nbsp;<span>{{item.price}}</span></p>
 			</li>
 			{{/each}}
@@ -238,6 +244,7 @@
 		    	deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 			});
 			mui.plusReady(function(){
+				var inittemplate = getTemplate('mall_template', 'template.html'); 
 				getdata()
 				//商品详情跳转(现载)
 				var opening=false;//变量防止多次点击
@@ -265,12 +272,13 @@
 				})
 				
 				//地址、记录等
+				
 				mui(".user-info").on('tap','li.info-item',function(e){
 					e.stopPropagation();
 					var data = this.getAttribute('data')
 					data=eval("(" + data + ")");
 					//通知模板修改标题，并显示隐藏右上角图标；
-					inittemplate = getTemplate('template', 'template.html');
+					inittemplate = getTemplate('mall_template', 'template.html');
 						//获得共用父模板
 					var headerWebview = inittemplate.header;
 						//获得共用子webview
@@ -282,9 +290,12 @@
 					});
 					mui.fire(headerWebview, 'loading');
 					headerWebview.show('slide-in-right', 150);
+					//plus.webview.currentWebview().hide() 
+
 				})
 				
 				function getdata(){
+					//plus.webview.currentWebview().show()
 					//获取专区列表
 					goods.GetGoodsZoneList({"token":user.utoken()},function(res){
 						//console.log(JSON.stringify(res))
@@ -332,13 +343,16 @@
 							})
 						}
 						if(res){
+							
 							//var html = template('tpl',res.result);
 							if(res.result==false){
 								$('#creditTotal').html(0);
 							}else{
+						//document.getElementById("creditTotal").innerHTML= res.result.current
 								$('#creditTotal').html(res.result.current);
+								//alert($('#creditTotal').html())
 							}
-							
+							 
 							/*$('#mui-loader').hide();
 							$('.mui-scroll-wrapper').show();*/
 						}else{
@@ -348,10 +362,11 @@
 				}
 				//返回刷新
 				document.addEventListener("initpage",function(e){
+					console.log("n")
 					//plus.webview.currentWebview().reload()
 					getdata()
 					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
-					console.log("刷新啦")
+					
 				})
 				//规则查看
 				document.addEventListener("top-right-btn",function(e){
@@ -363,6 +378,7 @@
 					})
 				})
 			})
+			
 		</script>
 	</body>
 
