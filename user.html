@@ -191,7 +191,7 @@
 			});
 			
 			mui.plusReady(function(){
-				plus.webview.create("integral_mall.html","integral_mall.html")
+			//	plus.webview.create("integral_mall.html","integral_mall.html")
 				if(user.utoken()){
 					//判断异地登录
 					functionCom.checkToken(function(res){
@@ -369,21 +369,6 @@
 					
 				})
 				
-				/*document.getElementById("jfmall").addEventListener('tap',function(e){
-					//判断异地登录
-					functionCom.checkToken(function(res){
-						//console.log(res.error_no)
-						if(res.error_no!=401){
-							mui.openWindow({
-								'url':'jfmall_header.html','id':'jfmall_header.html', 
-								'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
-								'show':{'autoShow':true},'waiting':{'autoShow':false}
-							});
-						}
-					})//结束
-					
-				})*/
-				
 				document.getElementById("zjmx").addEventListener('tap',function(e){
 					//判断异地登录
 					functionCom.checkToken(function(res){
@@ -420,7 +405,7 @@
 					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
 				getdata();
-				mui.fire(plus.webview.getWebviewById("integral_mall.html"),"initpage")
+				//mui.fire(plus.webview.getWebviewById("integral_mall.html"),"initpage")
 				//console.log("as")
 				/*request = {};
 				request.user_id = user.uid();*/
