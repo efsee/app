@@ -30,7 +30,7 @@
 	};
 	
      var password = '';
-     var errors = 5;
+     var errors = 4;
      var first = 0;
      
          mui.init({swipeBack: false});
@@ -218,14 +218,14 @@
                 
                 //alert(password);
                 //password = plus.storage.getItem('shoushimima');
-                console.log(store.get("shoushi_psw"))
+                //console.log(store.get("shoushi_psw"))
                 password = store.get("shoushi_psw")
-                console.log(password+"and"+LinePoint.join(""))
+               // console.log(password+"and"+LinePoint.join(""))
                 if(password == LinePoint.join("")){
                 	var ws=plus.webview.currentWebview();
                 	plus.webview.close(ws,'slide-out-right');
                 }else{
-                	errors -= 1;
+                	//errors -= 1;
                 	errors = errors > 0 ? errors - 1 : 0;
                 	if(errors <= 0){
                 		store.delete('shoushi_status');

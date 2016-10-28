@@ -133,10 +133,10 @@
 							</a>
 						</li>
 						<li id='jfMall' class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new-jf">
-						<a href="integral_mall.html" class="tap" data='{"title":"积分商城","right_btn":"规则"}'>
+						<a href="integral_mall.html" class="tap" id="jfmall" data='{"title":"积分商城","right_btn":"规则"}'>
 								<span class="icon icon-hdjf"></span>
 								<div class="mui-media-body">积分商城</div>
-							</a>
+						</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
 						<a href="user/wdhb.html" class="tap" data='{"title":"我的红包"}'>
@@ -191,6 +191,7 @@
 			});
 			
 			mui.plusReady(function(){
+				plus.webview.create("integral_mall.html","integral_mall.html")
 				if(user.utoken()){
 					//判断异地登录
 					functionCom.checkToken(function(res){
@@ -291,7 +292,6 @@
 						login();
 						return;
 					}
-					
 					if(this.classList.contains('noopen')){
 						return;
 					}
@@ -368,6 +368,22 @@
 					})//结束
 					
 				})
+				
+				/*document.getElementById("jfmall").addEventListener('tap',function(e){
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no!=401){
+							mui.openWindow({
+								'url':'jfmall_header.html','id':'jfmall_header.html', 
+								'styles':{'top':'0px',"popGesture":"close","aniShow":"slide-in-right","duration":200},
+								'show':{'autoShow':true},'waiting':{'autoShow':false}
+							});
+						}
+					})//结束
+					
+				})*/
+				
 				document.getElementById("zjmx").addEventListener('tap',function(e){
 					//判断异地登录
 					functionCom.checkToken(function(res){
@@ -404,6 +420,7 @@
 					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
 				getdata();
+				mui.fire(plus.webview.getWebviewById("integral_mall.html"),"initpage")
 				//console.log("as")
 				/*request = {};
 				request.user_id = user.uid();*/

@@ -306,7 +306,7 @@
 			
 			mui.plusReady(function(){
 				//functionCom.checkToken()
-				console.log(store.get('username'))
+				//console.log(store.get('username'))
 				initNativeObjects();
 				//获取红包
 				hbrequest = {};
@@ -473,10 +473,15 @@
 				if(money == ""){	
 					//调用getdata()
 					plus.nativeUI.alert('请输入投资金额！',function(){
-						//getdata(ljdata)
 						plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
-						//initNativeObjects();
-			  			showSoftInput();
+			  			$("#money").focus()
+					});
+					return false;
+				}
+				if(parseFloat(money)%100!=0){
+					plus.nativeUI.alert('投资金额必须100的倍数！',function(){
+						plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+			  			$("#money").focus()
 					});
 					return false;
 				}
