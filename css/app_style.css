@@ -201,7 +201,7 @@ input[type="radio"]{border:#c8c8c8 1px solid;background:#ccc;}
 .mui-table-view .mui-table-view-cell .icon-zx{background-position: 4px 0px;}  
 .mui-table-view .mui-table-view-cell .icon-tz{background-position: -38px 0px;} 
 .mui-table-view .mui-table-view-cell .icon-zd{background-position: -70px 3px;}     
-.mui-table-view .mui-table-view-cell .icon-jf{background-position: -110px -145px;/*-141px 0px;*/}                
+.mui-table-view .mui-table-view-cell .icon-jf{background-position: /*-110px -145px;*/-141px 2px;}                
 .mui-table-view .mui-table-view-cell .icon-aj{background-position: -106px 0px;}
 .mui-table-view .mui-table-view-cell .icon-yq{background-position: -178px 2px;} 
 .mui-table-view .mui-table-view-cell .icon-cz{background-position: 8px -142px;} 

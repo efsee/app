@@ -141,7 +141,7 @@
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
 						<a href="user/wdhb.html" class="tap" data='{"title":"我的红包"}'>
 								<span class="icon icon-jf"></span>
-								<div class="mui-media-body">我的卡券</div>
+								<div class="mui-media-body">我的红包</div>
 							</a>
 						</li>
 						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -368,6 +368,7 @@
 					})//结束
 					
 				})
+
 				
 				document.getElementById("zjmx").addEventListener('tap',function(e){
 					//判断异地登录
@@ -405,7 +406,7 @@
 					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
 				getdata();
-				//mui.fire(plus.webview.getWebviewById("integral_mall.html"),"initpage")
+				mui.fire(plus.webview.getWebviewById("integral_mall.html"),"initpage")
 				//console.log("as")
 				/*request = {};
 				request.user_id = user.uid();*/

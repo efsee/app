@@ -147,6 +147,9 @@
 //			});
 			var contentWebview = null;
 			mui.back = function() {
+				if(plus.webview.currentWebview().opener().id=="integral_mall.html"){
+					mui.fire(plus.webview.getWebviewById("jfmall_header.html"),"initpage")
+				}
 				var userPage=plus.webview.getWebviewById("user.html")
 				mui.fire(userPage,"initpage")
 				var current = plus.webview.currentWebview();
