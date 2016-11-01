@@ -28,7 +28,6 @@ if(document.getElementById("main-box")){
 }
 });
 
-
 //保存数据
 function cache(key, val) {
 	if (key == 'clear') {
@@ -155,6 +154,8 @@ var ajax = {
 			success: obj,
 			complete: function(xhr) {
 				endNetwork();
+				serverTime = xhr.getResponseHeader("Date")
+				//console.log(serverTime)
 			},
 			error: function(e, type) {
 				endNetwork();

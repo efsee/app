@@ -39,6 +39,7 @@
 </div>
 
 <script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
 <script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/base.js"></script>
 <script language="javascript" type="text/javascript" src="js/api.js"></script>
@@ -78,27 +79,19 @@
 		
 		//忘记密码
 		mui('body').on('tap', '.wjmm-link', function() {
-			/*mui.openWindow({
-				url:'wjmm.html',
-				show: {
-					autoShow: true,
-					duration: 300,
-					aniShow: 'slide-in-bottom'
-				},
-				waiting: {
-					autoShow: false
-				}
-			});*/
-			var wjmm = plus.webview.create('wjmm.html');
-			setTimeout(function(){
-				wjmm.show("slide-in-bottom",300);
-			},150);
-			//触发详情页面的newsId事件
-			wjmm.addEventListener('loaded',function(){
-				mui.fire(wjmm,'loginusername',{
-				loginusername:$('#login-username').val()
-				});
+			inittemplate = getTemplate('template', 'template.html');
+			var headerWebview = inittemplate.header;
+			var contentWebview = inittemplate.content;
+			contentWebview.loadURL("wjmm.html");
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: "修改登录密码",
+				showMenu: false,
+				right_btn:""
 			});
+			mui.fire(headerWebview, 'loading');
+			headerWebview.show('slide-in-right', 150);
+			
 		});
 		
 				//提交登录

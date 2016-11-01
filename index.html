@@ -82,12 +82,12 @@
 	<script>
 		mui.plusReady(function(){
 			//先执行welcome
-			if(!plus.storage.getItem('welcome17'))
+			if(!plus.storage.getItem('welcome18'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent17')){
+				if(!store.get('diffrent18')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -109,7 +109,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent17', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent18', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -162,7 +162,7 @@
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent17')){
+				if(!store.get('diffrent18')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -184,7 +184,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent17', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent18', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -380,7 +380,7 @@
 			
 			document.addEventListener('permission',function(e){
 				user.GetShoushi({"request":{"user_id":user.uid()}},function(res){
-					//console.log(JSON.stringify(res))
+					console.log(JSON.stringify(res))
         			if(res.shoushi_status=="1"){
         				store.set('shoushi_status', "1", 3600 * 24 * 365);
         				store.set('shoushi_psw',res.shoushi, 3600 * 24 * 365);

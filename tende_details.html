@@ -129,7 +129,7 @@ p.price span.small{
 				</div>
 				<div style="padding:0 18px;color: #333;">
 			    	<div class="biao_xxn_xmms_b1">基本信息</div>
-			        <div><div class="biao_xxn_xmms_ms"><p style="font-size: 15px;line-height: 25px;">{{#borrow.userinfo}}</p></div></div>
+			        <div><div class="biao_xxn_xmms_ms"><p style="font-size: 15px;line-height: 25px;"><span style="display: inline-block;width: 50%;">{{#borrow.userinfo[0]}}</span><span>{{#borrow.userinfo[1]}}</span><br>{{#borrow.userinfo[2]}}</p></div></div>
 			    </div>
 			    <div style="padding:0 18px;color: #333;">
 			    	<div class="biao_xxn_xmms_b1">项目描述</div>
@@ -230,7 +230,7 @@ p.price span.small{
 			}
 			/*******投标成功后返回页面的data数据*********/
 			document.addEventListener("mui.view.show",function(e){
-				console.log(JSON.stringify(e.detail));
+				//console.log(JSON.stringify(e.detail));
 				window.scrollTo(0,0);
 				var data = e.detail;
 				wddata=data;
@@ -242,14 +242,15 @@ p.price span.small{
 				request.borrow_nid = data.article_id;
 				product.detail({"request":request},function(res){
 					
-					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res));
 					if(res){
 						res.is_login = user.uid();
 						res.nowtime = new Date().getTime() / 1000;
-						//res.borrow.userinfo = res.borrow.userinfo.split("|") 
-						console.log(res.borrow.userinfo)
+						res.borrow.userinfo = res.borrow.userinfo.replace(/[ ,　　　,&nbsp;]/g,"")
+						res.borrow.userinfo = res.borrow.userinfo.split("|") 
+					//	console.log(res.borrow.userinfo)
 						var html = template('tpl',res);
-						console.log(res.borrow.maincode)
+						//console.log(res.borrow.maincode)
 						$('#bodybox').html(html);
 						$('#title').html(res.borrow.name);
 						if(res.borrow.recordNo){

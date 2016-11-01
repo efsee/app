@@ -226,7 +226,7 @@
 					document.getElementById('borTenNumber').innerHTML=res.borrow_tender_num;
 					document.getElementById('borrowNumber').innerHTML=res.borrow_num;
 					document.getElementById('borYesNum').innerHTML=res.borrow_Yesterday_num;
-					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res));
 					var month_total=res.month_total;
 					diyuArray=res.arr_province
 					for(var j=0;j<6;j++){
@@ -308,8 +308,8 @@
 					}else{
 						return false;
 					}
-					console.log(JSON.stringify(month_total));
-					console.log(monthArray);
+					//console.log(JSON.stringify(month_total));
+					//console.log(monthArray);
 					//饼形图
 					var myChart_two = echarts.init(document.getElementById('chart_two'));
 					var option2 = {

@@ -104,7 +104,7 @@
 				request = {'user_id':user.uid(),'size':10,'token':user.utoken()};
 				request.page = page;
 				newCredit.GetLogList(request,function(res){//$data和回调函数
-					mui('#pullrefresh').pullRefresh().setStopped(false)
+					//mui('#pullrefresh').pullRefresh().setStopped(false)
 					var upflag = page*10 >= res.result.total? true : false;
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
 					//console.log(JSON.stringify(res));

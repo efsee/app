@@ -32,7 +32,12 @@
 					styles:{
 					top:"45px",
 					bottom: '0px'}
-				}]
+				}],
+				beforeback: function(){
+					var parentPage = plus.webview.currentWebview().opener();
+					mui.fire(parentPage,'initpage');
+					return true;
+				}
 			});
 		</script>
 	</body>

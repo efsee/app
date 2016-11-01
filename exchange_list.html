@@ -245,12 +245,12 @@
 							'<i class="notes-moblie"></i>'+
 							'<p class="no-records-size">暂无记录</p>'+
 							'</div>';
-							mui('#pullrefresh').pullRefresh().setStopped(true)
+							//mui('#pullrefresh').pullRefresh().setStopped(true)
 							mui('#pullrefresh').pullRefresh().endPulldownToRefresh(true);
 							mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
 							
 						}else{
-							mui('#pullrefresh').pullRefresh().setStopped(false)
+							//mui('#pullrefresh').pullRefresh().setStopped(false)
 							temHtml = template('tpl-item',res.result);
 							temUl = document.querySelector('#echangeList');
 							upflag = page*10 >= parseInt(res.result.total) ? true : false;
