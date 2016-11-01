@@ -92,7 +92,8 @@
 		
 		
 		<script src="js/mui.min.js"></script>
-		<script src="js/api.js"></script>
+		<script src="js/api.js"></script> 
+		<script src="js/common.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			mui('body').on('tap','.def-address',function(e){
@@ -101,6 +102,24 @@
 			mui.plusReady(function(){
 				var selfPage=plus.webview.currentWebview()
 				//console.log(selfPage.opener().id)
+				var reqShipAddress={"token":user.utoken()}
+				address.Getlists(reqShipAddress,function(res){
+					if(res.error_no==401){
+						user.logout({},function(res){
+							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								if (e.index == 0) {
+									login();
+								}
+							})
+						});
+					}else if(res.error_no==200){
+						if(res.result.total=="0"){
+							document.querySelector(".def-address").firstChild.className = "xuanzhong"
+						}else{
+							document.querySelector(".def-address").firstChild.className = "un-xuanzhong"
+						}
+					}
+				})
 				mui('body').on('tap','#add-address-btn',function(e){
 					var request={};
 					request.token=user.utoken();
@@ -132,8 +151,6 @@
 						if(selfPage.opener().id=="goods_detail.html"){
 							var reqShipAddress={"token":user.utoken()}
 							address.Getlists(reqShipAddress,function(res){
-								//console.log(JSON.stringify(res))
-								//console.log(res.result.rows[0].address_id)
 								var address_id = res.result.rows[0].address_id
 								//下订单
 								var requestPay={}

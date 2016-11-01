@@ -195,7 +195,6 @@
 			    color: #000;
 		</style>
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav header">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
@@ -265,7 +264,7 @@
 			{{else if result.open == -1}}
 			<div class="echange-btn unsubmit"><a>已结束</a></div>
 			{{else if result.open == 0}}
-			<div class="echange-btn"><a id="sub-btn">即将开抢</a></div>
+			<div class="echange-btn"><a id="sub-ready">即将开抢</a></div>
 			{{else if result.open == 1}}
 			<div class="echange-btn"><a id="sub-btn">立即兑换</a></div>
 			{{/if}}
@@ -277,7 +276,7 @@
 		<script src="js/api.js" ></script>
 		<script src="js/common.js"></script>
 		<script src="js/template.js"></script>
-		<script src="js/template.function.js"></script>
+		<script src="js/template.function.js"></script> 
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function(){
@@ -374,6 +373,14 @@
 							//return false;	
 						}
 					}
+					
+				})
+				mui("body").on("tap","#sub-ready",function(e){
+					plus.nativeUI.alert("未到开放购买时间",function(){
+						plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+						getdata()
+						
+					})
 					
 				})
 				//submit提交
@@ -494,13 +501,16 @@
 				}
 				
 				function getdata(){
-					goods.GetGoodsDetail(data,function(res){
-						//console.log(JSON.stringify(res))
+					//alert("dd")
+					goods.GetGoodsDetail(data,function(res,status,xhr){
+						serverTime = xhr.getResponseHeader("REQUEST-TIME")
+				       // console.log(serverTime) 
 						if(res){
+							//console.log(xhr.getResponseHeader("REQUEST-TIME"))
 							limitOntime = parseInt(res.result.limit_on_time)
 							limitOfftime = parseInt(res.result.limit_off_time)
 							var nowTime = new Date().getTime()
-							nowTime = parseInt(nowTime)/1000
+							nowTime = parseInt(serverTime)
 							if(limitOntime!=0&&limitOfftime!=0){
 								if(nowTime > limitOfftime){
 									res.result.open = -1 //已结束

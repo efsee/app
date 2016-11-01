@@ -275,7 +275,7 @@
 				
 				mui(".user-info").on('tap','li.info-item',function(e){
 					e.stopPropagation();
-					var data = this.getAttribute('data')
+					/*var data = this.getAttribute('data')
 					data=eval("(" + data + ")");
 					//通知模板修改标题，并显示隐藏右上角图标；
 					inittemplate = getTemplate('mall_template', 'template.html');
@@ -290,8 +290,18 @@
 					});
 					mui.fire(headerWebview, 'loading');
 					headerWebview.show('slide-in-right', 150);
-					//plus.webview.currentWebview().hide() 
-
+					//plus.webview.currentWebview().hide() */
+					var data = this.getAttribute('data');
+					//console.log(data)
+					data = eval("(" + data + ")");
+					//预加载底层
+					var mallCommonHeader = plus.webview.create('mall_commonHeader.html','mall_commonHeader.html',{popGesture:"close"},data);
+					mallCommonHeader.addEventListener('loaded',function(){
+						mui.fire(mallCommonHeader,"mui.view.show",data);
+					});
+					setTimeout(function(){
+						mallCommonHeader.show("slide-in-right",100);
+					},300);	
 				})
 				
 				function getdata(){
@@ -362,11 +372,8 @@
 				}
 				//返回刷新
 				document.addEventListener("initpage",function(e){
-					console.log("n")
-					//plus.webview.currentWebview().reload()
 					getdata()
 					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
-					
 				})
 				//规则查看
 				document.addEventListener("top-right-btn",function(e){

@@ -108,7 +108,7 @@
 		<script type="text/javascript">
 			mui.init();
 			mui.plusReady(function(){
-				mui('#pullrefresh').pullRefresh().setStopped(true)
+				//mui('#pullrefresh').pullRefresh().setStopped(true)
 				getAddress()
 				document.addEventListener("initpage",function(){
 					getAddress()
@@ -132,7 +132,7 @@
 								})
 							});
 						}else if(res.error_no==200){
-							console.log("删除地址"+JSON.stringify(res))
+						//	console.log("删除地址"+JSON.stringify(res))
 							li.parentNode.removeChild(li);
 						}else{
 							plus.nativeUI.toast(res.error_msg)

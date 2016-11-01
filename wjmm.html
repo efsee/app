@@ -30,7 +30,7 @@
 <body>
 <div class=" clearfix mui-content">
 <ul class="reg-form clearfix">
-<li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" pattern="[0-9]*" name="mobile" class="reg-txt" placeholder="手机号" readonly="readonly"></div></li>
+<li><div class="input-box"><i class="ico-sjh ico24 icon"></i><input type="text" id="mobile" pattern="[0-9]*" name="mobile" class="reg-txt" placeholder="手机号" ></div></li>
 <li><div class="input-box yzm"><i class="ico-yzm ico24 icon"></i><input type="text" pattern="[0-9]*" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码"><a href="javascript:" class="getyzm" id="getyzm">发送验证码</a></div></li>
 <div class="input-box getYY">长时间收不到验证码，可尝试 <a href="javascript:" class="get_yy_code yy_button" id="yyyzm">语音接听验证码</a></div>
 <li><div class="input-box"><i class="ico-pwd2 ico24 icon"></i><input type="password" id="password" name="password" class="reg-txt" placeholder="登录密码"></div></li>
@@ -59,7 +59,10 @@
 //			mui.back();
 //		})
 		loginusername=store.get('username');
-		$('#mobile').val(loginusername)
+		if(!loginusername){
+		}else{
+			$('#mobile').val(loginusername).attr("readonly","readonly")
+		}
 		document.addEventListener("loginusername",function(e){
 			//console.log(JSON.stringify(e.detail));
 			$('#mobile').val(e.detail.loginusername);
