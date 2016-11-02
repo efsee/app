@@ -8,6 +8,33 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/css.css" />
 		<style>
+			.header{
+				width:100%;
+				height:45px;
+				background:#fff;
+				text-align:center;
+				font-size:0px;
+				line-height:0px;
+				position:fixed;
+				z-index:999;
+				left:0;
+				top:0;
+				
+				b-webkit-box-sizing:border-box;
+				-o-box-sizing:border-box;
+				-ms-box-sizing:border-box;
+				box-sizing:border-box;
+			}
+			.header:after{
+				width:100%;
+				height:1px;
+				position:absolute;
+				left:0;
+				bottom:0;
+				background:#E6E5E5;
+				content:"";
+				font-size:0;
+			}
 			.clear{
 				clear:both;
 			}
@@ -96,6 +123,7 @@
 			}
 			.goodsitem-2{
 				padding:15px;
+				padding-top:10px;
 			}
 			.goodsitem-2 h5{
 				color: #333;
@@ -126,11 +154,14 @@
 			.mui-table-view-cell:after,.mui-table-view:before,.mui-table-view:after{
 				background-color: #D2D2D2;
 			}
+			#orderDetBox{
+				padding-bottom: 20px;
+			}
 		</style>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
+		<header class="mui-bar mui-bar-nav header">
 			<a id="back" style="color: #999;" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 id="title" class="mui-title">订单详情</h1>
 		</header>
@@ -146,7 +177,7 @@
 				</ul>
 				<div class="goodsPicTit-box">
 					<div class="img-box">
-						<img src="http://apitest.ifcar99.com{{result.order_goods[0].pic}}"/>
+						<img src="http://static01.ifcar99.com{{result.order_goods[0].pic}}"/>
 					</div>
 					<div class="goods-title">
 						<h5>商品名称</h5>
@@ -162,6 +193,13 @@
 				<p>{{result.address.area}}</p>
 				<p>联系人：{{result.address.name}}</p>
 				<p>手机号码：{{result.address.mobile}}</p>
+			</div>
+			{{/if}}
+			{{if result.status.text == "已发货"}}
+			<div class="goods-detail-item goodsitem-2">
+				<h5>物流信息</h5>
+				<p>快递公司：{{result.shipping.company_title}}</p>
+				<p>快递单号：{{result.shipping.sn}}</p>
 			</div>
 			{{/if}}
 			<ul class="mui-table-view goods-detail-item goodsitem-3">
@@ -217,7 +255,7 @@
 			mui.plusReady(function(){
 				var self = plus.webview.currentWebview()
 				oid = self.oid
-				console.log(oid)
+				//console.log(oid)
 				request = {"oid":oid,"token":user.utoken()}
 				order.Get(request,function(res){
 					console.log(JSON.stringify(res)) 

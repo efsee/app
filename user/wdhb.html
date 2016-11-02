@@ -130,7 +130,7 @@
 			<p>有效期至{{$item.endtime | dateFormat:"yyyy年MM月dd日"}}</p>
 		</div>
 		<div class="hongbao-cond">
-			<span class="hb-type">{{$item.remarks}}</span>
+			<span class="hb-type">{{$item.whyadd}}</span>
 			<a>单笔投资满{{$item.tmoney}}元可用</a>
 		</div>
 	</li>
@@ -147,7 +147,7 @@
 			<p>使用时间：{{$item.usetime | dateFormat:"yyyy年MM月dd日"}}</p>
 		</div>
 		<div class="hongbao-cond">
-			<span class="hb-type">{{$item.remarks}}</span>
+			<span class="hb-type">{{$item.whyadd}}</span>
 			<a>投资项目{{$item.pname}}</a>
 		</div>
 	</li>
@@ -172,7 +172,7 @@
 		</div>
 		<div class="hongbao-cond" style="position: relative;">
 			<div class="mengban" style="width: 94%;"></div>
-			<span class="hb-type">{{$item.remarks}}</span>
+			<span class="hb-type">{{$item.whyadd}}</span>
 			<a>单笔投资满{{$item.tmoney}}元可用</a>
 		</div>
 	</li>

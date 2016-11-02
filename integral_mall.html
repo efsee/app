@@ -223,7 +223,7 @@
 				<div class="sold-out"><img src="images/jfsc/sold_out.png"/></div>
 				{{/if}}
 				<div class="product-img">
-					<img src="http://apitest.ifcar99.com{{item.pic_small}}"/>
+					<img src="http://static01.ifcar99.com{{item.pic_small}}"/>
 				</div>
 				<p class="product-title mui-ellipsis">{{item.title}}</p>
 				<p class="product-integral"><img src="images/jfsc/jf_icon_03.png"/>&nbsp;<span>{{item.price}}</span></p>
@@ -308,7 +308,7 @@
 					//plus.webview.currentWebview().show()
 					//获取专区列表
 					goods.GetGoodsZoneList({"token":user.utoken()},function(res){
-						//console.log(JSON.stringify(res))
+						
 						//遍历专区添加列表
 						if(res.error_no==401){
 							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
@@ -328,6 +328,7 @@
 								}
 								//获取商品列表
 								goods.GetGoodsList({"zone_id":val.zone_id,"status":"1"},function(res){
+									console.log(JSON.stringify(res))
 									//console.log(JSON.stringify(res))
 									if(res){
 										var html = template('tpl',res.result);
