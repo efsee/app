@@ -242,12 +242,13 @@ p.price span.small{
 				request.borrow_nid = data.article_id;
 				product.detail({"request":request},function(res){
 					
-					//console.log(JSON.stringify(res));
+					console.log(JSON.stringify(res));
 					if(res){
 						res.is_login = user.uid();
 						res.nowtime = new Date().getTime() / 1000;
 						res.borrow.userinfo = res.borrow.userinfo.replace(/[ ,　　　,&nbsp;]/g,"")
-						res.borrow.userinfo = res.borrow.userinfo.split("|") 
+						res.borrow.userinfo = res.borrow.userinfo.split("|")
+						res.borrow.userinfo[2] = res.borrow.userinfo[2].replace(/[&#160;]/g,"") 
 					//	console.log(res.borrow.userinfo)
 						var html = template('tpl',res);
 						//console.log(res.borrow.maincode)
