@@ -205,12 +205,12 @@
 								}else{
 									//store.set('diffrent', 1, res.time);
 									var content='新版本更新如下：\r\n'+
-										'1.新增签到积分功能\r\n'+
-										'2.新增投资数据展示页面\r\n'+
-										'3.重新设计投资详情页及确认页\r\n'+
-										'4.增加安全评级和银行限额\r\n'+
-										'5.重新设计资金明细\r\n'+
-										'6.优化APP操作指南'
+										'1.新增积分商城\r\n'+
+										'2.优化我的红包界面\r\n'+
+										'3.新增交易密码初始设置\r\n'+
+										'4.重新优化个人中心\r\n'+
+										'5.优化消息未读提示\r\n'+
+										'6.增加单点登录功能'
 									/*$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});*/
@@ -296,8 +296,9 @@
 							document.getElementById("noticeNum").classList.add('mui-hidden');
 						}
 						//document.getElementById("noticeNum").innerHTML = res.count;
-						//console.log(JSON.stringify(res))
-					})
+						console.log(JSON.stringify(res))
+						notice_id = res.notice
+					}) 
 				}
 				else if(url == 'product.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏product页头部账号信息
@@ -362,10 +363,13 @@
 					styles: webview_style,
 					waiting: {
 						autoShow: false
-					}
+					},
+					
 				});
 				var sub = plus.webview.getWebviewById('notice.html');
-				mui.fire(sub,'initpage');		
+				mui.fire(sub,'initpage',{"notice_id":notice_id});
+				var subnews2 = plus.webview.getWebviewById('notice_sub.html');
+				mui.fire(subnews2,'initpage',{"notice_id":notice_id});
 			})
 			
 			setTimeout(function(){
@@ -456,6 +460,41 @@
 				current.classList.remove('active');
 				defaultTab.classList.add('active');
 			}
+		});
+		 //自定义事件，模拟点击“我的”
+		document.addEventListener('gouser2', function() {
+			//mui.openWindow({url:"integral_mall.html"})
+			template = getTemplate('usertemplate', 'template.html');
+				//获得共用父模板
+			var headerWebview = template.header;
+				//获得共用子webview
+			var contentWebview = template.content;
+			contentWebview.loadURL("integral_mall.html");
+			//var right_btn = data.right_btn || "";
+			mui.fire(headerWebview, 'updateHeader', {
+				title: "积分商城",
+				showMenu: false,
+				right_btn:"规则"
+			});
+			//判断异地登录
+			functionCom.checkToken(function(res){
+				//console.log(res.error_no)
+				if(res.error_no!=401){
+					headerWebview.show('slide-in-right', 150);
+				}
+			})//结束	
+			/*userPage = plus.webview.create("uesr.html")
+			console.log(JSON.stringify(userPage))
+			mui.fire(userPage,"turn_mall") 
+			var defaultTab = document.getElementById("user");
+			//模拟user点击
+			mui.trigger(defaultTab, 'tap');
+			//切换选项卡高亮
+			var current = document.querySelector(".bot-nav>.tab.active");
+			if (defaultTab !== current) {
+				current.classList.remove('active');
+				defaultTab.classList.add('active'); 
+			}*/
 		});
 
 		 //首页返回键处理

@@ -57,12 +57,22 @@
 			});
 			
 			/***刷新监听事件**/
+			
 			document.addEventListener('initpage',function(e){
+				notice_id = e.detail.notice_id
+				notice_id = notice_id.split(",") 
 				mui('#pullrefresh').pullRefresh().pulldownLoading();
+			},false);
+			document.addEventListener('initpage2',function(e){
+				request={"user_id":user.uid()}
+				articles.GetNoticeStatus({"request":request},function(res){
+					notice_id = res.notice.split(",")
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
+				}) 
 			},false);
 			
 			var count = 0;
-			var empty_flag = 0;
+			var empty_flag = 0; 
 			/**
 			 * 下拉刷新具体业务实现
 			 */
@@ -76,29 +86,34 @@
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 					articles.GetList({'request':request},function(res){
 						if(res){
+							var notices = {};
+							for( var j in notice_id){
+								notices[notice_id[j]] = true;
+							}
 							table.innerHTML ="";
 							for (var i = 0, len = i + 20; i < len; i++) {
-								var li = document.createElement('li');
 								
-								li.className = 'mui-table-view-cell';
 								var item=res['list'][i];
 								if(item){
-									if(parseInt(res['list'][i].hits)>0){
-										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-										'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
-										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-										'<i class="ico-arrow icon"></i>'+
-										'</a>';
-										table.appendChild(li);
-									}else{
-										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-										'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
-										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-										'<i class="ico-arrow icon"></i>'+
-										'</a>';
-										table.appendChild(li);
-									}
-									
+									//console.log(item.id)
+										var li = document.createElement('li');
+								
+										li.className = 'mui-table-view-cell';
+										if(notices[item.id] === true){
+											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+											'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'1111</p>'+
+											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+											'<i class="ico-arrow icon"></i>'+
+											'</a>';
+											table.appendChild(li);	
+										}else{
+											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+											'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'222</p>'+
+											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+											'<i class="ico-arrow icon"></i>'+
+											'</a>';
+											table.appendChild(li);
+										}
 								}
 							}
 						}
@@ -118,6 +133,7 @@
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
+				console.log(notice_id)
 				setTimeout(function() {
 					++count;
 					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag); //参数为true代表没有更多数据了。
@@ -127,28 +143,29 @@
 					
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':count};
 					articles.GetList({'request':request},function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res){
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
 								li.className = 'mui-table-view-cell';
 								var item=res['list'][i];
 								if(item){
-									//console.log(store.get("article"+item.id))
-									if(parseInt(res['list'][i].hits)>0){ 
-										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-										'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
-										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-										'<i class="ico-arrow icon"></i>'+
-										'</a>';
-										table.appendChild(li);
-									}else{
-										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-										'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
-										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-										'<i class="ico-arrow icon"></i>'+
-										'</a>';
-										table.appendChild(li);
+									for( var j =0;j<notice_id.length;j++){
+										if(notice_id[j]==item.id){
+											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+											'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
+											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+											'<i class="ico-arrow icon"></i>'+
+											'</a>';
+											table.appendChild(li);	
+										}else{
+											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+											'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
+											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+											'<i class="ico-arrow icon"></i>'+
+											'</a>';
+											table.appendChild(li);
+										}
 									}
 								}else{
 									empty_flag = 1;
@@ -164,10 +181,9 @@
 			}
 			
 			mui.plusReady(function() {
-				
-				setTimeout(function() {
+				/*setTimeout(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
-				}, 200);
+				}, 200);*/
 
 				var detailPage = null;
 				mui("#news-list").on('tap', 'a.tap', function(e){
@@ -192,9 +208,9 @@
 				})
 
 			});
-			document.addEventListener('initpage',function(e){
+			/*document.addEventListener('initpage',function(e){
 				mui('#pullrefresh').pullRefresh().pulldownLoading();
-			},false);
+			},false);*/
 			
 			function getLocalTime(nS) {     
 		       return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ").replace('GMT+8', "");      
