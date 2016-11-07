@@ -53,8 +53,9 @@
 		});
 		mui.plusReady(function(){
 			document.addEventListener('initpage',function(e){
+				//console.log(e.detail.notice_id)
 				var subnews2 = plus.webview.getWebviewById('notice_sub.html');
-				mui.fire(subnews2,'initpage');
+				mui.fire(subnews2,'initpage',{"notice_id":e.detail.notice_id});
 			},false);
 		})
 	</script>

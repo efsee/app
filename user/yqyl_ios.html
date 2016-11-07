@@ -44,8 +44,7 @@
 			$('#qrcode').qrcode({width: 250,height: 250,text: res.url});
 			$('#share_url').val(res.url);
 			console.log(res.uid);
-			document.querySelector(".yqCode").innerHTML=res.uid
-			
+			document.querySelector(".yqCode").innerHTML=res.uid	
 		})
 		if (mui.os.plus) {
 			document.getElementById("share").addEventListener('tap', function(event) {
