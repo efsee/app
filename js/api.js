@@ -1,6 +1,6 @@
 ﻿var utoken, uid;
 var host = 'http://www.ifcar99.com/';
-var apiurl = 'http://test.ifcar99.com/api.php'; 
+var apiurl = 'http://www.ifcar99.com/api.php'; 
 var apiurl_new = 'http://api.ifcar99.com';
 var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_charge_api.php';

@@ -82,12 +82,12 @@
 	<script>
 		mui.plusReady(function(){
 			//先执行welcome
-			if(!plus.storage.getItem('welcome18'))
+			if(!plus.storage.getItem('welcome182'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent18')){
+				if(!store.get('diffrent182')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -109,7 +109,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent18', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent182', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -154,7 +154,7 @@
 					if(res.error_no!=401){
 						
 					}
-				})	
+				})	 
 			}
 	/**********************************底部导航子页面webview实现****************************************/
 			document.addEventListener("turnUser",function(){
@@ -162,7 +162,7 @@
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent18')){
+				if(!store.get('diffrent182')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -184,7 +184,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent18', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent182', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -464,37 +464,25 @@
 		 //自定义事件，模拟点击“我的”
 		document.addEventListener('gouser2', function() {
 			//mui.openWindow({url:"integral_mall.html"})
-			template = getTemplate('usertemplate', 'template.html');
+			if(!user.uid()){
+				login();
+				return false;
+			}else{ 
+				template = getTemplate('usertemplate', 'template.html');
 				//获得共用父模板
-			var headerWebview = template.header;
-				//获得共用子webview
-			var contentWebview = template.content;
-			contentWebview.loadURL("integral_mall.html");
-			//var right_btn = data.right_btn || "";
-			mui.fire(headerWebview, 'updateHeader', {
-				title: "积分商城",
-				showMenu: false,
-				right_btn:"规则"
-			});
-			//判断异地登录
-			functionCom.checkToken(function(res){
-				//console.log(res.error_no)
-				if(res.error_no!=401){
-					headerWebview.show('slide-in-right', 150);
-				}
-			})//结束	
-			/*userPage = plus.webview.create("uesr.html")
-			console.log(JSON.stringify(userPage))
-			mui.fire(userPage,"turn_mall") 
-			var defaultTab = document.getElementById("user");
-			//模拟user点击
-			mui.trigger(defaultTab, 'tap');
-			//切换选项卡高亮
-			var current = document.querySelector(".bot-nav>.tab.active");
-			if (defaultTab !== current) {
-				current.classList.remove('active');
-				defaultTab.classList.add('active'); 
-			}*/
+				var headerWebview = template.header;
+					//获得共用子webview
+				var contentWebview = template.content;
+				contentWebview.loadURL("integral_mall.html");
+				//var right_btn = data.right_btn || "";
+				mui.fire(headerWebview, 'updateHeader', {
+					title: "积分商城",
+					showMenu: false,
+					right_btn:"规则"
+				});
+				//判断异地登录
+				headerWebview.show('slide-in-right', 150);
+			}
 		});
 
 		 //首页返回键处理

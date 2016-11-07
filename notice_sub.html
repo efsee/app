@@ -59,9 +59,14 @@
 			/***刷新监听事件**/
 			
 			document.addEventListener('initpage',function(e){
-				notice_id = e.detail.notice_id
+				/*notice_id = e.detail.notice_id
 				notice_id = notice_id.split(",") 
-				mui('#pullrefresh').pullRefresh().pulldownLoading();
+				mui('#pullrefresh').pullRefresh().pulldownLoading();*/
+				request={"user_id":user.uid()}
+				articles.GetNoticeStatus({"request":request},function(res){
+					notice_id = res.notice.split(",")
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
+				})  
 			},false);
 			document.addEventListener('initpage2',function(e){
 				request={"user_id":user.uid()}
@@ -101,14 +106,14 @@
 										li.className = 'mui-table-view-cell';
 										if(notices[item.id] === true){
 											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-											'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'1111</p>'+
+											'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
 											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
 											'<i class="ico-arrow icon"></i>'+
 											'</a>';
 											table.appendChild(li);	
 										}else{
 											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-											'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'222</p>'+
+											'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
 											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
 											'<i class="ico-arrow icon"></i>'+
 											'</a>';
