@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <title></title>
+	    <script src="js/mui.min.js"></script>
+	    <link href="css/mui.min.css" rel="stylesheet"/>
+	    <link href="css/css.css" rel="stylesheet" type="text/css" />
+	    <link href="css/iphone.css" rel="stylesheet" type="text/css" />
+	    <style>
+	    .mui-loader {
+			position: absolute;
+			top: 25%;
+			width: 100%;
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
+		    .Red-envelopes{
+		    	margin: 0;
+		    }
+		    .Red-envelopes li{
+		    	margin-top: 20px;
+		    }
+		    .hongbao-num:active,.hongbao-cond:active{
+		    	background-color: #ffffff ;
+		    }
+	    	.hongbao-num,.hongbao-cond{
+	    		margin:0 auto;
+	    		width: 94%;
+	    		height: 100px;
+	    		background-color: #fffcf6;
+	    		border-radius: 6px;
+	    	}
+	    	.hongbao-num img{
+	    		display: block;
+	    		width: 100%;
+	    		height: auto;     
+	    	}
+	    	.hb-je{
+	    		padding-right:20px;
+	    		margin-top: 20px;
+	    		/*width: 40%;*/
+	    		float: left;
+	    		line-height: 50px;
+	    		font-size: 30px;
+	    		padding-left: 15px;
+	    	}
+	    	.hongbao-num h5{
+	    		width: 50%;
+	    		margin-top: 20px;
+	    		float: left;
+	    		line-height: 30px;
+	    		color: #3B3B3B;
+	    		font-size: 18px;
+	    	}
+	    	.hongbao-num p{
+	    		line-height: 20px;
+	    		float: left;
+	    		color: #b2b2b2;
+	    		font-size: 12px;
+	    	}
+	    	.hongbao-cond{
+	    		padding: 0 15px;
+	    		margin-top: 2px;
+	    		height: 35px;
+	    		line-height: 35px;
+	    		color: #6b6b6b;
+	    	}
+	    	.hongbao-cond span,{
+	    		color: #6b6b6b;
+	    	}
+	    	.hongbao-cond a{
+	    		color: #6b6b6b;
+	    		float: right;
+	    	}
+	    	.notes-moblie {
+			    background: url(images/zwhb.png) no-repeat 0px 0px;
+			    display: block;
+			    width: 60px;
+			    height: 60px;
+			    background-size: 60px;
+			    margin: 0px auto;
+			    margin-top: 30px;
+			}
+	    </style>
+	    
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title">可用卡券</h1>
+		</header>
+
+		<div class="mui-content" >
+			<div class="mui-loader" id="mui-loader">
+				<span class="mui-spinner"></span> <span id="loading-text" hidden="">请耐心等候</span>
+			</div>
+			<div class="notes-box" style="display:none;">
+				<i class="notes-moblie"></i>
+				<p class="no-records-size">暂无可用卡券</p>
+			</div>
+			<div id="tabbar-unused" class="mui-control-content mui-active" style="padding-bottom: 20px;">
+				<ul class="Red-envelopes" id="hbBox"> 
+					
+				</ul>
+			</div>
+		</div>
+		<script id="tpl-item-1-1" type="text/html">
+			{{each rows as $item i}}
+			<li class="hbList" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}"}>  
+				<div class="hongbao-num"> 
+					<img src="images/wsy_jxj.png"/> 
+					<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
+					<h5>还有{{$item.expire_time | expireTime}}天过期</h5>
+					<p>有效期至{{$item.expire_time | dateFormat:"yyyy年MM月dd日"}}</p>
+				</div>
+				<div class="hongbao-cond"> 
+					<span class="hb-type">{{$item.remark}}</span>
+					{{if $item.limit_lower_money=="0"}}
+					<a>单笔投资满100元可用</a>
+					{{else}}
+					<a>单笔投资满{{$item.limit_lower_money}}元可用</a>
+					{{/if}}
+				</div>
+			</li>
+			{{/each}}
+		</script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
+		<script src="js/api.js"></script>
+			
+		<script>
+			
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview()
+				var moneyvalue = parseInt(self.money)
+				coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){
+					console.log(JSON.stringify(res))
+					if(res){
+						if(res.result.rows.length > 0){
+							$(".notes-box").css("display","none")
+							var html = template('tpl-item-1-1',res.result);
+							document.getElementById("hbBox").innerHTML = html;
+						}else{
+							$(".notes-box").css("display","block")
+						}
+						$(".mui-loader").css("display","none")
+					}
+				})
+				mui("#hbBox").on("tap",".hbList",function(){
+					var hbdata = this.getAttribute('data');
+					var hbdata = eval("(" + hbdata + ")");
+					//console.log(hbdata)  
+					var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+					mui.fire(ljtzPage,"getCoupon",hbdata)
+					mui.back()
+				})
+			})
+		</script>
+		
+	</body>
+</html>

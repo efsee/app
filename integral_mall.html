@@ -275,22 +275,6 @@
 				
 				mui(".user-info").on('tap','li.info-item',function(e){
 					e.stopPropagation();
-					/*var data = this.getAttribute('data')
-					data=eval("(" + data + ")");
-					//通知模板修改标题，并显示隐藏右上角图标；
-					inittemplate = getTemplate('mall_template', 'template.html');
-						//获得共用父模板
-					var headerWebview = inittemplate.header;
-						//获得共用子webview
-					var contentWebview = inittemplate.content;
-					contentWebview.loadURL(data.url);
-					mui.fire(headerWebview, 'updateHeader', {
-						title: data.title,
-						showMenu: false
-					});
-					mui.fire(headerWebview, 'loading');
-					headerWebview.show('slide-in-right', 150);
-					//plus.webview.currentWebview().hide() */
 					var data = this.getAttribute('data');
 					//console.log(data)
 					data = eval("(" + data + ")");
@@ -359,13 +343,9 @@
 							if(res.result==false){
 								$('#creditTotal').html(0);
 							}else{
-						//document.getElementById("creditTotal").innerHTML= res.result.current
 								$('#creditTotal').html(res.result.current);
-								//alert($('#creditTotal').html())
 							}
-							 
-							/*$('#mui-loader').hide();
-							$('.mui-scroll-wrapper').show();*/
+
 						}else{
 							
 						}

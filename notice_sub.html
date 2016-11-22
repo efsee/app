@@ -98,7 +98,7 @@
 							table.innerHTML ="";
 							for (var i = 0, len = i + 20; i < len; i++) {
 								
-								var item=res['list'][i];
+								var item=res['list'][i];  
 								if(item){
 									//console.log(item.id)
 										var li = document.createElement('li');
@@ -138,7 +138,7 @@
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
-				console.log(notice_id)
+				//console.log(notice_id)
 				setTimeout(function() {
 					++count;
 					//mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag); //参数为true代表没有更多数据了。
@@ -150,28 +150,33 @@
 					articles.GetList({'request':request},function(res){
 						//console.log(JSON.stringify(res))
 						if(res){
+							var notices = {};
+							for( var j in notice_id){
+								notices[notice_id[j]] = true;
+							}
+							
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
 								li.className = 'mui-table-view-cell';
 								var item=res['list'][i];
 								if(item){
-									for( var j =0;j<notice_id.length;j++){
-										if(notice_id[j]==item.id){
-											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-											'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
-											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-											'<i class="ico-arrow icon"></i>'+
-											'</a>';
-											table.appendChild(li);	
-										}else{
-											li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
-											'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
-											'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
-											'<i class="ico-arrow icon"></i>'+
-											'</a>';
-											table.appendChild(li);
-										}
+									
+									if(notices[item.id] === true){
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#333;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);	
+									}else{
+										li.innerHTML = '<a href="javascript:;" class="tap" data="'+item.id+'" style="padding-left:15px">'+
+										'<p class="title mui-ellipsis" style="color:#999;">'+item.name+'</p>'+
+										'<p class="date">'+getLocalTime(item.addtime)+'</p>'+
+										'<i class="ico-arrow icon"></i>'+
+										'</a>';
+										table.appendChild(li);
 									}
+									
 								}else{
 									empty_flag = 1;
 								}

@@ -100,12 +100,12 @@
 			height:35px;
 			line-height: 35px;
 		}		*/
-		.layer-wjmm{
+		/*.layer-wjmm{
 				margin-bottom: 20px;
-			}
-		#pwd-input{
+			}*/
+		/*#pwd-input{
 			letter-spacing: 30px;
-		}	
+		}	*/
    </style>
 </head>
 <body>
@@ -198,38 +198,35 @@
 	};
 	
 	mui.plusReady(function(){
-			/*document.addEventListener('initpage',function(e){
-				plus.webview.currentWebview().reload(true)
-			})*/
-			if(plus.os.name=="Android"){
-				$(".recharge-foot").removeClass("android-recharge-foot")
-			}
-      		request = {"user_id":user.uid()};
-      		account.GetUsersBankOne({'request':request},function(res){
-    			console.log(JSON.stringify(res));
-     			
-      			if(!res.account || !res.bank){
-						plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
-							data = {"title":"我的银行卡"};
-							var contentWebview = plus.webview.currentWebview();
-							contentWebview.loadURL('/user/wdyhk.html');
-							headerWebview = contentWebview.parent();
-							mui.fire(headerWebview, 'updateHeader', {
-								title: data.title,
-								showMenu: false
-							});
-						}, "提示", "绑定银行卡" );
-      			}else{
-			      				//自动弹出键盘
-					initNativeObjects();
-				    showSoftInput();
-	      			var html = template("tpl-bank",res);
-	      			document.getElementById("box-bank").innerHTML = html;
-	      			
-	      			$("#bank_id").val(res.account);
-	      			$("#bank").val(res.branch);
-      			}
-      		});
+		if(plus.os.name=="Android"){
+			$(".recharge-foot").removeClass("android-recharge-foot")
+		}
+  		request = {"user_id":user.uid()};
+  		account.GetUsersBankOne({'request':request},function(res){
+			console.log(JSON.stringify(res));
+ 			
+  			if(!res.account || !res.bank){
+					plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
+						data = {"title":"我的银行卡"};
+						var contentWebview = plus.webview.currentWebview();
+						contentWebview.loadURL('/user/wdyhk.html');
+						headerWebview = contentWebview.parent();
+						mui.fire(headerWebview, 'updateHeader', {
+							title: data.title,
+							showMenu: false
+						});
+					}, "提示", "绑定银行卡" );
+  			}else{
+		      				//自动弹出键盘
+				initNativeObjects();
+			    showSoftInput();
+      			var html = template("tpl-bank",res);
+      			document.getElementById("box-bank").innerHTML = html;
+      			
+      			$("#bank_id").val(res.account);
+      			$("#bank").val(res.branch);
+  			}
+  		});
       		
 		user.getInfo(function(res){
 //			console.log(JSON.stringify(res));
@@ -279,6 +276,7 @@
 			});
 			mui.fire(headerWebview, 'loading');
 			headerWebview.show('slide-in-right', 150);
+			//plus.webview.currentWebview().reload()
 		});
 		
 		document.getElementById("btn_submit").addEventListener('tap',function(){
@@ -293,7 +291,9 @@
 				return false;
 			}
 			if(request.money == ""||request.money == 0){
-				alert("请输入提现金额");
+				mui.alert("请输入提现金额",function(){
+					$('#money').focus()
+				});
 				return false;
 			}
 			if(parseFloat(request.money)<1){
@@ -305,34 +305,29 @@
 				return false;
 			}
 			//此处写入弹窗need to do（需要提现api）
-				$(".recharge-foot").css("display","none")
-				money=$('#money').val()
-				if(parseInt(money)==money){
-      				money+=".00"
-      			}
-//				pwRequest = {'user_id':user.uid()}; 
-//				user.GetUsers({'request':pwRequest},function(pw){
-//					upayWord=pw.paypassword;
-//					})
-				$('.paypassword').val('');		
-				function closelayer(){
-					layer.close(index)
-				}
-				index =layer.open({
-					title: [
-							'交易密码',
-							'text-align:center;padding:0px;margin:0;'
-							],
-					content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" class="pwd-input"  id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div></div>',
-					// content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
-				//btn: ['确认', '取消'],
+			$(".recharge-foot").css("display","none")
+			money=$('#money').val()
+			if(parseInt(money)==money){
+  				money+=".00"
+  			}
+			$('.paypassword').val('');		
+			function closelayer(){
+				layer.close(index)
+			}
+			index =layer.open({
+				title: [
+						'交易密码',
+						'text-align:center;padding:0px;margin:0;'
+						],
+				content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" class="pwd-input" maxlength="6"  id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="tx-btn">确认提现</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 				shadeClose: false,
 				anim:true,
 				success:function(layero, index){
-					
-					initNativeObjects();
+					  
+					//initNativeObjects();
 		   			showTcInput();
 		   			var $input = $(".fake-box input"); 
+		   			var paypassword='';
 		   			
 			        $("#pwd-input").on("input", function() {  
 			        	
@@ -346,21 +341,24 @@
 			                    $(this).val("");  
 			                }  
 			            });  
-			            console.log($(this).val());
-			            if (len==6) {
-			            	//paypassword=$(this).val()
-			            	//console.log("我的密码是："+$(this).val());
-					    	paypassword=$.md5($(this).val());
-							//if(paypassword==upayWord){
-								
-							//console.log("密码正确")
-							request.paypassword =$(this).val();
-							//console.log(JSON.stringify(request));
+			            //console.log($(this).val());
+			            paypassword=$(this).val();
+					})
+			        mui(".tz-submit").on('tap','.tx-btn',function(){ 
+			        	//console.log(paypassword)
+			        	if(typeof(paypassword)=="undefined"){
+			        		mui.alert("请输入交易密码",function(){
+			        			return false;
+			        		})
+			        	}
+					    if (paypassword.length==6) {
+							request.paypassword = $("#pwd-input").val();
 							//判断异地登录
 							functionCom.checkToken(function(res){
 								//console.log(res.error_no)
 								if(res.error_no!=401){
 									account.cash_new(request, function(res){
+										//console.log(JSON.stringify(request))
 										if(res.status==1){
 											//console.log(JSON.stringify(res));
 											$(".recharge-foot").css("position","absolute")
@@ -374,45 +372,32 @@
 											})
 											mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
 										}else{
-											//console.log(JSON.stringify(res));
+											
 											$(".recharge-foot").css("display","block")
 											closelayer()
 											layer.close(index);
 											mui.toast(res.msg)
-										}	
+											
+										}	   
 									})	
 								}
 							})
-						}
-					})
+						}else{
+							mui.alert("请输入完整的交易密码",function(){
+				    			return false;
+				    		})
+							
+						}	
+			        })
 				}
 			});
 		})
 	})
-
-</script>
-
-<script type="text/javascript">
 	document.addEventListener("top-right-btn",function(e){
-			e.preventDefault();
+		e.preventDefault();
+		mui.openWindow({'url':'user/txjl.html',styles:{"aniShow":"slide-in-right","popGesture":"close"},waiting:{"autoShow":false}});		
+	},false);
 
-			mui.openWindow({'url':'user/txjl.html',styles:{"aniShow":"slide-in-right","popGesture":"close"},waiting:{"autoShow":false}});
-				
-		},false);
-	
-	/*$(document).ready(function(){
-	  $("#money").focus(function(){	       	
-	       	$(".recharge-foot").css("position","relative");
-	       	$(".recharge-foot").css("margin-top","20px");
-	  });
-	  $("#money").blur(function(){
-	       $(".recharge-foot").css("position","absolute");
-	         $(".recharge-foot").css("bottom","10%");
-	  });
-	});*/
-	//安卓bug
-	
 </script>
-
-</body>
+</body> 
 </html>

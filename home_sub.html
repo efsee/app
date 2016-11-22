@@ -223,7 +223,7 @@
 						document.getElementById("home-body").innerHTML = html;
 						request = {'type_id':6};
 						articles.GetscrollpicList({'request':request},function(res){
-							console.log(JSON.stringify(res))
+							//console.log(JSON.stringify(res))
 							//console.log(res.list.length);
 							res.host = host;
 							var html = template('tpl-pic-item',res);
@@ -297,8 +297,6 @@
 				if(href == "") return;
 				var data = this.getAttribute('data');
 				data = eval("(" + data + ")");
-				//console.log(JSON.stringify(data))
-				//console.log(href)
 				//通知模板修改标题，并显示隐藏右上角图标；
 				inittemplate = getTemplate('template', 'template.html');
 					//获得共用父模板
@@ -307,7 +305,6 @@
 				var contentWebview = inittemplate.content;
 				contentWebview.loadURL(href);
 				var right_btn = data.right_btn || "";
-				//console.log(data.title)
 				mui.fire(headerWebview, 'updateHeader', {
 					title: data.title,
 					showMenu: false,

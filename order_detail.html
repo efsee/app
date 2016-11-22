@@ -195,7 +195,7 @@
 				<p>手机号码：{{result.address.mobile}}</p>
 			</div>
 			{{/if}}
-			{{if result.status.text == "已发货"}}
+			{{if result.status.text == "已发货"||result.status.text == "已完成"}}
 			<div class="goods-detail-item goodsitem-2">
 				<h5>物流信息</h5>
 				<p>快递公司：{{result.shipping.company_title}}</p>
@@ -257,8 +257,8 @@
 				oid = self.oid
 				//console.log(oid)
 				request = {"oid":oid,"token":user.utoken()}
-				order.Get(request,function(res){
-					console.log(JSON.stringify(res)) 
+				order.Get(request,function(res){ 
+					//console.log(JSON.stringify(res)) 
 					var html = template('tpl',res);
 					document.getElementById("orderDetBox").innerHTML = html;
 				})

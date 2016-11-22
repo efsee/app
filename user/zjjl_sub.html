@@ -173,7 +173,8 @@
 							}else{
 								//-钱
 								if(val.account_type=="投资成功"){
-									$(".yy-"+yue).append(
+									
+										$(".yy-"+yue).append(
 										"<li class='mui-table-view-cell'>"+
 											"<div class='mui-table'>"+
 												"<div class='mui-table-cell mui-col-xs-6'>"+
@@ -188,9 +189,30 @@
 												"</div>"+
 											"</div>"+
 										"</li>"	
-									    )
+									   )  
+								
+					
 								}else{
-									$(".yy-"+yue).append(
+									if(val.type == "tender_success_coupon"){
+										$(".yy-"+yue).append(  
+										"<li class='mui-table-view-cell'>"+
+											"<div class='mui-table'>"+
+												"<div class='mui-table-cell mui-col-xs-6'>"+
+													"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>投资加息</h4>"+ 
+													"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
+												"</div>"+
+												"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+
+													"<p style='color:#FD585E;'><span>+</span>"+val.money+"元</p>"+
+													"<span class='mui-h5' style='color: #333;'>"+
+														"余额&nbsp;"+val.balance+"元"+
+													"</span>"+
+												"</div>"+
+											"</div>"+
+										"</li>"	
+									    )
+										
+									}else{
+										$(".yy-"+yue).append(
 										"<li class='mui-table-view-cell'>"+
 											"<div class='mui-table'>"+
 												"<div class='mui-table-cell mui-col-xs-6'>"+
@@ -206,6 +228,8 @@
 											"</div>"+
 										"</li>"	
 									)
+									}
+									
 								}//-钱不涉及利息结束
 								
 								

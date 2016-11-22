@@ -108,9 +108,9 @@ var count=0;
 			}
 			
 			$("input:focus").blur();
-			console.log(JSON.stringify(request));
+			//console.log(JSON.stringify(request));
 			user.register(request,function(res){
-				console.log(JSON.stringify(res));
+				//console.log(JSON.stringify(res));
 				if(res.status == 1){
 					plus.nativeUI.toast("注册成功！");
 					if(res.uid){
@@ -118,7 +118,10 @@ var count=0;
 							user.deleteCache(uid); //清空缓存 
 							store.delete('uid');
 							store.delete('utoken');
-							
+							/**11.16add**/
+							store.delete('shoushi_status');
+						    store.delete('shoushi_psw');
+							plus.storage.removeItem('shoushimima');
 							//设置登陆信息,一年有效期
 							store.set('uid', uid, 3600 * 24 * 365);
 							store.set('utoken', res.utoken, 3600 * 24 * 365);
@@ -211,7 +214,7 @@ function sendmobilecode(){
 			request = {'mobile': mobile,'type':'reg'};
 			//request.valicode = '';
 			user.mobilecode(request,function(res){
-				console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res)); 
 				if(res.status == 1){
 					getyzm("#getyzm");
 					$('#yyyzm').show();

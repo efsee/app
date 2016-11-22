@@ -491,13 +491,30 @@ header .mui-title { color: #333; }
       				$("#recFotId").css("position","relative")
       				request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(bank_res){
-		      			////console.log(JSON.stringify(!bank_res.status));
+		      			console.log(JSON.stringify(bank_res));
 		 				if(bank_res.status==0||!bank_res.account||!bank_res.bank){//已经实名认证但没有绑定银行卡
 		 					res.bank=bank_res.bank;
 	      					res.account=bank_res.account;
 		 					
 		 					var html = template("tpl-bank3",res);
 		      				document.getElementById("userinfo").innerHTML = html;
+		      				if(bank_res.province!="0"&&bank_res.city!="0"){
+		      					for(var i = 0;i<cityData.length;i++){
+			      					if(bank_res.province == cityData[i].value){
+			      						var province = cityData[i].text;
+			      						var cityArr = cityData[i].children
+			      						for(var j = 0;j<cityArr.length;j++){
+			      							if(bank_res.city == cityArr[j].value){
+			      								var city = cityArr[j].text
+			      							}
+			      						}	
+			      					}
+			      				}
+			      				$("#showCityPicker").text(province+" "+city)
+			      				$("#province").val(bank_res.province)
+			      				$("#city").val(bank_res.city)
+		      				}
+		      				//console.log(province,city)
 		      				multiselect()
 		      				returnXe()
 		      				
@@ -765,14 +782,14 @@ header .mui-title { color: #333; }
 														'交易密码',
 														'text-align:center;padding:0px;margin:0;'
 															],
-													content: '<p class="aleTelNum">账户充值</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+													content: '<p class="aleTelNum">账户充值</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="cz-btn">确认充值</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 													shadeClose: false,
 													anim:true,
 													success:function(layero, index){
 														initNativeObjects();
 									   					showTcInput();
 									   					var $input = $(".fake-box input"); 
-									   					
+									   					var paypassword = '';
 												        $("#pwd-input").on("input", function() {  
 												        	
 												            var pwd = $(this).val().trim();  
@@ -785,11 +802,20 @@ header .mui-title { color: #333; }
 												                    $(this).val("");  
 												                }  
 												            });  
-												            console.log($(this).val());
-												            if (len==6) {
+												           // console.log($(this).val());
+												           paypassword = $(this).val()
+												            
+												 		})//keyup结束
+												 		mui(".tz-submit").on('tap','.cz-btn',function(){
+												 			if(typeof(paypassword)=="undefined"){
+												        		mui.alert("请输入交易密码",function(){
+												        			return false;
+												        		})
+												        	}
+														    if (paypassword.length==6) {
 												            	//paypassword=$(this).val()
-												            	console.log("我的密码是："+$(this).val());
-														    	paypassword=$.md5($(this).val());
+												            	console.log("我的密码是："+paypassword);
+														    	paypassword=$.md5(paypassword);
 														    	//$(".recharge-foot").css("position","absolute")
 																closelayer()
 																if(paypassword==upayWord){
@@ -825,8 +851,14 @@ header .mui-title { color: #333; }
 											 						closelayer()
 																	mui.alert("密码错误")
 											 					}
-												 			}//6位跳转
-												 		})//keyup结束
+												 			}else{
+												 				mui.alert("请输入完整的交易密码",function(){
+													    			return false;
+													    		})
+												 			}
+												 		})
+												 		
+												 		
 												 	}//success回调
 												})//openlayer结束
 											}
@@ -904,7 +936,11 @@ function multiselect(){
 				cityPicker.show(function(items) {
 							console.log(JSON.stringify(items));
 							console.log(items[0].text + " " + items[1].text);
-					showCityPickerButton.innerHTML = items[0].text + " " + items[1].text;
+							if(items[1].value === undefined||items[1].text == "0"){
+								showCityPickerButton.innerHTML = items[0].text + " ";
+							}else{ 
+								showCityPickerButton.innerHTML = items[0].text + " " + items[1].text;
+							}  
 					document.getElementById("province").value = items[0].value;
 					document.getElementById("city").value = items[1].value;
 					//cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
