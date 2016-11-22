@@ -1,10 +1,10 @@
 ﻿var utoken, uid;
-var host = 'http://www.ifcar99.com/';
-var apiurl = 'http://www.ifcar99.com/api.php'; 
-var apiurl_new = 'http://api.ifcar99.com';
-var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
-var chargeapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_query_api.php';
+var host = 'http://test.ifcar99.com/';
+var apiurl = 'http://test.ifcar99.com/api.php'; 
+var apiurl_new = 'http://apitest.ifcar99.com';
+var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
+var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
+var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
 //var host = 'http://192.168.1.10/';
 mui.plusReady(function() {
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
@@ -60,6 +60,7 @@ var store = {
 		var info = obj.getItem(key);//单类模型获取对象方法（java）
 		var nowtime = new Date().getTime() / 1000;
 		var network = plus.networkinfo.getCurrentType();
+		//console.log(network)
 		if (!info) {
 			return null;
 		}
@@ -152,7 +153,7 @@ var ajax = {
 			success: obj,
 			complete: function(xhr) {
 				endNetwork();
-				serverTime = xhr.getResponseHeader("Date")
+				//serverTime = xhr.getResponseHeader("Date")
 				//console.log(serverTime)
 			},
 			error: function(e, type) {
@@ -269,6 +270,8 @@ var user = {
 		user.deleteCache(uid); //清空缓存 
 		store.delete('uid');
 		store.delete('utoken');
+		store.delete('shoushi_status');
+		store.delete('shoushi_psw');  
 	},	
 	'getInfo': function(callback) {
 		var uid = this.uid();
@@ -695,6 +698,25 @@ var order = {
 		var url = apiurl_new + '/order/get';
 		ajax.post(url, $data, callback);
 	}
+}
+//加息劵
+var coupon = {
+	"GetCouponList" : function($data, callback){
+		var url = apiurl_new + '/coupon/user/lists';
+		ajax.post(url, $data, callback);
+	},
+	"Add" : function($data, callback){
+		var url = apiurl_new + '/coupon/add';
+		ajax.post(url, $data, callback);
+	},
+	"Send" : function($data, callback){
+		var url = apiurl_new + '/coupon/send';
+		ajax.post(url, $data, callback);
+	},
+	"GetUsedList" : function($data, callback){
+		var url = apiurl_new + '/coupon/user/use/lists'; 
+		ajax.post(url, $data, callback);
+	},
 }
 
 

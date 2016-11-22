@@ -25,13 +25,13 @@
 		    	margin-top: 20px;
 		    }
 		    .hongbao-num:active,.hongbao-cond:active{
-		    	background-color: #EFEFEF ;
+		    	background-color: /*#EFEFEF */#ffffff;
 		    }
 	    	.hongbao-num,.hongbao-cond{
 	    		margin:0 auto;
 	    		width: 94%;
 	    		height: 100px;
-	    		background-color: #fff;
+	    		background-color: #fff5f5;
 	    		border-radius: 6px;
 	    	}
 	    	.hongbao-num img{
@@ -85,6 +85,75 @@
 			    margin: 0px auto;
 			    margin-top: 30px;
 			}
+			.mui-content{
+				padding-bottom: 48px;
+			}
+			.select-hb{
+				top:20px;
+				right: 6%;
+				position: absolute;
+				width:26px;
+				height: 26px;
+			}
+			.un-selected .select-hb{
+				background: url(images/xz-hb.png) no-repeat left top;
+				background-size: 26px;
+			}
+			.selected .select-hb{
+				background: url(images/xz-hb.png) no-repeat left -26px;
+				background-size: 26px;
+			}
+			.hbList{
+				position: relative;
+			}
+			.bot-bar{
+				height: 60px;
+				background:/* #C9C9C9*/#ffffff;
+			}
+			.bot-bar:after{
+				position: absolute;
+				height: 1px;
+				width: 100%;
+				content: "";
+				top: 0;
+				left: 0;
+				background: #c9c9c9;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+			}
+			.bot-bar div{
+				float: left;
+				width: 60%;
+			}
+			.bot-bar p{
+				padding-left: 30px;
+				text-align:left;
+				line-height: 20px;
+			}
+			.bot-bar p:first-child{
+				color:#333;
+				margin-top: 10px;
+			}
+			.hb-submit{
+				width: 32%!important;
+				height: 40px;
+				margin-top:10px;
+				background:#e94f4f; 
+				color:#FFF; 
+				text-align:center;
+				line-height: 40px;
+				border-radius: 4px;
+				font-size: 14px;
+			}
+			.hb-submit:active{
+				background: #E56059;
+			}
+			.bot-bar div:last-child{
+				width: 40%;
+			}
+			.hb-used{
+				color:#DD524D;
+			}
 	    </style>
 	    
 	</head>
@@ -96,7 +165,7 @@
 
 		<div class="mui-content" >
 			<div class="mui-loader" id="mui-loader">
-				<span class="mui-spinner"></span> <span id="loading-text" >请耐心等候</span>
+				<span class="mui-spinner"></span> <span id="loading-text" hidden="">请耐心等候</span>
 			</div>
 			<div class="notes-box" style="display:none;">
 				<i class="notes-moblie"></i>
@@ -108,65 +177,98 @@
 				</ul>
 			</div>
 		</div>
+		<nav class="bot-bar" style="opacity: 1;">
+			<div class="">
+				<p>当前选择红包：<span class="hb-used">0元</span></p>
+				<p>最高可使用<span class="hb-enough"></span>元红包</p>
+			</div>
+			<div class="hb-submit">
+				确 认
+			</div>
+		</nav>
 		<script src="js/template.js"></script>
 		<script src="js/template.function.js"></script>
 		<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
 		<script src="js/api.js"></script>
 			
 		<script>
-		
+			
 			mui.plusReady(function(){
 				var self = plus.webview.currentWebview()
 				var moneyvalue = parseInt(self.money)
-				console.log(moneyvalue)
+				var hbmoneyTotal = 0;
+				var hb_id = self.hb_id.split(",")
+				//console.log(hb_id) 
 				request = {'user_id': user.uid()};
 				request.status = 1;
 				user.GetHongbao({'request':request},function(res){
 					//console.log(JSON.stringify(res))
+					var selected_hbId = {};
+					for( var i in hb_id){
+						selected_hbId[hb_id[i]] = true; 
+					}
+					var li = ""
 					$(res.list).each(function(k,val){
 						strs = parseInt(val.money);
 						//console.log(strs)
 						
 						if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
+							$(".hb-enough").html(moneyvalue*0.01)
 						 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
 							}else{
-								$("#hbBox").append(
-									//'<li data-value="'+val.id+'-'+val.money+'" class="mui-table-view-cell" id="hbList">'+
-									'<li data={"hbvalue":"'+val.id+'-'+val.money+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList">'+
-										'<div class="hongbao-num">'+
-											'<img src="images/wsy_hb.png"/>'+
-											'<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'+
-											'<h5>还有'+val.tday+'过期</h5>'+
-											'<p>有效期至'+getTime(val.endtime,"yyyy年MM月dd日")+'</p>'+
-										'</div>'+
-										'<div class="hongbao-cond">'+
-											'<span class="hb-type">'+val.whyadd+'</span>'+
-											'<a>单笔投资满'+val.tmoney+'元及以上可用</a>'+
-										'</div>'+
-									'</li>'
-								)
+								
+								if(selected_hbId[val.id]===true){
+									li+='<li data={"hbvalue":"'+val.id+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList selected">'
+									hbmoneyTotal += parseInt(val.money)
+								}else{
+									li+='<li data={"hbvalue":"'+val.id+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList un-selected">'
+								}
+								li+='<div class="hongbao-num">'
+								li+='<img src="images/wsy_hb.png"/>'
+								li+='<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'
+								li+='<h5>还有'+val.tday+'过期</h5>'	
+								li+='<p>有效期至'+getTime(val.endtime,"yyyy年MM月dd日")+'</p>'
+								li+='</div>'
+								li+='<div class="hongbao-cond">'
+								li+='<span class="hb-type">'+val.whyadd+'</span>'		
+								li+='<a>单笔投资满'+val.tmoney+'元及以上可用</a>'		
+								li+='</div>'
+								li+='<div class="select-hb"></div>'
+								li+='</li>'	
 							}
 						}else{
+							if(moneyvalue*0.005 > 100){
+								$(".hb-enough").html(100)
+							}else{
+								$(".hb-enough").html(moneyvalue*0.005) 
+							}
+							
 						 	if ( (strs) > (moneyvalue)*(0.005) ){
 								
 							}else{
-								$("#hbBox").append(
-									'<li data={"hbvalue":"'+val.id+'-'+val.money+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList">'+
-										'<div class="hongbao-num">'+
-											'<img src="images/wsy_hb.png"/>'+
-											'<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'+
-											'<h5>还有'+val.tday+'过期</h5>'+
-											'<p>有效期至'+getTime(val.endtime,"yyyy年MM月dd日")+'</p>'+
-										'</div>'+
-										'<div class="hongbao-cond">'+
-											'<span class="hb-type">'+val.whyadd+'</span>'+
-											'<a>单笔投资满'+val.tmoney+'元及以上可用</a>'+
-										'</div>'+
-									'</li>'
-								)
+								if(selected_hbId[val.id]===true){
+									li+='<li data={"hbvalue":"'+val.id+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList selected">'
+									hbmoneyTotal += parseInt(val.money)
+								}else{
+									li+='<li data={"hbvalue":"'+val.id+'","money":'+val.money+',"tday":"'+val.tday+'"}  class="hbList un-selected">'
+								}
+								li+='<div class="hongbao-num">'
+								li+='<img src="images/wsy_hb.png"/>'
+								li+='<div class="hb-je " style="color: #DD524D;">￥<span style="font-size: 50px;">'+val.money+'</span></div>'
+								li+='<h5>还有'+val.tday+'过期</h5>'	
+								li+='<p>有效期至'+getTime(val.endtime,"yyyy年MM月dd日")+'</p>'
+								li+='</div>'
+								li+='<div class="hongbao-cond">'
+								li+='<span class="hb-type">'+val.whyadd+'</span>'		
+								li+='<a>单笔投资满'+val.tmoney+'元及以上可用</a>'		
+								li+='</div>'
+								li+='<div class="select-hb"></div>'
+								li+='</li>'	 
 							}
 						}
 					});
+					$(".hb-used").html(hbmoneyTotal+"元")
+					$("#hbBox").html(li)
 					if($(".hbList").length==0){
 						$(".notes-box").css("display","block")
 					}
@@ -175,12 +277,39 @@
 				})
 				mui("#hbBox").on("tap",".hbList",function(){
 					var hbdata = this.getAttribute('data');
-					//var hbmoney=this.getAttribute('data');
-					hbdata = eval("(" + hbdata + ")");
-					console.log(JSON.stringify(hbdata))  
-					var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+					var hbdata = eval("(" + hbdata + ")");
+					if($(this).hasClass("un-selected")){
+						$(this).addClass("selected").removeClass("un-selected")
+						hbmoneyTotal += parseInt(hbdata.money)
+						
+					}else{
+						$(this).addClass("un-selected").removeClass("selected")
+						hbmoneyTotal -= parseInt(hbdata.money)
+					}
+					$(".hb-used").html(hbmoneyTotal+"元")
+					
+					/*console.log(JSON.stringify(hbdata))  */
+					/*var ljtzPage=plus.webview.getWebviewById("ljtz.html")
 					mui.fire(ljtzPage,"getHongbao",hbdata)
-					mui.back()
+					mui.back()*/
+					
+				})
+				mui(".bot-bar").on("tap",".hb-submit",function(e){
+					var hbdata = {}
+					$selected_hb = $(".selected")
+					$($selected_hb).each(function(k,val){ 
+						hbdata[k]=(eval("(" + val.getAttribute('data') + ")"))
+					})
+					if(hbmoneyTotal > parseInt($(".hb-enough").html())){  
+						alert("超出可使用红包范围")
+						return
+					}else{
+						//hbdata.push(hbmoneyTotal)
+						var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+						mui.fire(ljtzPage,"getHongbao",hbdata)
+						oldback()
+					}
+					
 					
 				})
 				//时间方法
@@ -211,6 +340,24 @@
 				    });
 				    return format;
 				}
+				oldback = mui.back;
+				mui.back = function(){
+					var selected_hbId = {};
+					for( var i in hb_id){
+						selected_hbId[hb_id[i]] = true; 
+					}
+					var hbdata = {}
+					$selected_hb = $(".hbList") 
+					$($selected_hb).each(function(k,val){
+						jsonData = (eval("(" + val.getAttribute('data') + ")"))
+						if(selected_hbId[jsonData.hbvalue]===true){
+							hbdata[k]=(eval("(" + val.getAttribute('data') + ")"))
+						}
+					})
+					var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+					mui.fire(ljtzPage,"getHongbao",hbdata)
+					oldback(); 
+				} 
 			})
 			
 		

@@ -205,12 +205,12 @@
 								}else{
 									//store.set('diffrent', 1, res.time);
 									var content='新版本更新如下：\r\n'+
-										'1.新增积分商城\r\n'+
-										'2.优化我的红包界面\r\n'+
-										'3.新增交易密码初始设置\r\n'+
-										'4.重新优化个人中心\r\n'+
-										'5.优化消息未读提示\r\n'+
-										'6.增加单点登录功能'
+										'1.新增加息券\r\n'+
+										'2.新增多选红包功能\r\n'+
+										'3.新增投资即计息功能\r\n'+
+										'4.更新优化图标样式\r\n'+
+										'5.修复已知bug\r\n'
+										
 									/*$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});*/
@@ -223,7 +223,7 @@
 					})
 					
 				}
-			})
+			}) 
 			
 			//获取未读角标
 			request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
@@ -309,12 +309,6 @@
 					document.getElementById("top-email").classList.add('mui-hidden'); 
 				}
 			});
-			
-			if(store.get('topnotice') == null){
-				//mui-badge
-	
-			}
-			
 			/*articles.getnewnotice({},function(res){
 				var noticetime = store.get(noticetime);
 				console.log(8+JSON.stringify(res));

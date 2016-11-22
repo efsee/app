@@ -83,9 +83,15 @@ header .mui-title { color: #333; }
                 	<font style="font-size: 18px;" color="#FF0000">￥{{item.account | toFixed}}</font>
                 </span>-->
                 <h4 class="mui-ellipsis" style="font-size: 18px; color:#FF0000;">￥{{item.account | toFixed}}</h4>
-                {{if item.hbagmoney!="0"}}
-                	<h5 style="padding-left: 2px;font-size: 13px;">已使用<span class="c5">{{item.hbagmoney}}元</span>红包</h5>
-                {{/if}}
+           
+                	<h5 style="padding-left: 2px;font-size: 13px;">
+                		{{if item.coupon_user_use_id !="0"}}
+                		<span class="c5">{{item.coupon_rate | toFixed2}}%</span>加息 
+                		{{/if}}
+                		{{if item.hbagmoney!="0"}}
+                		<span class="c5">{{item.hbagmoney}}元</span>红包
+                		{{/if}}
+                	</h5>
                 
             </div>
         </div>

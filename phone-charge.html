@@ -213,11 +213,12 @@
 									        '交易密码',
 											'text-align:center;padding:0px;margin:0;'
 									    ],
-									    content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a><div style="clear:both;"></div></div><div style="clear:both;"></div>',
+									    content: '<p class="aleTelNum">手机话费充值&nbsp;'+account_no+'</p><p class="aleTelPri">￥'+face_price+'.00</p><div class="pwd-box"><input type="tel" maxlength="6" class="pwd-input" id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="pcz-btn">确认充值</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a><div style="clear:both;"></div></div><div style="clear:both;"></div>',
 									   // btn: ['确认', '取消'],
 									    shadeClose: false,
 									    anim:true,
 									    success:function(layero, index){
+									    	var paypassword=""
 									    	initNativeObjects();
 		   									showSoftInput();
 									    	var $input = $(".fake-box input");  
@@ -233,12 +234,18 @@
 									                if (index2 >= len) {  
 									                    $(this).val("");  
 									                }  
-									            });  
-									           // console.log($(this).val());
-									            if (len==6) {
+									            });
+									            paypassword=$(this).val()
+									        });
+									        mui(".tz-submit").on('tap','.pcz-btn',function(){
+									        	//console.log(paypassword)
+									        	if(typeof(paypassword)=="undefined"){
+									        		mui.alert("请输入交易密码",function(){
+									        			return false;
+									        		})
+									        	}
+											    if (paypassword.length==6) {
 									            	$("input").blur()
-									            	paypassword=$(this).val()
-									            	//console.log("我的密码是："+$(this).val());
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"face_price":face_price,"paypassword":paypassword};
 													//console.log(JSON.stringify(request))
 													//判断异地登录
@@ -263,16 +270,21 @@
 																		//$(".iphone-czjl").css("position","absolute")
 																		mui.toast(res.msg)
 																		closelayer()
-																		//mui.toast("交易密码错误");	//need to do
 																	}
 																}
 															})
 														}
 													})//结束
 													
-									            }  
-		    
-									        }); 
+									            }else{
+									            	
+										    		mui.alert("请输入完整的交易密码",function(){
+										    			return false;
+										    		})
+										    		
+									            }
+
+									        })
 										}
 									});	
 								}

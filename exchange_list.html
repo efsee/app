@@ -226,7 +226,7 @@
 					if(this.getAttribute("disable")=="1"){
 						return
 					}else{  
-						this.setAttribute("disable","1")
+						//this.setAttribute("disable","1")
 						var data = this.getAttribute('data')
 						data=eval("(" + data + ")");
 						mui.openWindow({
@@ -250,7 +250,8 @@
 					request = {'token':user.utoken(),'size':"10","pay_status":"1"};
 					request.page = page+"";
 					order.GetLogList(request,function(res){//$data和回调函数
-						test = 1
+						//console.log(JSON.stringify(res))
+						test = 1 
 						if(res.error_no==401){
 							user.logout({},function(res){
 								mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {

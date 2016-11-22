@@ -26,6 +26,10 @@
 	    header{
 	    	background: #fff;
 	    }
+	    .jx-text{
+	    	float: right;
+	    	
+	    }
 	</style>
 </head>
 <body>
@@ -91,8 +95,18 @@
 			$(res.list).each(function(i,e){
 				if(!e.recover_status){
 					dmbcount++;
-					dmbsum=dmbsum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
-					recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+					if(e.coupon_user_use_id=="0"){
+						dmbsum=dmbsum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
+						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+						recover_interest = e.recover_interest
+						var jxText = ""
+					}else{
+						dmbsum=dmbsum+parseFloat(e.account_tender)+parseFloat(e.recover_interest+parseFloat(e.coupon_amount)/100);
+						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100);
+						recover_interest = getFloatStr(parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100)
+						var jxText = "<span class='jx-text'>(+"+parseFloat(e.coupon_rate)/100+"%)</span>"
+					}
+					
 					if(e.recordNo){
 						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 					}
@@ -105,17 +119,27 @@
 						 	str+
 						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><span>收益：'+e.recover_interest+'元</span></p>'+
+						 	'<p class="hkjl-tittle"><span>收益：'+recover_interest+jxText+'元</span></p>'+
 						 '</li>'
 					)
 				}
 				else{
 					//console.log(JSON.stringify(e.recordNo))
-					if(e.repay_account_yes>0){
+					if(e.repay_account_yes>0){//满标已回款
 						yhkcount++;
 						
-						yhksum=yhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
-						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+						
+						if(e.coupon_user_use_id=="0"){
+							yhksum=yhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
+							recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+							recover_interest = e.recover_interest
+							var jxText = ""
+						}else{
+							yhksum=yhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100;
+							recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100);
+							recover_interest = getFloatStr(parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100)
+							var jxText = "<span class='jx-text'>(+"+parseFloat(e.coupon_rate)/100+"%)</span>"
+						}
 						if(e.recordNo){
 							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 						}
@@ -128,14 +152,24 @@
 							 	str+
 							 	'<span class="hkjl-right"><font class="hkjl-yc">已回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+'<span>收益：'+e.recover_interest+'元</span></p>'+
+							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
 							 '</li>'
 						)
 					}
-					else{
+					else{//满标待回款 
 						dhkcount++;
-						dhksum=dhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
-						recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+						
+						if(e.coupon_user_use_id=="0"){
+							dhksum=dhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest);
+							recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest));
+							recover_interest = e.recover_interest
+							var jxText = ""
+						}else{
+							dhksum=dhksum+parseFloat(e.account_tender)+parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100 ;
+							recover=getFloatStr(parseFloat(e.account_tender)+parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100);
+							recover_interest = getFloatStr(parseFloat(e.recover_interest)+parseFloat(e.coupon_amount)/100)
+							var jxText = "<span class='jx-text'>(+"+parseFloat(e.coupon_rate)/100+"%)</span>"
+						}
 						if(e.recordNo){
 							str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 						}
@@ -148,7 +182,7 @@
 							 	str+
 							 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+'<span>收益：'+e.recover_interest+'元</span></p>'+
+							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
 							 '</li>'
 						)
 					}

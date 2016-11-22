@@ -53,6 +53,34 @@ template.helper('toFixed', function (data,num) {
 	return res;
 });
 
+// 除100
+template.helper('toFixed2', function (data,num) {
+	if(isNaN(data)) return data;
+	num = num || 100;
+	data = new Number(data);
+	res =  data/100;
+	if(data%100 == 0){
+		res = res.toFixed(1)
+	}else{
+		
+	}
+	return res;
+});
+
+// 除100
+template.helper('expireTime', function (date,num) {
+	//date = new Date(date*1000);
+	var nowDate = new Date() 
+	nowDate = (nowDate.getTime())/1000
+	var expireTime = parseInt(date) - nowDate 
+	if( expireTime > 86400){
+		res = parseInt(expireTime/86400) + 1
+	}else{ 
+		res = 1
+	}
+	return res;
+});
+
 // * 对日期进行格式化， 
 // * @param date 要格式化的日期 
 // * @param format 进行格式化的模式字符串

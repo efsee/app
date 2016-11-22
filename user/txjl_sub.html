@@ -153,7 +153,7 @@
 				request = {'user_id':user.uid()};
 				account.GetCashList({'request':request},function(res){
 					//console.log(2116)
-					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res));
 				})
 			});
 	//			
@@ -161,7 +161,7 @@
 				request = {'user_id':user.uid(),'epage':10,'style':'new'};
 				request.page = page;
 				account.GetCashList({'request':request},function(res){//$data和回调函数
-					console.log(JSON.stringify(res));
+					//console.log(JSON.stringify(res));
 					var html = template('tpl-item',res.list);
 					var ul = document.querySelector('#zjjl-list');
 					var upflag = res.list.page >= res.list.total_page ? true : false;

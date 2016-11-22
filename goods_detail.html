@@ -279,7 +279,7 @@
 		<script src="js/template.function.js"></script> 
 		<script type="text/javascript">
 			mui.init()
-			mui.plusReady(function(){
+			mui.plusReady(function(){ 
 				document.addEventListener("mui.view.show",function(e){
 					//console.log(JSON.stringify(e.detail))
 					data=e.detail
@@ -300,11 +300,14 @@
 								var btnArray = ['取    消', '赚取积分'];
 								mui.confirm("活动推出特价商品，每人最多\n只能兑换"+goodsLimit+"件","当前商品限购"+goodsLimit+"件\n", btnArray, function(e) {
 									if (e.index == 1) {
-										var indexPage = plus.webview.getLaunchWebview()
+										var integralRulePage = plus.webview.create("integral_mall_rule.html","integral_mall_rule.html",{popGesture:"close"})
+										setTimeout(function(){
+											integralRulePage.show("slide-in-right")
+										},300)
+										/*var indexPage = plus.webview.getLaunchWebview()
 										mui.fire(indexPage,"goproduct")
 										plus.webview.currentWebview().opener().close()
-										plus.webview.currentWebview().close();
-										
+										plus.webview.currentWebview().close();*/
 										
 									}else{
 									
@@ -341,11 +344,15 @@
 							var btnArray = ['确	定', '赚取积分'];
 							mui.confirm("商品购买数量超出库存，请重新选择","库存不足", btnArray, function(e) {
 								if (e.index == 1) {
-									var indexPage = plus.webview.getLaunchWebview()
+									var integralRulePage = plus.webview.create("integral_mall_rule.html","integral_mall_rule.html",{popGesture:"close"})
+									setTimeout(function(){
+										integralRulePage.show("slide-in-right")
+									},300)
+									/*var indexPage = plus.webview.getLaunchWebview()
 								//	console.log(JSON.stringify(indexPage))
 									mui.fire(indexPage,"goproduct")
 									plus.webview.currentWebview().opener().parent().hide()
-									plus.webview.currentWebview().close();
+									plus.webview.currentWebview().close();*/
 									
 								}else{
 									return false;
@@ -360,11 +367,15 @@
 							var btnArray = ['取    消', '赚取积分'];
 							mui.confirm("活动推出特价商品，每人最多\n只能兑换"+goodsLimit+"件","当前商品限购"+goodsLimit+"件\n", btnArray, function(e) {
 								if (e.index == 1) {
-									var indexPage = plus.webview.getLaunchWebview()
+									var integralRulePage = plus.webview.create("integral_mall_rule.html","integral_mall_rule.html",{popGesture:"close"})
+									setTimeout(function(){
+										integralRulePage.show("slide-in-right")
+									},300)
+									/*var indexPage = plus.webview.getLaunchWebview()
 								//	console.log(JSON.stringify(indexPage))
 									mui.fire(indexPage,"goproduct")
 									plus.webview.currentWebview().opener().parent().hide()
-									plus.webview.currentWebview().close();
+									plus.webview.currentWebview().close();*/
 								}else{
 									return false;
 								}
@@ -397,11 +408,15 @@
 							var btnArray = ['取    消', '赚取积分'];
 							mui.confirm("你选择了"+goodsNum+"件商品，共计"+goodsPrice*goodsNum+"积分","积分不足", btnArray, function(e) {
 								if (e.index == 1) {
-									var indexPage = plus.webview.getLaunchWebview()
+									var integralRulePage = plus.webview.create("integral_mall_rule.html","integral_mall_rule.html",{popGesture:"close"})
+									setTimeout(function(){
+										integralRulePage.show("slide-in-right")
+									},300)
+									/*var indexPage = plus.webview.getLaunchWebview()
 								//	console.log(JSON.stringify(indexPage))
 									mui.fire(indexPage,"goproduct")
 									plus.webview.currentWebview().opener().parent().hide()
-									plus.webview.currentWebview().close();
+									plus.webview.currentWebview().close();*/
 									
 								}else{
 									

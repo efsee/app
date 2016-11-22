@@ -198,53 +198,81 @@ table {
 }
 /*发现栏目图标*/
 .find-top .icon_news{
-	background: url(../images/find_icon.png) no-repeat 0px 2px; width: 28px; height:28px; display:block; 
- background-size:250px 250px;margin: 0 auto;
+	background: url(../images/icon_new.png) no-repeat  1px -104px; width: 28px; height:28px; display:block; 
+    background-size:240px;
+    margin: 0 auto;
 	
-}
+} 
 .find-top .icon_activity{
-	background: url(../images/find_icon.png) no-repeat -35px 2px; width: 28px; height: 28px; display:block; 
- background-size:250px 250px;margin: 0 auto;	
+	background: url(../images/icon_new.png) no-repeat  -81px -104px; width: 28px; height:28px; display:block; 
+    background-size:240px; 
+    margin: 0 auto;	
 	
 }
 .find-top .icon_College{
-	background: url(../images/find_icon.png) no-repeat -117px -33px; width: 28px; height: 28px; display:block; 
- background-size:250px 250px;margin: 0 auto;	
+	background: url(../images/icon_new.png) no-repeat  -24px -104px; width: 28px; height:28px; display:block; 
+    background-size:240px; 
+    margin: 0 auto;		
 	
 }
 .ui_cell_img .icon_jcts{
-	background: url(../images/find_icon.png) no-repeat -42px -100px; width: 28px; height: 28px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+	background: url(../images/icon_new.png) no-repeat  1px -135px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+ 	margin-top: -1px;
 	
 }
 .ui_cell_img .icon_mall{
-	background: url(../images/find_icon.png) no-repeat -72px 0px; width: 28px; height: 28px; display:block; float: left; 
-  background-size:250px 250px;margin-right: 10px;	
+	background: url(../images/icon_new.png) no-repeat  -52px -104px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
 	
 }
 .ui_cell_img .icon_forum{
-	background: url(../images/find_icon.png) no-repeat -115px 0px; width: 28px; height: 25px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
-	
+	background: url(../images/icon_new.png) no-repeat  -107px -104px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+	margin-top: -1px;
 }
 .ui_cell_img .icon_help{
-	background: url(../images/find_icon.png) no-repeat 0px -34px; width: 28px; height: 26px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+	background: url(../images/icon_new.png) no-repeat  -134px -104px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+ 	margin-top: -2px;	
 	
 }
 .ui_cell_img .icon_follow{
-	background: url(../images/find_icon.png) no-repeat -35px -34px; width: 28px; height: 28px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
-	
+	background: url(../images/icon_new.png) no-repeat  -162px -104px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+	margin-top: -1px;
 }
 .ui_cell_img .icon_about{
-	background: url(../images/find_icon.png) no-repeat -69px -34px; width: 28px; height: 25px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+	background: url(../images/icon_new.png) no-repeat  -192px -104px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+ 	margin-top: -1px;	
 	
 }
 .ui_cell_img .icon_bbh{
-	background: url(../images/find_icon.png) no-repeat -80px -104px; width: 28px; height: 28px; display:block; float: left; 
- background-size:250px 250px; margin-right: 10px;	
+	background: url(../images/icon_new.png) no-repeat  -27px -135px; width: 28px; height:28px;
+	background-size:240px; 
+	display:block; 
+	float: left; 
+ 	margin-right: 10px;	
+ 	margin-top: -1px;
 	
 }
 .ui_cell_img > li img,

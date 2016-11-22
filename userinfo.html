@@ -85,13 +85,22 @@
 		</div>
 		<script id="tpl" type="text/html">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">账户<span id="userName">{{mobile}}</span></li>
+				<li class="mui-table-view-cell">账户<span id="userName">{{username}}</span></li>
 			</ul>
 			<ul class="mui-table-view">
-				{{if status=="1"&&realname!=null}}
-				<li class="mui-table-view-cell">姓名<span>{{realname}}</span></li>
+				{{if sm_status=="1"&&realname!=null}}
+				<li class="mui-table-view-cell">姓名<span>{{realname}}</span></li> 
 				<li class="mui-table-view-cell">身份证<span>{{_realname.card_id}}</span></li>
-				<li class="mui-table-view-cell">银行卡<span><img class="back-img" src="images/bank/bank_{{bank}}.png"/>{{bank_name}}(尾号{{account_str}})</span></li>
+					{{if account!=null}}
+					<li class="mui-table-view-cell">银行卡<span><img class="back-img" src="images/bank/bank_{{bank}}.png"/>{{bank_name}}(尾号{{account}})</span></li>
+					{{else}}
+					<li class="mui-table-view-cell">
+						<a href="smrz_w_recharge.html" class="mui-navigate-right tap">
+							银行卡
+							<span style="margin-right: 25px;">未认证</span>
+						</a>
+					</li> 
+					{{/if}}
 				{{else}}
 				<li class="mui-table-view-cell">
 					<a href="smrz_w_recharge.html" class="mui-navigate-right tap">
@@ -143,40 +152,33 @@
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function(){
-				//有无自动投资
-			/*	user.getInfo(function(res){
-					console.log(JSON.stringify(res))
-					if(res){
-				 		if(res.bauto){
-				 			document.getElementById("switch_auto").classList.add('mui-active');
-				 		}
-					}
-				});*/
 				//判断有无开启手势密码
 				if(store.get("shoushi_status")){
 					document.getElementById("switch_ssmm").classList.add('mui-active');
 				}else{
 					document.getElementById("switch_ssmm").classList.remove('mui-active');
 				}
-				/*if(plus.storage.getItem('shoushimima')){
-					document.getElementById("switch_ssmm").classList.add('mui-active');
-				}else{
-					document.getElementById("switch_ssmm").classList.remove('mui-active');
-				}*/
-				request = {"user_id":user.uid()};
-      			account.GetUsersBankOne({'request':request},function(res){
-      				//console.log(JSON.stringify(res))
-      				res.mobile = res.mobile.slice(0,3)+"****"+res.mobile.slice(-4)
-      				if(res.status=="1"&&res.realname!=null){
-						res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
-						res.account_str = res.account_str.slice(-4)
-      				}
-      				var html = template("tpl",res);
-	      			document.getElementById("userBox").innerHTML = html;
-	      			document.getElementsByClassName("mui-content")[0].style.display="block";
-					//$('#bodybox').show();	
-      			})
+				user.UserInfo({'request':{"user_id":user.uid()}},function(r){
+					var sm_status = r.realname_status
+					request = {"user_id":user.uid()};
+	      			account.GetUsersBankOne({'request':request},function(res){
+	      				res.sm_status = sm_status
+	      				console.log(JSON.stringify(res)) 
+	      				res.username = res.username.slice(0,3)+"****"+res.username.slice(-4) 
+	      				if(res.sm_status=="1"&&res.realname!=null){ //已经实名
+							res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
+							if(res.account!=null){//实名有银行卡
+								res.account = res.account.slice(-4)
+							}   
+	      				}
+	      				var html = template("tpl",res);
+		      			document.getElementById("userBox").innerHTML = html;
+		      			document.getElementsByClassName("mui-content")[0].style.display="block";
+						//$('#bodybox').show();	
+	      			})
 
+		  		})
+ 
       			mui("body").on('tap','a.tap',function(e){
       				e.preventDefault()
 					var url = this.getAttribute('href');
@@ -251,8 +253,7 @@
 					}else{
 						mui.alert("功能升级中",function(e){  
 							if(e.index==0){
-								mui('#switch_auto').switch().toggle()
-								
+								mui('#switch_auto').switch().toggle()	
 							}  
 						})
 					} 
