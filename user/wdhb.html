@@ -292,36 +292,7 @@
 		
 <script>
 
-	mui.plusReady(function(){
-		//加息劵
-		/*request2 = {'token': user.utoken(),
-		'title':'15%加息券',
-		'remark':'积分抽奖获得',
-		'type':'common',
-		'status':'2',
-		'store':'999',
-		'check_store':'1',
-		'expire':'864000',
-		'limit_use_for':'2',
-		'rate':'12.4',
-		'level':"0",
-		'limit_lower_money':'10000',
-		'limit_upper_money':'50000',
-		'limit_on_time':'0',
-		'limit_off_time':'0',
-		'use_times':'5',
-		'is_force_use':'2',
-		'start_time':'0',
-		'end_time':'0'
-
-		};
-		console.log(JSON.stringify(request2))
-		coupon.Add(request2,function(res){ 
-			console.log(JSON.stringify(res))
-		}) */
-		coupon.Send({"token":user.utoken(),'user_id':"10034",'coupon_id':'6','remark':'抽奖'},function(res){   
-			console.log(JSON.stringify(res))  
-		})
+	mui.plusReady(function(){  
 		coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){ 
 			if(res){
 				if(res.result.rows.length > 0){
