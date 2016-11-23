@@ -237,8 +237,8 @@
 								li+='</li>'	
 							}
 						}else{
-							if(moneyvalue*0.005 > 100){
-								$(".hb-enough").html(100)
+							if(moneyvalue*0.005 > 200){
+								$(".hb-enough").html(200)
 							}else{
 								$(".hb-enough").html(moneyvalue*0.005) 
 							}
@@ -302,7 +302,7 @@
 					})
 					if(hbmoneyTotal > parseInt($(".hb-enough").html())){  
 						alert("超出可使用红包范围")
-						return
+						return 
 					}else{
 						//hbdata.push(hbmoneyTotal)
 						var ljtzPage=plus.webview.getWebviewById("ljtz.html")
