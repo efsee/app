@@ -505,7 +505,6 @@ var borrow = {
 		ajax.post(url, $data, callback);
 	},
 	
-
 }
 
 var product = {

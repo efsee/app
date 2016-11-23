@@ -85,7 +85,7 @@
 	mui.plusReady(function(){
 		request = {'type':'','user_id':user.uid(),'epage':10000};
 		borrow.GetTenderLists({'request':request},function(res){
-			console.log(JSON.stringify(res))
+			console.log(JSON.stringify(res)) 
 			dmbcount=0;
 			dmbsum=0.00;
 			dhkcount=0;
@@ -119,7 +119,7 @@
 						 	str+
 						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
 						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><span>收益：'+recover_interest+jxText+'元</span></p>'+
+						 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
 						 '</li>'
 					)
 				}
