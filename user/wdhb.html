@@ -230,7 +230,7 @@
 		</div>
 		<div class="hongbao-cond">
 			<span class="hb-type">{{$item.remark}}</span>
-			<a>投资项目{{$item.use_for}}</a>
+			<a>投资项目{{$item.use_for_title}}</a> 
 		</div>
 	</li>
 	{{/each}}
@@ -318,10 +318,10 @@
 		console.log(JSON.stringify(request2))
 		coupon.Add(request2,function(res){ 
 			console.log(JSON.stringify(res))
-		}) 
-		coupon.Send({"token":user.utoken(),'user_id':"8899",'coupon_id':'12','remark':'抽奖'},function(res){ 
-			console.log(JSON.stringify(res)) 
-		})*/
+		}) */
+		coupon.Send({"token":user.utoken(),'user_id':"10034",'coupon_id':'6','remark':'抽奖'},function(res){   
+			console.log(JSON.stringify(res))  
+		})
 		coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){ 
 			if(res){
 				if(res.result.rows.length > 0){

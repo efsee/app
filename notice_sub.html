@@ -64,14 +64,23 @@
 				mui('#pullrefresh').pullRefresh().pulldownLoading();*/
 				request={"user_id":user.uid()}
 				articles.GetNoticeStatus({"request":request},function(res){
-					notice_id = res.notice.split(",")
+					console.log(JSON.stringify(res))
+					if(res.notice == null){
+						notice_id = ""
+					}else{
+						notice_id = res.notice.split(",")
+					}
 					mui('#pullrefresh').pullRefresh().pulldownLoading();
 				})  
 			},false);
 			document.addEventListener('initpage2',function(e){
 				request={"user_id":user.uid()}
 				articles.GetNoticeStatus({"request":request},function(res){
-					notice_id = res.notice.split(",")
+					if(res.notice == null){
+						notice_id = ""
+					}else{
+						notice_id = res.notice.split(",")
+					}
 					mui('#pullrefresh').pullRefresh().pulldownLoading();
 				}) 
 			},false);
