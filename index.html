@@ -82,12 +82,12 @@
 	<script>
 		mui.plusReady(function(){
 			//先执行welcome
-			if(!plus.storage.getItem('welcome182'))
+			if(!plus.storage.getItem('welcome183'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent182')){
+				if(!store.get('diffrent183')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -109,7 +109,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent182', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent183', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -162,7 +162,7 @@
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent182')){
+				if(!store.get('diffrent183')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -184,7 +184,7 @@
 										content+='\r\n'+item;
 									});
 									//console.log(content);
-									store.set('diffrent182', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent183', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {

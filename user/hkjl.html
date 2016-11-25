@@ -111,15 +111,15 @@
 						str='<span class="hkjl-dai" href="https://www.51cunzheng.com/webjsapi/downLoad?recordNo='+e.recordNo+'" data-href2="'+e.ancun_url+'"><a class="hkjl-bqys" >已保全</a></span>'
 					}
 					else{
-						str='';
+						str=''; 
 					}
 					$('.dmb .mui-table-view').append(
 						'<li class="mui-table-view-cell item" borrow_nid="'+e.borrow_nid+'" has_repay="'+e.recover_status+'">'+
 						 	  e.borrow_name+
 						 	str+
 						 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-						 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
+						 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getTime(e.addtime,"yyyy-MM-dd hh:mm")+'<span>本金：'+e.account_tender+'元</span></p>'+
+						 	'<p class="hkjl-tittle"><span>收益：'+recover_interest+'元</span></p>'+ 
 						 '</li>'
 					)
 				}
@@ -151,8 +151,8 @@
 							 	  e.borrow_name+
 							 	str+
 							 	'<span class="hkjl-right"><font class="hkjl-yc">已回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
+							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getTime(e.addtime,"yyyy-MM-dd hh:mm")+'<span>本金：'+e.account_tender+'元</span></p>'+
+							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getTime(e.recover_time,"yyyy-MM-dd hh:mm")+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
 							 '</li>'
 						)
 					}
@@ -181,8 +181,8 @@
 							 	  e.borrow_name+
 							 	str+
 							 	'<span class="hkjl-right"><font class="hkjl-yc">待回款</font>'+recover+'<font class="hkjl-yuan">元</font>	</span>'+
-							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getLocalTime(e.addtime)+'<span>本金：'+e.account_tender+'元</span></p>'+
-							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getLocalTime(e.recover_time)+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
+							 	'<p class="hkjl-tittle hkjl-martop"><i class="hkjl-tzsj"></i>投资时间：'+getTime(e.addtime,"yyyy-MM-dd hh:mm")+'<span>本金：'+e.account_tender+'元</span></p>'+
+							 	'<p class="hkjl-tittle"><i class="hkjl-kksj"></i>回款时间：'+getTime(e.recover_time,"yyyy-MM-dd hh:mm")+jxText+'<span>收益：'+recover_interest+'元</span></p>'+
 							 '</li>'
 						)
 					}
@@ -285,7 +285,33 @@
 			})
 			
 	})
-	
+	function  getTime(date, format) {
+	    date = new Date(date * 1000);
+	    var map = {
+	        "M": date.getMonth() + 1, //月份 
+	        "d": date.getDate(), //日 
+	        "h": date.getHours(), //小时 
+	        "m": date.getMinutes(), //分 
+	        "s": date.getSeconds(), //秒  
+	        "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+	        "S": date.getMilliseconds() //毫秒 
+	    };
+	    format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+	        var v = map[t];
+	        if(v !== undefined){
+	            if(all.length > 1){
+	                v = '0' + v;
+	                v = v.substr(v.length-2);
+	            }
+	            return v;
+	        }
+	        else if(t === 'y'){
+	            return (date.getFullYear() + '').substr(4 - all.length);
+	        }
+	        return all;
+	    });
+	    return format;
+	}
 	function getLocalTime(nS) {     
        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, "").replace('GMT+8', "");      
     }
