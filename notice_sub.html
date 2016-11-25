@@ -96,7 +96,6 @@
 				setTimeout(function() {
 					var table = document.body.querySelector('.mui-table-view');
 					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 					articles.GetList({'request':request},function(res){
 						if(res){

@@ -5,16 +5,16 @@ var apiurl_new = 'http://api.ifcar99.com';
 var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
 var queryapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_query_api.php';
-//var host = 'http://192.168.1.10/';
-mui.plusReady(function() {
+//var host = 'http://192.168.1.10/'; 
+mui.plusReady(function() { 
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 		//appid属性
 		appinfo.appid = wgtinfo.appid;
 		//version属性
 		appinfo.version = wgtinfo.version;
 		//name属性 
-		appinfo.name = wgtinfo.name;
-	});*/
+		appinfo.name = wgtinfo.name; 
+	});*/  
 if(document.getElementById("main-box")){
 	mui('#main-box').on('tap', 'a[href]', function(){
 		var href = this.getAttribute('href');
