@@ -246,7 +246,7 @@
 			<img src="../images/ysy_hb.png"/>
 			<div class="hb-je " style="color:#727272;">￥<span style="font-size: 50px;">{{$item.money}}</span></div>
 			<h5>已过期</h5>
-			<p>过期时间：{{$item.usetime | dateFormat:"yyyy年MM月dd日"}}</p>
+			<p>过期时间：{{$item.endtime | dateFormat:"yyyy年MM月dd日"}}</p>
 		</div>
 		<div class="hongbao-cond" style="position: relative;">
 			<div class="mengban" style="width: 94%;"></div>
@@ -352,6 +352,7 @@
 		request = {'user_id': user.uid()};
 		request.status = 3;
 		user.GetHongbao({'request':request},function(res){
+			console.log(JSON.stringify(res))
 			if(res.list.length > 0){
 				var html = template('tpl-item-3',res);
 				document.getElementById("hblist-3").innerHTML = html;

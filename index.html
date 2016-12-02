@@ -79,8 +79,9 @@
 		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 		</nav>
 	</body>
-	<script>
+	<script>  
 		mui.plusReady(function(){
+			//plus.runtime.setBadgeNumber(0);  
 			//先执行welcome
 			if(!plus.storage.getItem('welcome183'))
 			{
@@ -204,7 +205,7 @@
 									})
 								}else{
 									//store.set('diffrent', 1, res.time);
-									var content='新版本更新如下：\r\n'+
+									var content=
 										'1.新增加息券\r\n'+
 										'2.新增多选红包功能\r\n'+
 										'3.新增投资即计息功能\r\n'+
@@ -288,7 +289,7 @@
 					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏user页头部账号信息
 					document.getElementById("top-email").classList.remove('mui-hidden');
 					//首页消息未读
-					request={"user_id":user.uid()}
+					request={"user_id":user.uid()} 
 					articles.GetNoticeStatus({"request":request},function(res){
 						if(parseInt(res.count)>0){
 							document.getElementById("noticeNum").classList.remove('mui-hidden');
