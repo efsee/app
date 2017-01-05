@@ -448,7 +448,7 @@ p.price span.small{
 		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){	
-			//console.log(JSON.stringify(res));
+			console.log(JSON.stringify(res));
 			if(res){
 				res.is_login = user.uid();
 				res.nowtime = new Date().getTime() / 1000;
@@ -458,6 +458,7 @@ p.price span.small{
 				if(res.borrow.recordNo){
 					$('#ACWY').attr({href:"https://www.51cunzheng.com/webjsapi/downLoad?recordNo="+res.borrow.recordNo,'data-href2':res.borrow.ancun_url_full})
 				}
+				console.log(res.borrow.ancun_url_full)
 				
 				$('#mui-loader').hide();
 				$('#bodybox').show();

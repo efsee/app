@@ -299,6 +299,7 @@
 						console.log(JSON.stringify(res));
 						if(res.status == 1){
 							mui.toast("提交成功")
+							mui.back()
 						}else if(res.status == -1){
 							mui.toast("提交失败")
 						}else if(res.status == -2){

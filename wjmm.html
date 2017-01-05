@@ -53,7 +53,6 @@
 
 <script>
 	mui.init();
-	
 	mui.plusReady(function(){
 //		mui('body').on('tap', '#login-btn',function(){
 //			mui.back();
@@ -61,7 +60,7 @@
 		loginusername=store.get('username');
 		if(!loginusername){
 		}else{
-			$('#mobile').val(loginusername).attr("readonly","readonly")
+			//$('#mobile').val(loginusername).attr("readonly","readonly")
 		}
 		document.addEventListener("loginusername",function(e){
 			//console.log(JSON.stringify(e.detail));
