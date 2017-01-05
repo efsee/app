@@ -188,10 +188,6 @@
 							<p class="dataNumber"><span id="repaying_sum"></span>&nbsp;<a>元</a></p>
 						</li>
 						<li class='dataReviewList mui-table-view-cell'>
-							<p class="rlb_8">前十代收占比</p>
-							<p class="dataNumber"><span id="top10_rate"></span>&nbsp;<a>%</a></p>
-						</li>
-						<li class='dataReviewList mui-table-view-cell'>
 							<p class="rlb_9">平均满标时间</p>
 							<p class="dataNumber"><span id="avg_time"></span>&nbsp;<a></a></p>
 						</li>
@@ -290,7 +286,7 @@
 					for(var i = 0;i<topArray.length;i++){
 						top10_rate+=topArray[i]
 					}
-					document.getElementById('top10_rate').innerHTML=top10_rate.toFixed(2);
+					//document.getElementById('top10_rate').innerHTML=top10_rate.toFixed(2);
 					document.getElementById('avg_time').innerHTML=timeGet(avg_time);
 					console.log(JSON.stringify(res));
 					var month_total=res.month_total;

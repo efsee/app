@@ -145,11 +145,14 @@
 				float: right;
 				margin-right: 25px;
 			}
+			.mui-off-canvas-wrap{
+			/*	height: auto;*/
+			}
 		</style>
 	
 	<body>
 	    <!--侧滑菜单容器-->
-		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable" style="min-height:100%;">
 			<!--菜单部分-->
 			<aside id="offCanvasSide" class="mui-off-canvas-right">
 				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
@@ -178,7 +181,7 @@
 					<a id="top_right_btn" class="mui-pull-right" style="line-height: 45px;font-size: 14px;"></a> 
 					<h1 id="title" class="mui-title">我要按揭</h1>
 				</header>
-				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"> 
 					<ul class="mui-table-view">
 						<li class="mui-table-view-cell">
 							<span>产品名称</span>
@@ -231,6 +234,9 @@
 					        		<p>注：最高贷款额度为车价的70%，如有客户保证金由银行直接托管</p>
 					        		
 				        		</div>
+				        		<div class="submit-box">
+									<a id="btnSubmit">立即申请</a>
+								</div>
 				        		<div style="height:40px;"></div>
 				        	</div>
 		

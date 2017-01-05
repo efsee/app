@@ -142,6 +142,7 @@
 				if(store.get('shoushi_status')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }else{
+	            
 	            }
 	            
 	            if(!store.get('integral_notice')){     
@@ -149,55 +150,57 @@
 					 'limit':1,
 					 'nid':'sign'
 					};
-					credit.GetLogList({'request':req2},function(res,status,xhr){
-						store.set("integral_notice",1,20000)//一天一次
-						if(res==""){
-							setTimeout(function(){
-								mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
-									if(e.index == 0){
-										var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-										integralPage.addEventListener('loaded',function(){
-											mui.fire(integralPage,'signauto')
-										})
-										
-										setTimeout(function(){
-											integralPage.show('pop-in', 300);  
-										},300) 	
-									}else{
-										return false;
-									}
-								})
-								
-							},30000)
-							 
-						}else{
-							var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
-						    var remainDate=serverTime-serverTime%86400000-28800000
-							if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
-								newCredit.GetTotal({'token':user.utoken()},function(res){
-									//console.log(JSON.stringify(res)) 
-									setTimeout(function(){
-										mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
-											if(e.index == 0){
-												var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-												integralPage.addEventListener('loaded',function(){
-													mui.fire(integralPage,'signauto')
-												})
-												
-												setTimeout(function(){
-													integralPage.show('pop-in', 300);  
-												},300) 	
-											}else{
-												return false;
-											}
-										})
-									},30000)   
+					setTimeout(function(){
+						credit.GetLogList({'request':req2},function(res,status,xhr){
+							store.set("integral_notice",1,20000)//一天一次
+							if(res==""){
+							//	setTimeout(function(){
+									mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
+										if(e.index == 0){
+											var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+											integralPage.addEventListener('loaded',function(){
+												mui.fire(integralPage,'signauto')
+											})
+											
+											setTimeout(function(){
+												integralPage.show('pop-in', 300);  
+											},300) 	
+										}else{
+											return false;
+										}
+									})
 									
-								})
+							//	},10000)
+								 
+							}else{
+								var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
+							    var remainDate=serverTime-serverTime%86400000-28800000
+								if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
+									newCredit.GetTotal({'token':user.utoken()},function(res){
+										//console.log(JSON.stringify(res)) 
+									//	setTimeout(function(){
+											mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
+												if(e.index == 0){
+													var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+													integralPage.addEventListener('loaded',function(){
+														mui.fire(integralPage,'signauto')
+													})
+													
+													setTimeout(function(){
+														integralPage.show('pop-in', 300);  
+													},300) 	
+												}else{
+													return false;
+												}
+											})
+									//	},10000)   
+										
+									})
+								}
 							}
-						}
-
-					}) 
+	
+						}) 
+					},10000)
 	            }
 	            
 		   }

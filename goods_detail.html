@@ -209,7 +209,7 @@
 		</div>
 		<script id="tpl" type="text/html">
 			<div class="goods-preview">
-				<img src="https://static01.ifcar99.com{{result.pic_small}}" />
+				<img src="http://static01.ifcar99.com{{result.pic_small}}" />
 				<h5 class="goods-title">{{result.title}}</h5>
 				<ul class="goods-need" style="padding-left: 15px;">
 					<li><span class="goods-intergral"><img src="images/jfsc/jf_icon_03.png"/> <a class="c5">{{result.price}}</a></span><span class="goods-inventory">当期库存：<a>{{result.store}}件</a></span></li>
@@ -234,7 +234,7 @@
 			<div class="goods-img-details">
 				<h5 >商品介绍</h5>
 				{{each result.pic as item i}}
-				<img src="https://static01.ifcar99.com{{item}}" />
+				<img src="http://static01.ifcar99.com{{item}}" />
 				{{/each}}
 				<div class="good-desc">{{#result.desc | updateimgpath}}</div>
 			</div>
