@@ -39,11 +39,7 @@
 		<script src="js/template.function.js"></script>
 		<script src="js/api.js"></script>
 		<script>
-			mui.init({
-				preloadPages:[{
-				id:'notice_detail.html',
-				url:'notice_detail.html'
-				}],
+			mui.init({ 
 				pullRefresh: {
 					container: '#pullrefresh',
 					down: {
@@ -52,27 +48,27 @@
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh
-					}
+					} 
 				}
 			});
 			
 			/***刷新监听事件**/
-			
-			document.addEventListener('initpage',function(e){
-				/*notice_id = e.detail.notice_id
-				notice_id = notice_id.split(",") 
-				mui('#pullrefresh').pullRefresh().pulldownLoading();*/
+		
+			mui.plusReady(function() {
 				request={"user_id":user.uid()}
 				articles.GetNoticeStatus({"request":request},function(res){
-					console.log(JSON.stringify(res))
+					//console.log(JSON.stringify(res))
 					if(res.notice == null){
 						notice_id = ""
 					}else{
-						notice_id = res.notice.split(",")
+						notice_id = res.notice.split(",") 
 					}
-					mui('#pullrefresh').pullRefresh().pulldownLoading();
-				})  
-			},false);
+					//mui('#pullrefresh').pullRefresh().pullupLoading();
+					pulldownRefresh()
+				})
+
+			});
+			
 			document.addEventListener('initpage2',function(e){
 				request={"user_id":user.uid()}
 				articles.GetNoticeStatus({"request":request},function(res){
@@ -199,30 +195,25 @@
 			}
 			
 			mui.plusReady(function() {
-				/*setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().pullupLoading();
-				}, 200);*/
-
-				var detailPage = null;
+				//var detailPage = null;
 				mui("#news-list").on('tap', 'a.tap', function(e){
 					e.stopPropagation();
 					
 					var data = this.getAttribute('data');
 					data = eval("(" + data + ")");
-					
+					console.log(data)
+					var notice_detail = plus.webview.create('notice_detail.html','notice_detail.html',{popGesture:"close"})
 					//获得详情页面
-					if(!detailPage){
-					detailPage = plus.webview.getWebviewById('notice_detail.html');
-					}
-					//触发详情页面的newsId事件
-					mui.fire(detailPage,'newsId',{
-					id:data
-					});
-					//打开详情页面
-					mui.openWindow({
-					id:'notice_detail.html'
-					});
-					
+					//if(!detailPage){
+					var detailPage = plus.webview.getWebviewById('notice_detail.html');
+					//}
+					detailPage.addEventListener('loaded',function(){
+						//触发详情页面的newsId事件
+						mui.fire(detailPage,'newsId',{
+						id:data
+						});	
+					})
+					notice_detail.show("pop-in",300)	
 				})
 
 			});

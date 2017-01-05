@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.ad-mengban {
+	    		position: fixed;
+	    		width: 100%;
+	    		height: 100%;
+	    		top: 0;
+	    		z-index: 9999;
+	    		bottom: 0;
+	    		background: rgba(00,00,00,1);
+	    		/*display: none;*/
+	    	}
+	    	.ad-box{
+	    		width: 70%;
+	    		/*height: 400px;*/
+	    		/*background: #fff;*/
+	    		position: absolute;
+	    		top: 50%;
+	    		left: 50%;
+	    		transform: translate(-50%,-50%);
+	    		-webkit-transform: translate(-50%,-50%);
+	    		border-radius: 6px;
+	    		overflow: hidden;
+	    	}
+	    	.ad-box img{
+	    		width: 100%;
+	    		height: auto;
+	    		display: block;
+	    		border-radius: 6px;
+	    	}
+			.close-mb {
+				color:rgba(255,255,255,0.7);
+				display: block;
+				margin: 0 auto;
+				font-size: 80px;
+				text-align: center;
+				line-height: 1.4;
+			}
+			body{
+				background-color: rgba(00,00,00,.6);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="ad-mengban">
+			<div class="ad-box">
+				<img id="adTurn" data="" class="dsdsd" src=""/>
+				<span class="close-mb mui-icon mui-icon-closeempty"></span>
+			</div>
+		</div>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/api.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function(){
+				//if(!store.get('adBox')){
+		  			articles.GetAdBox({request:{}},function(res,status,xhr){
+						var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()
+						console.log(serverTime)
+						if(res){ 
+							if(res.starttime*1000<serverTime&&res.endtime*1000>serverTime){
+								store.set("adBox",1,10)//4小时 
+								$(".ad-mengban").css("display","block") 
+								$("#adTurn").attr("src",res.imgurl)
+								$("#adTurn").attr("data","{'title':'"+res.title+"','href':'"+res.href+"','right_title':'"+res.share_title+"'}")
+							}else{ 
+								
+							}
+						}  
+					})
+		  	//	}
+				mui("body").on('tap','.close-mb',function(){
+					//$(".ad-mengban").css("display","none")
+					mui.back()
+					//var index = plus.webview.getLaunchWebview()
+					//mui.fire(plus.webview.getLaunchWebview(),'closeMb') 
+				})
+				mui(".ad-box").on('tap','#adTurn',function(e){
+					e.stopPropagation();
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+					if(data.title == ""){
+						mui.openWindow({
+							url:data.href,
+							id:data.href
+						})
+					}else{
+					
+						inittemplate = getTemplate('template', 'template.html');
+							
+						var headerWebview = inittemplate.header;
+							
+						var contentWebview = inittemplate.content;
+						contentWebview.loadURL(data.href); 
+						var right_btn = data.right_title || "";
+						mui.fire(headerWebview, 'updateHeader', {
+							title: data.title,
+							showMenu: false,
+							right_btn:right_btn
+						});
+						
+						mui.fire(headerWebview, 'loading');
+						setTimeout(function(){
+							headerWebview.show('pop-in', 300);
+						},300)	
+					}
+		
+				})
+				
+			})
+		</script>
+	</body>
+
+</html>

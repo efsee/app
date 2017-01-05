@@ -147,36 +147,24 @@
 //			});
 			var contentWebview = null;
 			mui.back = function() {
-				if(plus.webview.currentWebview().opener().id=="integral_mall.html"){
-					mui.fire(plus.webview.getWebviewById("jfmall_header.html"),"initpage")
-				}
 				var userPage=plus.webview.getWebviewById("user.html")
 				mui.fire(userPage,"initpage")
 				var current = plus.webview.currentWebview();
-				//console.log(JSON.stringify(current))
 				current.hide('auto');
 				setTimeout(function() {
 					//document.getElementById("title").className = 'mui-title mui-fadeout';
 					if (contentWebview == null) {
 						contentWebview = current.children()[0];
-						//console.log("duiba");
 					}
 					contentWebview.hide("none");
 				}, 200);
 			}
-
-//			document.getElementById("menu").addEventListener('tap', function(e) {
-//				e.stopPropagation();
-//				if (contentWebview == null) {
-//					contentWebview = plus.webview.currentWebview().children()[0];
-//				}
-//				contentWebview.evalJS('mui("#topPopover").popover("toggle")');
-//			});
 			document.querySelector('header').addEventListener('doubletap', function() {
 				if (contentWebview == null) {
 					contentWebview = plus.webview.currentWebview().children()[0];
 				}
 				contentWebview.evalJS('mui.scrollTo(0, 100)');
+				mui.fire(contentWebview,"double-tap");
 			});
 			
 			document.getElementById('top_right_btn').addEventListener('tap', function() {

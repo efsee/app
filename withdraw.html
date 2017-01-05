@@ -8,6 +8,7 @@
 <meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
 <link href="css/css.css" rel="stylesheet" type="text/css" />
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
 <link href="css/layer.css" rel="stylesheet"/>
 <link href="css/mylayer.css" rel="stylesheet"/>
     <script src="js/mui.min.js"></script>
@@ -15,6 +16,15 @@
       	mui.init();
     </script>
    <style type="text/css">
+   		.mui-loader {
+			position: absolute;
+			top: 25%;
+			width: 100%;
+			height: 60%;
+			color: #888;
+			font-size: 14px;
+			text-align: center;
+		}
     	.imgbox { float: left;}
     	.imgbox img{ width: 30px;height: 30px; margin-top: 4px; margin-left: 6px;}
     	.bank-info{ margin-left: -4px;}
@@ -25,7 +35,18 @@
     			 color: #fff!important;
     			 font-size: 16px;
     			 }
-    	.p-money-m{ font-size: 28px; margin-top: 6px;}	
+    	.p-money-m{ 
+    		font-size: 28px; 
+    		margin-top: 6px;
+    		color:#fff;
+    	}
+    	#money{
+    		height:24px;
+    		border:0;
+    		line-height: 24px;
+    		margin-top: 15px;
+    		padding: 0;
+    	}	
     	.qetx-btn{background: #f95453;
     			  border-radius: 5px; 
     			  height: 40px; 
@@ -76,10 +97,6 @@
 									}
 		#top_right_btn{ color: #000;}	
 		#right_btn{ color: #000;}	
-		/*.layermcont input {
-			width: 90%;
-			padding: 15px 5%;
-		}	*/
 		.aleTelNum{
 				margin-top:-10px;
 			}
@@ -94,25 +111,29 @@
 			position:absolute;
 			top:0;
 		}
-		
-		/*.txPro{
-			display: block;
-			height:35px;
-			line-height: 35px;
-		}		*/
-		/*.layer-wjmm{
-				margin-bottom: 20px;
-			}*/
-		/*#pwd-input{
-			letter-spacing: 30px;
-		}	*/
+		#qetx{
+			border:0px!important;
+			margin-top:8px;
+		}
+		.txyhk{
+			height:56px!important;
+		}
+		.bt{
+			color:#333;
+		}
+		body{
+			line-height: 1.5;
+		}
    </style>
 </head>
 <body>
-	<div class="mui-content">
+	<div class="mui-loader" id="mui-loader">
+		<span class="mui-spinner"></span> <span id="loading-text" class="">请耐心等候</span>
+	</div>
+	<div class="mui-content" style="display: none;">
 		<div class="p-money">账户可用余额(元)<p id="balance" class="p-money-m">0.00</p></div>
 		<ul class="form-tab">
-			<li id="box-bank">
+			<li id="box-bank"></li>
 			<li>
 				<div class="link"><span class="name">金额</span>
 					<input type="number" pattern="[0-9]*" id="money" maxLength="10" name="money" class="form-txt">
@@ -196,15 +217,14 @@
 	              inputElem.focus(); 
 	    }, 400);
 	};
-	
 	mui.plusReady(function(){
 		if(plus.os.name=="Android"){
 			$(".recharge-foot").removeClass("android-recharge-foot")
 		}
   		request = {"user_id":user.uid()};
   		account.GetUsersBankOne({'request':request},function(res){
-			console.log(JSON.stringify(res));
- 			
+			//console.log(JSON.stringify(res));
+ 			$('#balance').html(res.balance);	
   			if(!res.account || !res.bank){
 					plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
 						data = {"title":"我的银行卡"};
@@ -217,24 +237,17 @@
 						});
 					}, "提示", "绑定银行卡" );
   			}else{
-		      				//自动弹出键盘
+		  			//自动弹出键盘
 				initNativeObjects();
-			    showSoftInput();
+			    $("#bank_id").val(res.account);
+      			$("#bank").val(res.branch);
       			var html = template("tpl-bank",res);
       			document.getElementById("box-bank").innerHTML = html;
-      			
-      			$("#bank_id").val(res.account);
-      			$("#bank").val(res.branch);
+      			$("#mui-loader").css("display","none")
+      			$(".mui-content").css("display","block")
+      			showSoftInput();
   			}
-  		});
-      		
-		user.getInfo(function(res){
-//			console.log(JSON.stringify(res));
-			if(res){		
-				$('#balance').html(res.balance);				
-			}
-		});
-		
+  		});	
 		$(document).on('tap','.txPro',function(e){
 			e.preventDefault();
 			href=$(this).attr('data-href');
@@ -261,7 +274,6 @@
 		/**********忘记密码页面跳转**********/
 		mui("body").on('tap','#wjmm',function(e){
 			layer.close(index)
-			//functionCom.checkToken()
 			e.preventDefault();
 			href=$(this).attr('data-href');
 			inittemplate = getTemplate('template', 'template.html');
@@ -276,11 +288,9 @@
 			});
 			mui.fire(headerWebview, 'loading');
 			headerWebview.show('slide-in-right', 150);
-			//plus.webview.currentWebview().reload()
 		});
 		
 		document.getElementById("btn_submit").addEventListener('tap',function(){
-			//functionCom.checkToken()
 			request = {};
 			request.money = $('#money').val();
 			request.bank = $('#bank').val();
@@ -319,12 +329,11 @@
 						'交易密码',
 						'text-align:center;padding:0px;margin:0;'
 						],
-				content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" class="pwd-input" maxlength="6"  id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="tx-btn">确认提现</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+				content: '<p class="aleTelNum">账户提现</p><p class="aleTelPri">￥'+money+'</p><div class="pwd-box"><input type="tel" class="pwd-input" maxlength="6"  id="pwd-input"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a  class="tx-btn">确认提现</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 				shadeClose: false,
 				anim:true,
 				success:function(layero, index){
-					  
-					//initNativeObjects();
+					initNativeObjects();
 		   			showTcInput();
 		   			var $input = $(".fake-box input"); 
 		   			var paypassword='';
@@ -344,14 +353,22 @@
 			            //console.log($(this).val());
 			            paypassword=$(this).val();
 					})
-			        mui(".tz-submit").on('tap','.tx-btn',function(){ 
-			        	//console.log(paypassword)
+			        mui(".tz-submit").on('tap','.tx-btn',function(e){
+			        	//e.stopPropagation
+			        	e.preventDefault();
 			        	if(typeof(paypassword)=="undefined"){
 			        		mui.alert("请输入交易密码",function(){
 			        			return false;
 			        		})
 			        	}
 					    if (paypassword.length==6) {
+					    	var nowTime = new Date().getTime();
+			    			var clickTime = $(this).attr("ctime");
+			    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+						        return false;
+						    }else{
+						    	$(this).attr("ctime",nowTime);
+						    }
 							request.paypassword = $("#pwd-input").val();
 							//判断异地登录
 							functionCom.checkToken(function(res){
@@ -360,7 +377,6 @@
 									account.cash_new(request, function(res){
 										//console.log(JSON.stringify(request))
 										if(res.status==1){
-											//console.log(JSON.stringify(res));
 											$(".recharge-foot").css("position","absolute")
 											$("input").blur();
 											closelayer()
@@ -372,13 +388,11 @@
 											})
 											mui.fire(plus.webview.getWebviewById('user.html') ,'initpage');
 										}else{
-											
 											$(".recharge-foot").css("display","block")
 											closelayer()
-											layer.close(index);
+											//layer.close(index);
 											mui.toast(res.msg)
-											
-										}	   
+										}
 									})	
 								}
 							})

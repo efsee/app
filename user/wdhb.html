@@ -296,7 +296,7 @@
 		coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){ 
 			if(res){
 				if(res.result.rows.length > 0){
-					console.log(JSON.stringify(res))
+					//console.log(JSON.stringify(res))
 					$(".notes-box").css("display","none")
 					var html = template('tpl-item-1-1',res.result);
 					document.getElementById("couponList-1").innerHTML = html;
@@ -306,7 +306,7 @@
 		
 		//已使用
 		coupon.GetUsedList({"token":user.utoken(),'page':'1','size':'9999'},function(res){ 
-			console.log(JSON.stringify(res)) 
+			//console.log(JSON.stringify(res)) 
 			if(res){
 				if(res.result.rows.length > 0){
 					$(".notes-box").css("display","none")
@@ -317,7 +317,7 @@
 		})
 		//未使用  
 		coupon.GetCouponList({"token":user.utoken(),"status":"3"},function(res){   
-			console.log(JSON.stringify(res))
+			//console.log(JSON.stringify(res))
 			if(res){
 				if(res.result.rows.length > 0){ 
 					$(".notes-box").css("display","none")
@@ -326,15 +326,12 @@
 				}
 			}
 		})
-		
-		
-		
 		//红包列表
 		request = {'user_id': user.uid()};
 		request.status = 1;
 		user.GetHongbao({'request':request},function(res){
 			if(res.list.length>0){
-				var html = template('tpl-item-1',res);
+				var html = template('tpl-item-1',res); 
 				document.getElementById("hblist-1").innerHTML = html;
 			}
 			
@@ -343,16 +340,17 @@
 		request = {'user_id': user.uid()};
 		request.status = 2;
 		user.GetHongbao({'request':request},function(res){
+			//console.log(JSON.stringify(res)) 
 			if(res.list.length > 0){
 				var html = template('tpl-item-2',res);
 				document.getElementById("hblist-2").innerHTML = html;
 			}
 		});
 		
-		request = {'user_id': user.uid()};
+		request = {'user_id': user.uid()}; 
 		request.status = 3;
 		user.GetHongbao({'request':request},function(res){
-			console.log(JSON.stringify(res))
+			
 			if(res.list.length > 0){
 				var html = template('tpl-item-3',res);
 				document.getElementById("hblist-3").innerHTML = html;

@@ -8,6 +8,15 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/css.css" rel="stylesheet"/>
 		<style>
+			.mui-loader {
+				position: absolute;
+				top: 25%;
+				width: 100%;
+				height: 60%;
+				color: #888;
+				font-size: 14px;
+				text-align: center;
+			}
 			.mui-table-view{
 				margin-bottom: 16px;
 			}
@@ -60,6 +69,10 @@
 		
 
 	<body>
+		<div class="mui-loader" id="mui-loader">
+			<span class="mui-spinner"></span>
+			<span id="loading-text" class="mui-hidden">请耐心等候</span>
+		</div>
 		<div class="mui-content" style="display: none;">
 			<div id="userBox">	
 			</div>
@@ -163,7 +176,7 @@
 					request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(res){
 	      				res.sm_status = sm_status
-	      				console.log(JSON.stringify(res)) 
+	      				//console.log(JSON.stringify(res)) 
 	      				res.username = res.username.slice(0,3)+"****"+res.username.slice(-4) 
 	      				if(res.sm_status=="1"&&res.realname!=null){ //已经实名
 							res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
@@ -173,6 +186,8 @@
 	      				}
 	      				var html = template("tpl",res);
 		      			document.getElementById("userBox").innerHTML = html;
+		      			//$('#mui-loader').hide();
+		      			document.getElementById('mui-loader').style.display="none";
 		      			document.getElementsByClassName("mui-content")[0].style.display="block";
 						//$('#bodybox').show();	
 	      			})
@@ -289,7 +304,8 @@
 		//				plus.runtime.quit();
 						login();
 						setTimeout(function(){
-							plus.webview.currentWebview().parent().evalJS("mui.back();");
+							//plus.webview.currentWebview().parent().evalJS("mui.back();");
+							plus.webview.currentWebview().parent().hide('none');
 						},1000);
 					});
 				})

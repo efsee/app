@@ -296,14 +296,14 @@ p.price span.small{
 		}, false );
 		//下级页面返回传入传入的重载
 		window.addEventListener('refresh',function(){	
-			window.scrollTo(0,0);	
+			//window.scrollTo(0,0);	
 			getdata(wddata);
 		});
 		mui('body').on('tap','#tzjl',function(e){
 			var data = this.getAttribute('data');
-			console.log(data);
+			//console.log(data);
 			edata = JSON.parse(data);
-			mui.openWindow({url:'tzjl.html', id:'tzjl.html',styles:{popGesture:'close'},show:{autoShow:true,aniShow:'slide-in-right'},waiting:{autoShow:false}});
+			mui.openWindow({url:'tzjl.html', id:'tzjl.html',styles:{popGesture:'close'},show:{autoShow:true,aniShow:'pop-in'},waiting:{autoShow:false}});
 			var detailWV = plus.webview.getWebviewById('tzjl.html');
 			detailWV.addEventListener('loaded',function(){
 				mui.fire(detailWV,"mui.view.show",edata);
@@ -318,7 +318,7 @@ p.price span.small{
 			}
 			else{
 				var href = this.getAttribute('data-href2');
-				plus.runtime.openURL(href);plus.runtime.openURL(href);
+				plus.runtime.openURL(href); 
 			}	
 		})
 		mui("body").on('tap','#turnBank',function(e){
@@ -343,8 +343,8 @@ p.price span.small{
 
 	/*******投标成功后返回页面的data数据*********/
 	document.addEventListener("mui.view.show",function(e){
-		console.log(JSON.stringify(e.detail));
-		window.scrollTo(0,0);
+		//console.log(JSON.stringify(e.detail));
+		//window.scrollTo(0,0);
 		var data = e.detail;
 		wddata=data;
 		getdata(data);
@@ -352,8 +352,8 @@ p.price span.small{
 	
 	//该页面loaded完后执行事件
 	document.addEventListener("productId",function(e){
-		console.log(JSON.stringify(e.detail));
-		window.scrollTo(0,0);
+		//console.log(JSON.stringify(e.detail));
+		//window.scrollTo(0,0);
 		var data = e.detail;
 		wddata=data;
 		getdata(data);	
@@ -375,7 +375,7 @@ p.price span.small{
 			showMenu: false
 		});
 		mui.fire(headerWebview, 'loading');
-		headerWebview.show('slide-in-right', 150);
+		headerWebview.show('pop-in', 300);
 	}
 	
 	function turnLjtz(){
@@ -392,7 +392,7 @@ p.price span.small{
 			return;
 		}
 		var detailWV = plus.webview.getWebviewById('ljtz.html');
-		plus.nativeUI.showWaiting();
+		//plus.nativeUI.showWaiting();
 		if(detailWV == null){
 			detailWV = plus.webview.create('ljtz.html','ljtz.html');
 			detailWV.setStyle({ 'popGesture': 'close' })
@@ -402,14 +402,14 @@ p.price span.small{
 			//console.log(res.error_no)
 			if(res.error_no!=401){
 				setTimeout(function(){
-					detailWV.show('slide-in-right',150);
-				},150);
+					detailWV.show('pop-in',300);
+				},300);
 			}
-		})//结束	
+		})//结束	 
 		
 		detailWV.addEventListener( "loaded", function(){
 			//mui.fire(detailWV,"ljtzId",wddata);
-			plus.nativeUI.closeWaiting()
+			//plus.nativeUI.closeWaiting()
 //			detailWV.show('slide-in-right',150);
 			mui.fire(detailWV,"mui.view.show",wddata);
 		}, false );	
@@ -426,7 +426,7 @@ p.price span.small{
 			mui.fire(detailWV,"mui.view.show",wddata);
 		}, false );	
 		setTimeout(function(){
-			detailWV.show('slide-in-right',150);
+			detailWV.show('pop-in',300);
 		},150);
 	}
 	
@@ -440,7 +440,7 @@ p.price span.small{
 			mui.fire(detailWV,"mui.view.show",wddata);
 		}, false );	
 		setTimeout(function(){
-			detailWV.show('slide-in-right',150);
+			detailWV.show('pop-in',300);
 		},150);
 	}
 	
@@ -448,7 +448,7 @@ p.price span.small{
 		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){	
-			console.log(JSON.stringify(res));
+			//console.log(JSON.stringify(res));
 			if(res){
 				res.is_login = user.uid();
 				res.nowtime = new Date().getTime() / 1000;
@@ -467,19 +467,18 @@ p.price span.small{
 			}
 			plus.nativeUI.closeWaiting();
 			var self = plus.webview.currentWebview();
-		})
-		
+		})	
 	}	
 	
 	//返回前重载上级页面
 	var old_back = mui.back;
 	mui.back = function(){	
-		plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+		//plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
 		var proSubSx=plus.webview.getWebviewById("product_sub.html")
 		mui.fire(proSubSx,"initpage")
 		old_back();
-		$('#bodybox').html("").hide();
-		$('#mui-loader').show();
+		//$('#bodybox').html("").hide();
+		//$('#mui-loader').show();
 	}
 </script>
 </body>

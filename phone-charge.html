@@ -239,6 +239,13 @@
 									        });
 									        mui(".tz-submit").on('tap','.pcz-btn',function(){
 									        	//console.log(paypassword)
+									        	var nowTime = new Date().getTime();
+								    			var clickTime = $(this).attr("ctime");
+								    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+											        return false;
+											    }else{
+											    	$(this).attr("ctime",nowTime);
+											    }
 									        	if(typeof(paypassword)=="undefined"){
 									        		mui.alert("请输入交易密码",function(){
 									        			return false;
@@ -247,7 +254,7 @@
 											    if (paypassword.length==6) {
 									            	$("input").blur()
 									            	request = {"order_no":order_no,"user_id":user_id,"sale_price":sale_price,"face_price":face_price,"paypassword":paypassword};
-													//console.log(JSON.stringify(request))
+												//	console.log(8+JSON.stringify(request))
 													//判断异地登录
 													functionCom.checkToken(function(res){
 														//console.log(res.error_no)

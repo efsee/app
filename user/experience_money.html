@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>聚车金融</title>
+	    <link href="../css/mui.min2.css" rel="stylesheet"/>
+	    <link href="../css/css.css" rel="stylesheet"/>
+	    <link href="../css/media-screen.css" rel="stylesheet" type="text/css">
+	    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+	    <style>
+	        .top-box{
+	        	background: url(../images/tyj_bg.png) repeat-x left top; 
+	        	padding: 0 3rem;
+	        }
+	    	.money-title{
+	    		color:rgba(255,255,255,0.8);
+	    		line-height: 5rem;
+	    		font-size: 1rem;	
+	    	}
+	    	.money-total{
+	    		line-height: 4rem;
+	    		font-size:4.6rem;
+	    		color:#FDF48E;
+	    		padding-bottom: 2.5rem;
+	    	}
+	    	.money-float{
+	    		font-size: 2.2rem;
+	    	}
+	    	.center-box{
+	    		padding: 0.75rem 0rem;
+	    		background: #fff;
+	    	}
+	    	.center-box li{
+	    		float: left;
+	    	}
+	    	.center-box li:first-child{
+	    		width: 65%;
+	    		padding-left:5%;   
+	    	}
+	    	.center-box li:first-child h5{
+	    		height: 1.6rem;
+	    		font-size: 1.1rem;
+	    		line-height: 1.6rem;
+	    	}
+	    	.center-box li:first-child p{
+	    		height: 1.6rem;
+	    		line-height: 1.6rem;
+	    		color: #333;
+	    		font-size: 1.5rem; 
+	    	}
+	    	.center-box .turn-btn-box{
+	    		width: 30%;
+	    		height: 3.2rem;
+	    	}
+	    	.turn-out{
+	    		width: 65%;
+	    		text-align: center;
+	    		border: 1px solid #E36966;
+	    		height: 2.8rem;
+	    		line-height: 2.8rem;
+	    		font-size: 1.3rem;
+	    		letter-spacing: 0.1rem;
+	    		color:#DD6254;
+	    		margin-left: 32%;
+	    		margin-top:0.2rem;
+	    		
+	    	}
+	    	.turn-out:active{
+	    		background: #E36966!important;
+	    	}
+	    	.mui-slider-progress-bar{
+	    		height: 4px;
+	    		/*width: 25.33333%;
+	    		margin-left: 4%;*/
+	    	}
+	    	.mui-cell-left{
+	    		float: left;
+	    		height: 3.5rem;
+	    	}
+	    	.mui-cell-right{
+	    		height: 3.5rem;
+	    		float: right;
+	    		text-align: right;
+	    	}
+	    	.jx-money{
+	    		color: #333;
+	    		font-size: 1.1rem;
+	    		line-height: 1.5rem;
+	    	}
+	    	.jx-money .c5{
+	    		font-size: 1.6rem;
+	    	}
+	    	.exp-remark{
+	    		font-size: 0.9rem;
+	    		height: 1.5rem;
+	    		line-height: 1.5rem;
+	    		color: #999;
+	    	}
+	    	.mui-cell-right p{
+	    		line-height: 1.75rem;
+	    		height: 1.75rem;
+	    		font-size: 1rem;
+	    	}
+	    	.share-btn-box{
+	    		position: fixed;
+	    		z-index: 999;
+	    		bottom: 0;
+	    		width: 100%;
+	    		height: 6.5rem;
+	    		background: #fff;
+	    	/*	box-shadow: 0px -3px 2px #eaeaea;;*/
+	    		border-top: 1px solid #eaeaea;
+	    	}
+	    	#btnSubmit{
+	    		padding: 0;
+	    		display: block;
+	    		width: 75%;
+	    		font-size: 1.3rem;
+	    		height: 3.5rem;
+	    		line-height: 3.5rem;
+	    		border: 1px solid #E36966;
+	    		color: #DD6254;
+	    		margin: 1.5rem auto;
+	    	}
+	    	#btnSubmit:active{
+	    		color: #fff;
+	    		background-color: #E36966;
+	    	}
+	    	.iabout{
+	    		display: block;
+	    		height: 3rem;
+	    		width: 3rem;
+	    		background: url("../images/wenhao.png") no-repeat center;
+	    		background-size: 70% auto; 
+	    		position: absolute;
+	    		top: 1rem;
+	    		right: 10%;
+	    	}
+	    	
+			.mui-table-view-cell{
+				padding: 0;
+				padding: 1rem 1.3rem;
+			}
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+				border-bottom: 0px;
+			}
+			.none-list{
+				/*height: 100%;*/
+				width: 100%;
+			}
+			.none-list img{
+				width: 4rem!important;
+				height: auto;
+				display: block;
+				margin: 0px auto;
+				margin-top: 3rem;
+			}
+			.none-list p{
+				text-align: center;
+			}
+			.active-btn{
+				width: 35%;
+				height: 2.5rem;
+				line-height: 2.5rem;
+				margin-top:0rem;
+				background: #e94f4f;
+				text-align: center;
+				color: #fff;
+				border-radius: 5px;
+				float: right;
+				margin-right: 0.5rem;
+			}
+			.active-btn:active{
+				background: #E56059;
+			}
+			.mui-scroll{
+				padding-bottom:8rem;
+			}
+			body{
+				background: #fff;
+			}
+			#sliderSegmentedControl{
+				background: #EFEFF4;
+				height: 42px;
+				margin-bottom: -4px;
+			}
+			
+			.mui-slider-group{
+				background: #ffffff!important;
+				/*overflow: scroll;*/
+			}
+			#scroll1,#scroll2,#scroll3{
+				/*overflow: scroll;
+				height: 19rem;*/
+				background: #ffffff!important;
+			}
+			.mui-slider-item.mui-control-content{
+				border-top: 0px!important;
+			}
+	    </style>
+	</head> 
+	<body>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="top-box">
+						<h5 class="money-title">我的体验金（含收益）</h5>
+						<p class="money-total">
+							<span class="money-int">0</span><span class="money-float">.00</span>
+						</p>
+						<i class="iabout"></i>
+					</div>
+					<ul class="center-box">
+						<li>
+							<h5>可转收益（元）</h5>
+							<p class="turn-out-money">0.00</p>
+						</li>
+						<li class="turn-btn-box">
+							<button class="mui-button turn-out">转出</button>
+						</li>
+						<div class="clear"></div>
+					</ul>
+					<div id="slider" class="mui-slider">
+						<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-negative">
+							<a class="mui-control-item" href="#item1mobile">
+								计息中
+							</a>
+							<a class="mui-control-item" href="#item2mobile">
+								待激活
+							</a>
+							<a class="mui-control-item" href="#item3mobile">
+								已失效
+							</a>
+						</div>
+						<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+						<div class="mui-slider-group">
+							<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+								<div id="scroll1">
+
+								</div>
+							</div>
+							<div id="item2mobile" class="mui-slider-item mui-control-content">
+								<div id="scroll2">
+									
+								</div>
+		
+							</div>
+							<div id="item3mobile" class="mui-slider-item mui-control-content">
+								<div id="scroll3">
+							
+									
+								</div>
+		
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="share-btn-box">
+				<button id="btnSubmit" class="mui-button">邀请好友赚取更多收益</button>
+			</div>
+		</div>
+		<script type="text/html" id="tiyanIng">
+			<ul class="mui-table-view">
+				{{each in_use as item i}}
+				<li class="mui-table-view-cell">
+					<div  class="mui-col-xs-5 mui-cell-left">
+						<p class="jx-money"><span class="c5">{{item.money}}</span>元</p>
+						<span class="exp-remark">{{item.remark}}</span>
+					</div>
+					<div class="mui-col-xs-7 mui-cell-right">
+						<p><span>{{item.start_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>计息</p>
+						<p><span>{{item.end_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>失效</p>
+					</div>
+				</li>
+				{{/each}}
+				<div style="clear: both;"></div>
+			</ul>
+		</script>
+		<script type="text/html" id="tiyanJh">
+			<ul class="mui-table-view">
+				{{each rows as item i}}
+				<li class="mui-table-view-cell">
+					<div  class="mui-col-xs-5 mui-cell-left">
+						<p class="jx-money"><span class="c5">{{item.money}}</span>元</p>
+						<span class="exp-remark">{{item.remark}}</span>
+					</div>
+					<div class="mui-col-xs-7 mui-cell-right">
+						<div class="active-btn" data={{item.experience_user_id}} data2={{item.money}}>激活</div>
+						 <p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
+					</div>
+				</li>
+				{{/each}}
+				<div style="clear: both;"></div>
+			</ul>
+		</script>
+		<script type="text/html" id="tiyanGq">
+			<ul class="mui-table-view">
+				{{each rows as item i}}
+				{{if item.status.id=="2"}}
+					<li class="mui-table-view-cell">
+						<div  class="mui-col-xs-5 mui-cell-left">
+							<p class="jx-money" style="text-decoration: line-through;font-size: 1.4rem;color:#333"><span class="">{{item.money}}</span>元</p>
+							<span class="exp-remark">{{item.remark}}</span>
+						</div>
+						<div class="mui-col-xs-7 mui-cell-right">
+							<p><span>{{item.start_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>计息</p>
+							<p><span>{{item.end_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>失效</p>
+							
+						</div>
+					</li>
+					{{else}}
+					<li class="mui-table-view-cell">
+						<div  class="mui-col-xs-5 mui-cell-left">
+							<p class="jx-money" style="text-decoration: line-through;font-size: 1.4rem;color:#333"><span class="">{{item.money}}</span>元</p>
+							<span class="exp-remark">{{item.remark}}</span>
+						</div>
+						<div class="mui-col-xs-7 mui-cell-right">
+							<div class="active-btn" style="background: #999;">激活</div>
+							<p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
+						</div>
+					</li>
+				{{/if}}
+				
+				{{/each}}
+				<div style="clear: both;"></div>
+			</ul>
+		</script>
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/jquery-1.11.2.min.js"></script>
+		<script src="../js/template.js"></script>
+		<script src="../js/template.function.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/api.js"></script>  
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: false //是否显示滚动条
+				});
+			})(mui);
+		    mui.plusReady(function(){
+		    	/*experience.Activate({token:user.utoken(),"experience_user_id":"3"},function(r){
+		    		console.log(JSON.stringify(r))
+		    	})*/
+		    	checkTest = 1
+		    	/*if(!user.uid()){
+					login();
+					setTimeout(function(){
+						mui.back()
+					},1000)
+					
+					return false;
+				}*/
+		    	changeMoney()
+				document.getElementById("btnSubmit").addEventListener('tap', function(e) {
+					e.preventDefault();
+					var nowTime = new Date().getTime();
+	    			var clickTime = $(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 400)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime);
+				    }
+					var yqylPage = plus.webview.create("invite_header.html","invite_header.html",{popGesture:'close'})
+					setTimeout(function(){
+						yqylPage.show("pop-in",300)
+					},300)
+					
+					//plus.webview.currentWebview().parent().append(yqylPage)
+				});
+				mui(".turn-btn-box").on('tap','.turn-out',function(e){
+					e.preventDefault();
+					var nowTime = new Date().getTime();
+	    			var clickTime = $(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 400)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime);
+				    }
+					experience.AccountGet({token:user.utoken()},function(r){
+			    		if(r){
+			    			var turn_out_money = parseFloat(r.result.money_real_time)
+			    			var moneystr = (turn_out_money+"").substr(0,(turn_out_money+"").indexOf(".")+3)
+			    			if(turn_out_money == 0||parseFloat(moneystr)==0){
+			    				mui.toast("无可转收益")
+			    				return false
+			    			}
+			    			else{
+			    				if(turn_out_money<0){
+				    				mui.toast("转出金额错误，请稍后再试！")
+				    				return false 
+			    				}
+			    				$(".turn-out-money").text(moneystr)
+			    				mui.confirm(moneystr,"转出体验金收益(元)",["确认","取消"],function(e){
+									if(e.index == 0){
+										experience.AccountTransfer({token:user.utoken(),"money":moneystr},function(res){
+					    					console.log(JSON.stringify(res))
+					    					if(res.error_no==200){
+					    						
+			    								mui.toast("转出成功")
+			    								plus.nativeUI.showWaiting()
+			    								if(typeof(t)=="undefined"){
+			    									 
+							    				}else{
+							    					window.clearInterval(t)
+							    				}
+			    								checkTest = 0
+			    								changeMoney()
+
+					    					}else if(res.error_no == 401){
+					    						user.logout({},function(res){
+													mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+														if (e.index == 0) {
+															//return false;
+															login();
+															//mui.fire(plus.webview.getLaunchWebview(),'gohome');
+														}
+													})
+												});	
+					    					}else{
+					    						mui.toast(res.error_msg)
+					    						return false;
+					    					}
+					    				})
+									}
+								})
+			    			}
+			    		}
+				   })
+			    })
+				var item1 = document.getElementById('item1mobile');
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					
+					if(e.detail.slideNumber === 0){ 
+						$("#scroll3").html("");
+						//$("#scroll2").html("");
+						mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
+						experience.UserLists({token:user.utoken(),page:1,size:999,status:1},function(res){
+							if(res.result.total=="0"){
+				    			$("#scroll1").html(
+				    				'<div class="none-list">'+
+										'<img src="../images/none_list.png" />'+
+										'<p>暂无记录</p>'+
+									'</div>'
+				    			)
+				    		}else{
+				    			var html = template('tiyanIng',res.result);
+				    			$("#scroll3").html(html);
+				    		}
+						})
+					}
+					else if (e.detail.slideNumber === 1) {
+						//$("#scroll1").html("");
+						$("#scroll3").html("");
+							mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
+						//if (item2.querySelector('.mui-loading')) {
+							//setTimeout(function() { 
+							experience.UserLists({token:user.utoken(),page:1,size:999,status:6},function(res){
+								console.log(JSON.stringify(res))
+								if(res.result.total=="0"){
+					    			$("#scroll2").html(
+					    				'<div class="none-list">'+
+											'<img src="../images/none_list.png" />'+
+											'<p>暂无记录</p>'+
+										'</div>'
+					    			)
+					    		}else{
+					    			var html = template('tiyanJh',res.result);
+					    			$("#scroll2").html(html);
+					    			mui(".mui-table-view-cell").on('tap',".active-btn",function(e){
+										e.preventDefault()
+										var  parentNode =$(this).parent().parent()
+										var experience_user_id = $(this).attr("data")
+										var money = $(this).attr("data2")
+										newUser.get({"token":user.utoken()},function(res,status,xhr){
+											var serverTime = xhr.getResponseHeader("REQUEST-TIME")
+											serverTime = getTime(serverTime,'yyyy/MM/dd hh:mm:ss')
+											
+											mui.confirm(money+"元\n计息时间"+serverTime,"激活体验金",["确认","取消"],function(e){
+												if(e.index==0){
+													experience.Activate({token:user.utoken(),"experience_user_id":experience_user_id},function(r){
+											    		if(r.error_no==200){
+											    			mui.alert("激活成功","提醒",function(e){
+											    				//location.reload(true)
+											    				plus.nativeUI.showWaiting()
+											    				if(typeof(t)=="undefined"){
+											 
+											    				}else{
+											    					window.clearInterval(t)
+											    				}
+											    				
+											    				changeMoney()
+											    				parentNode.remove()
+											    				
+											    			})
+											    		}else{
+											    			mui.toast(r.error_msg)
+											    			return false;
+											    		}
+											    	})
+												}
+											})
+											
+											
+										})
+									})
+					    		}
+							})
+								//item2.querySelector('.mui-scroll').innerHTML = html2;
+							//}, 500);
+						//}
+					} else if (e.detail.slideNumber === 2) {
+						//$("#scroll1").html("");
+					//	$("#scroll2").html("");
+							mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
+						//if (item3.querySelector('.mui-loading')) {
+							experience.UserLists({token:user.utoken(),page:1,size:999,status:"2,3"},function(res){
+							//	console.log(JSON.stringify(res.result.total))
+								if(res.result.total=="0"){
+					    			$("#scroll3").html(
+					    				'<div class="none-list">'+
+											'<img src="../images/none_list.png" />'+
+											'<p>暂无记录</p>'+
+										'</div>'
+					    			)
+					    		}else{
+					    			var html = template('tiyanGq',res.result);
+					    			$("#scroll3").html(html);
+					    		}
+							})
+
+						//}
+					}
+				});
+				mui(".top-box").on('tap','.iabout',function(){
+					mui.openWindow({
+						url:"../experience_rule.html",
+						id:"experience_rull.html", 
+						styles:{
+							"popGesture":"close"
+						},
+						show:{autoShow:true,"aniShow":"pop-in","duration":300}	
+					})
+				})
+				function changeMoney(){
+					plus.nativeUI.showWaiting()
+					experience.AccountGet({token:user.utoken()},function(r){
+			    		if(r){
+			    			money_out = r.result.money_out
+			    			//console.log(9+JSON.stringify(r))
+			    			var turn_out_money = parseFloat(r.result.money_real_time)
+			    			turn_out_money+=""
+			    			if(turn_out_money == "0"){
+			    				$(".turn-out-money").text("0.00")
+			    			}else{//收益不为0
+			    				$(".turn-out-money").text(turn_out_money.substr(0,turn_out_money.indexOf(".")+3))
+			    			}
+			    			
+			    			total_money = parseFloat(r.result.money_real_time) + parseFloat(r.result.experience_real_time)
+			    			var experience_real_time = parseFloat(r.result.experience_real_time)
+			    			if(total_money==0){
+			    				$(".money-int").text("0")
+								$(".money-float").text(".00")
+								
+								if(checkTest != 0){
+									if(plus.os.name=="Android"){
+										setTimeout(function(){
+											mui('.mui-slider').slider().gotoItem(1);
+										},150) 
+										//console.log(56)
+									}else{
+										mui('.mui-slider').slider().gotoItem(1);
+									}	
+								}
+			    			}
+			    			//console.log("5")
+			    			if(experience_real_time==0&&total_money>=0.01){
+			    				$(".money-int").text(parseInt(total_money))
+								$(".money-float").text((total_money-parseInt(total_money)).toFixed(6).substr(1))
+			    			}else if(experience_real_time==0&&total_money<0.01){//收益小于0.01
+			    				$(".money-int").text("0")
+								$(".money-float").text(".00")
+			    			}
+			    			else{
+			    				if(experience_real_time > 0 && experience_real_time <= 5000){
+							    	var num = experience_real_time/1000;
+							    	t=setInterval(function(){
+							    		var turn_money = (total_money-parseInt(total_money)).toFixed(6).substr(3,1)//没加之前
+										total_money += 0.000001
+										//console.log(total_money)
+										if(turn_money!=(total_money-parseInt(total_money)).toFixed(6).substr(3,1)){//分变化
+											var turn_text = $(".turn-out-money").text()
+											$(".turn-out-money").text((parseFloat(turn_text)+0.01).toFixed(2))
+										}
+										$(".money-int").text(parseInt(total_money))
+										$(".money-float").text((total_money-parseInt(total_money)).toFixed(6).substr(1))
+										
+										
+									},259.2/num)
+							    }
+							    
+							    if(experience_real_time > 5000 && experience_real_time <= 50000){
+							    	var num = experience_real_time/10000;
+							    	t=setInterval(function(){
+										var turn_money = (total_money-parseInt(total_money)).toFixed(5).substr(3,1)//没加之前
+										total_money += 0.00001
+										//console.log(total_money)
+										if(turn_money!=(total_money-parseInt(total_money)).toFixed(5).substr(3,1)){//分变化
+											var turn_text = $(".turn-out-money").text()
+											$(".turn-out-money").text((parseFloat(turn_text)+0.01).toFixed(2))
+										}
+										$(".money-int").text(parseInt(total_money))
+										$(".money-float").text((total_money-parseInt(total_money)).toFixed(5).substr(1))
+									},259.2/num)
+							    }
+							    
+							    if(experience_real_time > 50000 && experience_real_time <= 500000){
+							    	var num = experience_real_time/100000;
+							    	t=setInterval(function(){
+										var turn_money = (total_money-parseInt(total_money)).toFixed(4).substr(3,1)//没加之前
+										total_money += 0.0001
+										if(turn_money!=(total_money-parseInt(total_money)).toFixed(4).substr(3,1)){//分变化
+											var turn_text = $(".turn-out-money").text()
+											$(".turn-out-money").text((parseFloat(turn_text)+0.01).toFixed(2))
+										}
+										$(".money-int").text(parseInt(total_money))
+										$(".money-float").text((total_money-parseInt(total_money)).toFixed(4).substr(1))
+									},259.2/num)
+							    }
+							    
+							    if(experience_real_time > 500000&& experience_real_time <= 5000000){
+							    	var num = experience_real_time/1000000;
+							    	t=setInterval(function(){
+										var turn_money = (total_money-parseInt(total_money)).toFixed(3).substr(3,1)//没加之前
+										total_money += 0.001
+										//console.log(total_money)
+										if(turn_money!=(total_money-parseInt(total_money)).toFixed(3).substr(3,1)){//分变化
+											var turn_text = $(".turn-out-money").text()
+											$(".turn-out-money").text((parseFloat(turn_text)+0.01).toFixed(2))
+										}
+										$(".money-int").text(parseInt(total_money))
+										$(".money-float").text((total_money-parseInt(total_money)).toFixed(3).substr(1))
+									},259.2/num)
+							    }
+							    
+							    if(experience_real_time > 5000000 && experience_real_time <= 50000000){
+							    	var num = experience_real_time/10000000;
+							    	t=setInterval(function(){
+										var turn_money = (total_money-parseInt(total_money)).toFixed(2).substr(3,1)//没加之前
+										total_money += 0.01
+										//console.log(total_money)
+										if(turn_money!=(total_money-parseInt(total_money)).toFixed(2).substr(3,1)){//分变化
+											var turn_text = $(".turn-out-money").text()
+											$(".turn-out-money").text((parseFloat(turn_text)+0.01).toFixed(2))
+										}
+										$(".money-int").text(parseInt(total_money))
+										$(".money-float").text((total_money-parseInt(total_money)).toFixed(2).substr(1))
+									},259.2/num)
+							    }
+			    				
+			    			}
+			    			
+			    		}
+			    		if(!r.result.in_use){
+			    			$("#scroll1").html(
+			    				'<div class="none-list">'+
+									'<img src="../images/none_list.png" />'+
+									'<p>暂无记录</p>'+
+								'</div>'
+			    			)
+			    		}else{
+			    			var html = template('tiyanIng',r.result);
+			    			$("#scroll1").html(html);
+			    		}
+			    		//plus.nativeUI.closeWaiting()
+			    	})
+				}
+				/*var t2 = setInterval(function(){
+					window.clearInterval(t)
+					changeMoney()
+				},30000)*/
+				document.addEventListener("top-right-btn",function(e){
+					e.preventDefault()
+					mui.openWindow({
+						id:'experience_lists.html',
+						url:'experience_lists.html',
+						styles:{
+							"popGesture":"close"
+						},
+						extras: {
+					        money_out: money_out
+					    },
+						show:{autoShow:true,"aniShow":"pop-in","duration":300}
+					})
+					
+				})
+			})
+
+	
+			
+		</script>
+	</body>
+</html>

@@ -5,7 +5,7 @@
 		<meta charset="UTF-8">
 		<title>聚车金融</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.min2.css" rel="stylesheet" />
 		<link href="css/css.css" rel="stylesheet" type="text/css" />
 		<style>
 			.clear{
@@ -223,7 +223,7 @@
 				<div class="sold-out"><img src="images/jfsc/sold_out.png"/></div>
 				{{/if}}
 				<div class="product-img">
-					<img src="http://static01.ifcar99.com{{item.pic_small}}"/>
+					<img src="https://static01.ifcar99.com{{item.pic_small}}"/>
 				</div>
 				<p class="product-title mui-ellipsis">{{item.title}}</p>
 				<p class="product-integral"><img src="images/jfsc/jf_icon_03.png"/>&nbsp;<span>{{item.price}}</span></p>
@@ -232,7 +232,7 @@
 			<div class="clear"></div>
 					
 		</script>
-		<script src="js/mui.min.js"></script>
+		<script src="js/mui.min2.js"></script>
 		<script src="js/jquery-1.11.2.min.js"></script>
 		<script src="js/api.js" ></script>
 		<script src="js/common.js"></script>
@@ -267,14 +267,19 @@
 						mui.fire(goodsDetail,"mui.view.show",data);
 					});
 					setTimeout(function(){
-						goodsDetail.show("slide-in-right",100);
+						goodsDetail.show("pop-in",300);
 					},300);	
 				})
 				
 				//地址、记录等
-				
+				var checkTest = 0
 				mui(".user-info").on('tap','li.info-item',function(e){
 					e.stopPropagation();
+				if(checkTest == 1){
+						return false;
+				}else{  
+						checkTest = 1;
+					}
 					var data = this.getAttribute('data');
 					//console.log(data)
 					data = eval("(" + data + ")");
@@ -284,7 +289,10 @@
 						mui.fire(mallCommonHeader,"mui.view.show",data);
 					});
 					setTimeout(function(){
-						mallCommonHeader.show("slide-in-right",100);
+						checkTest = 0;
+					},300) 
+					setTimeout(function(){
+						mallCommonHeader.show("pop-in",300);
 					},300);	
 				})
 				
@@ -312,7 +320,8 @@
 								}
 								//获取商品列表
 								goods.GetGoodsList({"zone_id":val.zone_id,"status":"1"},function(res){
-									console.log(JSON.stringify(res))
+									plus.nativeUI.closeWaiting();  
+									//console.log(JSON.stringify(res))
 									//console.log(JSON.stringify(res))
 									if(res){
 										var html = template('tpl',res.result);
@@ -352,6 +361,20 @@
 					})
 				}
 				//返回刷新
+				document.addEventListener("double-tap",function(e){
+					plus.nativeUI.showWaiting("",{
+						background:'rgba(255,255,255,0)',
+						style:'black', 
+						loading:{
+							height:'35px',
+							icon:"images/loading3.png",
+							interval:'80'
+						}
+					}); 
+					getdata() 
+					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
+				})
+				//返回刷新
 				document.addEventListener("initpage",function(e){
 					getdata()
 					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
@@ -361,7 +384,8 @@
 					mui.openWindow({
 						"url":"integral_mall_rule.html",
 						"id" :"integral_mall_rule.html",
-						"styles": {popGesture:'close'},
+						'styles':{'top':'0px',"popGesture":"close"},
+						'show':{"aniShow":"pop-in","duration":300},
 						"waiting": {autoShow:false} 
 					})
 				})

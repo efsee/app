@@ -1,11 +1,11 @@
 ﻿var utoken, uid;
-var host = 'http://www.ifcar99.com/';
-var apiurl = 'http://www.ifcar99.com/api.php'; 
-var apiurl_new = 'http://api.ifcar99.com';
-var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
-var chargeapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'http://www.ifcar99.com/api/authllcz/llcz_query_api.php';
-//var host = 'http://192.168.1.10/'; 
+var host = 'https://www.ifcar99.com/';
+var apiurl = 'https://www.ifcar99.com/api.php'; 
+var apiurl_new = 'https://www.ifcar99.com/api_v2';
+var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
+var chargeapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
+var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php';
+//var host = 'https://192.168.1.10/';  
 mui.plusReady(function() { 
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 		//appid属性
@@ -74,7 +74,7 @@ var store = {
 			this.delete(key);
 			return null;
 		}
-
+		
 		return info.val;
 	},
 	delete: function(key) {
@@ -476,6 +476,10 @@ var borrow = {
 		var url = apiurl + '?module=borrow&action=tender';
 		ajax.post(url, $data, callback);
 	},
+	"tenderAdd" : function($data, callback){
+		var url = apiurl_new + '/borrow/tender/add';
+		ajax.post(url, $data, callback);
+	},
 	"auto_add" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=auto_add';
 		ajax.post(url, $data, callback);
@@ -717,7 +721,29 @@ var coupon = {
 		ajax.post(url, $data, callback);
 	},
 }
-
+//体验金
+var experience = {
+	"AccountGet" : function($data, callback){
+		var url = apiurl_new + '/experience/account/get';
+		ajax.post(url, $data, callback);
+	},
+	"Activate" : function($data, callback){
+		var url = apiurl_new + '/experience/user/activate';
+		ajax.post(url, $data, callback);
+	},
+	"AccountTransfer" : function($data, callback){
+		var url = apiurl_new + '/experience/account/transfer';
+		ajax.post(url, $data, callback);
+	},
+	"UserLists" : function($data, callback){
+		var url = apiurl_new + '/experience/user/lists';
+		ajax.post(url, $data, callback);
+	},
+	"LogLists" : function($data, callback){
+		var url = apiurl_new + '/experience/log/lists';
+		ajax.post(url, $data, callback);
+	}
+}
 
 var system = {
 	'get': function(name) {

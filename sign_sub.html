@@ -69,10 +69,10 @@
 			function pulldownRefresh() {
 				setTimeout(function() {
 					curr_page = 1;
-					clearOldList()
+					//clearOldList()
 					getdata(curr_page);
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-					mui('#pullrefresh').pullRefresh().refresh(true);
+					/*mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					mui('#pullrefresh').pullRefresh().refresh(true);*/
 				}, 100);
 			}
 			var count = 0;
@@ -104,10 +104,15 @@
 				request = {'user_id':user.uid(),'size':10,'token':user.utoken()};
 				request.page = page;
 				newCredit.GetLogList(request,function(res){//$data和回调函数
+					console.log(JSON.stringify(res))  
+					if(page==1){
+						$(".mui-scroll").html("").css("top","0")	 
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+						mui('#pullrefresh').pullRefresh().refresh(true);
+					}
 					mui('#pullrefresh').pullRefresh().setStopped(false)
 					var upflag = page*10 >= res.result.total? true : false;
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					console.log(JSON.stringify(res));
 					$(res.result.rows).each(function(k,val){
 						time=new Date(parseInt(val.create_time)*1000)
 						year=time.getFullYear()
@@ -124,11 +129,16 @@
 							"</ul>"
 							)
 						}
+						if(val.type.nid=="sign"&&val.create_time > 1483631940){
+							var sign_num = "(第"+val.sign+"天)"
+						}else{
+							var sign_num = ""
+						}
 						$(".year-"+year+".yy-"+yue).append(
 							"<li class='mui-table-view-cell'>"+
 								"<div class='mui-table'>"+
 									"<div class='mui-table-cell mui-col-xs-6'>"+
-										"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.remark+"</h4>"+
+										"<h4 class='mui-ellipsis' style='color: #333;font-size: 15px;'>"+val.remark+"<span style='color:#999;font-size:14px'> "+sign_num+"</span></h4>"+
 										"<h5 style='line-height:18px;'>"+addtime+"</h5>"+
 									"</div>"+
 									"<div class='mui-table-cell mui-col-xs-6 mui-text-right'>"+

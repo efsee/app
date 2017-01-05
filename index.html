@@ -58,9 +58,17 @@
 		    	height: 8px;
 	    		background-color:rgba(228,57,60,1) ;
 	    		color: #fff;
-	    	
-	    	} 
-	    	
+	    	}
+	    	.ad-mengban {
+	    		position: fixed;
+	    		width: 100%;
+	    		height: 100%;
+	    		top: 0;
+	    		z-index: 9999;
+	    		bottom: 0;
+	    		background: rgba(00,00,00,0.6);
+	    		display: none;
+	    	}
 	    </style>
 	</head>
 	<body>
@@ -72,6 +80,9 @@
 			<h1 class="mui-title name" id="title">聚车金融</h1>
 		</header>
 		<div class="clear"></div>
+		<div class="ad-mengban">
+			
+		</div>
 		<nav class="bot-nav">
 		<a href="home.html" id="home" class="tab active" title="聚车金融"><i class="ico-Home icon"></i><p>首页</p></a>
 		<a href="product.html" id="product" class="tab" title="理财"><i class="ico-Product icon"></i><p>理财</p></a>
@@ -83,12 +94,12 @@
 		mui.plusReady(function(){
 			//plus.runtime.setBadgeNumber(0);  
 			//先执行welcome
-			if(!plus.storage.getItem('welcome183'))
+			if(!plus.storage.getItem('welcome190'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent183')){
+				if(!store.get('diffrent190')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -96,11 +107,9 @@
 						//version属性
 						appinfo.version = wgtinfo.version;
 						//name属性
-						appinfo.name = wgtinfo.name;
+						appinfo.name = wgtinfo.name; 
 						
 						var request = {};
-						//request.style="1";
-						//console.log(JSON.stringify(request));
 						product.getversion({"request":request},function(res){
 							//console.log(JSON.stringify(res));
 							if(res){
@@ -109,19 +118,10 @@
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									//console.log(content);
-									store.set('diffrent183', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent190', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
-											/*if(plus.os.name=='iOS'){
-												url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
-												plus.runtime.openURL(url);
-											}
-											else{
-												url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
-												plus.runtime.openURL(url);
-											}*/
 											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
 											plus.runtime.openURL(url);
 											
@@ -138,32 +138,75 @@
 				}
 			}
 			//暂时取消手势密码
-			if(user.uid()){//判断手势密码是否开启
-				
+			if(user.uid()){//判断手势密码是否开启	
 				if(store.get('shoushi_status')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }else{
-	            	//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 	            }
-	//            mui('.mui-icon-contact')[0].classList.add('mui-hidden');
+	            
+	            if(!store.get('integral_notice')){     
+	            	req2={'username': store.get('username'),
+					 'limit':1,
+					 'nid':'sign'
+					};
+					credit.GetLogList({'request':req2},function(res,status,xhr){
+						store.set("integral_notice",1,20000)//一天一次
+						if(res==""){
+							setTimeout(function(){
+								mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
+									if(e.index == 0){
+										var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+										integralPage.addEventListener('loaded',function(){
+											mui.fire(integralPage,'signauto')
+										})
+										
+										setTimeout(function(){
+											integralPage.show('pop-in', 300);  
+										},300) 	
+									}else{
+										return false;
+									}
+								})
+								
+							},30000)
+							 
+						}else{
+							var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
+						    var remainDate=serverTime-serverTime%86400000-28800000
+							if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
+								newCredit.GetTotal({'token':user.utoken()},function(res){
+									//console.log(JSON.stringify(res)) 
+									setTimeout(function(){
+										mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
+											if(e.index == 0){
+												var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+												integralPage.addEventListener('loaded',function(){
+													mui.fire(integralPage,'signauto')
+												})
+												
+												setTimeout(function(){
+													integralPage.show('pop-in', 300);  
+												},300) 	
+											}else{
+												return false;
+											}
+										})
+									},30000)   
+									
+								})
+							}
+						}
+
+					}) 
+	            }
+	            
 		   }
-			//单点登录验证
-			if(user.utoken()){
-				//判断异地登录
-				functionCom.checkToken(function(res){
-					//console.log(res.error_no)
-					if(res.error_no!=401){
-						
-					}
-				})	 
-			}
-	/**********************************底部导航子页面webview实现****************************************/
 			document.addEventListener("turnUser",function(){
 				var $botNav=$(".bot-nav a")
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent183')){
+				if(!store.get('diffrent190')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -174,29 +217,17 @@
 						appinfo.name = wgtinfo.name;
 						
 						var request = {};
-						//request.style="1";
-						//console.log(JSON.stringify(request));
 						product.getversion({"request":request},function(res){
-							//console.log(JSON.stringify(res));
 							if(res){
 								if(appinfo.version<res.version){
 									var content='';
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									//console.log(content);
-									store.set('diffrent183', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent190', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
-											/*if(plus.os.name=='iOS'){
-												url = 'https://itunes.apple.com/cn/app/ju-che-jin-rong/id1074565293?mt=8';
-												plus.runtime.openURL(url);
-											}
-											else{
-												url = 'http://shouji.360tpcdn.com/160202/84ccd791bc8c0a7bc4261a68a15c502e/com.hzgxr.ifcar99_83.apk';
-												plus.runtime.openURL(url);
-											}*/
 											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
 											plus.runtime.openURL(url);
 											
@@ -204,50 +235,49 @@
 										}
 									})
 								}else{
-									//store.set('diffrent', 1, res.time);
 									var content=
-										'1.新增加息券\r\n'+
-										'2.新增多选红包功能\r\n'+
-										'3.新增投资即计息功能\r\n'+
-										'4.更新优化图标样式\r\n'+
-										'5.修复已知bug\r\n'
+										'1.消息弹窗推送\r\n'+
+										'2.新增体验金\r\n'+
+										'3.邀请好友界面优化\r\n'+
+										'4.数据公示升级\r\n'+
+										'5.我要按揭优化\r\n'+
+										'6.新增每日签到提醒\r\n'
+									mui.alert(content,"新版本更新内容",'关闭',function(){
+										var homesub = plus.webview.getWebviewById("home.html"); 
+										mui.fire(homesub,'initpage2');
 										
-									/*$.each(res.content, function(i, item) {
-										content+='\r\n'+item;
-									});*/
-									mui.alert(content,"新版本更新内容",'关闭')
+									})
 								}
-							}
-							
+							} 
+							 
 						})
 						
 					})
 					
 				}
-			}) 
-			
-			//获取未读角标
-			request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
-			articles.GetList({'request':request},function(res){
-			//	console.log("消息"+JSON.stringify(res))
-				total = res.total
-				store.set("msg",res.total,3600 * 24 * 365)
-				store.set("check",1,1)
 			})
-			var subpages = ['home.html', 'product.html', 'find.html', 'user.html'];
-			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none'};//,render:'always'
+			/**********************************底部导航子页面webview实现****************************************/
+			var productPage = plus.webview.create('product.html','product.html',{top:'45px',bottom:'50px',scrollIndicator:'none'})
+			plus.webview.currentWebview().append(productPage); 
+			//productPage.hide()
+			var userPage = plus.webview.create('user.html','user.html',{top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'})
+			plus.webview.currentWebview().append(userPage);
+			//userPage.hide()
+			var subpages = ['home.html', '', 'find.html', ''];
+			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'};//,render:'always' 
 			var activeTab = subpages[0];
-				var self = plus.webview.currentWebview();
-				for (var i = 0; i < 4; i++) {
-					var temp = {};
-					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
-					if (i > 0) {
-						sub.hide();//除了home.html外，其他webview都隐藏
-					}else{
-					}
-					self.append(sub);
+			var self = plus.webview.currentWebview();
+			for (var i = 0; i < 4; i++) {
+				var temp = {};
+				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
+				if (i > 0) { 
+					sub.hide();//除了home.html外，其他webview都隐藏
+				}else{
+					
 				}
-			//preload ()
+				self.append(sub);
+			}
+			//preload () 
 			mui(".bot-nav").on('tap','a',function(){
 				//单点登录验证
 				if(user.utoken()){
@@ -259,9 +289,12 @@
 					})	
 				}
 				var url = this.getAttribute('href');
+				document.getElementById("title").innerHTML = this.getAttribute('title');
+				var sub = plus.webview.getWebviewById(url); 
+				mui.fire(sub,'initpage');
 				if(url == 'user.html'){//如果打开了user页面，若没有登录信息，则调出login（）
 					if(!user.uid()){
-						login();
+						login(); 
 						return false;
 					}
 				}
@@ -271,17 +304,6 @@
 				}
 				if(active) active.classList.remove("active");
 				this.classList.add("active");
-				//plus.webview.currentWebview().hide();
-				document.getElementById("title").innerHTML = this.getAttribute('title');
-				 
-				
-					
-				var sub = plus.webview.getWebviewById(url);
-	//			if(sub == null){
-	//				//sub = mui.preload({'url':url,'id':url,'show':{'autoShow':false}, 'styles':{ top:'45px',bottom:'50px',width:'100%',hight:'100%','bounce':'none'}});
-	//			}
-				mui.fire(sub,'initpage');
-				sub.show('slide-in-right');
 				if(url == 'find.html'){
 					document.getElementById("top-contact").classList.add('mui-hidden');
 					document.getElementById("top-email").classList.add('mui-hidden');
@@ -296,55 +318,36 @@
 						}else{
 							document.getElementById("noticeNum").classList.add('mui-hidden');
 						}
-						//document.getElementById("noticeNum").innerHTML = res.count;
-						console.log(JSON.stringify(res))
 						notice_id = res.notice
 					}) 
 				}
 				else if(url == 'product.html'){
-					document.getElementById("top-contact").classList.add('mui-hidden');//隐藏product页头部账号信息
+					document.getElementById("top-contact").classList.add('mui-hidden');
 					document.getElementById("top-email").classList.add('mui-hidden');
 				}
 				else{
 					document.getElementById("top-contact").classList.remove('mui-hidden');
 					document.getElementById("top-email").classList.add('mui-hidden'); 
 				}
-			});
-			/*articles.getnewnotice({},function(res){
-				var noticetime = store.get(noticetime);
-				console.log(8+JSON.stringify(res));
-				if(res.id > 0){
-					store.set('newnoticetime',res.addtime);
-					if(noticetime){
-						if(noticetime < res.addtime){
-							document.querySelector('.header .badge').classList.remove('mui-hidden');
-						}
-					}else{					
-						store.set('newnoticetime',res.addtime);
-						if(new Date().getDate() == new Date(res.addtime * 1000).getDate()){
-							document.querySelector('.header .badge').classList.remove('mui-hidden');
-						}
-					}
-				}
-			})*/  
-			
+				sub.show('pop-in');
+			});  
 			document.getElementById("top-contact").addEventListener('tap',function(){
 				if(!user.uid()){
 					login();
 					return false;
 				}
-				href = 'integral.html';
-				inittemplate = getTemplate('template', 'template.html');
-				var headerWebview = inittemplate.header;
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
-				mui.fire(headerWebview, 'updateHeader', {
-					title: '每日签到',
-					showMenu: false,
-					right_btn:'积分记录'
-				});
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 100);
+				var nowTime = new Date().getTime();
+    			var clickTime = $(this).attr("ctime");
+    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+			        return false;
+			    }else{
+			    	$(this).attr("ctime",nowTime);
+			    }
+				var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+				setTimeout(function(){
+					integralPage.show('pop-in', 300);  
+				},300)
+				
 			},false);
 			
 			//mui('.header .mui-icon-email')[0]
@@ -352,31 +355,20 @@
 				var webview_style = {
 					popGesture: "close"
 				};
-				mui.openWindow({
-					id: 'notice.html',
-					url: 'notice.html',
-					styles: webview_style,
-					waiting: {
-						autoShow: false
-					},
-					
-				});
-				var sub = plus.webview.getWebviewById('notice.html');
-				mui.fire(sub,'initpage',{"notice_id":notice_id});
-				var subnews2 = plus.webview.getWebviewById('notice_sub.html');
-				mui.fire(subnews2,'initpage',{"notice_id":notice_id});
+				var nowTime = new Date().getTime();
+    			var clickTime = $(this).attr("ctime");
+    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+			        return false;
+			    }else{
+			    	$(this).attr("ctime",nowTime);
+			    }
+				var noticePage = plus.webview.create("notice.html","notice.html",{popGesture:'close'})
+				setTimeout(function(){
+					noticePage.show("pop-in",300)
+					plus.nativeUI.showWaiting()
+				},300)
 			})
-			
-			setTimeout(function(){
-				//二级webview 
-				subWV = mui.preload({
-					id: 'subWV',
-					url: 'subtemplate.html'
-				});
-			},2000);
-			
-			
-			
+
 			document.addEventListener('permission',function(e){
 				user.GetShoushi({"request":{"user_id":user.uid()}},function(res){
 					console.log(JSON.stringify(res))
@@ -394,14 +386,6 @@
         			}
             	})
 				
-				/*if(!plus.storage.getItem('ssmms')){//判断有没有设置手势密码，只要设置过就不再提示
-					mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
-						if (e.index === 0) {
-							mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-						}
-					});
-				}*/
-				
 			},false);
 		});//plusReady结束
 		 //检索消息未读
@@ -413,8 +397,6 @@
 				}else{
 					document.getElementById("noticeNum").classList.add('mui-hidden');
 				}
-				//document.getElementById("noticeNum").innerHTML = res.count;
-				//console.log(JSON.stringify(res))
 			})	
 		});
 		 //自定义事件，模拟点击“首页选项卡”
@@ -479,6 +461,12 @@
 				headerWebview.show('slide-in-right', 150);
 			}
 		});
+		document.addEventListener('closeMb',function(){  
+			$(".ad-mengban").css("display","none")   
+		})
+		document.addEventListener('openMb',function(){  
+			$(".ad-mengban").css("display","block")   
+		})
 
 		 //首页返回键处理
 		 //处理逻辑：1秒内，连续两次按返回键，则退出应用；

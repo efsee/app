@@ -38,20 +38,26 @@
 	   		}
 	   		.layermend::after, .layermend::before {
 	   			 width: 30px;
-	    	} 
+	    	}
+	    	#top_right_btn { color: #000; font-size: 14px; height: 40px; line-height: 44px; display: block; }
 	    </style>
 	</head>
 	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<a id="top_right_btn" class="mui-pull-right">积分记录</a>
+			<h1 id="title" class="mui-title" style="color:#333">每日签到</h1>
+		</header>
 		<div class="mui-content" style="background-color: #fff;" >
 			<div id="pullrefresh" class="mui-content mui-scroll-wrapper" >
-				<div class="mui-scroll" style="top: 0;bottom: -55px;background-color: #fff;">
+				<div class="mui-scroll" style="top: 45px;bottom: -55px;background-color: #fff;">
 				    <div class="integral-main" style="background-color: #fff;">      
 				    	<div class="integral-fen">
-				    		<h5 class="integral-title">我的积分</h5> 
+				    		<h5 class="integral-title"><a id="turnRule" href="rule.html">我的积分<span class="integral-gzico"></span></a></h5> 
 				    		<div class="integral-zong">0</div>
-				    		<div class="integral-ts">随机获取5-30积分</div> 
+				    		<div class="integral-ts">连续签到<span class="c5 cont-sign"></span>天</div> 
 				    	</div>
-				    	<p class="integral-gz"><a id="turnRule" href="rule.html"><span class="integral-gzico"></span>规则说明</a></p>
+				    	<p class="integral-gz">随机获取5-30积分</p>
 				    	<a class="integral-botton" id='getSign' style="display: none;">签到领积分</a>
 				    	<a class="integral-yqd" style="display: none;">已签到</a>
 				    </div>
@@ -73,24 +79,6 @@
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
-				//获取所有积分
-				
-				/*request={'user_id': user.uid(),'type_nid':'sign'};
-				credit.GetTypeCount({'request':request},function(res1){
-					if(res1==null){
-						$(".integral-zong").html("0")
-					}else{
-						request2={'user_id': user.uid(),'type_nid':'sign_reward'};
-						credit.GetTypeCount({'request':request2},function(res2){
-							console.log(res2)
-							if(res2==null){
-								$(".integral-zong").html(parseInt(res1))
-							}else{
-								$(".integral-zong").html(parseInt(res1)+parseInt(res2))
-							}	
-						})	
-					}	
-				})*/
 				newCredit.GetTotal({'token':user.utoken()},function(res){
 					//console.log(JSON.stringify(res))
 					if(res.error_no==401){
@@ -98,7 +86,7 @@
 							if (e.index == 0) {
 								login();
 							}
-						})
+						})  
 					}
 					if(res){
 						//var html = template('tpl',res.result);
@@ -106,6 +94,7 @@
 							$(".integral-zong").html(0);
 						}else{
 							$(".integral-zong").html(res.result.current);
+							$(".cont-sign").html(res.result.sign); 
 						}
 					}else{
 						
@@ -120,7 +109,7 @@
 				credit.GetLogList({'request':req2},function(res){
 					var nowDate=new Date().getTime()+28800000
 					var remainDate=nowDate-nowDate%86400000-28800000
-				//	console.log(remainDate)
+				 	//console.log(remainDate)
 					if(res==""){
 						$("#getSign").css("display","block")
 						$('.integral-yqd').css("display","none")
@@ -132,18 +121,25 @@
 						}else{
 							$('.integral-yqd').css("display","block")
 							$("#getSign").css("display","none")
+							
 							//$("#getSign").css("display","block")
 						}
 					}
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();//refresh completed
 				})		
 			}
+			document.addEventListener("signauto",function(){
+				setTimeout(function(){
+					var defaultTab = document.getElementById("getSign")
+					mui.trigger(defaultTab, 'tap');
+				},300)
+			})
 			mui.plusReady(function(){
 				//mui('#pullrefresh').pullRefresh().setStopped(true) 
 				//mui('#pullrefresh').pullRefresh().disablePullupToRefresh()
 				pulldownRefresh()
 				//mui('#pullrefresh').pullRefresh().pulldownLoading();
-				document.addEventListener("top-right-btn",function(){
+				mui("header").on('tap',"#top_right_btn",function(){
 					mui.openWindow({
 						url:'sign.html',
 						id:'sign.html',
@@ -161,17 +157,26 @@
 						waiting:{autoShow:false}
 					});	
 				})
-				mui('body').on('tap','.integral-botton',function(e){
+				mui('body').on('tap','#getSign',function(e){
 					//console.log(JSON.stringify(res))
 					e.stopPropagation()
+					var nowTime = new Date().getTime();
+	    			var clickTime = $(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime);
+				    }
 					request={'user_id': user.uid()};
 					credit.GetSign({'request':request},function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res.code==1){
 							if(res.count=="15"){
+								//15天
+								var val = parseInt(res.value)+200
 								layer.open({
 									title:[''],		
-									content: '<div class="integral-tan">签到成功<p class="integral-chengg">获得额外奖励<span style="color:##F95453">200</span>积分</p><div class="integral-tan-bg"><span class="timer" data-to="'+res.value+'"  data-speed="50">99</span></div></div>',
+									content: '<div class="integral-tan">签到成功<p class="integral-chengg">获得额外奖励<span style="color:##F95453">200</span>积分</p><div class="integral-tan-bg"><span class="timer" data-to="'+val+'"  data-speed="50">99</span></div></div>',
 									success:function(layero, index){
 										scrollNum()	
 									}

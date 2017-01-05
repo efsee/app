@@ -1,4 +1,4 @@
-var api_upload_url = 'http://www.ifcar99.com/api.php?module=upload';
+var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
 function getimg(options) {
 	var btnArray = [{
 		title: "拍照"

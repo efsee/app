@@ -102,6 +102,10 @@ var count=0;
 				alert('请输入您的短信验证码');
 				return false;
 			}
+			if(request.password.length<6){
+				alert('密码最低为6位');
+				return false;
+			}
 			if(request.confirm_password != request.password){
 				alert('两次输入的密码不一致');
 				return false;

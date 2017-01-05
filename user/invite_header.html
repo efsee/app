@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+	    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+	    <link rel="stylesheet" href="../css/iphone.css" />
+	    <style>
+	    	#top_right_btn { color: #000; font-size: 14px; height: 40px; line-height: 44px; display: block; }
+	    </style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<a id="top_right_btn" class="mui-pull-right">好友(0)</a>
+			<h1 id="title" class="mui-title">邀请有礼</h1>
+		</header>
+		
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-1.11.2.min.js"></script>
+		<script src="../js/api.js"></script>
+		<script type="text/javascript">
+			
+			//启用双击监听
+			mui.init({
+				gestureConfig:{
+					doubletap:true
+				},
+				subpages:[{
+					url:'yqyl.html',
+					id:'yqyl.html',
+					styles:{
+					top:"45px",
+					bottom: '0px'}
+				}],
+				beforeback: function(){
+					var parentPage = plus.webview.currentWebview().opener();
+					mui.fire(parentPage,'initpage');
+					return true;
+				}
+			});
+			mui.plusReady(function(){
+				document.getElementById('top_right_btn').addEventListener('tap', function() {
+					var contentWebview = plus.webview.currentWebview().children()[0]
+					mui.fire(contentWebview,"top-right-btn");
+				});
+				request = {'user_id':user.uid(),'epage':1};
+		  		user.GetFriendsInvite({'request':request},function(res){
+		  			$("#top_right_btn").html("好友("+res.total+")")
+		  		});
+				
+			})   
+		</script>
+	</body>
+</html>

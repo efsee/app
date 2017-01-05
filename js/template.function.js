@@ -1,4 +1,4 @@
-var staticpicroot = 'http://www.ifcar99.com/';
+var staticpicroot = 'https://ifcar99.b0.upaiyun.com///' //'http://www.ifcar99.com/';
 
 template.helper('month2day', function (data) {
 	res = Math.round(parseFloat(data) * 30);
@@ -9,7 +9,7 @@ template.helper('toThousandsint', function (data) {
 	data = parseInt(data);	
 	var result = [ ], counter = 0;
 	    data = (data || 0).toString().split('');
-	    for (var i = data.length - 1; i >= 0; i--) {
+	    for (var i = data.length - 1; i >= 0; i--) { 
 	        counter++;
 	        result.unshift(data[i]);
 	        if (!(counter % 3) && i != 0) { result.unshift(','); }
@@ -19,6 +19,7 @@ template.helper('toThousandsint', function (data) {
 
 template.helper('getpic', function (data) {
 	res =  staticpicroot + data;
+	//console.log(res)
 	return res;
 });
 
