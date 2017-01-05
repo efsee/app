@@ -272,6 +272,7 @@ var user = {
 		store.delete('utoken');
 		store.delete('shoushi_status');
 		store.delete('shoushi_psw');  
+		//store.delete('username');   
 	},	
 	'getInfo': function(callback) {
 		var uid = this.uid();

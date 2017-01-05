@@ -176,8 +176,8 @@
 					request = {"user_id":user.uid()};
 	      			account.GetUsersBankOne({'request':request},function(res){
 	      				res.sm_status = sm_status
-	      				//console.log(JSON.stringify(res)) 
-	      				res.username = res.username.slice(0,3)+"****"+res.username.slice(-4) 
+	      				//console.log(JSON.stringify(res))  
+	      				res.username = store.get('username').slice(0,3)+"****"+store.get('username').slice(-4) 
 	      				if(res.sm_status=="1"&&res.realname!=null){ //已经实名
 							res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
 							if(res.account!=null){//实名有银行卡

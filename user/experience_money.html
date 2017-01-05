@@ -316,7 +316,7 @@
 							<p class="jx-money" style="text-decoration: line-through;font-size: 1.4rem;color:#333"><span class="">{{item.money}}</span>元</p>
 							<span class="exp-remark">{{item.remark}}</span>
 						</div>
-						<div class="mui-col-xs-7 mui-cell-right">
+						<div class="mui-col-xs-7 mui-cell-right">                     
 							<div class="active-btn" style="background: #999;">激活</div>
 							<p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
 						</div>
@@ -386,7 +386,7 @@
 			    			var turn_out_money = parseFloat(r.result.money_real_time)
 			    			var moneystr = (turn_out_money+"").substr(0,(turn_out_money+"").indexOf(".")+3)
 			    			if(turn_out_money == 0||parseFloat(moneystr)==0){
-			    				mui.toast("无可转收益")
+			    				mui.toast("最低可转收益0.01元")
 			    				return false
 			    			}
 			    			else{
