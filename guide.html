@@ -55,7 +55,7 @@ html[xmlns] .slides {display: block;}
 				if(mui.os.ios){
 					plus.navigator.setFullscreen(true);
 				}
-				plus.navigator.closeSplashscreen();
+				plus.navigator.closeSplashscreen(); 
 			});
 
 			//立即体验按钮点击事件
@@ -63,20 +63,20 @@ html[xmlns] .slides {display: block;}
 				var indexPage=plus.webview.getLaunchWebview()
 				mui.fire(indexPage,"turnVersion")
 				//console.log(indexPage.getURL())
-				plus.storage.setItem("welcome183", "true");
+				plus.storage.setItem("welcome190", "true"); 
 				plus.navigator.setFullscreen(false);
 //				plus.webview.currentWebview().loadURL("index.html");
 //				mui.fire(plus.webview.getWebviewById("home"),"gohome");
 				plus.webview.currentWebview().close();
 			}, false);
 
-			document.getElementById("pass").addEventListener('tap', function(event) {
+			/*document.getElementById("pass").addEventListener('tap', function(event) {
 				plus.storage.setItem("welcome", "true");
 				plus.navigator.setFullscreen(false);
 //				plus.webview.currentWebview().loadURL("index.html");
 //				mui.fire(plus.webview.getWebviewById("home"),"gohome");
 				plus.webview.currentWebview().close();
-			}, false);	
+			}, false);	*/
 		</script>
 </body>
 </html>

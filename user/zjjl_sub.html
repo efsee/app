@@ -62,21 +62,19 @@
 						callback: pullupRefresh
 					}
 				}
-			});			
+			});
 			/*
 			 * 下拉刷新具体业务实现
 			 */
 			function pulldownRefresh() {
 				setTimeout(function() {
 					curr_page = 1;
-					clearOldList()
+					//clearOldList()
 					getdata(curr_page);
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-					mui('#pullrefresh').pullRefresh().refresh(true);
 				}, 100);
 			}
 			var count = 0;
-			/**
+			/** 
 			 * 上拉加载具体业务实现
 			 */
 			function pullupRefresh() {
@@ -86,27 +84,29 @@
 					getdata(curr_page);
 				}, 100);
 			}
-			if (mui.os.plus) {
+			if (mui.os.plus) { 
 				mui.plusReady(function() {
 					setTimeout(function() {
 						mui('#pullrefresh').pullRefresh().pullupLoading();
-					}, 100);
+					}, 100); 
 				});
 			} else {
 				mui.ready(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				});
 			}
-			function clearOldList(){
-				$(".mui-scroll").empty().css("top","0")	
-			}
 			function getdata(page){
 				request = {'type':'','user_id':user.uid(),'epage':10,'_where':' and balance>0 '};
 				request.page = page;
 				account.GetLogList({'request':request},function(res){//$data和回调函数
+					if(page==1){
+						$(".mui-scroll").html("").css("top","0")	
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+						mui('#pullrefresh').pullRefresh().refresh(true); 
+					}
 					var upflag = res.page >= res.total_page ? true : false;
 					mui('#pullrefresh').pullRefresh().endPullupToRefresh(upflag);
-					console.log(JSON.stringify(res));
+					// console.log(JSON.stringify(res));
 					$(res.list).each(function(k,val){
 						time=new Date(parseInt(val.addtime)*1000)
 						year=time.getFullYear()
@@ -250,18 +250,18 @@
 			}
 			oldback = mui.back;
 			mui.back = function(){
-				//console.log("as");
 				var userPage=plus.webview.getWebviewById("user.html")
 				mui.fire(userPage,"initpage")
-				
-				/*inittemplate = getTemplate('userinfo_template', 'template.html');
-							//获得共用父模板
-						var headerWebview = inittemplate.header;
-							//获得共用子webview
-						var contentWebview = inittemplate.content;
-						mui.closeAll(headerWebview);*/
-						oldback();
+				oldback();
 			}
+			document.addEventListener('initpage',function(){	
+				$(".mui-scroll").css("top","0")
+				//mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
+				mui('#pullrefresh').pullRefresh().pulldownLoading();
+				//mui('.mui-scroll-wrapper').scroll().scrollTo(0,0) 
+				
+				//getdata(1)
+			})
 			function  getTime(date, format) {
 			    date = new Date(date * 1000);
 			    var map = {

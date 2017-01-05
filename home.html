@@ -22,7 +22,7 @@
 		mui.init({
 			gestureConfig:{
 				doubletap:true
-			},
+			}, 
 			subpages:[{
 				url:'home_sub.html',
 				id:'home_sub.html',
@@ -34,6 +34,10 @@
 			document.addEventListener('initpage',function(e){
 				var sub = plus.webview.getWebviewById('home_sub.html');
 				mui.fire(sub,'initpage');
+			},false);
+			document.addEventListener('initpage2',function(e){
+				var sub = plus.webview.getWebviewById('home_sub.html');
+				mui.fire(sub,'initpage2');
 			},false);
 		})
 	</script>

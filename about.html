@@ -2,9 +2,178 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" media="screen" />
 <link rel="stylesheet" type="text/css" href="css/about.css" media="all" />
+<link rel="stylesheet" type="text/css" href="css/mui.min2.css" media="all" />
+
 <title>我要投资--聚车汇</title>
+<style>
+	body{
+		background: #fff;
+	}
+	*{
+		-webkit-box-sizing:content-box; 
+    	box-sizing:content-box; 
+	}
+	p{
+		color:#333;
+		font-size:15px;
+	}
+	.mui-preview-image.mui-fullscreen {
+		position: fixed;
+		z-index: 20;
+		background-color: #000;
+	}
+	.mui-preview-header,
+	.mui-preview-footer {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		z-index: 10;
+	}
+	.mui-preview-header {
+		height: 44px;
+		top: 0;
+	}
+	.mui-preview-footer {
+		height: 50px;
+		bottom: 0px;
+	}
+	.mui-preview-header .mui-preview-indicator {
+		display: block;
+		line-height: 25px;
+		color: #fff;
+		text-align: center;
+		/*margin: 15px auto 4;*/
+		margin:5px auto 0px;
+		width: 70px;
+		background-color: rgba(0, 0, 0, 0.4);
+		border-radius: 12px;
+		font-size: 16px;
+	}
+	.mui-preview-image {
+		display: none;
+		-webkit-animation-duration: 0.5s;
+		animation-duration: 0.5s;
+		-webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+	}
+	.mui-preview-image.mui-preview-in {
+		-webkit-animation-name: fadeIn;
+		animation-name: fadeIn;
+	}
+	.mui-preview-image.mui-preview-out {
+		background: none;
+		-webkit-animation-name: fadeOut;
+		animation-name: fadeOut;
+	}
+	.mui-preview-image.mui-preview-out .mui-preview-header,
+	.mui-preview-image.mui-preview-out .mui-preview-footer {
+		display: none;
+	}
+	.mui-zoom-scroller {
+		position: absolute;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		-webkit-backface-visibility: hidden;
+	}
+	.mui-zoom {
+		-webkit-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+	}
+	.mui-slider .mui-slider-group .mui-slider-item img {
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+	}
+	.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+		width: 100%;
+	}
+	.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+		display: inline-table;
+	}
+	.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.mui-preview-loading {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		display: none;
+	}
+	.mui-preview-loading.mui-active {
+		display: block;
+	}
+	.mui-preview-loading .mui-spinner-white {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-left: -25px;
+		margin-top: -25px;
+		height: 50px;
+		width: 50px;
+	}
+	.mui-preview-image img.mui-transitioning {
+		-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+		transition: transform 0.5s ease, opacity 0.5s ease;
+	}
+	@-webkit-keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+	@-webkit-keyframes fadeOut {
+		0% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+	@keyframes fadeOut {
+		0% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
+		}
+	}
+	p img {
+		max-width: 100%;
+		height: auto;
+	}
+</style>
+</head>
 
 
 	<body>
@@ -17,21 +186,22 @@
 			<p style=" text-indent:2em;line-height: 28px;">聚车金融成立于2014年11月27日，注册资金1000万。公司全称为“杭州聚车汇信息技术有限公司”，总部位于美丽的西子湖畔—杭州。聚车金融网融合“互联网+金融+汽车”，以健全的风险管控体系为基础，为广大投资者提供专业、高效、安全的互联网汽车金融理财服务，致力于通过优质服务与产业模式创新，提升投资效率，优化金融资产配置，成为行业领先并具有重要国际影响力的互联网汽车金融理财服务平台。</p>
 		
 		<img style="margin:10% 0 ;" src="images/img/bt2.png">
-			<img src="images/img/img1.jpg"/>
-			<img src="images/img/img2.jpg"/>
-			<img src="images/img/img3.jpg"/>
-			<img src="images/img/img4.jpg"/>
-			<img src="images/img/img5.jpg"/>
-			<img src="images/img/img6.jpg"/>
-			<img src="images/img/img7.jpg"/>
-			<img src="images/img/img8.jpg"/>
-			<img src="images/img/img9.jpg"/>
-			<img src="images/img/img10.jpg"/> 
-			<img src="images/img/img11.jpg"/>
-			<img src="images/img/img12.jpg"/>
+			<img src="images/img/img1.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img2.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img3.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img4.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img5.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img6.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img7.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img8.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img9.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img10.jpg" data-preview-src="" data-preview-group="1" /> 
+			<img src="images/img/img11.jpg" data-preview-src="" data-preview-group="1" />
+			<img src="images/img/img12.jpg" data-preview-src="" data-preview-group="1" />
 		
 		<img style="margin:10% 0 ;" src="images/img/bt3.png">                         
-		<img  src="images/img/about6.jpg"/>
+		<img  src="images/img/about6.jpg" data-preview-src="" data-preview-group="1"/>
+		<img  src="images/img/about7.jpg" data-preview-src="" data-preview-group="1"/>
 		
 		<img style="margin:10% 0 ;" src="images/img/bt4.png">
 			<div class="about_lc"> 
@@ -43,15 +213,7 @@
 						    
 						    <p>   
 								<span>2015年01月</span><br>聚车金融核心团队组建完成。
-						    </p>
-					 
-							<p>
-								<span>2015年03月</span><br>聚车金融网站开始内测，初始投资用户超400人。
-							</p> 
-							
-							<p>
-								<span>2015年05月</span><br>聚车金融官方微信上线。
-							</p> 
+						   </p>
 					 
 							<p>
 								<span>2015年08月</span><br>聚车金融网站改版升级，正式上线运营。  
@@ -76,7 +238,13 @@
 								<span>2016年08月</span><br>聚车金融上线运营1周年、投资总额突破2亿元。
 							</p>
 							<p>
-								<span>2016年10月</span><br>聚车金融累计投资总额突破3亿元。
+								<span>2016年10月</span><br>聚车金融单月投资额突破5000万，累计投资总额突破3亿元。
+							</p>
+							<p>
+								<span>2016年11月</span><br>聚车金融获得EDI&ICP电信增值业务许可证。
+							</p>
+							<p>
+								<span>2016年12月</span><br>聚车金融累计投资总额突破4亿元。
 							</p>
 							
 							<p>
@@ -87,6 +255,12 @@
 			           
 				              
 			</div> 
-  </div>     
+  </div>
+  		<script src="js/mui.min2.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
 	</body>
+	<script>
+		mui.previewImage();
+	</script>
 </html>

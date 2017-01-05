@@ -64,10 +64,12 @@ header .mui-title { color: #333; }
 
 <script type="text/javascript">
 	mui.init()
-	mui.plusReady(function(){
+	//mui.plusReady(function(){
 		/*******投标成功后返回页面的data数据*********/
+		//console.log(data)
 		document.addEventListener("mui.view.show",function(e){
 			data = e.detail
+			//console.log(data)
 			document.querySelector(".mui-title").innerHTML = data.title
 			var selfPage = plus.webview.currentWebview()
 			//创建webview子页
@@ -88,7 +90,7 @@ header .mui-title { color: #333; }
 			mui.fire(parentPage,"initpage")
 			oldback();
 		}
-	})
+	//})
 	
 </script>
 

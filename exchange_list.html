@@ -98,7 +98,10 @@
 			.goods-details a{
 				float: right;
 			}
-			
+			/*.mui-spinner:after {
+				background-image: url(images/loading4.png);
+
+			}*/
 		</style>
 	</head>
 
@@ -119,7 +122,7 @@
 				<p class="shopping-time"><i></i>&nbsp;&nbsp;<span>{{item.create_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span>{{if item.status.text=="已完成"||item.status.text=="已关闭"}}<a style="color: #797979;">{{item.status.text}}</a>{{else}}<a style="color:#26B3E1;">{{item.status.text}}</a>{{/if}}</p>
 				<div id="" style="padding:10px 0 6px 0;">
 					<div class="goods-img">
-						<img src="http://static01.ifcar99.com{{item.order_goods[0].pic}}" />
+						<img src="https://static01.ifcar99.com{{item.order_goods[0].pic}}" />
 					</div>
 					<ul class="goods-details">
 						<li><span class="">{{item.order_goods[0].title}}</span><a>X {{item.order_goods[0].num}}</a></li>

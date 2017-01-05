@@ -109,6 +109,8 @@
 							store.delete('utoken');
 							store.delete('shoushi_status');
 						    store.delete('shoushi_psw');
+						    store.delete('integral_notice');
+						    store.delete('adBox');
 							plus.storage.removeItem('shoushimima');
 							if (!uid) {
 								plus.nativeUI.alert('用户不存在');
@@ -131,16 +133,8 @@
 							mui.fire(plus.webview.getLaunchWebview(), 'permission');
 //							//发送设备信息,并返回信息
 							setTimeout(function(){
-//								//system.sendDeviceInfo();
-//								//获取签到数
-//								//checkin.count();
-//								//切换页面
-								//mui.openWindow({url:'permission.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 								plus.webview.currentWebview().close();
 							},300);
-//							//更新页面
-//							var mainWV = plus.webview.currentWebview().opener();
-//							mui.fire(mainWV, 'mui.view.refresh');
 							return true;
 						} else {
 							plus.nativeUI.alert(rs.info || rs.msg || rs.message|| rs.error_msg);
@@ -149,35 +143,6 @@
 					});
 				});
 	})
-	
-//			 //首页返回键处理
-//			 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
-//			var first = null;
-//			mui.back = function() {
-//				//首次按键，提示‘再按一次退出应用’
-//				if (!first) {
-//					first = new Date().getTime();
-//					mui.toast('再按一次退出应用');
-//					setTimeout(function() {
-//						first = null;
-//					}, 1000);
-//				} else {
-//					if (new Date().getTime() - first < 1000) {
-//						plus.runtime.quit();
-//					}
-//				}
-//			};
-//      mui.back = function() {
-//      	return false;
-//      };
-//			mui.back = function() {
-//				var current = plus.webview.currentWebview();
-//				current.hide('auto');
-//				setTimeout(function() {
-//					current.close();
-//				}, 1000);
-//			}
-
 </script>
 </body>
 </html>

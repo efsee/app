@@ -33,8 +33,7 @@
 
 
     <!--内容-->
-    	<div class="mui-scroll-wrapper">
-	<div class="mui-scroll">
+	<div class="mui-content">
     	<div class="ui_wrap_cell">
        <ul class="ui_item_cell find-top">
 		   		<li>
@@ -72,7 +71,7 @@
 		   			</a>
 		   		</li>
 		   			<li>
-		   			<a class="tap" data='{"title":"安全保障","href":"http://www.ifcar99.com/yidong/y-insurance/index.html"}'>
+		   			<a class="tap" data='{"title":"安全保障","href":"https://www.ifcar99.com/yidong/y-insurance/index.html"}'>
 		   			   <span class="icon_forum"></span>
 		   				安全保障
 		   			</a> 
@@ -111,7 +110,7 @@
 		   			<a>
 		   			   <span class="icon_bbh"></span>
 		   				当前版本
-		   				<span class="bbh-style">版本号 : 1.8.3</span>
+		   				<span class="bbh-style">版本号 : 1.9.0</span>
 		   			</a>
 		   		</li>
 		    	
@@ -119,15 +118,9 @@
 		    
 		         <div class="ui_iphone" id='confirmBtn'><i class="ui_iphone_img"></i>服务热线：<button class="ui_iphone_font">4001-123-990</button><p>每日工作时间：9:00-17:30</p>
 		         </div>
+		         <div style="height: 20px;"></div>
 		    </div>
-		   </div>
-		   </div>
-		   <script>		   	
-		   	mui('.mui-scroll-wrapper').scroll({
-            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-});
-		   	</script>
-		   		
+		 </div>
 		   	
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
@@ -137,133 +130,33 @@
 <script src="js/uploadimg.js"></script>
 
 <script>
-mui('.ui-jcts').on('tap', 'a.tap', function(e){
+	mui('.ui-jcts').on('tap', 'a.tap', function(e){
 		e.stopPropagation();
 		href = this.getAttribute('href');
-	    mui.openWindow({url:'guide-show.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
-	
-	
-})
-mui.plusReady(function(){
-//	document.getElementById("czinfo").addEventListener('tap',function(){
-//		mui.openWindow({
-//			url:'6.html',
-//			id:'czinfo'
-//		})
-//	})
-	document.getElementById("confirmBtn").addEventListener('tap', function() {
-				var btnArray = ['取消', '呼叫'];
-				mui.confirm(' ','4001-123-990', btnArray, function(e) {
-					if (e.index == 1) {
-						window.location.href = 'tel:4001-123-990';
-					} else {
-					}
-				})
-			});
-			
-	document.getElementById("click_dialog").addEventListener('tap', function() {
-				var btnArray = ['取消', '去关注'];
-				mui.confirm(' ','您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。', btnArray, function(e) {
-					if (e.index == 1) {
-						window.location.href = 'weixin:WXSceneSession';
-					} else {
-					}
-				})
-			});	
-			
-	/*	document.getElementById("bbh").addEventListener('tap', function() {
-			
-				var appinfo={};
-				//获得指定appid对应的应用信息
-				plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-					//appid属性
-					appinfo.appid = wgtinfo.appid;
-					//version属性
-					appinfo.version = wgtinfo.version;
-					//name属性
-					appinfo.name = wgtinfo.name;
-					
-					var request = {};
-					
-					product.getversion({"request":request},function(res){
-						console.log(JSON.stringify(res));
-						if(res.status==0){
-							return false;
-						}else{
-							if(res){
-								if(appinfo.version<res.version){
-									var content='';
-									$.each(res.content, function(i, item) {
-										content+='\r\n'+item;
-									});
-									
-									//store.set('diffrent', 1, res.time);	//标志暂存时间30秒
-									var btnArray = ['取消','立即更新'];
-									mui.confirm(content,res.title, btnArray, function(e){
-										if (e.index == 1) {
-											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
-											plus.runtime.openURL(url);
-											
-										} else {
-										}
-									})
-								}else{
-									var content='新版本更新如下：\r\n'+
-											'1.新增签到积分功能\r\n'+
-											'2.新增投资数据展示页面\r\n'+
-											'3.重新设计投资详情页及确认页\r\n'+
-											'4.增加安全评级和银行限额\r\n'+
-											'5.重新设计资金明细\r\n'+
-											'6.优化APP操作指南'
-									mui.alert(content,'1.7.0  版本更新','关闭')
-								}
-							}
-						}	
-					})
-					
-				})
-		});*/
-	
-		
-		preload ();
-		var inittemplate = getTemplate('template', 'template.html');
-		
-		mui('body').on('tap', '.imgbox', function(e){
-			e.stopPropagation();
-			var options = {};
-			options.data = {'user_id':user.uid(),'m':'user','action':'avatar','uid':user.uid(),'avatartype':'virtual'};
-			options.callback = function(res){
-				//console.log(res);
-				//res.fileurl
-				rs = JSON.parse(res);
-				if(rs.status == 1){					
-					document.getElementById("avatar").src = host + rs.filename + "?t=" + Math.random();
-				}else{
-					plus.nativeUI.alert(rs.msg);
+	    mui.openWindow({url:'guide-show.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,"aniShow":"pop-in","duration":300},waiting:{autoShow:false}});
+
+	})
+	mui.plusReady(function(){
+		document.getElementById("confirmBtn").addEventListener('tap', function() {
+			var btnArray = ['取消', '呼叫'];
+			mui.confirm(' ','4001-123-990', btnArray, function(e) {
+				if (e.index == 1) {
+					window.location.href = 'tel:4001-123-990';
+				} else {
 				}
-			}
-			uid = user.uid();
-			if(!uid){
-				document.getElementById("taps").href="";
-				login();
-				return;
-			}else{
-				getimg(options);
-			}
+			})
+		});
 			
-		})
-		mui("body").on('tap','a#taps',function(){
-			uid = user.uid();
-			if(!uid){
-				document.getElementById("taps").href="";
-				login();
-				return;
-			}else{
-				document.getElementById("taps").href="userinfo.html";
-			}
-		})
-	
-		
+		document.getElementById("click_dialog").addEventListener('tap', function() {
+			var btnArray = ['取消', '去关注'];
+			mui.confirm(' ','您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。', btnArray, function(e) {
+				if (e.index == 1) {
+					window.location.href = 'weixin:WXSceneSession';
+				} else {
+				}
+			})
+		});	
+		var inittemplate = getTemplate('template', 'template.html');	
 		mui("body").on('tap','a.tap',function(){
 			var data = this.getAttribute('data');
 			data = eval("(" + data + ")");
@@ -282,7 +175,8 @@ mui.plusReady(function(){
 					styles: webview_style,
 					waiting: {
 						autoShow: false
-					}
+					},
+					show:{autoShow:true,"aniShow":"pop-in","duration":300}
 				});
 				var subnews = plus.webview.getWebviewById(id);
 				mui.fire(subnews,'initpage');
@@ -307,74 +201,11 @@ mui.plusReady(function(){
 					right_btn:right_btn
 				});
 				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
+				headerWebview.show('pop-in', 300);
 			}		
 		})
 		
-		
-		mui('body').on('tap', '#logout', function(e){
-			e.stopPropagation();
-//			user.logout({},function(res){
-//				console.log('logout');
-				plus.nativeUI.toast('成功退出');
-				setTimeout(function(){
-					plus.runtime.quit(); 
-				},100);
-//			});
-		})
-		
 	})		//plusReady结束
-	
-	document.addEventListener('initpage',function(e){
-					request = {};
-					request.user_id = user.uid();
-					
-	},false);
-
-	/*document.addEventListener('mui.view.refresh',function(){
-		user.getInfo(function(res){
-			var html = template('tpluser', res);
-			document.getElementById("user-bar").innerHTML = html;
-		});
-	},false);*/
-	function preload () {
-		mui.preload({
-			url:'notice.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-		mui.preload({
-			url:'active.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-		mui.preload({
-			url:'newbie.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-		mui.preload({
-			url:'security.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-		mui.preload({
-			url:'xszn.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-		mui.preload({
-			url:'about.html',
-			styles: {
-				popGesture: 'hide'
-			}
-		});
-	}
 </script>
 
 </body>

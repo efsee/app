@@ -139,7 +139,7 @@ p.price span.small{
 			<!--//项目图片-->
 			<div class="text-box c3 pshow-tab" style="padding: 5px;padding-top: 0px;" >
 			{{each borrow.pics as pic i}}
-			    <a rel="example_group" href="{{pic.fileurl}}"><img style="margin-top: 8px;" alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
+			    <a rel="example_group" href="{{pic.fileurl}}"><img style="margin-top: 8px;" class="imageee"  alt="{{pic.title}}" src="{{pic.fileurl | getpic}}" /></a> 
 			{{/each}}
 			</div> 
 			<!--//合规-->
@@ -216,7 +216,7 @@ p.price span.small{
 					//console.log(res.error_no)
 					if(res.error_no!=401){
 						setTimeout(function(){
-							detailWV.show('slide-in-right',150);
+							detailWV.show('pop-in',300);
 						},150);
 					}
 				})//结束
@@ -251,9 +251,10 @@ p.price span.small{
 						res.borrow.userinfo[2] = res.borrow.userinfo[2].replace(/[&#160;]/g,"") 
 					//	console.log(res.borrow.userinfo)
 						var html = template('tpl',res);
-						//console.log(res.borrow.maincode)
+						//console.log(re)
 						$('#bodybox').html(html);
 						$('#title').html(res.borrow.name);
+						console.log($(".imageee").attr("src")) 
 						if(res.borrow.recordNo){
 							$('#ACWY').attr({href:"https://www.51cunzheng.com/webjsapi/downLoad?recordNo="+res.borrow.recordNo,'data-href2':res.borrow.ancun_url_full})
 						}
@@ -274,7 +275,7 @@ p.price span.small{
 								});
 								
 								mui.fire(headerWebview, 'loading');
-								headerWebview.show('slide-in-right', 150);
+								headerWebview.show('pop-in', 300);
 							}
 							else{
 								var href = this.getAttribute('data-href2');
@@ -295,13 +296,10 @@ p.price span.small{
 			}	
 				var old_back = mui.back;
 				mui.back = function(){
-					plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
+				//	plus.webview.currentWebview().opener().evalJS("window.scrollTo(0,0);");
 					mui.fire(plus.webview.currentWebview().opener(),'refresh');
 		//			plus.webview.currentWebview().opener().reload(true);
 					old_back();
-					$('#bodybox').html("").hide();
-					$('#mui-loader').show();
-		//			mui.back = old_back;
 				}
 		
 		</script>

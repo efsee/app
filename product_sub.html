@@ -9,8 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		
 		<link rel="stylesheet" href="css/mui.min.css">
-		<link rel="stylesheet" href="css/invest.css">
-		
+		<link rel="stylesheet" href="css/invest.css">	
 	</head>
 
 	<body>
@@ -56,12 +55,8 @@
 			function pulldownRefresh() {
 				count=1;
 				empty_flag = 0;
-				
 				setTimeout(function() {
 					var table = document.body.querySelector('.ui_item_cell');
-					//var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					
-					//console.log(JSON.stringify(cells));
 					request = {'type_id': 6, 'order':'order_asc','epage':20,'page':1};
 					product.list({'request':request},function(res){
 						if(res){
@@ -162,8 +157,9 @@
 					var request = {'borrow_type':borrow_type,'page':count,'borrow_period':borrow_period,'dan':dan};
 					
 					product.list({'request':request},function(res){
-						//console.log(JSON.stringify(res.list))
+
 						if(res){
+							
 							for (var i = 0, len = i + 20; i < len; i++) {
 								var li = document.createElement('li');
 								li.className = 'li_item_cell';
@@ -253,19 +249,19 @@
 				setTimeout(function() {
 					mui('#pullrefresh').pullRefresh().pullupLoading();
 				}, 200);
-				document.addEventListener('initpage',function(e){
+				document.addEventListener('initpage',function(e){ 
+					window.scroll(0,0)
 					mui('#pullrefresh').pullRefresh().pulldownLoading();
 				},false);
-//				document.addEventListener('initpage2',function(e){
-//					mui('#pullrefresh').pullRefresh().pulldownLoading();
-//					var thisIndex= plus.webview.getWebviewById('pshow.html');
-//					mui.fire(thisIndex,'refresh');
-//				},false);
-				
-				
 				var detailPage = null;
+				var checkTest = 0;
 				mui("#product-list").on('tap', 'a.tap', function(e){
 					e.stopPropagation();
+					if(checkTest == 1){
+						return false;
+					}else{
+						checkTest = 1;
+					}
 					var article_id = eval("(" + this.getAttribute('data-article_id') + ")");
 					var id = eval("(" + this.getAttribute('data-id') + ")");
 					var has_repay = eval("(" + this.getAttribute('data-has_repay') + ")");
@@ -275,7 +271,7 @@
 						if(has_repay){
 							var detailPage = mui.preload({url:'pshow_repay.html'});
 							setTimeout(function(){
-								detailPage.show("slide-in-right",100);
+								detailPage.show("pop-in",300);
 							},300);
 						}
 						else{
@@ -283,10 +279,10 @@
 							detailPage.setStyle({
 								'popGesture': 'close'
 							})
-							plus.nativeUI.showWaiting();
+							//plus.nativeUI.showWaiting();
 							setTimeout(function(){
-								detailPage.show("slide-in-right",100);
-							},150);
+								detailPage.show("pop-in",300);
+							},300);
 							//触发详情页面的newsId事件
 							detailPage.addEventListener('loaded',function(){
 								mui.fire(detailPage,'productId',{
@@ -296,9 +292,10 @@
 								});
 							});
 							
-							
-							
-							
+							setTimeout(function(){
+								checkTest = 0;
+							},3000)
+
 						}
 						
 					}

@@ -104,7 +104,7 @@ color: #000000;
 				var reg=new RegExp("(/data/upfiles/images/)","gmi");
 				var reg2=new RegExp("(href)","gmi");
 				var contents=res.contents;
-				var rep=contents.replace(reg,"http://www.ifcar99.com/data/upfiles/images/").replace(reg2,"data-href");
+				var rep=contents.replace(reg,"https://www.ifcar99.com/data/upfiles/images/").replace(reg2,"data-href");
 				console.log(rep);
 				$('.academy-dimension').append(rep)
 			})

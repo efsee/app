@@ -87,11 +87,62 @@
 		}
 		.home-lcsj li{ float: left; font-size: 13px; width: 41%; }
 		.home-lcsj li:last-child { float: right;width: 18%; text-align: right;  }
-
-
+		.ad-mengban {
+    		position: fixed;
+    		width: 100%;
+    		height: 100%;
+    		top: 0;
+    		z-index: 9999;
+    		bottom: 0;
+    		background: rgba(00,00,00,0.6);
+    		display: none;
+    	}
+    	.ad-box{
+    		width: 70%;
+    		/*height: 400px;*/
+    		/*background: #fff;*/
+    		position: absolute;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%,-50%);
+    		-webkit-transform: translate(-50%,-50%);
+    		border-radius: 6px;
+    		overflow: hidden;
+    	}
+    	.ad-box img{
+    		width: 100%;
+    		height: auto;
+    		display: block;
+    		border-radius: 6px;
+    	}
+		.close-mb {
+			color:rgba(255,255,255,0.7);
+			display: block;
+			margin: 0 auto;
+			font-size: 80px;
+			text-align: center;
+			line-height: 1.4;
+		}
+		
+		.mui-spinner:after{
+			/*display: block;
+		    width: 100%;
+		    height: 100%;
+		    content: '';
+		    background-image: url(images/logoh.png)!important;background-repeat: no-repeat; 
+		    background-position: 50%;
+		    background-size: 100%;*/
+			
+		}
 	    </style>
 	</head>
 	<body>
+		<div class="ad-mengban">
+			<div class="ad-box">
+				<img id="adTurn" data="" class="dsdsd" src=""/>
+				<span class="close-mb mui-icon mui-icon-closeempty"></span>
+			</div>
+		</div>
 		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
@@ -206,15 +257,66 @@
 				}
 			}
 		});
-	
-		
-		/**
+
+	    //关闭广告
+		mui("body").on('tap','.close-mb',function(){
+			$(".ad-mengban").css("display","none")
+			var index = plus.webview.getLaunchWebview()
+			mui.fire(plus.webview.getLaunchWebview(),'closeMb') 
+		})
+		mui(".ad-box").on('tap','#adTurn',function(e){
+			e.stopPropagation();
+			var data = this.getAttribute('data');
+			console.log(data)
+			data = eval("(" + data + ")");
+			
+			if(!user.uid()){
+				var href = data.href2
+				var right_btn = "分享"; 
+				
+			}else{
+				var href = data.href  
+				var right_btn = data.right_title || "";
+			} 
+			if(data.title == ""){
+				mui.openWindow({
+					url:href,
+					id:href,
+					show:{
+					    aniShow:'pop-in'
+					    
+					}
+				})
+			}else{
+				//通知模板修改标题，并显示隐藏右上角图标；
+				inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+				var headerWebview = inittemplate.header;
+					//获得共用子webview
+				var contentWebview = inittemplate.content;
+				contentWebview.loadURL(href); 
+				mui.fire(headerWebview, 'updateHeader', { 
+					title: data.title,
+					showMenu: false,
+					right_btn:right_btn
+				});
+				
+				mui.fire(headerWebview, 'loading');
+				setTimeout(function(){
+					headerWebview.show('pop-in');
+				},300)	
+			}
+			
+			mui.trigger(document.querySelector('.close-mb'), 'tap');
+
+		})
+		/**  
 		 * 下拉刷新具体业务实现
 		 */
 		function pulldownRefresh() {
 			setTimeout(function() {
 				var request = {'borrow_type':'','epage':1,'totalinfo':1};
-			
+				
 				product.getborrowlist({"request":request},function(res){
 					var total= new Array();
 					if(res){ 
@@ -223,26 +325,11 @@
 						document.getElementById("home-body").innerHTML = html;
 						request = {'type_id':6};
 						articles.GetscrollpicList({'request':request},function(res){
-							//console.log(JSON.stringify(res))
-							//console.log(res.list.length);
 							res.host = host;
 							var html = template('tpl-pic-item',res);
 							document.getElementById("swiper-wrapper").innerHTML = html;
 							turnData()
 							swiper.update(true)
-					    		//调用本地浏览器
-					    		/*if(res.list[0].order==19){
-					    			$(".swiper-slide a").on("tap",function(){
-					    				$(this).removeAttr("href")
-					    				void plus.runtime.openURL("http://www.ifcar99.com/znhd");
-					    				
-					    			})
-					    			console.log("beidianji");
-					    			//$(this).removeAttr("href")
-					    			//e.preventDefault()
-					    			
-					    		}*/
-					    	
 						})
 					}
 				});	
@@ -251,30 +338,13 @@
 			
 		}
 	  	//？？
-	  	mui.plusReady(function(){	
-	  		articles.GetAdBox({'request':request},function(res){
-	  			//console.log(JSON.stringify(res));
-				if(res){
-	  				if(res.status){
-	  					var timestamp=new Date().getTime();//毫秒
-	  					if(res.starttime*1000<timestamp&&res.endtime*1000>timestamp){
-	  						$('#adimg').attr('src',res.imgurl);
-	  						$('#pone_c').attr('data-href',res.href);
-	  						//href=res.href;
-	  						if(!store.get('adbox')){
-								openWindow()
-								store.set('adbox', 1, 3600 * 24 * 365);
-							}
-	  					}
-	  				}
-	  			}
-			})
+	  	mui.plusReady(function(){
 			//其他页面传来自定义函数执行下拉刷新
 			document.addEventListener('initpage',function(e){
 	  			//openWindow()
+	  			window.scroll(0,0)
 				mui('#pullrefresh').pullRefresh().pulldownLoading();	
 			},false);
-	  		
 			//首页banner数据请求
 			request = {'type_id':6};
 			articles.GetscrollpicList({'request':request},function(res){
@@ -286,34 +356,34 @@
 			        paginationClickable: true,
 			        autoplay: 4000,
 			        autoplayDisableOnInteraction: false
-			    });
-			    
+			    });    
 			})
 			//banner图掉级跳转，使用模板
 			mui('.swiper-wrapper').on('tap', 'a.tap', function(e){
-		    e.stopPropagation();
-		    href = this.getAttribute('href');
-		    if(href && href.substr(0,1) != "#"){  
-				if(href == "") return;
-				var data = this.getAttribute('data');
-				data = eval("(" + data + ")");
-				//通知模板修改标题，并显示隐藏右上角图标；
-				inittemplate = getTemplate('template', 'template.html');
-					//获得共用父模板
-				var headerWebview = inittemplate.header;
-					//获得共用子webview
-				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
-				var right_btn = data.right_btn || "";
-				mui.fire(headerWebview, 'updateHeader', {
-					title: data.title,
-					showMenu: false,
-					right_btn:right_btn
-				});
-				
-				mui.fire(headerWebview, 'loading');
-				headerWebview.show('slide-in-right', 150);
-				
+			    e.stopPropagation();
+			    href = this.getAttribute('href');
+			    if(href && href.substr(0,1) != "#"){  
+					if(href == "") return;
+					var data = this.getAttribute('data');
+					data = eval("(" + data + ")");
+					//通知模板修改标题，并显示隐藏右上角图标；
+					inittemplate = getTemplate('template', 'template.html');
+						//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					var right_btn = data.right_btn || "";
+					mui.fire(headerWebview, 'updateHeader', {
+						title: data.title,
+						showMenu: false,
+						right_btn:right_btn
+					});
+					
+					mui.fire(headerWebview, 'loading');
+					setTimeout(function(){
+						headerWebview.show('pop-in', 300);
+					},300)	
 	            }
 		    })
 			
@@ -346,25 +416,58 @@
 				//console.log(JSON.stringify(data))
 				var pshow = plus.webview.create('pshow.html','pshow-borrow',{'popGesture': 'close'});
 				pshow.addEventListener('loaded',function(){
-				mui.fire(pshow,"mui.view.show",data);
+					mui.fire(pshow,"mui.view.show",data);
 				});
 				setTimeout(function(){
-					pshow.show("slide-in-right",100);
+					pshow.show("pop-in",300);
 				},300);
 			})
-			
+			document.addEventListener('initpage2',function(e){
+	  			if(!store.get('adBox')){
+		  			articles.GetAdBox({request:{}},function(res,status,xhr){
+		  				console.log(JSON.stringify(res))  
+		  				
+						var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()
+						//console.log(serverTime)
+						if(res){ 
+							if(res.starttime*1000<serverTime&&res.endtime*1000>serverTime){
+								store.set("adBox",1,10)//4小时 
+								var index = plus.webview.getLaunchWebview()
+							//	setTimeout(function(){
+									mui.fire(plus.webview.getLaunchWebview(),'openMb') 
+									$(".ad-mengban").css("display","block") 
+									$("#adTurn").attr("src",res.imgurl)
+									$("#adTurn").attr("data","{'title':'"+res.title+"','href2':'"+res.href2+"','href':'"+res.href+"','right_title':'"+res.share_title+"'}")
+								//},3000)
+								
+							}else{ 
+								
+							}
+						}  
+					})
+		  		}
+			},false);
 			
 			
 		})
 	  	function turnData(){
 	  		//跳转数据公示
 			mui("#turnDate").on('tap','li',function(e){
-				mui.openWindow({
-					id:'data_public.html',
-					url:'data_public.html',
-					styles:{"aniShow":"slide-in-right","popGesture":"close"},
-					waiting:{"autoShow":false}
-				})
+				//console.log(JSON.stringify($(this)))
+				var nowTime = new Date().getTime();
+    			var clickTime = $(this).attr("ctime");
+    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+			        return false;
+			    }else{
+			    	$(this).attr("ctime",nowTime);
+			    }
+				var data_public = plus.webview.create("data_public.html","dataPublic_sub.html",{popGesture:"close",hardwareAccelerated:true}) 
+				setTimeout(function(){
+					data_public.show("pop-in",300)
+				},400) 
+				setTimeout(function(){
+					checkTest = 0
+				},3000)
 			})
 	  	}
 	  	//首页返回键处理
@@ -385,7 +488,7 @@
 			}
 		};
 	  	//？？
-  		$('#pone_c').on('click',function(e){
+  	/*	$('#pone_c').on('click',function(e){
   			e.stopPropagation();
   			var url = $(this).attr('data-href');
 			if(url!='#'){
@@ -409,7 +512,7 @@
 			else{
 				return false;
 			}
-  		})
+  		})*/
 	</script>
 	
 	<script language="javascript">

@@ -39,6 +39,15 @@
 					return true;
 				}
 			});
+			mui.plusReady(function(){
+				document.querySelector('header').addEventListener('doubletap',function (e) {
+					e.stopPropagation()
+					var childPage = plus.webview.getWebviewById("zjjl_sub.html")
+					mui.fire(childPage,'initpage');
+				    //window.scroll(0, 0);
+				    //window.scrollTo(0,0);
+				});
+			})   
 		</script>
 	</body>
 </html>

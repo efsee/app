@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>聚车金融</title>
+	    <link href="css/mui.min.css" rel="stylesheet" type="text/css">
+	     <link href="css/css.css" rel="stylesheet" type="text/css">
+	    <link href="css/header.css" rel="stylesheet"/>
+	    
+	</head>
+		<style>
+			.mui-table-view-cell{
+				padding: 0 15px;
+				/*height: 45px;*/
+				line-height: 50px;
+				font-size: 14px;
+				position: relative;
+				font-size: 15px;
+			}
+			#product-name,#money,#ygmoney,#dk-date,#dk-rule{ 
+				width: 40%;
+				height: 50px;
+				float: right;
+				text-align: right;
+				padding: 0;
+				border: 0;
+				padding-right: 5px;
+				
+			}
+			.right-jt{
+				/*padding-right: 25px;*/
+			}
+			.right-jt:before{
+			    content: '';
+			    display: block;
+			    -webkit-transform: rotate(45deg) translate3d(0px, -50%, 0px);
+			    -ms-transform: rotate(45deg) translate3d(0px, -50%, 0px);
+			    transform: rotate(45deg) translate3d(0px, -50%, 0px);
+			    height: 10px!important;
+			    width: 10px;
+			    border-width: 2px 2px 0 0;
+			    
+			    border-color: #C8C8CD;
+			    border-style: solid;
+			    position: absolute;
+			    top: 47.5%;
+			    right: 15px;
+			}
+			.submit-box{
+				
+			}
+			#btnSubmit{
+				display: block;
+				height: 48px;
+				line-height: 48px;
+				width: 90%;
+				text-align: center;
+				margin: 20px auto;
+				background: #FE5A37;
+				border-radius: 5px;
+				color:#fff;
+				font-size: 15px;
+			}
+			#btnSubmit:active{
+				background: #FA7155;
+			}
+			#btnSubmit:hover{   
+				background: #FA7155;
+			}
+			.mui-table-view-cell>a:not(.mui-btn){
+				margin: 0 -15px;
+			}
+			.mui-collapse-content{
+				background-color: #EFEFF4!important;
+				padding: 0!important;
+				margin-top: 0!important;
+			}
+			.mui-collapse-content h5{
+				line-height: 35px;
+				color:#333;
+				padding-left: 15px;
+				
+			}
+			.mui-collapse-content p{ 
+				padding-left: 15px;
+				background: #FFFfff;
+				font-size: 14px;
+				line-height: 23px;
+				
+			}
+			.mui-collapse-content .table-box li{
+				float: left;
+				height: 40px; 
+				line-height: 40px;
+				text-align: center;
+				background: #fff;
+				position: relative;
+			}
+			.table-box li:nth-of-type(2n){
+				width: 43%;
+			}
+			.table-box li:nth-of-type(2n+1):before{
+				content: "";
+				width: 1px;
+				height: 100%;
+				position: absolute;
+				right: 0;
+				top: 0;
+				background: #E3E2E5;
+				transform: scaleX()(.5);			
+				-webkit-transform: scaleX(.5);	 
+			}
+			.table-box li:nth-of-type(2n+1){
+				width: 57%;
+			}
+			.mui-collapse.mui-active{
+				background: #fff;
+			}
+			.table-box li:after{
+				content: "";
+				height: 1px;
+				width: 100%;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				background: #E3E2E5;
+				transform: scaleY(.5);			
+				-webkit-transform: scaleY(.5);			
+			}
+			.mui-table-view-cell.mui-collapse.mui-active{
+				margin-top: 0;
+			}
+			.text-box{
+				padding: 10px 0;
+				background: #fff;
+			}
+			.mui-navigate-right:after, .mui-push-left:after, .mui-push-right:after{
+				font-size: 26px;
+				color: #c8c8cd;
+			}
+			#dateNum{
+				float: right;
+				margin-right: 25px;
+			}
+		</style>
+	
+	<body>
+	    <!--侧滑菜单容器-->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<!--菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-right">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+				  	<header class="mui-bar mui-bar-nav">
+						<h1 id="title" class="mui-title">贷款期限</h1>
+					</header>
+					<div class="mui-content" style="padding: 35px 0 5px 0;">
+						<ul class="mui-table-view date-select">
+							<li class="mui-table-view-cell date-select-item" data="12">
+								12期
+							</li> 
+							<li class="mui-table-view-cell date-select-item" data="24">
+								24期
+							</li>
+							<li class="mui-table-view-cell date-select-item" data="36">
+								36期
+							</li>
+						</ul>
+					</div>
+					
+				</div>
+			</aside>
+			<div class="mui-inner-wrap">
+				<header class="mui-bar mui-bar-nav">
+					<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#999"></a>
+					<a id="top_right_btn" class="mui-pull-right" style="line-height: 45px;font-size: 14px;"></a> 
+					<h1 id="title" class="mui-title">我要按揭</h1>
+				</header>
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<span>产品名称</span>
+						 	<input id="product-name" type="text" readonly="readonly" name="productname" value="工行分期-杭标按揭" placeholder="请输入产品">
+						</li> 
+				        <li class="mui-table-view-cell">
+				        	<span>贷款金额</span>
+				        	<span style="float: right;margin-left: 5px;">万</span>	
+				        	<input id="money" type="number" name="dkmoney" placeholder="金额"/> 
+				        </li>
+				        <li class="mui-table-view-cell right-jt" id="offCanvasShow"> 
+				        	<span>贷款期限</span>
+				        	<span id="dateNum"></span>
+				        </li>
+				        <li class="mui-table-view-cell">
+				        	<span>月供</span>
+				        	<span style="float: right;margin-left: 5px;">元</span>	
+				        	<input id="ygmoney" type="number" name="money" placeholder="金额"/> 
+				        </li>
+				        <li class="mui-table-view-cell right-jt mui-collapse">
+				        	<a class="" href="#">贷款须知</a>
+				        	<div class="mui-collapse-content">
+				        		<h5>利率说明</h5>
+				        		<ul class="table-box">
+				        			<li>贷款期限(期/元)</li>
+				        			<li>月利率</li>
+				        			<li>36期</li>
+				        			<li>0.44</li>
+				        			<li>24期</li>
+				        			<li>0.50</li>
+				        			<li>12期</li>
+				        			<li>0.67</li>
+				        			<div style="clear: both;"></div>  
+				        		</ul>
+				        		<p style="line-height: 45px;">备注：贷款手续费、服务费等以经销商为准</p>
+				        		<h5>所需材料</h5>
+				        		<div class="text-box">
+				        			<p>1、汽车金融贷款申请表，该表需要您的本人亲笔签名</p>
+					        		<p>2、身份证原件</p>
+					        		<p>3、机动车辆驾驶证</p>
+					        		<p>4、收入证明(税单、银行卡、公司开具的收入证明或工资单)</p>
+					        		<p>5、居住证明</p>
+					        		<p>6、银行流水</p>
+					        		<p>7、根据您的具体情况，提供其他相关材料</p>
+				        		</div>
+				        		<h5>收费说明</h5>
+				        		<div class="text-box" style="padding-bottom:15px ;">
+				        			<p>1、服务费：统一收取贷款手续办理中的服务费用(服务费可分期)</p>
+					        		<p>2、GPS费：车辆GPS设备费用</p>
+					        		<p>注：最高贷款额度为车价的70%，如有客户保证金由银行直接托管</p>
+					        		
+				        		</div>
+				        		<div style="height:40px;"></div>
+				        	</div>
+		
+				        </li>
+					</ul>
+					<div class="submit-box">
+						<a id="btnSubmit">立即申请</a>
+					</div>
+					<div style="height: 30px;"></div>
+				</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>	
+			</div>
+		</div>    
+		<script src="js/mui.min2.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/api.js"></script>
+		<script>
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview()
+		   		var data = self.request
+		   		$("#top_right_btn").html(data.cityName)
+		   		//console.log(JSON.stringify(data))
+		   		var offCanvasWrapper = mui('#offCanvasWrapper');
+		   		var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+				offCanvasInner.addEventListener('drag', function(event) {
+				    event.stopPropagation();
+				});
+		   		mui(".submit-box").on('tap','#btnSubmit',function(e){
+		   			e.preventDefault()
+		   			var nowTime = new Date().getTime();
+	    			var clickTime = $(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 400)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime);
+				    }
+		   			var item_name = document.getElementById("product-name").value
+		   			var money = document.getElementById("money").value
+		   			var period = document.getElementById("dateNum").innerHTML
+		   			var monthly_pay = document.getElementById("ygmoney").value
+		   			if(item_name == ""){
+		   				mui.alert("请输入产品名称")
+		   				return false
+		   			}
+		   			if(money == ""){
+		   				mui.alert("请输入贷款金额")
+		   				return false
+		   			}
+		   			if(period == ""){
+		   				mui.alert("请选择分期")
+		   				return false
+		   			}
+		   			data.item_name = item_name;
+		   			data.money = money*10000;
+		   			data.period = period;
+		   			data.monthly_pay = monthly_pay
+		   			borrow.AddAnJie(data,function(res){
+		   				console.log(JSON.stringify(data)); 
+						console.log(JSON.stringify(res));
+						if(res.status == 1){
+							mui.toast("提交成功")
+						}else if(res.status == -1){
+							mui.toast("提交失败")
+						}else if(res.status == -2){
+							mui.toast("请勿重复提交")
+						}
+					})
+		   		})
+				
+			
+				 //侧滑容器父节点
+				var offCanvasWrapper = mui('#offCanvasWrapper');
+				 //主界面容器
+				var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+				 //菜单容器
+				var offCanvasSide = document.getElementById("offCanvasSide");
+				 //移动效果是否为整体移动
+				var moveTogether = false;
+				 //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+				document.getElementById('offCanvasShow').addEventListener('tap', function() {
+					
+					if(!isNaN(document.getElementById('money').value)&&document.getElementById('money').value!=""){ 
+						$("input").blur()
+						offCanvasWrapper.offCanvas('show');
+					}else{
+						mui.alert("请输入正确的贷款金额",'提醒')
+					} 
+					
+				});
+				mui(".date-select").on('tap','.date-select-item',function(){
+					fqdata = this.getAttribute('data'); 
+					document.getElementById("dateNum").innerHTML =fqdata + "期";
+					offCanvasWrapper.offCanvas('close');
+					var money = parseInt(document.getElementById("money").value)*10000; 
+					document.getElementById("ygmoney").value = getYg(fqdata,money)
+					//getYg(data,10000)
+					//console.log(data) 
+				})
+				
+				 //主界面和侧滑菜单界面均支持区域滚动；
+				mui('#offCanvasSideScroll').scroll();
+				mui('#offCanvasContentScroll').scroll();
+				 //实现ios平台的侧滑关闭页面；
+				if (mui.os.plus && mui.os.ios) {
+					offCanvasWrapper[0].addEventListener('shown', function(e) { //菜单显示完成事件
+						plus.webview.currentWebview().setStyle({
+							'popGesture': 'none'
+						});
+					});
+					offCanvasWrapper[0].addEventListener('hidden', function(e) { //菜单关闭完成事件
+						plus.webview.currentWebview().setStyle({
+							'popGesture': 'close'
+						});
+					});
+				}
+				function getYg(num,money){
+					if(num==12){
+						
+						return ((money)/12 + money*0.0067).toFixed(2) 
+					}
+					if(num==24){
+						return ((money)/24 + money*0.0050).toFixed(2) 
+					}
+					if(num==36){
+						return ((money)/36 + money*0.0044).toFixed(2) 
+					}
+					
+					
+				}
+				
+			})
+			
+		</script>
+	</body>
+
+</html>

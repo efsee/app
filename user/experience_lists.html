@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+	    <link href="../css/css.css" rel="stylesheet" type="text/css" />
+	    <link href="../css/media-screen.css" rel="stylesheet" type="text/css" />
+	    <link rel="stylesheet" href="../css/iphone.css" />
+	    <style>
+	    	.data-top{
+	    		/*height: 5rem;*/
+	    		background: #fff;
+	    		background-size: 100% auto;
+	    		
+	    	}
+	    	.data-top h5{
+	    		padding-top: 1rem;
+	    		color: #333;
+	    		text-align: ;
+	    		line-height: 4rem;
+	    		font-size: 1.2rem;
+	    		text-align: center;
+	    	}
+	    	.sy-total{
+	    		font-size: 4rem;
+	    		
+	    		padding-bottom: 2rem;
+	    		text-align: center;
+	    		
+	    		
+	    	}
+	    	.mui-cell-left,.mui-cell-right{
+	    		float: left;
+	    	}
+	    	.mui-cell-right{
+	    		
+	    		text-align: right;
+	    	}
+	    	.jx-money span{
+	    		font-size: 1.8rem;
+	    	}
+	    	.jx-money{
+	    		line-height: 3.6rem;
+	    	}
+	    	.mui-cell-right p{
+	    		line-height: 1.8rem;
+	    	}
+	    </style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title">收益明细</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" style="top: 45px;">
+				<div class="mui-scroll">
+					<div class="data-top">
+						<h5>累计转出收益（元）</h5>
+						<p class="sy-total c5">0.00</p>
+					</div>
+					<ul class="mui-table-view" id="dataItemBox">
+				
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="tempData"> 
+			{{each rows as item i}}
+				<li class="mui-table-view-cell">
+					<div  class="mui-col-xs-5 mui-cell-left">
+						<p class="jx-money"><span class="c5">{{item.money | toFixed:'2'}}</span>元</p>
+					</div>
+					<div class="mui-col-xs-7 mui-cell-right">
+						<p><span>{{item.create_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span></p>
+						<p style="color: ">体验金收益转出</p>	
+					</div>
+				</li>
+			{{/each}}
+		</script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/api.js"></script>
+		<script src="../js/template.js"></script>
+		<script src="../js/template.function.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: false //是否显示滚动条
+				});
+			})(mui);
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview()
+				console.log(self.money_out)
+				document.getElementsByClassName("sy-total")[0].innerHTML = parseFloat(self.money_out).toFixed(2)
+				experience.LogLists({token:user.utoken(),"type":"2"},function(res){
+					console.log(JSON.stringify(res))
+					var html = template('tempData',res.result);
+					document.getElementById("dataItemBox").innerHTML = html 
+				    //$("#dataItemBox").html(html); 
+				    console.log(JSON.stringify(res))
+				})
+			})
+		</script>
+	</body>
+</html>

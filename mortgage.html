@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<title>聚车金融</title>
     <link href="css/app_style.css" rel="stylesheet" type="text/css">
-      <link href="css/ui-min.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.min2.css" rel="stylesheet" type="text/css">
+    <link href="css/ui-min.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" /> 
     	
  <style>
 
  .ui_item_cell{margin-top: 0px;}
-
+	input::-webkit-input-placeholder{
+		color:#dedede;!important
+	}
+	
  </style>
 </head>
 
@@ -30,22 +36,21 @@
 			   	
 				   		<li>
 				   			<span>真实姓名</span>
-				   			<input id="realname" type="text">
+				   			<input id="realname" type="text" placeholder="请输入姓名">
 				   		</li>
 				   		<li>
 				   			<span>身份证号码</span>
-				   			<input id="sfz" type="number">
+				   			<input id="sfz" type="number" placeholder="请输入身份证号">
 				   		</li>
 				   		<li>
 				   			<span>手机号</span>
-				   			<input id="mobile" type="number">
+				   			<input id="mobile" type="number" placeholder="请输入手机号码">
 				   		</li>
-				   		
-				   		<!--<li class="ui_code">
-				   			<span>短信验证码</span>
-				   			<input type="text" id="mobilecode" name="mobilecode" class="reg-txt" placeholder="验证码">
-				   			<a href="javascript:sendmobilecode();" class="getyzm ui_getCode" id="getyzm">获取短信验证码</a>
-				   		</li>-->
+				   		<li> 
+				   			<span>所在城市</span>
+				   			<p id='showCityPicker' style="float: right;margin-right:15px;color: #dedede;width: 60%;text-align: right;font-size: 15px;">请选择</p>
+				   		</li>
+				   		<input id="cityName" type="hidden" value="" />
 		        </ul>
 		        <bottom id="btn_submit" class="mortgage-bottom">提交车贷申请</bottom>		     
 		        <!--<p class="mortgage-submit">提交即视为同意<a href="#" class="mortgage-agreement">《居间服务协议》</a></p>-->
@@ -53,20 +58,52 @@
 		</div>--></form>
 	
 		<p class="mortgage-img">
-				  	<img src="images/mortgage-1.png">				  	
+				  	<img src="images/mortgage-1.jpg">				  	
 		</p>
 		<p class="mortgage-img">
-				  	<img src="images/mortgage-2.png">				  	
+				  	<img src="images/mortgage-2.jpg">				  	
 		</p>
 		<p class="mortgage-img">
-				  	<img src="images/mortgage-3.png">				  	
+				  	<img src="images/mortgage-3.jpg">				  	
 		</p>
 </body>
 
 <script src="js/mui.min.js"></script>    	
 <script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/city.data1.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mui.picker.js"></script>
+<script src="js/mui.poppicker.js"></script>
 <script type="text/javascript" charset="utf-8">
+	(function($, doc) {
+		$.ready(function() {
+			//-----------------------------------------
+			//级联示例
+			var cityPicker = new $.PopPicker({
+				layer: 2
+			});
+			cityPicker.setData(cityData);
+			var showCityPickerButton = doc.getElementById('showCityPicker');
+			showCityPickerButton.addEventListener('tap', function(event) {
+				//console.log("5")
+				doc.getElementsByTagName("input")[2].blur()
+				cityPicker.show(function(items) {
+					showCityPickerButton.style.color = "#9f9f9f"
+					if(items[1].value==0||items[1].value==undefined){
+						showCityPickerButton.innerHTML = items[0].text
+						doc.getElementById("cityName").value = items[0].text
+					}else{
+						showCityPickerButton.innerHTML = items[0].text+" "+items[1].text
+						doc.getElementById("cityName").value = items[1].text
+					}
+					
+					city_code = items[1].value
+					province_code = items[0].value
+				});
+			}, false);
+
+		});
+	})(mui, document);
 	mui.init();
 	
 	mui.plusReady(function(){
@@ -75,13 +112,13 @@
 			var sfz    = $("#sfz").val();
 			var mobile = $("#mobile").val();
 			var mobilecode  = $("#mobilecode").val();
+			var cityDate  = $("#showCityPicker").html();
 			request = {};
 			request.realname = realname;
 			request.sfz = sfz;
 			request.mobile = mobile;
 			request.mobilecode = mobilecode;
 			request.user_id = user.uid();
-			
 			if(realname == ""){
 				plus.nativeUI.alert('请输入真实姓名！');
 				return false;
@@ -119,10 +156,30 @@
 				plus.nativeUI.alert('请输入短信验证码！');
 				return false;
 			}
+			if(cityDate == ""){
+				plus.nativeUI.alert('请输入所在城市！');
+				return false;
+			}else{
+				request.pro_city = cityDate;
+				request.cityName = document.getElementById("cityName").value;
+				//request.province_code = province_code;
+			}
+			mui.openWindow({
+				url:"mortgage_next.html",
+				id:"mortgage_next.html",
+				styles:{
+			    	popGesture:"close"
+			    },
+			    extras:{request:request},
+			    show:{
+			      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+			      aniShow:'pop-in',//页面显示动画，默认为”slide-in-right“；
+			      duration:300//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+			    },
+				
+			})
 			
-			
-			
-			plus.nativeUI.showWaiting();
+			/*plus.nativeUI.showWaiting();
 			borrow.AddAnJie(request,function(res){
 				console.log(JSON.stringify(res));
 				plus.nativeUI.showWaiting();
@@ -139,7 +196,7 @@
 					plus.nativeUI.alert( res.msg, function(){
 						}, "提示", "关闭" );
 				}
-			})
+			})*/
 
     		
     

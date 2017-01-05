@@ -21,8 +21,8 @@
 		// 打开分享
 		shareShow: function(message, callback){
 			var self = this;
-			var ids=[{id:"weixin",ex:"WXSceneSession"},{id:"weixin",ex:"WXSceneTimeline"},{id:"sinaweibo"},{id:"tencentweibo"}],
-			bts=[{title:"发送给微信好友"},{title:"分享到微信朋友圈"},{title:"分享到新浪微博"},{title:"分享到腾讯微博"}];
+			var ids=[{id:"weixin",ex:"WXSceneSession"},{id:"weixin",ex:"WXSceneTimeline"}],
+			bts=[{title:"发送给微信好友"},{title:"分享到微信朋友圈"}];
 			if(plus.os.name=="iOS"){
 				ids.push({id:"qq"});
 				bts.push({title:"分享到QQ"});
