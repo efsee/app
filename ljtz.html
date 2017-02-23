@@ -344,11 +344,11 @@
 					document.getElementById("hongbaolist").innerHTML = html;
 				})
 				var use_hbmoney;
+				var hasVip = false;
 				coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){
 					console.log(JSON.stringify(res))
 					if(res.error_no==200){
 						var coupon_num = res.result.total
-						var hasVip = false;
 						if(res.result.total==0){
 							vipcoupon_data = {
 								cid:"",
@@ -511,7 +511,10 @@
 						var urlpage = plus.webview.create(urldata.url,urldata.url,{popGesture:"close"},{"money":$("#money").val(),"hb_id":hb_id})
 						setTimeout(function(){  
 							urlpage.show("slide-in-right")
-							store.set('coupon_tip',1,3600*24*365)
+							if(urldata.url=='use_coupon.html'&&clear_coupon_tip){
+								store.set('coupon_tip',1,3600*24*365)
+							}
+							
 						},300)
 					} 
 					
@@ -937,51 +940,62 @@
 				var request = data;
 				request.borrow_nid = data.article_id;
 				product.detail({"request":request},function(res){
-					if(!store.get('coupon_tip')){
-						res.coupon_tip = true
-					}else{
-						res.coupon_tip = false
-					}
-					var html = template('tpl',res);
-					document.getElementById("templateLj").innerHTML = html;
-					oldEarnMoney = parseFloat(res.borrow.borrow_apr) 
-					$("#borrow_apr").val(res.borrow.borrow_apr);
-					//创建共用全局变量
-					borrow_account_wait = parseInt(res.borrow.borrow_account_wait);
-					borrow_nid = res.borrow.borrow_nid;
-					borrow_apr = res.borrow.borrow_apr
-					borrow_period = res.borrow.borrow_period
-					borrow_style = res.borrow.borrow_style
-					/***///todo
-					biaoName=res.borrow.name;
-					if(res){
-						res.is_login = user.uid();
-						res.nowtime = new Date().getTime() / 1000;
-						if(parseFloat(res.borrow.borrow_account_wait)>100){
-							$('#span_borrow_account').html(res.borrow.borrow_account_wait)
-						}else{
-							$('#span_borrow_account').html(res.borrow.borrow_account_wait)
+					coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res2){
+						var hasVip = false
+						for(var i in res2.result.rows){
+							var row=res2.result.rows[i]
+							if(row.length!=0||row.type=='type'){
+								var hasVip = true
+							}
 						}
-						document.getElementById("earningsMoney").innerHTML=res.borrow.borrow_apr
-						if(typeof(yourBalance)=='undefined'){
-							//获取账户余额
-							request2 = {'user_id':user.uid()};
-							account.GetOne({'request':request2},function(res2){
-								//console.log(JSON.stringify(res));	
-								$('#balance').html(res2.balance);	
-							})
+						if(!store.get('coupon_tip')&&hasVip){
+							res.coupon_tip = true
 						}else{
-							$('#balance').html(yourBalance);
+							res.coupon_tip = false
 						}
-						
-					}else{
-						
-					}
-					$('#mui-loader').hide();
-					$('#templateLj').show();
-			  		showSoftInput();
-					plus.nativeUI.closeWaiting();
-					var self = plus.webview.currentWebview();
+						clear_coupon_tip = res.coupon_tip
+						var html = template('tpl',res);
+						document.getElementById("templateLj").innerHTML = html;
+						oldEarnMoney = parseFloat(res.borrow.borrow_apr) 
+						$("#borrow_apr").val(res.borrow.borrow_apr);
+						//创建共用全局变量
+						borrow_account_wait = parseInt(res.borrow.borrow_account_wait);
+						borrow_nid = res.borrow.borrow_nid;
+						borrow_apr = res.borrow.borrow_apr
+						borrow_period = res.borrow.borrow_period
+						borrow_style = res.borrow.borrow_style
+						/***///todo
+						biaoName=res.borrow.name;
+						if(res){
+							res.is_login = user.uid();
+							res.nowtime = new Date().getTime() / 1000;
+							if(parseFloat(res.borrow.borrow_account_wait)>100){
+								$('#span_borrow_account').html(res.borrow.borrow_account_wait)
+							}else{
+								$('#span_borrow_account').html(res.borrow.borrow_account_wait)
+							}
+							document.getElementById("earningsMoney").innerHTML=res.borrow.borrow_apr
+							if(typeof(yourBalance)=='undefined'){
+								//获取账户余额
+								request2 = {'user_id':user.uid()};
+								account.GetOne({'request':request2},function(res2){
+									//console.log(JSON.stringify(res));	
+									$('#balance').html(res2.balance);	
+								})
+							}else{
+								$('#balance').html(yourBalance);
+							}
+							
+						}else{
+							
+						}
+						$('#mui-loader').hide();
+						$('#templateLj').show();
+				  		showSoftInput();
+						plus.nativeUI.closeWaiting();
+						var self = plus.webview.currentWebview();
+					})
+					
 				})	
 			}
 			function useVip(){
