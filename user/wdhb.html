@@ -296,7 +296,8 @@
 		coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){ 
 			if(res){
 				if(res.result.rows.length > 0){
-					//console.log(JSON.stringify(res))
+					console.log(JSON.stringify(res))
+					var hasVip = false
 					var rows2=[]
 					var vipJson={}
 					for(var i in res.result.rows){
@@ -305,9 +306,12 @@
 							rows2.push(row)
 						}else{
 							vipJson = row
+							hasVip = true
 						}
 					}
-					rows2.unshift(vipJson)
+					if(hasVip){
+						rows2.unshift(vipJson)
+					}
 					res.result.rows = rows2
 					$(".notes-box").css("display","none")
 					var html = template('tpl-item-1-1',res.result);
@@ -327,7 +331,7 @@
 				}
 			} 
 		})
-		//未使用  
+		//未使用 
 		coupon.GetCouponList({"token":user.utoken(),"status":"3"},function(res){   
 			//console.log(JSON.stringify(res))
 			if(res){
@@ -348,7 +352,7 @@
 			}
 			
 		});
-		
+		 
 		request = {'user_id': user.uid()};
 		request.status = 2;
 		user.GetHongbao({'request':request},function(res){

@@ -119,18 +119,16 @@
 				position: relative;
 			}
 			.open-eye{
-				
 				width: 26px;
 				height: 26px;
 				background: url('images/icon_new.png') no-repeat 0 -166px; 
 				background-size: 210px auto; 
 			}
 			.close-eye{
-				
 				width: 26px;
 				height: 26px;
 				background: url('images/icon_new.png') no-repeat 0 -192px; 
-				background-size: 210px auto; 
+				background-size: 210px auto;  
 			}
 		</style>
 	</head>
@@ -218,7 +216,7 @@
 							<div class="mui-media-body">我要按揭</div>
 						</a>
 					</li>
-					<li id="tyMoney" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 user-new-jf" style="border-bottom-width: 0.5px;}">
+					<li id="tyMoney" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" style="border-bottom-width: 0.5px;}">
 					<a href="user/experience_money.html" class="tap"  data='{"title":"我的体验金","right_btn":"明细"}'>
 							<span class="icon icon-dh"></span>
 							<div class="mui-media-body">体验金</div>
@@ -263,7 +261,7 @@
 				$('#tyMoney').removeClass('user-new-jf');
 				if(!store.get('mytyopen')){
 					//$('#jfMall').addClass('user-new-jf');
-					$('#tyMoney').addClass('user-new-jf');
+					//$('#tyMoney').addClass('user-new-jf');
 				}
 				//无效预加载
 				/*mui.preload({
@@ -446,16 +444,8 @@
 				mui('.zzck').on('tap','.show-eye',function(e){
 					e.stopPropagation()
 					//console.log("5")
+					//默认close-eye
 					if($(this).hasClass('open-eye')){
-						$(this).addClass('close-eye').removeClass('open-eye')
-						$('#total').html('****');
-						$('#balance').html('****');
-						$('#await').html('****');
-						$('#income').html('****');
-						store.delete('showeye')
-					}else{
-						store.set('showeye',1, 3600 * 24 * 365)
-						$(this).addClass('open-eye').removeClass('close-eye')
 						user.getInfo(function(res){
 							if(res){
 				//				console.log(JSON.stringify(res));
@@ -466,6 +456,16 @@
 								$('#income').html(res.ljincome);
 							}
 						});
+						$(this).addClass('close-eye').removeClass('open-eye')
+						store.delete('showeye')
+					}else{
+						$('#total').html('****');
+						$('#balance').html('****');
+						$('#await').html('****');
+						$('#income').html('****');
+						$(this).addClass('open-eye').removeClass('close-eye')
+						store.set('showeye',1, 3600 * 24 * 365)
+						
 					}
 				})
 				
@@ -480,7 +480,7 @@
 				//mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
 				$('#tyMoney').removeClass('user-new-jf');
 				if(!store.get('mytyopen')){
-					$('#tyMoney').addClass('user-new-jf');
+					//$('#tyMoney').addClass('user-new-jf');
 				}
 				
 			/*	mui("body").on('tap','#mytz',function(){
@@ -493,24 +493,25 @@
 					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})*/
 				mui("body").on('tap','#tyMoney',function(){
-					store.set('mytyopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
+					//store.set('mytyopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
 				getdata();
 			},false);	
 			function getdata(){
+				console.log(5)
 				user.getInfo(function(res){
 					if(res){
 						if(store.get('showeye')){
-							$('#total').html(res.total);
-							$('#balance').html(res.balance);
-							$('#await').html(res.await);
-							$('#income').html(res.ljincome);
-							$('.show-eye').removeClass('close-eye').addClass('open-eye')
-						}else{
 							$('#total').html('****');
 							$('#balance').html('****');
 							$('#await').html('****');
 							$('#income').html('****');
+							$('.show-eye').removeClass('close-eye').addClass('open-eye')
+						}else{
+							$('#total').html(res.total);
+							$('#balance').html(res.balance);
+							$('#await').html(res.await);
+							$('#income').html(res.ljincome)
 							$('.show-eye').removeClass('open-eye').addClass('close-eye')
 						}
 		//				console.log(JSON.stringify(res));
