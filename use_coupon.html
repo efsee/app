@@ -85,6 +85,42 @@
 			    margin: 0px auto;
 			    margin-top: 30px;
 			}
+			.hongbao-num{
+				position: relative;
+			}
+			.vip-tip{
+				position: absolute;
+				top: 15px;
+				right: 20px;
+				font-size: 20px;
+				color:#df8800
+			}
+			.xuanzhe{
+				position: absolute;
+				width: 21px;
+				height: 21px;
+				top: 7px;
+				
+			}
+			.xuanzhong{
+				background:url(images/xz-vip.png) no-repeat left -21px;
+				background-size:21px 42px; 
+				
+			}
+			.un-xuanzhong{
+				background:url(images/xz-vip.png) no-repeat left top;
+				background-size:21px 42px; 	
+			}
+			.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+				color: #df8800;
+			}
+			.mui-checkbox input[type=checkbox][disabled]:before, .mui-radio input[type=radio][disabled]:before{
+				opacity:1!important;
+				color: #df8800!important;
+			}
+			.mui-checkbox input[type=checkbox][disabled], .mui-radio input[type=radio][disabled]{
+				opacity:1!important;
+			}
 	    </style>
 	    
 	</head>
@@ -93,7 +129,6 @@
 			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
 			<h1 id="title" class="mui-title">可用卡券</h1>
 		</header>
-
 		<div class="mui-content" >
 			<div class="mui-loader" id="mui-loader">
 				<span class="mui-spinner"></span> <span id="loading-text" hidden="">请耐心等候</span>
@@ -102,27 +137,37 @@
 				<i class="notes-moblie"></i>
 				<p class="no-records-size">暂无可用卡券</p>
 			</div>
-			<div id="tabbar-unused" class="mui-control-content mui-active" style="padding-bottom: 20px;">
+			<div id="tabbar-unused" class="mui-control-content mui-active" style="padding-bottom: 20px;">	
 				<ul class="Red-envelopes" id="hbBox"> 
-					
 				</ul>
 			</div>
 		</div>
 		<script id="tpl-item-1-1" type="text/html">
 			{{each rows as $item i}}
-			<li class="hbList" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}"}>  
-				<div class="hongbao-num"> 
+			<li class="hbList">  
+				<div class="hongbao-num" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}","type":"{{$item.type}}"}> 
 					<img src="images/wsy_jxj.png"/> 
 					<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
 					<h5>还有{{$item.expire_time | expireTime}}天过期</h5>
 					<p>有效期至{{$item.expire_time | dateFormat:"yyyy年MM月dd日"}}</p>
+					{{if $item.type == 'vip'}}
+					<div class="vip-tip">VIP</div>
+					{{/if}}
 				</div>
-				<div class="hongbao-cond"> 
-					<span class="hb-type">{{$item.remark}}</span>
+				<div class="hongbao-cond" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}"} data-type="{{$item.type}}"> 
+					<!--<span class="hb-type">{{$item.remark}}</span>-->
 					{{if $item.limit_lower_money=="0"}}
 					<a>单笔投资满100元可用</a>
-					{{else}}
-					<a>单笔投资满{{$item.limit_lower_money}}元可用</a>
+					{{else if $item.type == 'vip'}}
+					<div class="mui-input-row mui-checkbox mui-left" style="width: 50%;float: left;">
+						{{if $item.is_auto_use=='1'}}
+							<div class="xuanzhe xuanzhong"></div>
+							{{else}}
+							<div class="xuanzhe un-xuanzhong"></div>
+						{{/if}}
+						<span style="padding-left: 35px;">自动使用</span>
+					</div>
+					<a >单笔投资满100000元可用</a>
 					{{/if}}
 				</div>
 			</li>
@@ -139,10 +184,23 @@
 				var self = plus.webview.currentWebview()
 				var moneyvalue = parseInt(self.money)
 				coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){
-					console.log(JSON.stringify(res))
+					//console.log(moneyvalue)
+					//console.log(JSON.stringify(res))
 					if(res){
 						if(res.result.rows.length > 0){
+							var rows2=[]
+							var vipJson={}
 							$(".notes-box").css("display","none")
+							for(var i in res.result.rows){
+								var row = res.result.rows[i]
+								if(row.type!='vip'){
+									rows2.push(row)
+								}else{
+									vipJson = row
+								}
+							}
+							rows2.unshift(vipJson)
+							res.result.rows = rows2
 							var html = template('tpl-item-1-1',res.result);
 							document.getElementById("hbBox").innerHTML = html;
 						}else{
@@ -151,14 +209,95 @@
 						$(".mui-loader").css("display","none")
 					}
 				})
-				mui("#hbBox").on("tap",".hbList",function(){
+				mui("#hbBox").on("tap",".hongbao-num",function(e){
 					var hbdata = this.getAttribute('data');
 					var hbdata = eval("(" + hbdata + ")");
+					if(hbdata.type=='vip'){
+						if(parseInt(moneyvalue)<100000){
+							mui.alert("最低投资10万元才能使用VIP加息券",'提醒')
+							return false;
+						}
+					}
 					//console.log(hbdata)  
 					var ljtzPage=plus.webview.getWebviewById("ljtz.html")
 					mui.fire(ljtzPage,"getCoupon",hbdata)
 					mui.back()
 				})
+				mui("#hbBox").on('tap','.hongbao-cond',function(e){
+					var data = this.getAttribute('data');
+					var data = eval("(" + data + ")");
+					if(this.getAttribute('data-type')=='vip'){
+						if($('.xuanzhe').hasClass('xuanzhong')){
+							$('.xuanzhe').removeClass('xuanzhong').addClass('un-xuanzhong')
+							mui.confirm('确定取消自动使用么？','提醒',['取消','确认'],function(e){
+					    		if(e.index==1){
+					    			coupon.AutoUseCancel({"token":user.utoken(),"coupon_user_id":data.cid},function(res){
+										if(res.error_no==200)
+										//$("input[type='checkbox']").removeAttr('checked');
+										var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+										mui.fire(ljtzPage,"changeVipCoupon",0)
+									})	
+					    		}else{
+					    			$('.xuanzhe').addClass('xuanzhong').removeClass('un-xuanzhong')
+					    		}
+					    		
+					    	})
+						}else{
+							$('.xuanzhe').addClass('xuanzhong').removeClass('un-xuanzhong')
+							mui.confirm('确定自动使用么？','提醒',['取消','确认'],function(e){
+					    		if(e.index==1){
+					    			coupon.AutoUse({"token":user.utoken(),"coupon_user_id":data.cid},function(res){
+										if(res.error_no==200)
+										//$("input[type='checkbox']").prop('checked','true');
+										var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+										mui.fire(ljtzPage,"changeVipCoupon",1)
+									})	
+					    		}else{
+					    			$('.xuanzhe').removeClass('xuanzhong').addClass('un-xuanzhong')
+					    		}
+					    		
+					    	})
+						}
+					}else{
+						var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+						mui.fire(ljtzPage,"getCoupon",data)
+						mui.back()
+					}
+				})
+				/*mui('#hbBox').on('change','#checkVip',function(e){
+					console.log('子')
+					var data = this.getAttribute('data');
+					var data = eval("(" + data + ")");
+					e.stopPropagation()
+					if($(this).is(':checked')){
+						mui.confirm('确定自动使用么？','提醒',['取消','确认'],function(e){
+				    		if(e.index==1){
+				    			coupon.AutoUse({"token":user.utoken(),"coupon_user_id":data.cid},function(res){
+									if(res.error_no==200)
+									var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+									mui.fire(ljtzPage,"changeVipCoupon",1)
+								})	
+				    		}else{
+				    			$(this).removeAttr('checked');
+				    		}
+				    		
+				    	})
+					}else{
+						mui.confirm('确定取消自动使用么？','提醒',['取消','确认'],function(e){
+				    		if(e.index==1){
+				    			coupon.AutoUseCancel({"token":user.utoken(),"coupon_user_id":data.cid},function(res){
+									if(res.error_no==200)
+									//$(this).removeAttr('checked');
+									var ljtzPage=plus.webview.getWebviewById("ljtz.html")
+									mui.fire(ljtzPage,"changeVipCoupon",0)
+								})	
+				    		}else{
+				    			$(this).prop('checked','true');
+				    		}
+				    		
+				    	})
+					}
+				})*/
 			})
 		</script>
 		

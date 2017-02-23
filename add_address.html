@@ -104,9 +104,10 @@
 				//console.log(selfPage.opener().id)
 				var reqShipAddress={"token":user.utoken()}
 				address.Getlists(reqShipAddress,function(res){
-					if(res.error_no==401){
+					if(res.error_no==401||res.error_no==402||res.error_no==409){
+						var error_msg = res.error_msg
 						user.logout({},function(res){
-							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+							mui.confirm(error_msg,"提醒",["确定"],function(e) {
 								if (e.index == 0) {
 									login();
 								}
@@ -121,6 +122,9 @@
 					}
 				})
 				mui('body').on('tap','#add-address-btn',function(e){
+					document.getElementsByTagName('textarea')[0].blur()
+					document.getElementsByTagName('input')[0].blur()
+					document.getElementsByTagName('input')[1].blur()
 					var request={};
 					request.token=user.utoken();
 					if(document.getElementsByClassName("con-name")[0].value==""){
@@ -170,9 +174,10 @@
 											
 											}
 										})
-									}else if(res.error_no==401){
+									}else if(res.error_no==401||res.error_no==402||res.error_no==409){
+										var error_msg = res.error_msg
 										user.logout({},function(res){
-											mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+											mui.confirm(error_msg,"提醒",["确定"],function(e) {
 												if (e.index == 0) {
 													login();
 												}

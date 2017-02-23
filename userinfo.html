@@ -217,7 +217,7 @@
 						//判断异地登录
 						functionCom.checkToken(function(res){
 							//console.log(res.error_no)
-							if(res.error_no!=401){
+							if(res.error_no==200){
 								headerWebview.show('slide-in-right', 150);
 							}
 						})//结束
@@ -227,7 +227,7 @@
 						//判断异地登录
 						functionCom.checkToken(function(res){
 							//console.log(res.error_no)
-							if(res.error_no!=401){
+							if(res.error_no==200){
 								setTimeout(function(){
 								recharge.show("slide-in-right",100);
 							},50);
@@ -244,7 +244,7 @@
       				//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							var isActive = e.detail.isActive;
 							if (isActive) {
 								mui.openWindow({url:'permission.html', id:'permission'});
@@ -253,7 +253,7 @@
 								user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
 	                			//关闭手势密码
 	                			store.delete('shoushi_status');
-								store.delete('shoushi_psw');
+								store.delete('shoushi_psw');  
 	                			//console.log(JSON.stringify(res))
 			                	})
 							}	
@@ -280,7 +280,7 @@
 					})*/
 					/*functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							request = {};
 							request.user_id = user.uid();
 							request.auto = event.detail.isActive ? 1 : 0;

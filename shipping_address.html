@@ -62,7 +62,7 @@
 
 	<body>
 		<div class="mui-content">
-			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div id="" class="mui-content ">
 				<div class="mui-loader" id="mui-loader">
 					<span class="mui-spinner"></span>
 					<span id="loading-text" class="mui-hidden">请耐心等候</span>
@@ -127,9 +127,10 @@
 					//console.log(JSON.stringify(requestDel))
 					address.DelAddress(requestDel,function(res){
 						//删除地址
-						if(res.error_no==401){
+						if(res.error_no==401||res.error_no==402||res.error_no==409){
+							var error_msg = res.error_msg
 							user.logout({},function(res){
-								mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								mui.confirm(error_msg,"提醒",["确定"],function(e) {
 									if (e.index == 0) {
 										login();
 									}
@@ -155,9 +156,10 @@
 					//console.log(JSON.stringify(requestDef))
 					address.UpdateAddress(requestDef,function(res){
 						//console.log(JSON.stringify(res))
-						if(res.error_no==401){
+						if(res.error_no==401||res.error_no==402||res.error_no==409){
+							var error_msg = res.error_msg
 							user.logout({},function(res){
-								mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+								mui.confirm(error_msg,"提醒",["确定"],function(e) {
 									if (e.index == 0) {
 										login();
 									}

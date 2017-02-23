@@ -4,7 +4,7 @@
 	    <meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>聚车金融</title>
-	    <script src="js/mui.min.js"></script>
+	    <script src="js/mui.min2.js"></script>
 	    <script src="js/common.js"></script>
 	    <script src="js/api.js"></script>
 	    <script src="js/jquery-1.11.2.min.js"></script>
@@ -94,12 +94,12 @@
 		mui.plusReady(function(){
 			//plus.runtime.setBadgeNumber(0);  
 			//先执行welcome
-			if(!plus.storage.getItem('welcome190'))
+			if(!plus.storage.getItem('welcome191'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent190')){
+				if(!store.get('diffrent191')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -118,7 +118,7 @@
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									store.set('diffrent190', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent191', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -151,55 +151,59 @@
 					 'nid':'sign'
 					};
 					setTimeout(function(){
-						credit.GetLogList({'request':req2},function(res,status,xhr){
-							store.set("integral_notice",1,20000)//一天一次
-							if(res==""){
-							//	setTimeout(function(){
-									mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
-										if(e.index == 0){
-											var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-											integralPage.addEventListener('loaded',function(){
-												mui.fire(integralPage,'signauto')
-											})
-											
-											setTimeout(function(){
-												integralPage.show('pop-in', 300);  
-											},300) 	
-										}else{
-											return false;
-										}
-									})
-									
-							//	},10000)
-								 
-							}else{
-								var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
-							    var remainDate=serverTime-serverTime%86400000-28800000
-								if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
-									newCredit.GetTotal({'token':user.utoken()},function(res){
-										//console.log(JSON.stringify(res)) 
-									//	setTimeout(function(){
-											mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
-												if(e.index == 0){
-													var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-													integralPage.addEventListener('loaded',function(){
-														mui.fire(integralPage,'signauto')
-													})
-													
-													setTimeout(function(){
-														integralPage.show('pop-in', 300);  
-													},300) 	
-												}else{
-													return false;
-												}
-											})
-									//	},10000)   
+						//undefine天数修复
+						if(user.uid()){//定时后加判断有无登录
+							credit.GetLogList({'request':req2},function(res,status,xhr){
+								store.set("integral_notice",1,20000)//一天一次
+								if(res==""){
+								//	setTimeout(function(){
+										mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
+											if(e.index == 1){
+												var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+												integralPage.addEventListener('loaded',function(){
+													mui.fire(integralPage,'signauto')
+												})
+												
+												setTimeout(function(){
+													integralPage.show('pop-in', 300);  
+												},300) 	
+											}else{
+												return false;
+											}
+										})
 										
-									})
+								//	},10000)
+									 
+								}else{
+									var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
+								    var remainDate=serverTime-serverTime%86400000-28800000
+									if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
+										newCredit.GetTotal({'token':user.utoken()},function(res){
+											//console.log(JSON.stringify(res)) 
+							 			//	setTimeout(function(){
+												mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
+													if(e.index == 0){
+														var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+														integralPage.addEventListener('loaded',function(){
+															mui.fire(integralPage,'signauto')
+														})
+														
+														setTimeout(function(){
+															integralPage.show('pop-in', 300);  
+														},300) 	
+													}else{
+														return false;
+													}
+												})
+										//	},10000)   
+											
+										})
+									}
 								}
-							}
-	
-						}) 
+		
+							}) 
+						}
+						
 					},10000)
 	            }
 	            
@@ -209,7 +213,7 @@
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent190')){
+				if(!store.get('diffrent191')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -227,7 +231,7 @@
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									store.set('diffrent190', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent191', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -239,12 +243,11 @@
 									})
 								}else{
 									var content=
-										'1.消息弹窗推送\r\n'+
-										'2.新增体验金\r\n'+
-										'3.邀请好友界面优化\r\n'+
-										'4.数据公示升级\r\n'+
-										'5.我要按揭优化\r\n'+
-										'6.新增每日签到提醒\r\n'
+										'1.新增VIP加息券\r\n'+
+										'2.新增隐藏我的资产金额\r\n'+
+										'3.优化单点登录功能\r\n'+
+										'4.修复一些已知bug\r\n'+
+										'5.与PC端同步更新内容\r\n'
 									mui.alert(content,"新版本更新内容",'关闭',function(){
 										var homesub = plus.webview.getWebviewById("home.html"); 
 										mui.fire(homesub,'initpage2');
@@ -265,16 +268,16 @@
 			//productPage.hide()
 			var userPage = plus.webview.create('user.html','user.html',{top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'})
 			plus.webview.currentWebview().append(userPage);
-			//userPage.hide()
-			var subpages = ['home.html', '', 'find.html', ''];
+			//userPage.hide() 
+			var subpages = ['home.html', '', 'find.html', ''];  
 			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'};//,render:'always' 
 			var activeTab = subpages[0];
-			var self = plus.webview.currentWebview();
-			for (var i = 0; i < 4; i++) {
+			var self = plus.webview.currentWebview(); 
+			for (var i = 0; i < 4; i++) { 
 				var temp = {};
 				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
 				if (i > 0) { 
-					sub.hide();//除了home.html外，其他webview都隐藏
+					sub.hide();//除了home.html外，其他webview都隐藏 
 				}else{
 					
 				}
@@ -287,7 +290,7 @@
 					//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){	
+						if(res.error_no==200){	
 						}
 					})	
 				}
@@ -332,7 +335,11 @@
 					document.getElementById("top-contact").classList.remove('mui-hidden');
 					document.getElementById("top-email").classList.add('mui-hidden'); 
 				}
-				sub.show('pop-in');
+				sub.show(); 
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = url;
 			});  
 			document.getElementById("top-contact").addEventListener('tap',function(){
 				if(!user.uid()){

@@ -77,8 +77,8 @@ header .mui-title { color: #ffffff; }
 	mui.plusReady(function(){
 			articles.GetPage({'request':{'id':76}},function(res){
 				//console.log(JSON.stringify(res));
-//				document.getElementById("title").innerHTML = res.name;
-				html = template('tpl-html',res);				
+//				document.getElementById("title").innerHTML = res.name; 
+				html = template('tpl-html',res);
 				document.getElementById("main-box").innerHTML = html;
 				document.getElementById("mui-loader").style.display = 'none';
 //				plus.webview.currentWebview().show('slide-in-right');

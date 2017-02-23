@@ -123,4 +123,4 @@
 	};
 	Share.init();
 	owner.share = Share;
-})(window);
+})(window); 

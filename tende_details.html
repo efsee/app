@@ -214,7 +214,7 @@ p.price span.small{
 				//判断异地登录
 				functionCom.checkToken(function(res){
 					//console.log(res.error_no)
-					if(res.error_no!=401){
+					if(res.error_no==200){
 						setTimeout(function(){
 							detailWV.show('pop-in',300);
 						},150);

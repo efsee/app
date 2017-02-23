@@ -108,6 +108,30 @@
 			.mui-content{
 				background: #F8f8f8;
 			}
+			.show-eye{
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				right: 20px;
+				top: 15px;
+			}
+			#zzck{
+				position: relative;
+			}
+			.open-eye{
+				
+				width: 26px;
+				height: 26px;
+				background: url('images/icon_new.png') no-repeat 0 -166px; 
+				background-size: 210px auto; 
+			}
+			.close-eye{
+				
+				width: 26px;
+				height: 26px;
+				background: url('images/icon_new.png') no-repeat 0 -192px; 
+				background-size: 210px auto; 
+			}
 		</style>
 	</head>
 
@@ -118,22 +142,25 @@
       		<div class="nrk">
 	    		<div class="zzck" id="zzck">
 	      			<h2>总资产（元）</h2>	
-	      			<h1 id="total">0.00</h1>
+	      			<h1 id="total">****</h1>
+	      			<div class="show-eye close-eye">
+	      				
+	      			</div>
 	    		</div>
 	    		<ul class="zzc_syk">
 	      			<li>
 	      				<div class="zzc_sy">我的收益（元）</div>
-	      				<P class="zzc_syje" id="income">0.00</P>
+	      				<P class="zzc_syje" id="income">****</P>
 	      			</li>
 	      			<li>
 	      				<div class="zzc_sy">待收金额（元）</div>
-	      				<P class="zzc_syje" id="await">0.00</P>
+	      				<P class="zzc_syje" id="await">****</P>
 	      			</li>	
 	    		</ul>
 			    <div class="zhyek">
 			    	<div class="zhye_zjk">
 			    		<div class="zzc_sy">账户余额（元）</div>	    		
-			      	    <P class="zzc_syje" id="balance">0.00</P>
+			      	    <P class="zzc_syje" id="balance">****</P>
 			    	</div>
 			    	<div class="zhye_zjk zjk2">
 			    		<ul>
@@ -229,7 +256,7 @@
 					
 					functionCom.checkToken(function(res){
 						
-						if(res.error_no!=401){
+						if(res.error_no==200){
 						}
 					})	
 				}
@@ -245,11 +272,11 @@
 						popGesture: 'hide'
 					}
 				}); */
-				document.getElementById("zzck").addEventListener('tap', function() {
+				document.getElementById("total").addEventListener('tap', function() {
 					//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							mui.openWindow({
 								url:"zcmx.html",
 								id:"zcmx.html",
@@ -287,7 +314,7 @@
 							//判断异地登录
 							functionCom.checkToken(function(res){
 								//console.log(res.error_no)
-								if(res.error_no!=401){
+								if(res.error_no==200){
 									mui.openWindow({
 										url:'phone-charge.html', 
 										id:'phone-charge.html',
@@ -322,13 +349,11 @@
 					href = this.href;	
 					var data = this.getAttribute('data');
 					data = eval("(" + data + ")");
-					//通知模板修改标题，并显示隐藏右上角图标；
 					if(this.classList.contains('pullrefresh')){
 						template = getTemplate('pulltemplate', 'template.html');
 					}else{
 						template = getTemplate('usertemplate', 'template.html');
 					}
-					
 						//获得共用父模板
 					var headerWebview = template.header;
 						//获得共用子webview
@@ -343,7 +368,7 @@
 					//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 						    setTimeout(function(){  
 						        headerWebview.show('pop-in',300); 
 						    },200);
@@ -368,7 +393,7 @@
 					//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							var withdraw_header = plus.webview.create("withdraw_header.html","withdraw_header.html",{popGesture:"close"})
 							setTimeout(function(){
 								withdraw_header.show("pop-in",300)
@@ -386,7 +411,7 @@
 					//判断异地登录
 					functionCom.checkToken(function(res){
 						//console.log(res.error_no)
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							mui.openWindow({
 								'url':'w_recharge.html','id':'w_recharge.html', 
 								'styles':{'top':'0px',"popGesture":"close","aniShow":"pop-in","duration":300},
@@ -401,7 +426,7 @@
 				document.getElementById("zjmx").addEventListener('tap',function(e){
 					//判断异地登录
 					functionCom.checkToken(function(res){
-						if(res.error_no!=401){
+						if(res.error_no==200){
 							var nowTime = new Date().getTime();
 			    			var clickTime = $(this).attr("ctime");
 			    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
@@ -417,6 +442,31 @@
 						}
 					})//结束
 					
+				})
+				mui('.zzck').on('tap','.show-eye',function(e){
+					e.stopPropagation()
+					//console.log("5")
+					if($(this).hasClass('open-eye')){
+						$(this).addClass('close-eye').removeClass('open-eye')
+						$('#total').html('****');
+						$('#balance').html('****');
+						$('#await').html('****');
+						$('#income').html('****');
+						store.delete('showeye')
+					}else{
+						store.set('showeye',1, 3600 * 24 * 365)
+						$(this).addClass('open-eye').removeClass('close-eye')
+						user.getInfo(function(res){
+							if(res){
+				//				console.log(JSON.stringify(res));
+								$('#total').html(res.total);
+								$('#balance').html(res.balance);
+								$('#await').html(res.await);
+								$('#frost').html(res.frost);
+								$('#income').html(res.ljincome);
+							}
+						});
+					}
 				})
 				
 				document.addEventListener('mui.view.refresh',function(){
@@ -450,12 +500,21 @@
 			function getdata(){
 				user.getInfo(function(res){
 					if(res){
+						if(store.get('showeye')){
+							$('#total').html(res.total);
+							$('#balance').html(res.balance);
+							$('#await').html(res.await);
+							$('#income').html(res.ljincome);
+							$('.show-eye').removeClass('close-eye').addClass('open-eye')
+						}else{
+							$('#total').html('****');
+							$('#balance').html('****');
+							$('#await').html('****');
+							$('#income').html('****');
+							$('.show-eye').removeClass('open-eye').addClass('close-eye')
+						}
 		//				console.log(JSON.stringify(res));
-						$('#total').html(res.total);
-						$('#balance').html(res.balance);
-						$('#await').html(res.await);
 						$('#frost').html(res.frost);
-						$('#income').html(res.ljincome);
 						$('#realname').html(res.realname);
 						if(res.realname_status == "1"){
 							$("#realname_dsp").html('已认证');

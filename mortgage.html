@@ -28,7 +28,7 @@
 	        <div class="mui-scroll">-->
 	        	<div class="mortgage-banner">
 	                <div class="mortgage-logo"></div>
-					<p>已有<span class="mortgage-color"> 20,250 </span>位客户成功贷的爱车</p>
+					<p>已有<span class="mortgage-color"> 25,790 </span>位客户成功贷得爱车</p>
 					
 				</div>	
 				<form action="#" method="post"  >
@@ -40,7 +40,7 @@
 				   		</li>
 				   		<li>
 				   			<span>身份证号码</span>
-				   			<input id="sfz" type="number" placeholder="请输入身份证号">
+				   			<input id="sfz" type="text" placeholder="请输入身份证号">
 				   		</li>
 				   		<li>
 				   			<span>手机号</span>
@@ -139,7 +139,7 @@
 				if(!regIdCard.test(sfz)){
 					alert('身份证号码错误');
 					return false;
-				}
+				} 
 			}
 			if(mobile == ""){
 				plus.nativeUI.alert('请输入手机号！');

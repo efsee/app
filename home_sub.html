@@ -257,7 +257,7 @@
 				}
 			}
 		});
-
+		
 	    //关闭广告
 		mui("body").on('tap','.close-mb',function(){
 			$(".ad-mengban").css("display","none")
@@ -385,6 +385,16 @@
 						headerWebview.show('pop-in', 300);
 					},300)	
 	            }
+	           //app2.0添加
+	         /*  var noticePage = plus.webview.create('notice_detail.html','notice_detail.html',{popGesture:"close"})
+	           noticePage.addEventListener("loaded",function(){
+	           		mui.fire(noticePage,"newsId",{
+						id:604 
+						}
+	           		)
+	           })
+	           plus.nativeUI.showWaiting()
+	           noticePage.show('pop-in',"300")*/
 		    })
 			
 			//数据主体请求
@@ -398,6 +408,31 @@
 				}
 				turnData()
 			});
+			
+			store.set("ad_sign",1,60)
+			//TODO 广告
+			if(store.get('adBox191')||!store.get('ad_sign')){ 
+	  			articles.GetAdBox({request:{}},function(res,status,xhr){ 
+					var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()
+					if(res){ 
+						if(res.starttime*1000<serverTime&&res.endtime*1000>serverTime){
+							var index = plus.webview.getLaunchWebview()
+							if(!store.get('adImgUrl')||store.get('adImgUrl')!=res.imgurl){
+								store.set('adImgUrl',res.imgurl,315360000)//10年 
+								mui.fire(plus.webview.getLaunchWebview(),'openMb') 
+								$(".ad-mengban").css("display","block") 
+								$("#adTurn").attr("src",res.imgurl)
+								$("#adTurn").attr("data","{'title':'"+res.title+"','href2':'"+res.href2+"','href':'"+res.href+"','right_title':'"+res.share_title+"'}")
+							}else{
+								
+							}	
+						}else{ 
+							
+						}
+					}  
+				})
+	  		}
+			
 			
 			//跳转至投标详情页
 			var pshowshow = true;
@@ -423,23 +458,18 @@
 				},300);
 			})
 			document.addEventListener('initpage2',function(e){
-	  			if(!store.get('adBox')){
+	  			if(!store.get('adBox191')){
 		  			articles.GetAdBox({request:{}},function(res,status,xhr){
-		  				console.log(JSON.stringify(res))  
-		  				
 						var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()
-						//console.log(serverTime)
 						if(res){ 
 							if(res.starttime*1000<serverTime&&res.endtime*1000>serverTime){
-								store.set("adBox",1,10)//4小时 
+								store.set("adBox191",1,315360000)//4小时 
+								store.set('adImgUrl',res.imgurl,315360000)
 								var index = plus.webview.getLaunchWebview()
-							//	setTimeout(function(){
-									mui.fire(plus.webview.getLaunchWebview(),'openMb') 
-									$(".ad-mengban").css("display","block") 
-									$("#adTurn").attr("src",res.imgurl)
-									$("#adTurn").attr("data","{'title':'"+res.title+"','href2':'"+res.href2+"','href':'"+res.href+"','right_title':'"+res.share_title+"'}")
-								//},3000)
-								
+								mui.fire(plus.webview.getLaunchWebview(),'openMb') 
+								$(".ad-mengban").css("display","block") 
+								$("#adTurn").attr("src",res.imgurl)
+								$("#adTurn").attr("data","{'title':'"+res.title+"','href2':'"+res.href2+"','href':'"+res.href+"','right_title':'"+res.share_title+"'}")
 							}else{ 
 								
 							}
@@ -524,7 +554,7 @@
 		function closeWindow(id) {
 			document.getElementById(id).style.display = 'none';
 			document.getElementById('fade').style.display = 'none';
-			$(".pf-close").css("display","none");
+			$(".pf-close").css("display","none"); 
 			$("rescan_main").css("display","none");
 	
 		}

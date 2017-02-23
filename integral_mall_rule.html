@@ -41,7 +41,7 @@
 			<h1 id="title" class="mui-title">规则说明</h1>
 		</header>
 		<div class="mui-content">
-			<div class="rule-main">
+			<!--<div class="rule-main">
 				<h4 class="rule-title">1、什么是积分？</h4>
 				<p>聚车金融会员积分是对会员签到、投资、参加活动的额外奖励，可以通过多种方式获得。 </p>
 				<h4 class="rule-title">2、如何获取积分？</h4>
@@ -62,8 +62,21 @@
 				<div class="rule-jiangl">				
 		 	       <h4 class="rule-title" style="line-height: 23px;">说明：您可登陆APP“积分兑换”页面进行兑换，兑换奖品有：红包、实物奖品等。积分均为整数，投资15天项目，多出的0.5积分不计入积分账内。</h4>
 				</div>
-			</div>
+			</div>-->
 			
 		</div>
+		<script src="js/mui.min2.js" ></script> 
+		<script src="js/api.js" ></script>
+		<script> 
+			mui.plusReady(function(){
+				article.Get({article_id:'1'},function(res){
+				//console.log(JSON.stringify(res)+9)
+					if(res.error_no==200){
+						document.getElementsByClassName('mui-content')[0].innerHTML = res.result.content
+					}
+				})	
+			})
+			
+		</script>
 	</body>
 </html>

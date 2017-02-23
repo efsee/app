@@ -52,12 +52,12 @@
 		var klength=$(this).val().length
 		if(klength>11){
 			$(this).val($(this).val().substr(0,11))
-			console.log($(this).val())	
+			//console.log($(this).val())	
 		}
 	})
 	mui.plusReady(function(){
 		//注册按钮
-		loginusername=store.get('username');
+		loginusername = store.get('username');
 		$('#login-username').val(loginusername);
 		/*mui('body').on('tap', '#login-username', function() {
 			$('#login-username').val('');
@@ -79,6 +79,18 @@
 		
 		//忘记密码
 		mui('body').on('tap', '.wjmm-link', function() {
+			$('input').blur() 
+			if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test($('#login-username').val())){
+				mui.alert('请输入正确的手机号码',function(){
+					$('#login-username').focus()
+				})
+				
+				return false
+			}
+			if($('#login-username').val()!=store.get('username')){
+				store.set('username', $('#login-username').val(), 3600 * 24 * 365);
+			}
+			
 			inittemplate = getTemplate('template', 'template.html');
 			var headerWebview = inittemplate.header;
 			var contentWebview = inittemplate.content;
@@ -95,54 +107,78 @@
 			
 		});
 		
-				//提交登录
-				mui('body').on('tap', '#login-post', function(data) {
-					var username = $("#login-username").val();
-					var password = $.md5($("#login-password").val());
-					$("input:focus").blur();
-					newUser.login({"loginname":username, "password_md5":password,'from':'phone'}, function(rs) {
-						console.log(JSON.stringify(rs));
-						//console.log(JSON.stringify(rs.result.token.token))
-						if (rs.error_no==200) {
-							var uid = rs.result.user.user_id;
-							user.deleteCache(uid); //清空缓存 
-							store.delete('uid');
-							store.delete('utoken');
-							store.delete('shoushi_status');
-						    store.delete('shoushi_psw');
-						    store.delete('integral_notice');
-						    store.delete('adBox');
-							plus.storage.removeItem('shoushimima');
-							if (!uid) {
-								plus.nativeUI.alert('用户不存在');
-								return;
-							}
-							//设置登陆信息,一年有效期
-							store.set('uid', uid, 3600 * 24 * 365);
-							store.set('utoken', rs.result.token.token, 3600 * 24 * 365);
-							store.set('username', username, 3600 * 24 * 365);
-							store.set('password', password, 3600 * 24 * 365);
-							
-//							plus.runtime.restart();
-
-							mui.fire(plus.webview.getWebviewById('user.html'), 'mui.view.refresh');
-							mui.fire(plus.webview.getWebviewById('more.html'), 'mui.view.refresh');
-							var yzwv = plus.webview.getWebviewById('yz');
-							if(yzwv){
-								yzwv.close();
-							}
-							mui.fire(plus.webview.getLaunchWebview(), 'permission');
+		//提交登录
+		mui('body').on('tap', '#login-post', function(data) { 
+			var nowTime = new Date().getTime();
+			var clickTime = $(this).attr("ctime"); 
+			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+		        return false;
+		    }else{
+		    	$(this).attr("ctime",nowTime);
+		    }
+			var username = $("#login-username").val();
+			var password = $.md5($("#login-password").val());
+			$("input:focus").blur();
+			var device = JSON.stringify(getSysInfo())
+			newUser.login({"loginname":username, "password_md5":password,'from':'phone','device':device}, function(rs) {
+				//console.log(device);
+				//console.log(JSON.stringify(rs.result.token.token))
+				if (rs.error_no==200) {
+					var uid = rs.result.user.user_id;
+					user.deleteCache(uid); //清空缓存 
+					store.delete('uid');
+					store.delete('utoken'); 
+					store.delete('shoushi_status');
+				    store.delete('shoushi_psw');
+				    store.delete('integral_notice');
+				    store.delete('adBox');
+					plus.storage.removeItem('shoushimima');
+					if (!uid) {
+						plus.nativeUI.alert('用户不存在');
+						return;
+					}
+					//设置登陆信息,一年有效期
+					store.set('uid', uid, 3600 * 24 * 365);
+					store.set('utoken', rs.result.token.token, 3600 * 24 * 365);
+					store.set('username', username, 3600 * 24 * 365);
+					store.set('password', password, 3600 * 24 * 365);
+					mui.fire(plus.webview.getWebviewById('user.html'), 'mui.view.refresh');
+					mui.fire(plus.webview.getWebviewById('more.html'), 'mui.view.refresh');
+					var yzwv = plus.webview.getWebviewById('yz');
+					if(yzwv){
+						yzwv.close();
+					}
+					mui.fire(plus.webview.getLaunchWebview(), 'permission');
 //							//发送设备信息,并返回信息
-							setTimeout(function(){
-								plus.webview.currentWebview().close();
-							},300);
-							return true;
-						} else {
-							plus.nativeUI.alert(rs.info || rs.msg || rs.message|| rs.error_msg);
-							return false;
-						}
-					});
-				});
+					setTimeout(function(){
+						plus.webview.currentWebview().close();
+					},300);
+					return true;
+				} else {
+					plus.nativeUI.alert(rs.info || rs.msg || rs.message|| rs.error_msg);
+					return false;
+				}
+			});
+		});
+		function getSysInfo() {
+			var device = {
+				'model': plus.device.model,
+				'os': plus.os.name,
+				'os_version': plus.os.version,
+				'os_vendor': plus.os.vendor,
+				'os_language': plus.os.language,	
+			}
+			var types = {};
+		    types[plus.networkinfo.CONNECTION_UNKNOW] = "未知";
+		    types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+		    types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+		    types[plus.networkinfo.CONNECTION_WIFI] = "WiFi网络";
+		    types[plus.networkinfo.CONNECTION_CELL2G] = "2G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL3G] = "3G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL4G] = "4G蜂窝网络";
+		    device.network = types[plus.networkinfo.getCurrentType()]
+		    return device;
+		}
 	})
 </script>
 </body>

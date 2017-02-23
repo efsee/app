@@ -58,9 +58,9 @@
 //			mui.back();
 //		})
 		loginusername=store.get('username');
-		if(!loginusername){
+		if(!loginusername||!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(loginusername)){
 		}else{
-			//$('#mobile').val(loginusername).attr("readonly","readonly")
+			$('#mobile').val(loginusername).attr("readonly","readonly")
 		}
 		document.addEventListener("loginusername",function(e){
 			//console.log(JSON.stringify(e.detail));

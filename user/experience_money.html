@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>聚车金融</title>
 	    <link href="../css/mui.min2.css" rel="stylesheet"/>
-	    <link href="../css/css.css" rel="stylesheet"/>
+	    <link href="../css/css.css" rel="stylesheet"/> 
 	    <link href="../css/media-screen.css" rel="stylesheet" type="text/css">
 	    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
 	    <style>
@@ -159,7 +159,7 @@
 			.none-list p{
 				text-align: center;
 			}
-			.active-btn{
+			.active-btn,.active-btn2{
 				width: 35%;
 				height: 2.5rem;
 				line-height: 2.5rem;
@@ -230,7 +230,7 @@
 								待激活
 							</a>
 							<a class="mui-control-item" href="#item3mobile">
-								已失效
+								已计息
 							</a>
 						</div>
 						<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
@@ -263,7 +263,8 @@
 		</div>
 		<script type="text/html" id="tiyanIng">
 			<ul class="mui-table-view">
-				{{each in_use as item i}}
+
+				{{each rows as item i}}
 				<li class="mui-table-view-cell">
 					<div  class="mui-col-xs-5 mui-cell-left">
 						<p class="jx-money"><span class="c5">{{item.money}}</span>元</p>
@@ -281,6 +282,7 @@
 		<script type="text/html" id="tiyanJh">
 			<ul class="mui-table-view">
 				{{each rows as item i}}
+				{{if item.status.id=="6"}}
 				<li class="mui-table-view-cell">
 					<div  class="mui-col-xs-5 mui-cell-left">
 						<p class="jx-money"><span class="c5">{{item.money}}</span>元</p>
@@ -291,6 +293,18 @@
 						 <p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
 					</div>
 				</li>
+				{{else}}
+				<li class="mui-table-view-cell">
+					<div  class="mui-col-xs-5 mui-cell-left"> 
+						<p class="jx-money" style="text-decoration: line-through;font-size: 1.4rem;color:#888888"><span class="">{{item.money}}</span>元</p>
+						<span class="exp-remark mui-ellipsis">{{item.remark}}</span> 
+					</div>
+					<div class="mui-col-xs-7 mui-cell-right">                     
+						<div class="active-btn2" style="background: #D4D4D4;">激活</div>
+						<p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
+					</div>
+				</li>
+				{{/if}}
 				{{/each}}
 				<div style="clear: both;"></div>
 			</ul>
@@ -306,12 +320,12 @@
 						</div>
 						<div class="mui-col-xs-7 mui-cell-right">
 							<p><span>{{item.start_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>计息</p>
-							<p><span>{{item.end_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>失效</p>
+							<p><span>{{item.end_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}}</span>结束</p>
 							
 						</div>
 					</li>
 					{{else}}
-					<li class="mui-table-view-cell">
+					<!--<li class="mui-table-view-cell">
 						<div  class="mui-col-xs-5 mui-cell-left">
 							<p class="jx-money" style="text-decoration: line-through;font-size: 1.4rem;color:#333"><span class="">{{item.money}}</span>元</p>
 							<span class="exp-remark">{{item.remark}}</span>
@@ -320,7 +334,7 @@
 							<div class="active-btn" style="background: #999;">激活</div>
 							<p style="float: right; font-size: 0.9rem;">{{item.expire_time | dateFormat:'yyyy/MM/dd hh:mm:ss'}} 过期</p>
 						</div>
-					</li>
+					</li>-->
 				{{/if}}
 				
 				{{/each}}
@@ -343,18 +357,7 @@
 				});
 			})(mui);
 		    mui.plusReady(function(){
-		    	/*experience.Activate({token:user.utoken(),"experience_user_id":"3"},function(r){
-		    		console.log(JSON.stringify(r))
-		    	})*/
 		    	checkTest = 1
-		    	/*if(!user.uid()){
-					login();
-					setTimeout(function(){
-						mui.back()
-					},1000)
-					
-					return false;
-				}*/
 		    	changeMoney()
 				document.getElementById("btnSubmit").addEventListener('tap', function(e) {
 					e.preventDefault();
@@ -383,7 +386,9 @@
 				    }
 					experience.AccountGet({token:user.utoken()},function(r){
 			    		if(r){
-			    			var turn_out_money = parseFloat(r.result.money_real_time)
+			    			//转出收益bug TODO -end
+			    			var turn_out_money = (r.result.money_real_time+"").substr(0,(r.result.money_real_time+"").indexOf(".")+3)
+			    			//var turn_out_money = parseFloat(r.result.money_real_time).toFixed(2)
 			    			var moneystr = (turn_out_money+"").substr(0,(turn_out_money+"").indexOf(".")+3)
 			    			if(turn_out_money == 0||parseFloat(moneystr)==0){
 			    				mui.toast("最低可转收益0.01元")
@@ -393,12 +398,12 @@
 			    				if(turn_out_money<0){
 				    				mui.toast("转出金额错误，请稍后再试！")
 				    				return false 
-			    				}
+			    				} 
 			    				$(".turn-out-money").text(moneystr)
 			    				mui.confirm(moneystr,"转出体验金收益(元)",["确认","取消"],function(e){
 									if(e.index == 0){
 										experience.AccountTransfer({token:user.utoken(),"money":moneystr},function(res){
-					    					console.log(JSON.stringify(res))
+					    					//console.log(JSON.stringify(res))
 					    					if(res.error_no==200){
 					    						
 			    								mui.toast("转出成功")
@@ -426,6 +431,9 @@
 					    						return false;
 					    					}
 					    				})
+									}else{
+										window.clearInterval(t)
+										changeMoney()
 									}
 								})
 			    			}
@@ -439,7 +447,7 @@
 					
 					if(e.detail.slideNumber === 0){ 
 						$("#scroll3").html("");
-						//$("#scroll2").html("");
+						$("#scroll2").html("");
 						mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
 						experience.UserLists({token:user.utoken(),page:1,size:999,status:1},function(res){
 							if(res.result.total=="0"){
@@ -448,21 +456,22 @@
 										'<img src="../images/none_list.png" />'+
 										'<p>暂无记录</p>'+
 									'</div>'
-				    			)
-				    		}else{
-				    			var html = template('tiyanIng',res.result);
-				    			$("#scroll3").html(html);
+				    			) 
+				    	}else{
+				    			var html = template('tiyanIng',res.result);  
+				    			$("#scroll1").html(html); 
+				    			console.log(JSON.stringify(res.result))
 				    		}
 						})
 					}
 					else if (e.detail.slideNumber === 1) {
-						//$("#scroll1").html("");
+						$("#scroll1").html("");
 						$("#scroll3").html("");
 							mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
 						//if (item2.querySelector('.mui-loading')) {
 							//setTimeout(function() { 
-							experience.UserLists({token:user.utoken(),page:1,size:999,status:6},function(res){
-								console.log(JSON.stringify(res))
+							experience.UserLists({token:user.utoken(),page:1,size:999,status:"6,3"},function(res){
+								
 								if(res.result.total=="0"){
 					    			$("#scroll2").html(
 					    				'<div class="none-list">'+
@@ -511,13 +520,18 @@
 										})
 									})
 					    		}
+					    		
+					    		
+					    		
+					    		
+					    		
 							})
 								//item2.querySelector('.mui-scroll').innerHTML = html2;
 							//}, 500);
 						//}
 					} else if (e.detail.slideNumber === 2) {
-						//$("#scroll1").html("");
-					//	$("#scroll2").html("");
+						$("#scroll1").html("");
+						$("#scroll2").html("");
 							mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
 						//if (item3.querySelector('.mui-loading')) {
 							experience.UserLists({token:user.utoken(),page:1,size:999,status:"2,3"},function(res){
@@ -554,7 +568,10 @@
 			    		if(r){
 			    			money_out = r.result.money_out
 			    			//console.log(9+JSON.stringify(r))
-			    			var turn_out_money = parseFloat(r.result.money_real_time)
+			    			//转出截取bug修复 TODO -end
+			    			
+			    			var turn_out_money=(r.result.money_real_time+"").substr(0,(r.result.money_real_time+"").indexOf(".")+3)
+			    			//var turn_out_money = parseFloat(r.result.money_real_time).toFixed(2)
 			    			turn_out_money+=""
 			    			if(turn_out_money == "0"){
 			    				$(".turn-out-money").text("0.00")
@@ -667,7 +684,7 @@
 			    			}
 			    			
 			    		}
-			    		if(!r.result.in_use){
+			    		if(!r.result.in_use||r.result.in_use==""){
 			    			$("#scroll1").html(
 			    				'<div class="none-list">'+
 									'<img src="../images/none_list.png" />'+
@@ -675,7 +692,8 @@
 								'</div>'
 			    			)
 			    		}else{
-			    			var html = template('tiyanIng',r.result);
+			    			r.result.rows = r.result.in_use 
+			    			var html = template('tiyanIng',r.result); 
 			    			$("#scroll1").html(html);
 			    		}
 			    		//plus.nativeUI.closeWaiting()
