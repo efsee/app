@@ -190,6 +190,7 @@
 						if(res.result.rows.length > 0){
 							var rows2=[]
 							var vipJson={}
+							var hasVip = false
 							$(".notes-box").css("display","none")
 							for(var i in res.result.rows){
 								var row = res.result.rows[i]
@@ -197,9 +198,13 @@
 									rows2.push(row)
 								}else{
 									vipJson = row
+									hasVip = true
 								}
 							}
-							rows2.unshift(vipJson)
+							if(hasVip){
+								rows2.unshift(vipJson)
+							}
+							
 							res.result.rows = rows2
 							var html = template('tpl-item-1-1',res.result);
 							document.getElementById("hbBox").innerHTML = html;
