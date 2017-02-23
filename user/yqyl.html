@@ -71,6 +71,27 @@
 				left: 0;
 				background: #C4C39D;
 			}
+			.step-des2{
+				height: 12rem;
+			}
+			.step-des2:after{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				top: 33.33%;
+				left: 0;
+				background: #C4C39D;
+			}
+			.step-des2:before{
+				position: absolute;
+				content: "";
+				height: 1px;
+				width: 100%;
+				top: 66.66%;
+				left: 0;
+				background: #C4C39D;
+			}
 			.yq-rule-table{
 				border: 1px solid #C4C39D;
 				border-top: 1px solid #C4C39D;
@@ -116,6 +137,12 @@
 				bottom: 0;
 				letter-spacing: 1px;
 			}
+			.warning{
+				width: 90%;
+				margin: 0.5rem auto;
+				font-size: 1.1rem;
+				text-align:justify; 
+			}
 		</style>
 	</head>
 	<body>
@@ -151,8 +178,11 @@
 			<h2 class="step-title">
 				<img src="../images/yq-step3.jpg" />
 			</h2>
-			<p class="step-des">
-				邀请好友首次投资，可获得500邀请积分，积分可在积分商城中兑换商品
+			<p class="step-des step-des2">
+				邀请好友首次投资，可获得500邀请积分，积分可在积分商城中兑换商品，最多可获得5000积分
+			</p>
+			<p class="warning c5">
+				注：如发现恶意刷奖用户，聚车金融有权取消其活动资格，并不发奖励
 			</p>
 		</div>
 		<input type="hidden" value="" id="share_url" />
@@ -183,7 +213,7 @@
 							content: '邀请好友送豪礼，快来加入聚车金融吧~',
 							thumbs:["_www/images/logo.png"],
 							pictures:["_www/images/logo.png"], 
-							href: 'https://www.ifcar99.com/yidong/wx_experience/index.html?uid='+user.uid()+"&tel="+username
+							href: 'https://www.ifcar99.com/yidong/zhounian/index.html?uid='+user.uid()+"&tel="+username
 						});
 					});
 				};

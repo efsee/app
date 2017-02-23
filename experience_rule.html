@@ -40,7 +40,7 @@
 			<h1 id="title" class="mui-title">规则说明</h1>
 		</header>
 		<div class="mui-content">
-			<div class="rule-main"> 
+			<!--<div class="rule-main"> 
 				<h4 class="rule-title">什么是体验金？</h4>
 				<p>体验金是聚车金融的一种虚拟货币，本金不可提现，体验金的利率为12%，收益期限不等，投资利息收益归投资者所有</p>
 				<h4 class="rule-title">如何获得体验金？</h4>
@@ -54,8 +54,20 @@
 					
 				</p>
 		
-			</div>
+			</div>-->
 			
 		</div>
+		<script src="js/api.js" ></script>
+		<script>
+			mui.plusReady(function(){
+				article.Get({article_id:'3'},function(res){
+					//console.log(JSON.stringify(res)+9)
+					if(res.error_no==200){
+						document.getElementsByClassName('mui-content')[0].innerHTML = res.result.content
+					}
+				})
+			})
+			
+		</script>
 	</body>
 </html>

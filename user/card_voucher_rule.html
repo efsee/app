@@ -41,7 +41,7 @@
 			<h1 id="title" class="mui-title">规则说明</h1>
 		</header>
 		<div class="mui-content">
-			<div class="rule-main">
+			<!--<div class="rule-main">
 				<h4 class="rule-title">一、红包：</h4>
 				<p>如何使用投资红包？<br/> 
 				（1）在项目详情页输入投资金额（100的整数倍）；<br/>
@@ -69,8 +69,20 @@
 		 	       <h4 class="rule-title" style="line-height: 20px;font-size: 14px;">*怎样获得红包及加息券？
 通过参加聚车金融不定期举办的活动，满足中奖条件的用户可获得理财红包、加息券，请及时关注网站、微信公众号、微信交流群、QQ交流群中发布的活动信息。</h4>
 				</div>
-			</div>
+			</div>-->
 			
 		</div>
+		<script src="../js/api.js" ></script>
+		<script>
+			mui.plusReady(function(){
+				article.Get({article_id:'2'},function(res){
+					//console.log(JSON.stringify(res)+9)
+					if(res.error_no==200){
+						document.getElementsByClassName('mui-content')[0].innerHTML = res.result.content
+					}
+				})
+			})
+			
+		</script>
 	</body>
 </html>

@@ -161,7 +161,15 @@
 			background: url(images/jt_right.png) no-repeat right center;
 			background-size: 24px 24px;
 		}
-		
+		.yuandian{
+			display: inline-block;
+			vertical-align: middle;
+			width: 10px;
+			height: 10px;
+			background-color: #E4393C;
+			border-radius: 50%;
+			margin-right: 15px;
+		}
     </style>
 	<body>
 		<!--侧滑菜单容器-->
@@ -192,6 +200,7 @@
 				</div>
 				<!-- off-canvas backdrop -->
 				<div class="mui-off-canvas-backdrop"></div>
+				<input type="hidden" name="jxnum" id="jxNum" value="0" />
 			</div>
 		</div>
 		<script type="text/html" id="tpl">
@@ -227,7 +236,11 @@
 			            	<span class="name">加息劵</span>
 			            </div>
 			            <div class="mui-table-cell mui-col-xs-8 mui-text-right">
+			            	{{if coupon_tip}}
+			            	<span class="c5" id="jxj"><a class="yuandian"></a>您有一张VIP加息券</span>
+			            	{{else}}
 			                <span class="c5" id="jxj">未选择</span>
+			                {{/if}}
 			                <input type="hidden" name="jxmoney" id="jxmoney" value="0" />
 			            </div>
 			        </div>
@@ -331,9 +344,53 @@
 					document.getElementById("hongbaolist").innerHTML = html;
 				})
 				var use_hbmoney;
+				coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){
+					console.log(JSON.stringify(res))
+					if(res.error_no==200){
+						var coupon_num = res.result.total
+						var hasVip = false;
+						if(res.result.total==0){
+							vipcoupon_data = {
+								cid:"",
+								etime:"",
+								crate:"",
+								auto_use:2
+							}
+						}else{
+							for(var i in res.result.rows){
+								var row = res.result.rows[i]
+								if (row.type == 'vip'){
+									coupon_num-=1
+									hasVip = true;
+									vipcoupon_data = {
+										cid:row.coupon_user_id,
+										etime:row.expire_time,
+										crate:row.rate,
+										auto_use:row.is_auto_use
+									}
+								}else{
+									
+								}
+							}
+						}
+
+						if(!hasVip){
+							vipcoupon_data = {
+								cid:"",
+								etime:"",
+								crate:"",
+								auto_use:2
+							}
+						}
+						$("#jxNum").val(coupon_num)
+					}
+				})
 				document.addEventListener('ljback',function(){
 					plus.webview.currentWebview().reload(true)
 				})
+				
+				
+				
 				//选择红包返回
 				document.addEventListener('getHongbao',function(e){
 					//console.log(e.detail)
@@ -363,12 +420,15 @@
 					}
 					
 				})
+				
+				
+				//TODO
 				//选择加息劵返回
 				document.addEventListener('getCoupon',function(e){
 					var cid = e.detail.cid
 					var c_etime = e.detail.etime
 					var crate = e.detail.crate 
-					$("#earningsMoney").html(oldEarnMoney + parseFloat(crate) )
+					$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
 					$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
 					var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
 					$("#jxj").html(jxmsg);
@@ -382,7 +442,6 @@
 					request.borrow_period = borrow_period;
 					request.borrow_style = borrow_style;
 					request.money = moneyvalue;
-					//console.log(JSON.stringify(request));
 					borrow.sy({'request':request},function(res){
 						if(res) {
 							$('#span_borrow_sy').html(res);
@@ -390,6 +449,41 @@
 							$('#span_borrow_sy').html("0.00"); 
 						}
 					})
+				})
+				document.addEventListener('changeVipCoupon',function(e){
+					coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){
+						if(res.error_no==200){
+							for(var i in res.result.rows){
+								var row = res.result.rows[i]
+								if (row.type == 'vip'){
+									vipcoupon_data.auto_use=row.is_auto_use	
+								}
+							}
+							var moneyvalue  = $("#money").val();
+							if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
+								useVip()
+							}else if(parseInt(moneyvalue)>=100000){
+								changeJx()
+								var moneyvalue  = $("#money").val();
+								var request = {};
+								$("#borrow_apr").val(oldEarnMoney)
+								var borrow_apr = $("#borrow_apr").val();
+								request.borrow_nid = borrow_nid;
+								request.borrow_apr = borrow_apr;
+								request.borrow_period = borrow_period;
+								request.borrow_style = borrow_style;
+								request.money = moneyvalue;
+								borrow.sy({'request':request},function(res){
+									if(res) {
+										$('#span_borrow_sy').html(res);
+									}else{
+										$('#span_borrow_sy').html("0.00"); 
+									}
+								})
+							}
+						}
+					})
+					
 				})
 				
 				var jxjPageTest = true
@@ -417,10 +511,15 @@
 						var urlpage = plus.webview.create(urldata.url,urldata.url,{popGesture:"close"},{"money":$("#money").val(),"hb_id":hb_id})
 						setTimeout(function(){  
 							urlpage.show("slide-in-right")
+							store.set('coupon_tip',1,3600*24*365)
 						},300)
 					} 
 					
 				})
+				//END
+				
+				
+				
 				//提交
 				mui('body').on('tap','#btn_submit',function(e){
 					var money  = $("#money").val();
@@ -619,7 +718,8 @@
 					         moneyvalue  = moneyd;
 					       // console.log(moneyvalue)
 					    }
-						changeHb()
+						changeHb(moneyvalue)
+						changeJx()
 						 				
 					}else{
 						 mui.alert('您的余额不足100，请充值！', function() {
@@ -630,10 +730,30 @@
 					var borrow_money  = $("#money").val();
 					var request = {};
 					request.borrow_nid = borrow_nid;
-					request.borrow_apr = borrow_apr;
+				//	request.borrow_apr = borrow_apr;
 					request.borrow_period = borrow_period;
 					request.borrow_style = borrow_style;
 					request.money = borrow_money;
+					
+					
+					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
+						var cid = vipcoupon_data.cid
+						var c_etime = expireTime(vipcoupon_data.etime) 
+						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
+						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
+						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
+						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
+						$("#jxj").html(jxmsg);
+						$("#jxmoney").val(cid);
+						//请求收益
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}else{
+						
+						$("#borrow_apr").val(oldEarnMoney);
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}
 					//console.log(JSON.stringify(request));
 					borrow.sy({'request':request},function(res){
 						if(res) {
@@ -669,18 +789,37 @@
 					}
 				})
 				mui('body').on('keyup','#money',function(){
-					$("#hmoney").val("");
+					
 					use_hbmoney = 0;
 					hbaomoney = $("#hongbaolist li");
-					moneyvalue  = $("#money").val();
-					request = {};
-					var borrow_apr = $("#borrow_apr").val();
+					var moneyvalue  = $("#money").val();
+					var request = {};
 					request.borrow_nid = borrow_nid;
-					request.borrow_apr = borrow_apr;
 					request.borrow_period = borrow_period;
 					request.borrow_style = borrow_style;
 					request.money = moneyvalue;
-					//console.log(JSON.stringify(request));
+					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
+						var cid = vipcoupon_data.cid
+						var c_etime = expireTime(vipcoupon_data.etime) 
+						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
+						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
+						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
+						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
+						$("#jxj").html(jxmsg);
+						$("#jxmoney").val(cid);
+						//请求收益
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}else{
+						
+						$("#borrow_apr").val(oldEarnMoney);
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+						//console.log(JSON.stringify(request));
+						changeJx()
+					}
+					//判断红包
+					changeHb(moneyvalue)
 					borrow.sy({'request':request},function(res){
 						if(res) {
 							$('#span_borrow_sy').html(res);
@@ -688,8 +827,7 @@
 							$('#span_borrow_sy').html("0.00");
 						}
 					})
-					//判断红包
-					changeHb()	
+					
 				})
 				
 				$('body').on('blur','#money',function(){
@@ -720,9 +858,11 @@
 								}
 							}
 						});
-					}	
+					}
+					//changeJx()
 				})
-				function changeHb(){
+				function changeHb(moneyvalue){
+					$("#hmoney").val("");//金额变动清除选择红包
 					if(!isNaN(moneyvalue)){
 						var hbNum=0
 						hbaomoney.each(function(){
@@ -752,6 +892,28 @@
 						}
 					}
 				}
+				
+				//可用加息券
+				function changeJx(){
+					$("#jxmoney").val("");//金额变动清除选择加息券
+					$("#earningsMoney").html(oldEarnMoney.toFixed(2))
+					if(store.get('coupon_tip')){
+						var moneyvalue = $("#money").val();//原为#money：text	
+						var jxNum = $("#jxNum").val()
+						if(!isNaN(moneyvalue)){
+							if(moneyvalue >= 100){ 
+								if(moneyvalue >= 100000){
+									if(vipcoupon_data.auto_use==2)
+									$("#jxj").html(parseInt(jxNum)+1+"个可用加息券");
+								}else if(jxNum!=0){
+									$("#jxj").html(jxNum+"个可用加息券");
+								}
+							}else{ 
+								$("#jxj").html("无可用加息券");
+							}
+						}	
+					}
+				}
 			})
 			//pshow传入请求数据	
 			document.addEventListener('mui.view.show',function(e){
@@ -775,6 +937,11 @@
 				var request = data;
 				request.borrow_nid = data.article_id;
 				product.detail({"request":request},function(res){
+					if(!store.get('coupon_tip')){
+						res.coupon_tip = true
+					}else{
+						res.coupon_tip = false
+					}
 					var html = template('tpl',res);
 					document.getElementById("templateLj").innerHTML = html;
 					oldEarnMoney = parseFloat(res.borrow.borrow_apr) 
@@ -816,6 +983,55 @@
 					plus.nativeUI.closeWaiting();
 					var self = plus.webview.currentWebview();
 				})	
+			}
+			function useVip(){
+				var cid = vipcoupon_data.cid
+				var c_etime = expireTime(vipcoupon_data.etime) 
+				var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
+				$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
+				$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
+				var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
+				$("#jxj").html(jxmsg);
+				$("#jxmoney").val(cid);
+				//请求收益
+				var moneyvalue  = $("#money").val();
+				var request = {};
+				var borrow_apr = $("#borrow_apr").val();
+				request.borrow_nid = borrow_nid;
+				request.borrow_apr = borrow_apr;
+				request.borrow_period = borrow_period;
+				request.borrow_style = borrow_style;
+				request.money = moneyvalue;
+				borrow.sy({'request':request},function(res){
+					if(res) {
+						$('#span_borrow_sy').html(res);
+					}else{
+						$('#span_borrow_sy').html("0.00"); 
+					}
+				})
+			}
+			function expireTime(date){
+				var nowDate = new Date() 
+				nowDate = (nowDate.getTime())/1000
+				var expireTime = parseInt(date) - nowDate 
+				if( expireTime > 86400){
+					res = parseInt(expireTime/86400) + 1
+				}else{ 
+					res = 1
+				}
+				return res;
+			}
+			function tofix2(data,num){
+				if(isNaN(data)) return data;
+				num = num || 100;
+				data = new Number(data);
+				res =  data/100;
+				if(data%100 == 0){
+					res = res.toFixed(1)
+				}else{
+					 
+				}
+				return res;
 			}
 		</script>
 	</body>

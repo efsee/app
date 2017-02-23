@@ -231,10 +231,17 @@
                 		store.delete('shoushi_status');
 						store.delete('shoushi_psw');
 						user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
-	            			//关闭手势密码
-	            			store.delete('shoushi_status');
-		                	})
-                		login()
+            			//关闭手势密码
+            				store.delete('shoushi_status');
+	                	})
+						user.logout({},function(res){
+							store.delete('uid');
+							store.delete('utoken'); 
+							mui.fire(plus.webview.getLaunchWebview(),'gohome');
+							login();
+						});
+						
+                		//login()
                 		//plus.storage.clear();
 						//plus.storage.removeItem('shoushimima');
                 	}

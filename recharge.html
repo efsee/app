@@ -105,14 +105,14 @@ header .mui-title { color: #333; }
 			<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
 			<h1 id="title" class="mui-title">充值</h1>
 		</header>
-<div class="mui-content">
+<div class="mui-content">  
 <form name="llpayment" action="https://www.ifcar99.com/api/authllpay/llpayapi.php" method="post" >
 
                 <dl class="content" style="display: none;">
                       <dt>商户用户唯一编号：</dt>
                     <dd>
                         <span class="null-star">*</span>
-                        <input size="30" id="user_id" name="user_id" value="0" />
+                        <input size="30" id="user_id" name="user_id" value="0"/>
                         <span>必填
 </span>
                     </dd>
@@ -132,7 +132,7 @@ header .mui-title { color: #333; }
                     </dd>
                       <!--<dt>交易金额：</dt>
                     <dd>
-                        <span class="null-star">*</span>
+                        <span class="null-star">*</span> 
                         <input size="30" name="money_order" value="0.1"/>
                         <span>必填</span>
                     </dd>-->
@@ -446,6 +446,7 @@ header .mui-title { color: #333; }
 
 
 	mui.plusReady(function(){
+			//plus.runtime.openURL("https://www.ifcar99.com") 
 			/**********忘记密码页面跳转**********/
 			$(document).on('tap','#wjmm',function(e){
 				e.preventDefault();
@@ -456,7 +457,7 @@ header .mui-title { color: #333; }
 				var headerWebview = inittemplate.header;
 					//获得共用子webview
 				var contentWebview = inittemplate.content;
-				contentWebview.loadURL(href);
+				contentWebview.loadURL(href); 
 				mui.fire(headerWebview, 'updateHeader', {
 					title: '修改交易密码',
 					showMenu: false
@@ -547,7 +548,7 @@ header .mui-title { color: #333; }
       			//判断异地登录
 				functionCom.checkToken(function(res){
 					//console.log(res.error_no)
-					if(res.error_no!=401){
+					if(res.error_no==200){
 						console.log($(".money_order").val())
 		      			var money = $(".money_order").val();//充值金额
 		      			if(money == "" || isNaN(money) || money <= 0){
@@ -1063,7 +1064,7 @@ function banklimit(bank){
 			return '限额：单笔5万，单日10万，单月300万';
 			break;
 		case 3:
-			return '限额：单笔5万，单日5万，单月300万';
+			return '限额：单笔5万，单日5万，单月150万';
 			break;
 		case 4:
 			return '限额：单笔20万，单日20万，单月300万';

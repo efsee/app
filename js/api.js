@@ -1,10 +1,20 @@
 ﻿var utoken, uid;
-var host = 'https://www.ifcar99.com/';
+//测试地址
+var host = 'http://test.ifcar99.com/'; 
+var apiurl = 'http://test.ifcar99.com/api.php'; 
+var apiurl_new = 'http://apitest.ifcar99.com/';
+var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
+var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
+var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
+//正式地址 
+
+/*var host = 'https://www.ifcar99.com/'; 
 var apiurl = 'https://www.ifcar99.com/api.php'; 
 var apiurl_new = 'https://www.ifcar99.com/api_v2';
 var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php';
+var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php'; */
+
 //var host = 'https://192.168.1.10/';  
 mui.plusReady(function() { 
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
@@ -271,7 +281,8 @@ var user = {
 		store.delete('uid');
 		store.delete('utoken');
 		store.delete('shoushi_status');
-		store.delete('shoushi_psw');  
+		store.delete('shoushi_psw');   
+		store.delete('integral_notice'); //退出后删除签到提醒标识 
 		//store.delete('username');   
 	},	
 	'getInfo': function(callback) {
@@ -645,7 +656,7 @@ var goods = {
 var newUser = {
 	"login" : function($data, callback){
 		var url = apiurl_new + '/user/login';
-		ajax.post(url, $data, callback);
+		ajax.get(url, $data, callback);
 	},
 	"get" : function($data, callback){
 		var url = apiurl_new + '/user/get';
@@ -721,6 +732,14 @@ var coupon = {
 		var url = apiurl_new + '/coupon/user/use/lists'; 
 		ajax.post(url, $data, callback);
 	},
+	"AutoUse" : function($data, callback){
+		var url = apiurl_new + '/coupon/user/autouse'; 
+		ajax.post(url, $data, callback);
+	},
+	"AutoUseCancel" : function($data, callback){
+		var url = apiurl_new + '/coupon/user/autouse/cancel'; 
+		ajax.post(url, $data, callback);
+	}
 }
 //体验金
 var experience = {
@@ -742,6 +761,14 @@ var experience = {
 	},
 	"LogLists" : function($data, callback){
 		var url = apiurl_new + '/experience/log/lists';
+		ajax.post(url, $data, callback);
+	}
+}
+
+//规则
+var article = {
+	"Get" : function($data, callback){
+		var url = apiurl_new + '/article/get';
 		ajax.post(url, $data, callback);
 	}
 }
@@ -825,11 +852,12 @@ var functionCom = {
 		//判断异地登录
 	newUser.get({"token":user.utoken()},function(res){
 		//console.log("验证"+JSON.stringify(res))
-		if(res.error_no==401){
+		if(res.error_no!=200){
+			var error_msg = res.error_msg
 			$("input").blur();
 			user.logout({},function(res){
 				//console.log('logout');
-				mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
+				mui.confirm(error_msg,"提醒",["确定"],function(e) {
 					if (e.index == 0) {
 						//return false;
 						login();

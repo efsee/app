@@ -16,7 +16,7 @@ var getTemplate = function(name, header, content) {
 				mType: 'main'
 			}
 		});
-		//预加载共用子webview
+		//预加载共用子webview 
 		var subWebview = mui.preload({
 			url: !content ? "" : content,
 			id: name + "-sub",
@@ -56,7 +56,6 @@ var getTemplate = function(name, header, content) {
 	}
 	return template;
 };
-
 function opentemplate(templatename,data){
 	var template = getTemplate(templatename);
 		//获得共用父模板

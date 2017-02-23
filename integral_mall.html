@@ -188,8 +188,8 @@
 			<span class="mui-spinner"></span>
 			<span id="loading-text" class="mui-hidden">请耐心等候</span>
 		</div>
-		<div class="mui-content mui-scroll-wrapper" style="display: none;">
-			<div class="mui-scroll">
+		<div class="mui-content" style="display: none;">
+			<div class="">
 				<ul class="user-info">
 					<li class="info-item user-integral" data="{'url':'integral_list.html','title':'积分记录'}">
 						<p class="c5" id="creditTotal">0</p>
@@ -300,14 +300,16 @@
 					//plus.webview.currentWebview().show()
 					//获取专区列表
 					goods.GetGoodsZoneList({"token":user.utoken()},function(res){
-						
+						var error_msg = res.error_msg
 						//遍历专区添加列表
-						if(res.error_no==401){
-							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
-								if (e.index == 0) {
-									login();
-								}
-							})
+						if(res.error_no==401||res.error_no==402||res.error_no==409){
+							user.logout({},function(res){
+								mui.confirm(error_msg,"提醒",["确定"],function(e) {
+									if (e.index == 0) {
+										login();
+									}
+								})
+							});
 						}else{
 							$(res.result.rows).each(function(k,val){
 								if($('#productContent'+val.zone_id).length==0){
@@ -328,8 +330,7 @@
 										//console.log('#productContent'+val.zone_id)
 										$('#productContent'+val.zone_id).html(html);
 										$('#mui-loader').hide();
-										$('.mui-scroll-wrapper').show();
-										
+										$('.mui-content').show();
 									}else{
 										
 									}
@@ -339,12 +340,15 @@
 					})
 					newCredit.GetTotal({'token':user.utoken()},function(res){
 						//console.log(JSON.stringify(res))
-						if(res.error_no==401){
-							mui.confirm("您的账号已在另一台设备登录，请重新登陆，如非本人操作，建议尽快修改密码","提醒",["确定"],function(e) {
-								if (e.index == 0) {
-									login();
-								}
-							})
+						var error_msg = res.error_msg
+						if(res.error_no==401||res.error_no==402||res.error_no==409){
+							user.logout({},function(res){
+								mui.confirm(error_msg,"提醒",["确定"],function(e) {
+									if (e.index == 0) {
+										login();
+									}
+								})
+							});
 						}
 						if(res){
 							
@@ -372,12 +376,11 @@
 						}
 					}); 
 					getdata() 
-					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
 				})
 				//返回刷新
 				document.addEventListener("initpage",function(e){
 					getdata()
-					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)
+					//mui.scrollTo(0, 100)
 				})
 				//规则查看
 				document.addEventListener("top-right-btn",function(e){

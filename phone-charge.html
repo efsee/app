@@ -27,7 +27,7 @@
                position: relative;
                margin-top: 60px;                  
                } 
-	    </style>
+	    </style> 
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
@@ -38,7 +38,7 @@
 			<div class="iphone-warp">
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll" style="height:100%; overflow: hidden;">	
-						<div class="iphone-top"><a class="czhd" href="czhd.html"><img src="images/iphone-banner.png" style="max-width:100%"></a></div>	
+						<div class="iphone-top"><a class="czhd" href="https://www.ifcar99.com/zt/sjzt.html"><img src="images/iphone-banner.png" style="max-width:100%"></a></div>	
 						<div class="mui-input-row iphone-input">		
 							<input type="text" pattern="[0-9]*" maxlength="11" class=" iphone-text" id="mobile" name="mobile" readonly="readonly" placeholder="请输入手机号码" style="color: #333;">	
 							<!--<a class="txl-button" href=""><i class="iphone-ico">通讯录</i></a>-->
@@ -258,7 +258,7 @@
 													//判断异地登录
 													functionCom.checkToken(function(res){
 														//console.log(res.error_no)
-														if(res.error_no!=401){
+														if(res.error_no==200){
 															account.Cost_llcz({'request':request},function(res){//扣款
 															//	console.log(JSON.stringify(res))
 																if(res){

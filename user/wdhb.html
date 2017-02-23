@@ -176,8 +176,8 @@
 	{{each rows as $item i}}
 	<li>
 		<div class="hongbao-num" style="position: relative;">
-			{{if $item.coupon_type}}
-			<div class="coupon-type">{{$item.coupon_type}}</div>
+			{{if $item.type=='vip'}}
+			<div class="coupon-type">VIP</div>
 			{{/if}}
 			<img src="../images/wsy_jxj.png"/> 
 			<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
@@ -220,8 +220,8 @@
 	{{each rows as $item i}}
 	<li>
 		<div class="hongbao-num" style="position: relative;">
-			{{if $item.coupon_type}}
-			<div class="coupon-type">{{$item.coupon_type}}</div>
+			{{if $item.type=='vip'}}
+			<div class="coupon-type" style="color: #6b6b6b;">VIP</div>
 			{{/if}}
 			<img src="../images/ysy_hb.png"/>
 			<div class="hb-je " style="color:#727272;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
@@ -262,8 +262,8 @@
 	{{each rows as $item i}}
 	<li>
 		<div class="hongbao-num" style="position: relative;">
-			{{if $item.coupon_type}}
-			<div class="coupon-type">{{$item.coupon_type}}</div>
+			{{if $item.type=='vip'}}
+			<div class="coupon-type" style="color: #6b6b6b;">VIP</div>
 			{{/if}}
 			<div class="mengban"></div>
 			<img src="../images/ysy_hb.png"/>
@@ -297,6 +297,18 @@
 			if(res){
 				if(res.result.rows.length > 0){
 					//console.log(JSON.stringify(res))
+					var rows2=[]
+					var vipJson={}
+					for(var i in res.result.rows){
+						var row = res.result.rows[i]
+						if(row.type!='vip'){
+							rows2.push(row)
+						}else{
+							vipJson = row
+						}
+					}
+					rows2.unshift(vipJson)
+					res.result.rows = rows2
 					$(".notes-box").css("display","none")
 					var html = template('tpl-item-1-1',res.result);
 					document.getElementById("couponList-1").innerHTML = html;
