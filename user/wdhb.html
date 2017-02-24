@@ -320,7 +320,6 @@
 		coupon.GetCouponList({"token":user.utoken(),"status":"1"},function(res){ 
 			if(res){
 				if(res.result.rows.length > 0){
-					console.log(JSON.stringify(res))
 					var hasVip = false
 					var rows2=[]
 					var vipJson={}
@@ -340,7 +339,10 @@
 					$(".notes-box").css("display","none")
 					var html = template('tpl-item-1-1',res.result);
 					var html2 = template('tpl-item-1-1-1',res.result);
-					document.getElementById("couponList-1").innerHTML = html;
+					if(hasVip&&res.result.total==1){	
+					}else{
+						document.getElementById("couponList-1").innerHTML = html;
+					}
 					document.getElementById("couponVip").innerHTML = html2;
 				}
 			}
