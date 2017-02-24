@@ -1,19 +1,19 @@
 ﻿var utoken, uid;
 //测试地址
-var host = 'http://test.ifcar99.com/'; 
+/*var host = 'http://test.ifcar99.com/'; 
 var apiurl = 'http://test.ifcar99.com/api.php'; 
 var apiurl_new = 'http://apitest.ifcar99.com/';
 var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';
+var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';*/
 //正式地址 
 
-/*var host = 'https://www.ifcar99.com/'; 
+var host = 'https://www.ifcar99.com/'; 
 var apiurl = 'https://www.ifcar99.com/api.php'; 
 var apiurl_new = 'https://www.ifcar99.com/api_v2';
 var api_upload_url = 'https://www.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_charge_api.php';
-var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php'; */
+var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php'; 
 
 //var host = 'https://192.168.1.10/';  
 mui.plusReady(function() { 

@@ -364,7 +364,7 @@
 									hasVip = true;
 									vipcoupon_data = {
 										cid:row.coupon_user_id,
-										etime:row.expire_time,
+										etime:1498838399,
 										crate:row.rate,
 										auto_use:row.is_auto_use
 									}
@@ -904,14 +904,11 @@
 						var moneyvalue = $("#money").val();//原为#money：text	
 						var jxNum = $("#jxNum").val()
 						if(!isNaN(moneyvalue)){
-							if(moneyvalue >= 100){ 
-								if(moneyvalue >= 100000){
-									if(vipcoupon_data.auto_use==2)
-									$("#jxj").html(parseInt(jxNum)+1+"个可用加息券");
-								}else if(jxNum!=0){
-									$("#jxj").html(jxNum+"个可用加息券");
-								}
-							}else{ 
+							if(moneyvalue >= 100000&&vipcoupon_data.auto_use==2){
+								$("#jxj").html(parseInt(jxNum)+1+"个可用加息券");
+							}else if(jxNum!=0){
+								$("#jxj").html(jxNum+"个可用加息券");
+							}else{
 								$("#jxj").html("无可用加息券");
 							}
 						}	
