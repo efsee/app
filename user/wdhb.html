@@ -133,7 +133,8 @@
 				<i class="notes-moblie"></i>
 				<p class="no-records-size">暂无可用卡券</p>
 			</div>
-			
+			<ul class="Red-envelopes" id="couponVip">	
+			</ul>
 			<ul class="Red-envelopes" id="couponList-1">	
 			</ul>
 			
@@ -174,21 +175,13 @@
 <script id="tpl-item-1-1" type="text/html">
 	<p class="wsy">未使用</p>
 	{{each rows as $item i}}
+	{{if $item.type!='vip'}}
 	<li>
 		<div class="hongbao-num" style="position: relative;">
-			{{if $item.type=='vip'}}
-			<div class="coupon-type">VIP</div>
-			<img src="../images/wsy_jxj.png"/> 
-			<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
-			<h5>还有{{1498838399 | expireTime}}天过期</h5>
-			<p>有效期至{{1498838399 | dateFormat:"yyyy年MM月dd日"}}</p>
-			{{else}}
 			<img src="../images/wsy_jxj.png"/> 
 			<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
 			<h5>还有{{$item.expire_time | expireTime}}天过期</h5>
 			<p>有效期至{{$item.expire_time | dateFormat:"yyyy年MM月dd日"}}</p>
-			{{/if}}
-			
 		</div>
 		<div class="hongbao-cond">
 			<span class="hb-type">{{$item.remark}}</span>
@@ -199,6 +192,31 @@
 			{{/if}}  
 		</div>
 	</li>
+	{{/if}}
+	{{/each}}
+</script>
+
+<script id="tpl-item-1-1-1" type="text/html">
+	{{each rows as $item i}}
+	{{if $item.type=='vip'}}
+	<li>
+		<div class="hongbao-num" style="position: relative;">
+			<div class="coupon-type">VIP</div>
+			<img src="../images/wsy_jxj.png"/> 
+			<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
+			<h5>还有{{1498838399 | expireTime}}天过期</h5>
+			<p>有效期至{{1498838399 | dateFormat:"yyyy年MM月dd日"}}</p>
+		</div>
+		<div class="hongbao-cond">
+			<span class="hb-type">{{$item.remark}}</span>
+			{{if $item.limit_lower_money=="0"}}
+			<a>单笔投资满100元可用</a>
+			{{else}}
+			<a>单笔投资满{{$item.limit_lower_money}}元可用</a>
+			{{/if}}  
+		</div>
+	</li>
+	{{/if}}
 	{{/each}}
 </script>
 
@@ -321,7 +339,9 @@
 					res.result.rows = rows2
 					$(".notes-box").css("display","none")
 					var html = template('tpl-item-1-1',res.result);
+					var html2 = template('tpl-item-1-1-1',res.result);
 					document.getElementById("couponList-1").innerHTML = html;
+					document.getElementById("couponVip").innerHTML = html2;
 				}
 			}
 		})
