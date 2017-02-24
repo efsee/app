@@ -145,14 +145,18 @@
 		<script id="tpl-item-1-1" type="text/html">
 			{{each rows as $item i}}
 			<li class="hbList">  
-				<div class="hongbao-num" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}","type":"{{$item.type}}"}> 
-					{{if $item.type == 'vip'}}
+				{{if $item.type == 'vip'}}
+				<div class="hongbao-num" data={"cid":"{{$item.coupon_user_id}}","etime":"{{1498838399 | expireTime}}","crate":"{{$item.rate | toFixed2}}","type":"{{$item.type}}"}> 
+				
 					<img src="images/wsy_jxj.png"/> 
 					<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
 					<h5>还有{{1498838399 | expireTime}}天过期</h5>
 					<p>有效期至{{1498838399 | dateFormat:"yyyy年MM月dd日"}}</p>
 					<div class="vip-tip">VIP</div>
+				</div>
 					{{else}}
+				<div class="hongbao-num" data={"cid":"{{$item.coupon_user_id}}","etime":"{{$item.expire_time | expireTime}}","crate":"{{$item.rate | toFixed2}}","type":"{{$item.type}}"}> 
+				
 					<img src="images/wsy_jxj.png"/> 
 					<div class="hb-je " style="color: #df8800;"><span style="font-size: 50px;">{{$item.rate | toFixed2}}</span>%</div>
 					<h5>还有{{$item.expire_time | expireTime}}天过期</h5>
