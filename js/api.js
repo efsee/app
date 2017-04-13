@@ -553,14 +553,14 @@ var borrow = {
 	},
 	"AddAnJie" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=AddAnJie';
-		ajax.post(url, $data, callback);
+		ajax.post(url, $data, callback); 
 	},
 	"GetTenderLists" : function($data, callback){
 		var url = apiurl + '?module=borrow&action=GetTenderLists';
 		ajax.post(url, $data, callback);
 	},
 	"tender_bouns_recommend" : function($data, callback){
-		var url = apiurl_new + 'borrow/tender/bouns/recommend';
+		var url = apiurl_new + '/borrow/tender/bouns/recommend';
 		ajax.post(url, $data, callback);
 	}
 }
