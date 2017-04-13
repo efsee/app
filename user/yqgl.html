@@ -114,7 +114,7 @@ header .mui-title { color: #333; }
       						plus.nativeUI.alert("删除成功！");
       					}else{
       						plus.nativeUI.alert(res.msg);
-      					}
+      					} 
       				})
       			}
       			
@@ -128,7 +128,7 @@ header .mui-title { color: #333; }
 //    			var html = template('tpl-item-1',res);
 //    			document.getElementById("tablist-1").innerHTML = html;
 //    		});
-      		request = {'user_id':user.uid(),'epage':1000};
+      		request = {'user_id':user.uid(),'epage':10}; 
       		user.GetFriendsInvite({'request':request},function(res){
       			console.log(JSON.stringify(res));
       			var html = template('tpl-item-2',res);

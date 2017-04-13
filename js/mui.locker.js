@@ -41,11 +41,11 @@
 
 	//定义 Locker 类
 	var Locker = $.Locker = $.Class.extend({
-		R: 26,
-		CW: 400,
+		R: 30,
+		CW: 320,
 		CH: 320,
-		OffsetX: 30,
-		OffsetY: 30,
+		OffsetX: 32,
+		OffsetY: 32,
 
 		/**
 		 * 构造函数
@@ -87,10 +87,15 @@
 			canvas.width = self.CW;
 			canvas.height = self.CH;
 			var cxt = self.cxt = canvas.getContext("2d");
+			
 			//两个圆之间的外距离 就是说两个圆心的距离去除两个半径
 			var X = (self.CW - 2 * self.OffsetX - self.R * 2 * 3) / 2;
 			var Y = (self.CH - 2 * self.OffsetY - self.R * 2 * 3) / 2;
 			self.pointLocationArr = self.caculateNinePointLotion(X, Y);
+			/****/
+			cxt2 = cxt;
+			pointLocationArr = self.pointLocationArr;
+			/****/
 			self.initEvent(canvas, cxt, self.holder);
 			//console.log(X);
 			self.draw(cxt, self.pointLocationArr, [], null);
@@ -114,13 +119,70 @@
 					Re.push(Point);
 				}
 			}
-			return Re;
+			return Re; 
 		},
 
 		/**
 		 * 绘制
 		 */
 		draw: function(cxt, _PointLocationArr, _LinePointArr, touchPoint) {
+		//	console.log(_LinePointArr)
+			var self = this;
+			var R = self.R;
+			if(_LinePointArr==""){
+				var ringColor = '#e5e5e5'
+			}else{
+				var ringColor = '#999999' 
+			}
+			if (_LinePointArr.length > 0) {
+				cxt.beginPath();
+				for (var i = 0; i < _LinePointArr.length; i++) {
+					var pointIndex = _LinePointArr[i];
+					cxt.lineTo(_PointLocationArr[pointIndex].X, _PointLocationArr[pointIndex].Y);
+				}
+				cxt.lineWidth = (self.options.lindeWidth || 1) * self.options.times;
+				cxt.strokeStyle = self.options.lineColor || "#999"; //连结线颜色
+				cxt.stroke();
+				cxt.closePath();
+				if (touchPoint != null) {
+					var lastPointIndex = _LinePointArr[_LinePointArr.length - 1];
+					var lastPoint = _PointLocationArr[lastPointIndex];
+					cxt.beginPath();
+					cxt.moveTo(lastPoint.X, lastPoint.Y);
+					cxt.lineTo(touchPoint.X, touchPoint.Y);
+					cxt.stroke();
+					cxt.closePath();
+				}
+			}
+			for (var i = 0; i < _PointLocationArr.length; i++) { 
+				var Point = _PointLocationArr[i];
+				if(_LinePointArr.indexOf(i) >= 0){
+					cxt.fillStyle = '#999' || "#888"; //圆圈边框颜色
+					
+				}else{
+					cxt.fillStyle = '#e5e5e5' || "#888"; //圆圈边框颜色
+				}
+				
+				cxt.beginPath();
+				cxt.arc(Point.X, Point.Y, R, 0, Math.PI * 2, true);
+				cxt.closePath();
+				cxt.fill();
+				cxt.fillStyle = self.options.fillColor || "#f3f3f3"; //圆圈填充颜色
+				cxt.beginPath();
+				cxt.arc(Point.X, Point.Y, R - ((self.options.ringWidth || 1) * self.options.times), 0, Math.PI * 2, true);
+				cxt.closePath();
+				cxt.fill();
+				if (_LinePointArr.indexOf(i) >= 0){
+					cxt.fillStyle = self.options.pointColor || "#777"; //圆圈中心点颜色
+					cxt.beginPath(); 
+					/**此行16设置为1即为和外援等大**/
+					cxt.arc(Point.X, Point.Y, R - ((self.options.pointWidth || 20) * self.options.times), 0, Math.PI * 2, true);
+					cxt.closePath();
+					cxt.fill(); 
+				}
+			} 
+		},
+		draw2: function(cxt, _PointLocationArr, _LinePointArr, touchPoint) {
 			var self = this;
 			var R = self.R;
 			if (_LinePointArr.length > 0) {
@@ -129,8 +191,8 @@
 					var pointIndex = _LinePointArr[i];
 					cxt.lineTo(_PointLocationArr[pointIndex].X, _PointLocationArr[pointIndex].Y);
 				}
-				cxt.lineWidth = (self.options.lindeWidth || 2) * self.options.times;
-				cxt.strokeStyle = self.options.lineColor || "#999"; //连结线颜色
+				cxt.lineWidth = (self.options.lindeWidth || 1) * self.options.times;
+				cxt.strokeStyle = '#f13f3f' || "#999"; //连结线颜色
 				cxt.stroke();
 				cxt.closePath();
 				if (touchPoint != null) {
@@ -145,22 +207,23 @@
 			}
 			for (var i = 0; i < _PointLocationArr.length; i++) {
 				var Point = _PointLocationArr[i];
-				cxt.fillStyle = self.options.ringColor || "#888"; //圆圈边框颜色
+				cxt.fillStyle = '#f13f3f' || "#888"; //圆圈边框颜色
 				cxt.beginPath();
 				cxt.arc(Point.X, Point.Y, R, 0, Math.PI * 2, true);
 				cxt.closePath();
 				cxt.fill();
-				cxt.fillStyle = self.options.fillColor || "#f3f3f3"; //圆圈填充颜色
+				cxt.fillStyle = '#ffffff' || "#f3f3f3"; //圆圈填充颜色 
 				cxt.beginPath();
-				cxt.arc(Point.X, Point.Y, R - ((self.options.ringWidth || 2) * self.options.times), 0, Math.PI * 2, true);
+				cxt.arc(Point.X, Point.Y, R - ((self.options.ringWidth || 1) * self.options.times), 0, Math.PI * 2, true);
 				cxt.closePath();
 				cxt.fill();
-				if (_LinePointArr.indexOf(i) >= 0) {
-					cxt.fillStyle = self.options.pointColor || "#777"; //圆圈中心点颜色
-					cxt.beginPath();
-					cxt.arc(Point.X, Point.Y, R - ((self.options.pointWidth || 16) * self.options.times), 0, Math.PI * 2, true);
+				if (_LinePointArr.indexOf(i) >= 0){
+					cxt.fillStyle = '#f13f3f' || "#777"; //圆圈中心点颜色
+					cxt.beginPath(); 
+					/**此行16设置为1即为和外援等大**/
+					cxt.arc(Point.X, Point.Y, R - ((self.options.pointWidth || 20) * self.options.times), 0, Math.PI * 2, true);
 					cxt.closePath();
-					cxt.fill();
+					cxt.fill(); 
 				}
 			}
 		},
@@ -255,9 +318,8 @@
 				});
 			}
 		},
-
 		/**
-		 * 释放资源
+		 * 释放资源 
 		 * */
 		dispose: function() {
 			var self = this;
@@ -274,7 +336,7 @@
 	$.fn.locker = function(options) {
 		//遍历选择的元素
 		this.each(function(i, element) {
-			if (element.locker) return;
+			if (element.locker) return; 
 			if (options) {
 				element.locker = new Locker(element, options);
 			} else {
@@ -299,5 +361,5 @@
 	$.ready(function() {
 		$('.' + lockerClassName).locker();
 	});
-
 }(mui, document));
+//console.log(JSON.stringify(pointLocationArr))

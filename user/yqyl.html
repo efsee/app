@@ -193,8 +193,6 @@
 		<script src="../js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.plusReady(function(){ 
-				//plus.navigator.setStatusBarBackground("#333"); 
-				console.log(plus.navigator.isImmersedStatusbar())
 				$(".yqCode").html(user.uid()); 
 				user.reg_invite({'user_id':user.uid()},function(res){
 					$('#share_url').val(res.url);

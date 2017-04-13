@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>银行卡信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" /> 
+		<style>
+			html{
+				font-size: 12px;
+				background: #fff;
+				min-height: 100%;
+			}
+			@media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.mui-content{
+				background: #fff;
+				min-height: 100%;
+			}
+			.error_img{
+				width: 23%;
+				margin: 0 auto;
+				margin-top: 6rem;
+			}
+			.error_img img{
+				width: 100%;
+			}
+			.error_title{
+				text-align: center;
+				font-size: 1.5rem;
+				margin-top: 1rem;
+				color: #DF908E;
+			}
+			.error_reason{
+				color: #333;
+				text-align: center;
+				line-height: 4rem;
+				font-size: 1.2rem;
+			}
+			.submit-btn{
+				width: 90%;
+				margin: 3rem auto;
+				height: 3.5rem;
+				line-height: 3.5rem;
+				font-size: 1.2rem;
+				margin-left: 5%;
+			}
+		</style>
+	</head>
+	 
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			
+			<h1 id="title" class="mui-title" style="color: #333;">银行卡信息</h1>
+		</header>
+		<div class="mui-content"> 
+			<div class="error_img">
+				<img src="../images/change_bank_error.png" />
+			</div>
+			<p class="error_title">审核失败</p>
+			<p class="error_reason">失败原因：<span id="error_reason_detail"></span></p>
+			<p class="error_reason" style="line-height: 2.6rem;color: #666;">银行卡信息不作变更，原银行卡仍可用。<br>若仍需变更银行卡，可重新提交信息。</p>
+			<div class="btn submit-btn">确认</div>
+		</div>
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/api.js"></script>
+		<script type="text/javascript">
+			mui.init({
+			})
+			mui.plusReady(function(){ 
+				plus.webview.currentWebview().setStyle({
+			        'popGesture': 'none'
+			    });
+				userbank.modify_log_detail({'token':user.utoken(),'user_id':user.uid(),'is_delete':'2'},function(res){
+					console.log('失败了：'+JSON.stringify(res)) 
+					if(res.error_no==200) document.getElementById('error_reason_detail').innerHTML = res.result.fail_reason 
+				})
+				mui('body').on('tap','.submit-btn',function(){
+					userbank.cancel_modify({'token':user.utoken()},function(res){
+						console.log(JSON.stringify(res))
+						if(res.error_no==200){ 
+							mui.back()
+						}else{
+							mui.toast(res.error_msg)
+						}
+					})
+				}) 
+				var old_back = mui.back
+				mui.back = function(){
+					var userinfoPage = plus.webview.currentWebview().opener()
+					mui.fire(userinfoPage,'refresh')
+					setTimeout(function(){
+						old_back()
+					},200)
+				}
+			})
+		</script>
+	</body>
+
+</html>

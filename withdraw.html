@@ -169,7 +169,7 @@
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 /****自动获取焦点弹窗native.js****/
-  	var nativeWebview, imm, InputMethodManager;
+	var nativeWebview, imm, InputMethodManager;
 	var initNativeObjects = function() {
 	    if (mui.os.android) {
 	        var main = plus.android.runtimeMainActivity();
@@ -192,7 +192,7 @@
 	            "setKeyboardDisplayRequiresUserAction": false
 	        });
 	    }
-	    setTimeout(function() {
+	    setTimeout(function() { 
 	       //此处可写具体逻辑设置获取焦点的input
 	       var inputElem = document.querySelector('#money');
 	              inputElem.focus(); 
@@ -215,7 +215,7 @@
 	       //此处可写具体逻辑设置获取焦点的input
 	       var inputElem = document.querySelector('.pwd-input');
 	              inputElem.focus(); 
-	    }, 400);
+	    }, 200);
 	};
 	mui.plusReady(function(){
 		if(plus.os.name=="Android"){
@@ -223,7 +223,7 @@
 		}
   		request = {"user_id":user.uid()};
   		account.GetUsersBankOne({'request':request},function(res){
-			//console.log(JSON.stringify(res));
+		//	console.log(JSON.stringify(res));
  			$('#balance').html(res.balance);	
   			if(!res.account || !res.bank){
 					plus.nativeUI.alert( "你没有绑定银行卡，请先去绑定银行卡!", function(){
@@ -238,15 +238,21 @@
 					}, "提示", "绑定银行卡" );
   			}else{
 		  			//自动弹出键盘
-				initNativeObjects();
 			    $("#bank_id").val(res.account);
       			$("#bank").val(res.branch);
       			var html = template("tpl-bank",res);
       			document.getElementById("box-bank").innerHTML = html;
       			$("#mui-loader").css("display","none")
-      			$(".mui-content").css("display","block")
-      			showSoftInput();
+      			$(".mui-content").css("display","block")  
+      			 
+	    		//showSoftInput();
+	    		if(plus.os.name=='iOS') {
+	    			initNativeObjects();
+	    			showSoftInput();
+	    		}
+      			$("#money").focus()
   			}
+  			
   		});	
 		$(document).on('tap','.txPro',function(e){
 			e.preventDefault();
@@ -262,12 +268,12 @@
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
-			headerWebview.show('slide-in-right', 150);
+			headerWebview.show('pop-in', 300);
 		});
 		
 		document.getElementById('qetx').addEventListener('tap',function(){
 			if(mui.os.android){
-				imm.hideSoftInputFromWindow(plus.webview.currentWebview().nativeInstanceObject().getWindowToken(), 0)
+		//		imm.hideSoftInputFromWindow(plus.webview.currentWebview().nativeInstanceObject().getWindowToken(), 0)
 			}
 			$("#money").val($('#balance').html());
 		})
@@ -287,10 +293,10 @@
 				showMenu: false
 			});
 			mui.fire(headerWebview, 'loading');
-			headerWebview.show('slide-in-right', 150); 
+			headerWebview.show('pop-in', 300); 
 		});
 		
-		document.getElementById("btn_submit").addEventListener('tap',function(){
+		document.getElementById("btn_submit").addEventListener('tap',function(){ 
 			request = {};
 			request.money = $('#money').val();
 			request.bank = $('#bank').val();
@@ -334,10 +340,11 @@
 				anim:true,
 				success:function(layero, index){
 					initNativeObjects();
-		   			showTcInput();
+					setTimeout(function(){
+						showTcInput();
+					},50)
 		   			var $input = $(".fake-box input"); 
-		   			var paypassword='';
-		   			
+		   			var paypassword='';   
 			        $("#pwd-input").on("input", function() {  
 			        	
 			            var pwd = $(this).val().trim();  

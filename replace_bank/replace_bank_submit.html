@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>银行卡信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" /> 
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" /> 
+		<style>
+			html{
+				font-size: 12px;
+			}
+			@media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.card-box{
+				width: 94%;
+				background: #fff;
+				border-radius: 0.5rem;
+				-webkit-border-radius: 0.5rem;
+				margin: 0rem 3%;
+				padding: 2.2rem 1rem;
+				height: 8.4rem;
+				position: relative;
+			}
+			.back-img{
+				display:block;
+				width: 4rem;
+				height: 4rem;
+				margin: 0 1rem;
+				float: left;
+			}
+			.card-box div{
+				height: 4rem;
+				float: left;
+			
+			}
+			.card-name{
+				color: #333;
+				font-size: 1.4rem!important
+			}
+			.card-name span{
+				font-size: 1.1rem;
+			}
+			.card-name,.card-place{
+				height: 2rem;
+				line-height: 2rem;
+				font-size: 1.1rem;
+			}
+			.card-type{ 
+				bottom: 2.4rem;
+				position: absolute;
+				right: 1.5rem;
+				color: #999;
+				font-size: 1.1rem;
+			}
+			.button{
+				width: 94%;
+				height: 3.5rem;
+				line-height:3.5rem;
+				border-radius: 0.5rem;
+				text-align: center;
+				background: #E6E4E5;
+				margin: 1rem auto;
+				font-size: 1.3rem;
+				color: #999;
+			}
+			.submit-btn{	
+				background: #F13F3F!important;
+				color: #fff!important;
+			}
+			.input-group{
+				margin: 1rem 0;
+			}
+			.input-row{
+				height: 4.4rem;
+				line-height: 4.4rem;
+				background: #fff;
+				padding-left: 1.3rem;
+				position: relative;
+			}
+			.input-row:after{
+				content: "";
+				position: absolute;
+				bottom: 0;
+				width: 96%;
+				left: 4%;
+				height: 1px;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+				background: #EEEEEE;
+				
+			}
+			.input-row label{
+				display: inline-block;
+				font-size: 1.2rem;
+				width: 25%;
+			}
+			.input-row input{
+				vertical-align:initial;
+				width: 70%;
+				padding: 0;
+				margin: 0;
+				height: 4.4rem;
+				line-height: 2rem;
+				padding: 1.2rem 1%;
+				border: 0px;
+				border-radius: 0px;
+				font-size: 1.2rem;
+			}
+			#input_bank{
+				vertical-align:inherit;
+				width:70%;
+				padding: 0;
+				height: 4.4rem;
+				line-height: 4.4rem;
+				margin: 0;
+				font-size: 1.2rem;
+				color: #333;
+			}
+		</style>
+	</head>
+	 
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title" style="color: #333;">银行卡信息</h1>
+		</header>
+		<div class="mui-content"> 
+			<div style="height: 1rem;"></div>
+			<ul class="input-group" style="margin-top: 0;">
+				<li class="input-row">
+					<label for="input_bank">开户银行</label>
+					<select id="input_bank" class="recharge-input bank" name="bank">
+						<option value="0">请选择开户银行</option>
+						<option value="1">中信银行</option>
+						<option value="2">建设银行</option>
+						<option value="3">工商银行</option>
+						<option value="4">农业银行</option>
+						<option value="5">招商银行</option>
+						<option value="6">交通银行</option>
+						<option value="7">中国银行</option>
+						<option value="8">兴业银行</option>
+						<option value="9">浦发银行</option>
+						<option value="10">民生银行</option>
+						<option value="11">邮政银行</option>
+						<option value="12">平安银行</option>
+						<option value="13">光大银行</option>
+						<option value="14">华夏银行</option>
+						<option value="15">广发银行</option>
+						<option value="17">杭州银行</option>    
+				        <option value="18">北京银行</option>    
+				        <option value="19">上海银行</option>    
+				        <option value="20">浙商银行</option>
+				        <option value="21">广州银行</option>
+				        <option value="22">宁波银行</option>
+				        <option value="23">江苏银行</option>
+				        <option value="24">恒丰银行</option> 
+				        <option value="25">东莞银行</option> 
+					</select>
+				</li>
+				<li class="input-row">
+					<label for="reason">所在省市</label>
+					<input type="text" id="showCityPicker" class="input_row" placeholder="请选择省市">
+				</li>
+				<li class="input-row">
+					<label for="reason">新银行卡号</label>
+					<input type="number" pattern="[0-9]*" id="bank-account" class="input_row" placeholder="请填写银行卡号">
+				</li>
+			</ul>
+			<ul class="input-group">
+				<li class="input-row">
+					<label for="reason">修改原因</label>
+					<input type="text" id="reason" class="input_row" placeholder="请填写您修改的原因">
+				</li>
+			</ul>
+			<ul class="input-group">
+				<li class="input-row">
+					<label for="img1">身份证正面</label>
+					<input type="text" id="img1" readonly="readonly" class="uploader-file input_row" placeholder="请上传图片">
+				</li>
+				<li class="input-row">
+					<label for="img2">身份证反面</label>
+					<input type="text" id="img2" readonly="readonly" class="uploader-file input_row" placeholder="请上传图片">
+				</li>
+				<li class="input-row">
+					<label for="img3">手持身份证</label>
+					<input type="text" id="img3" readonly="readonly" class="uploader-file input_row" placeholder="请上传图片">
+				</li>
+				<li class="input-row">
+					<label for="img4">新银行卡</label>
+					<input type="text" id="img4" readonly="readonly" class="uploader-file input_row" placeholder="请上传图片">
+				</li>	
+			</ul> 
+			<p class="c5" style="padding-left: 1.3rem;font-size: 1.1rem;line-height: 3rem;">请确认图片清晰度，若不清楚会导致修改绑定失败</p>
+			<div class="button" id="submit-btn">更换银行卡</div>
+			<input type="hidden" class="" id="province" name="province" value="0" />
+			<input type="hidden" class="city" id="city" name="city" value="0" /> 
+		</div> 
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/api.js"></script>
+		<script src="../js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/city.data1.js"></script>
+		<script src="../js/bank_uploader.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript">
+			mui.init({
+			})
+			mui.plusReady(function(){ 
+				multiselect()
+				
+      			var old_back = mui.back;
+				mui.back = function(){ 
+					mui.confirm('是否退出修改银行卡界面',function(e){
+						if(e.index==1){
+							plus.webview.currentWebview().opener().close('none')
+							setTimeout(function(){
+								old_back()
+							},200)
+						}else{
+							return false;
+						}
+					})
+					
+				}
+				
+      			
+			})
+			function multiselect(){
+				(function($, doc) {
+					$.ready(function() {
+						//-----------------------------------------
+						//级联示例
+						var cityPicker = new $.PopPicker({
+							layer: 2
+						});
+						cityPicker.setData(cityData);
+						var showCityPickerButton = doc.getElementById('showCityPicker');
+						showCityPickerButton.addEventListener('tap', function(event) {
+							cityPicker.show(function(items) {
+										//console.log(JSON.stringify(items));
+										//console.log(items[0].text + " " + items[1].text); 
+								if(items[1].value === undefined||items[1].text == "0"){
+									showCityPickerButton.value = items[0].text + " ";
+								}else{ 
+									showCityPickerButton.value = items[0].text + " " + items[1].text;
+								}  
+								document.getElementById("province").value = items[0].value;
+								document.getElementById("city").value = items[1].value;
+								//cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						}, false);
+			
+					});
+				})(mui, document);
+			}
+		</script>
+	</body>
+
+</html>

@@ -90,16 +90,15 @@
 		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 		</nav>
 	</body>
-	<script>  
+	<script src="http://cdn.bootcss.com/socket.io/1.7.3/socket.io.js"></script> 
+	<script>   
 		mui.plusReady(function(){
-			//plus.runtime.setBadgeNumber(0);  
-			//先执行welcome
-			if(!plus.storage.getItem('welcome191'))
+			if(!plus.storage.getItem('welcome192'))
 			{
 				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
 				plus.navigator.setFullscreen(false);
-				if(!store.get('diffrent191')){
+				if(!store.get('diffrent192')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -118,7 +117,7 @@
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									store.set('diffrent191', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent192', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -137,83 +136,27 @@
 					
 				}
 			}
-			//暂时取消手势密码
+			/*****/
+			//bug：手势密码未输入完成界面会提醒签到
+			//修复思路：假如有手势密码。采用传自定义方法的方式，输入完正确手势密码在进行延时提醒
+			//无手势密码时，采用现有方式进行提醒
+			/*****/
 			if(user.uid()){//判断手势密码是否开启	
 				if(store.get('shoushi_status')){
 	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-	            }else{
-	            
-	            }
-	            
-	            if(!store.get('integral_notice')){     
-	            	req2={'username': store.get('username'),
-					 'limit':1,
-					 'nid':'sign'
-					};
-					setTimeout(function(){
-						//undefine天数修复
-						if(user.uid()){//定时后加判断有无登录
-							credit.GetLogList({'request':req2},function(res,status,xhr){
-								store.set("integral_notice",1,20000)//一天一次
-								if(res==""){
-								//	setTimeout(function(){
-										mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
-											if(e.index == 1){
-												var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-												integralPage.addEventListener('loaded',function(){
-													mui.fire(integralPage,'signauto')
-												})
-												
-												setTimeout(function(){
-													integralPage.show('pop-in', 300);  
-												},300) 	
-											}else{
-												return false;
-											}
-										})
-										
-								//	},10000)
-									 
-								}else{
-									var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
-								    var remainDate=serverTime-serverTime%86400000-28800000
-									if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
-										newCredit.GetTotal({'token':user.utoken()},function(res){
-											//console.log(JSON.stringify(res)) 
-							 			//	setTimeout(function(){
-												mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["去签到","取消"],function(e){
-													if(e.index == 0){
-														var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-														integralPage.addEventListener('loaded',function(){
-															mui.fire(integralPage,'signauto')
-														})
-														
-														setTimeout(function(){
-															integralPage.show('pop-in', 300);  
-														},300) 	
-													}else{
-														return false;
-													}
-												})
-										//	},10000)   
-											
-										})
-									}
-								}
-		
-							}) 
-						}
-						
-					},10000)
-	            }
-	            
+	           }else{
+	            	sign_notice() 
+	           } 
 		   }
+			document.addEventListener('sign_notice',function(){
+				sign_notice() 
+			})
 			document.addEventListener("turnUser",function(){
 				var $botNav=$(".bot-nav a")
 				$botNav.eq(3).tap()
 			})
 			document.addEventListener("turnVersion",function(){
-				if(!store.get('diffrent191')){
+				if(!store.get('diffrent192')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 						//appid属性
@@ -231,7 +174,7 @@
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
 									});
-									store.set('diffrent191', 1, 18000);	//标志暂存时间30秒
+									store.set('diffrent192', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
@@ -243,11 +186,12 @@
 									})
 								}else{
 									var content=
-										'1.新增VIP加息券\r\n'+
-										'2.新增隐藏我的资产金额\r\n'+
-										'3.优化单点登录功能\r\n'+
-										'4.修复一些已知bug\r\n'+
-										'5.与PC端同步更新内容\r\n'
+										'1.微信绑定及登录\r\n'+
+										'2.自主更换银行卡\r\n'+
+										'3.消息通知优化\r\n'+
+										'4.帮助中心优化\r\n'+
+										'5.手势密码界面优化\r\n'+
+										'6.修复已知bug'
 									mui.alert(content,"新版本更新内容",'关闭',function(){
 										var homesub = plus.webview.getWebviewById("home.html"); 
 										mui.fire(homesub,'initpage2');
@@ -381,21 +325,20 @@
 
 			document.addEventListener('permission',function(e){
 				user.GetShoushi({"request":{"user_id":user.uid()}},function(res){
-					console.log(JSON.stringify(res))
+					//console.log(JSON.stringify(res))
         			if(res.shoushi_status=="1"){
         				store.set('shoushi_status', "1", 3600 * 24 * 365);
         				store.set('shoushi_psw',res.shoushi, 3600 * 24 * 365);
         				//console.log(store.get("shoushi_psw"))
         				
         			}else{
-        				mui.confirm('你要设置手势密码吗？', '提示', ['确定', '取消'], function(e) {
-							if (e.index === 0) {
+        				mui.confirm('你要设置手势密码吗？', '提示', ['取消', '确认'], function(e) {
+							if (e.index === 1) {
 								mui.openWindow({url:'permission.html', id:'permission',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
 							}
 						});
         			}
             	})
-				
 			},false);
 		});//plusReady结束
 		 //检索消息未读
@@ -477,7 +420,69 @@
 		document.addEventListener('openMb',function(){  
 			$(".ad-mengban").css("display","block")   
 		})
-
+		function sign_notice(){
+			if(!store.get('integral_notice')){     
+            	req2={'username': store.get('username'),
+				 'limit':1,
+				 'nid':'sign'
+				};
+				setTimeout(function(){
+					//undefine天数修复
+					if(user.uid()){//定时后加判断有无登录
+						credit.GetLogList({'request':req2},function(res,status,xhr){
+							store.set("integral_notice",1,20000)//一天一次
+							if(res==""){
+							//	setTimeout(function(){
+									mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
+										if(e.index == 1){
+											var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+											integralPage.addEventListener('loaded',function(){
+												mui.fire(integralPage,'signauto')
+											})
+											
+											setTimeout(function(){
+												integralPage.show('pop-in', 300);  
+											},300) 	
+										}else{
+											return false;
+										}
+									})
+									
+							//	},10000)
+								 
+							}else{
+								var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
+							    var remainDate=serverTime-serverTime%86400000-28800000
+								if(parseInt(remainDate/1000)>parseInt(res[0].addtime)){
+									newCredit.GetTotal({'token':user.utoken()},function(res){
+										//console.log(JSON.stringify(res)) 
+						 			//	setTimeout(function(){
+											mui.confirm("您已坚持"+res.result.sign+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
+												if(e.index == 1){
+													var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+													integralPage.addEventListener('loaded',function(){
+														mui.fire(integralPage,'signauto')
+													})
+													
+													setTimeout(function(){
+														integralPage.show('pop-in', 300);  
+													},300) 	
+												}else{
+													return false;
+												}
+											})
+									//	},10000)   
+										
+									})
+								}
+							}
+	
+						}) 
+					}
+					
+				},10000)
+            }
+		}
 		 //首页返回键处理
 		 //处理逻辑：1秒内，连续两次按返回键，则退出应用；
 		var first = null;

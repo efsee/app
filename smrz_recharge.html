@@ -279,16 +279,21 @@ header .mui-title { color: #333; }
 
 
 <script type="text/html" id="tpl-bank3">
-   
 	<div class="recharge-money">持卡人信息</div>
 	<ul class="mui-table-view recharge-sfz">
          <li class="mui-table-view-cell">姓名
-         	<input class="recharge-input realname" type="text" name="realname" placeholder="请输入真实姓名" value="{{realname}}">
-		 	
+         	{{if sm_sign == 1}}
+         	<input class="recharge-input realname" readonly="readonly" type="text" name="realname" placeholder="请输入真实姓名" value="{{realname}}">
+		 	{{else}}
+		 	<input class="recharge-input realname" type="text" name="realname" placeholder="请输入真实姓名" value="{{realname}}">
+		 	{{/if}}
 		 </li>
          <li class="mui-table-view-cell">身份证
+         	{{if sm_sign == 1}}
+         	<input class="recharge-input card_id" readonly="readonly" type="text" name="card_id" placeholder="请输入真实身份证号码" value="{{card_id}}">	
+         	{{else}}
          	<input class="recharge-input card_id" type="text" name="card_id" placeholder="请输入真实身份证号码" value="{{card_id}}">	
-         	
+         	{{/if}}
          </li>
 	</ul>
 	<div class="recharge-money">银行卡信息<a data-href="bank-limit.html" style="color:#d10720;" class="yhLimit">银行限额</a></div>
@@ -393,11 +398,11 @@ header .mui-title { color: #333; }
   			//console.log(JSON.stringify(res))
   			$('.balance').text(res.balance);
   			if(res.realname_status!=1){//还没有实名认证
-  				
+  				res.sm_sign = 0
 	      		request = {"user_id":user.uid()};
       			account.GetUsersBankOne({'request':request},function(bank_res){
       				//console.log(bank_res)
-      				console.log(JSON.stringify(bank_res));
+      		//		console.log(JSON.stringify(bank_res));
       				res.bank=bank_res.bank;
       				res.account=bank_res.account;
 	      			document.getElementById("recFotId").style.position="relative"
@@ -408,6 +413,7 @@ header .mui-title { color: #333; }
 	      		}); 		
       		}
   			else{
+  				res.sm_sign = 1
   				request = {"user_id":user.uid()};
       			account.GetUsersBankOne({'request':request},function(bank_res){
 	      			////console.log(JSON.stringify(!bank_res.status));
@@ -415,12 +421,10 @@ header .mui-title { color: #333; }
 	 					res.bank=bank_res.bank;
       					res.account=bank_res.account;
 	 					document.getElementById("recFotId").style.position="relative"
-	 					var html = template("tpl-bank3",res);
+	 					var html = template("tpl-bank3",res); 
 	      				document.getElementById("userinfo").innerHTML = html;
 	      				multiselect()
 	      				returnXe()
-	      				
-	      				
 	 				}
 	 				else{	 					
 	 					res.account=bank_res.account;
@@ -442,7 +446,7 @@ header .mui-title { color: #333; }
       		//完成提交
 		$(document).on('tap','#card-btn',function(e){
 			e.stopPropagation();
-			console.log($(".money_order").val())
+		//	console.log($(".money_order").val())
 			var money = $(".money_order").val();//充值金额
 			if(money == "" || isNaN(money) || money <= 0){
 				alert("请输入正确的充值金额！");

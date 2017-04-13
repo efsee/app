@@ -89,7 +89,6 @@
 			request.confirm_password = $("#confirm_password").val();
 			request.invite_userid = $("#invite_userid").val();			
 			request.username = $("#mobile").val();
-
 			if(request.mobile == ''){
 				alert('请输入注册时的手机号码');
 				return false;
@@ -108,7 +107,7 @@
 			}
 			$("input:focus").blur();
 			user.setpwd(request,function(res){
-				console.log(JSON.stringify(res))
+				console.log(JSON.stringify(res)) 
 				if(res.status == 1){
 					plus.nativeUI.toast("重置密码成功，请您登陆！");
 					user.logout({},function(res){
@@ -205,11 +204,11 @@ function sendmobilecode(){
 	}
 		if(issend && times == 60){
 			issend = false;
-			request = {'mobile': mobile};
+			request = {'mobile': mobile,'type':'wjmm'};
 			//request.valicode = '';
 			//getyzm("#getyzm");
 			user.mobilecode(request,function(res){
-				//console.log(JSON.stringify(res));
+				console.log(JSON.stringify(res));
 				if(res.status == 1){
 					getyzm("#getyzm");
 					$('#yyyzm').show();
@@ -218,7 +217,7 @@ function sendmobilecode(){
 					issend = false;
 				}else{
 					//plus.nativeUI.toast(res.msg);
-					plus.nativeUI.toast("您输入的手机号已注册");
+					plus.nativeUI.toast(res.msg);
 					issend = true;
 				}
 			})
@@ -240,7 +239,7 @@ function sendyycode(){
 	if(/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
 		if(issend && times == 60){
 			issend = false;
-			request = {'mobile': mobile};
+			request = {'mobile': mobile,'type':'wjmm'};
 			//request.valicode = '';
 			user.yycode(request,function(res){
 				//console.log(JSON.stringify(res));

@@ -8,86 +8,36 @@
 	<meta name="format-detection" content="telephone=no, email=no" />
 	<title>聚车金融</title>
 	<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
-	<link href="css/recharge.css" rel="stylesheet" type="text/css" />
+	<link href="css/css.css" rel="stylesheet" type="text/css" />
 	<script src="js/mui.min.js"></script>
-	<script type="text/javascript" charset="utf-8">
-	  	mui.init();
-	</script>
-	<style>
-	body{background: #fff;}
-	.mui-content{ background: #fff;}
-	.mui-media-body{ font-size: 14px; white-space: normal;}
-	.mui-ellipsis{text-align: right; 			  
-				  font-size: 12px;
-			
-				  }	
-	.mui-ellipsis-ico{ background: url(images/find_icon.png) no-repeat -68px -36px; 
-						display: inline-block;
-						width: 18px;
-						height: 18px;
-						background-size:150px ;
-						position: relative;
-						top: 3px;
-						right: 5px;
-						}	
-	.mui-table-view .mui-media-object {
-	    line-height: 50px;
-	    max-width: 50px;
-	    height: 50px;
-	} 
-	.f-margin{ margin-top: -15px;}	
-	.mui-content>.mui-table-view:first-child{margin-top: 6px;}
-.academy-main{ margin: 20px; overflow: hidden;}
-.academy-title{ font-size: 16px; line-height: 25px; color: #1d1d1d; font-weight: bold;}   
-.academy-date{ color: #b9b9b9; font-size: 12px; margin-top: 8px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0;}
-.academy-come{ margin-left: 20%;}
-.academy-main .academy-dimension{ font-size: 14px; 
- 								   line-height: 25px; 
- 								   color:#000;
- 								    margin-top: 15px;
- 								   
- 								   }     
-
- .academy-main .academy-dimension img{
- max-width: 100%; height: auto; 
- margin: 10px 0px;
-}	
- .academy-main .academy-dimension p,a{
-color: #000000;
-}		
-	</style>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav header">
-	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" id="back"></a>
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #999;" id="back"></a>
 	<a id="top_right_btn" class="mui-pull-right" style="display: none;"></a>
 	<h1 id="title" class="mui-title">聚车商学院</h1>
 </header>
 
 
-<div class="mui-content f-margin">
-		<div id="article-item">
-			<div class="academy-main">
-		      <div class="academy-title"></div>
-		      <p class="academy-date"><span class="academy-come">来自：聚车金融</span></p>
-		      <div class="academy-dimension">
-		      	</div>
-			</div>
-			
-		</div>
+<div class="mui-content">
+		
 </div>
 </body>
-<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
-<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="js/template.js"></script>
-<script src="js/template.function.js"></script>
 <script type="text/javascript">
-	mui.plusReady(function(){
-		
+	mui.init({
+		gestureConfig:{
+			doubletap:true
+		},
+		subpages:[{
+			url:'sxy_article_list.html',
+			id:'sxy_article_list.html',
+			styles:{
+			top:"45px",
+			bottom: '0px'}
+		}]
 	})
 	
-	document.addEventListener("articleId",function(e){
+	/*document.addEventListener("articleId",function(e){
 			//console.log(111244)
 			//console.log(JSON.stringify(e.detail));
 			//$('#title').text(e.detail.title)
@@ -137,7 +87,7 @@ color: #000000;
 	    });
 	    return format;
    	}
-	
+	*/
 	
 </script>
 </html>

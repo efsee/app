@@ -81,7 +81,10 @@ template.helper('expireTime', function (date,num) {
 	}
 	return res;
 });
-
+template.helper('substr', function (data,num1,num2) {
+	res = data.substr(num1,num2)
+	return res;
+});
 // * 对日期进行格式化， 
 // * @param date 要格式化的日期 
 // * @param format 进行格式化的模式字符串

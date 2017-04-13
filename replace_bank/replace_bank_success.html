@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>删除银行卡</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" /> 
+		<link href="../css/layer.css" rel="stylesheet"/>
+		<link href="../css/mylayer.css" rel="stylesheet"/>
+		<style>
+			html,body{
+				font-size: 12px;
+				background: #fff;
+			}
+			.mui-content{
+				background: #fff;
+			}
+			@media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.success-icon{
+				width: 20%;
+				display: block;
+				margin: 0 auto;	
+				margin-top: 15%;
+			}
+			.del-euccess-box{
+				
+			}
+			.del-euccess-box p{
+				margin: 0 auto;
+				text-align: center;
+				color: #666;
+				line-height: 2.2rem;
+			}
+			#ytj{
+				font-size: 1.6rem;
+				color: #A3DB85;
+				margin: 1.2rem auto; 
+			}
+			.bind-box{
+				margin-top: 6rem;
+				text-align: center;
+			}
+			.bind-btn{
+				font-size: 1.3rem;
+				text-decoration: underline;
+			}
+			.bind-btn:hover,.bind-btn:active{
+				color: #666;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title" style="color: #333;">信息提交</h1>
+		</header>
+		<div class="mui-content"> 
+			<div class="del-euccess-box">
+				<img class="success-icon" src="../images/del_bank_suc.jpg"/>
+				<p id="ytj">信息已提交</p>
+				<p>预计一天内审核完成，审核完成后，<br>会进行短信通知及消息提醒。</p>
+				<div class="bind-box"><a class="bind-btn">返回我的账户</a></div>
+			</div>
+		</div> 
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/jquery-1.11.2.min.js"></script> 
+		<script src="../js/api.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				beforeback: function(){
+				//获得a界面的webview	
+				    return true;
+				}	
+			})
+			mui.plusReady(function(){
+				
+				mui('.bind-box').on('tap','.bind-btn',function(){
+					var nowTime = new Date().getTime();
+					var clickTime = $(this).attr("ctime"); 
+					if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime); 
+				    }
+				    mui.back()
+				})
+				var old_back = mui.back;
+				mui.back = function(){
+					var userinfoPage = plus.webview.currentWebview().opener().opener().opener()
+					mui.fire(userinfoPage,'refresh')
+					plus.webview.currentWebview().opener().opener().close('none')
+					plus.webview.currentWebview().opener().close('none')
+					setTimeout(function(){
+						old_back()
+					},300)
+				}
+			})
+		</script>
+	</body>
+
+</html>

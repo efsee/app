@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>删除银行卡</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" /> 
+		<link href="../css/layer.css" rel="stylesheet"/>
+		<link href="../css/mylayer.css" rel="stylesheet"/>
+		<style>
+			html,body{
+				font-size: 12px;
+				background: #fff;
+			}
+			.mui-content{
+				background: #fff;
+			}
+			@media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.send-title{
+				padding: 0 1.2rem;
+				line-height: 4.4rem;
+				font-size: 1.3rem;
+			}
+			.send-title span{
+				color:#333;
+				font-weight: 500;
+			}
+			.input-box{
+				width: 94%;
+				margin: 0 auto;
+				height: 48px;
+				position: relative;
+			}
+			.input-box:after{
+				position: absolute;
+				width: 1px;
+				height: 30px;
+				background: #e8e8e8;
+				content: "";
+				right: 100px;
+				top: 9px;
+				transform: scaleX(.5);
+				-webkit-transform: scaleX(.5);
+			}
+			.ico-pin{
+				position: absolute;
+				top: 13px;
+				left: 12px;
+				width: 22px;
+				height: 22px;
+				background: url(../images/other_login_icon.png) no-repeat 0 -20px;
+				background-size: 80%;
+			}
+			#pin-code{
+				width: 100%;
+				margin: 0px;
+				height: 48px;
+				line-height: 20px;
+				padding: 14px 100px 14px 40px;
+				font-size: 1.2rem;
+				color:#333;
+				border:1px solid #EDEDED
+			}
+			.get-pin{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 100px;
+				display: block;
+				height: 48px;
+				line-height: 48px;
+				text-align: center;
+				color: #c6c6c6;
+			}
+			.msg{
+				text-align: justify;
+				padding: 0 1.2rem;
+				font-size: 1rem;
+				margin-top: 2rem;
+			}
+			.delect-btn{
+				width: 90%;
+				background: #E6E4E5;
+				color: #999;
+				text-align: center; 
+				height: 3.8rem;
+				line-height: 3.8rem;
+				margin: 1.2rem auto;
+				border-radius: 0.4rem;
+				-webkit-border-radius: 0.4rem;
+				font-size: 1.3rem;
+			}
+			.submit-btn{
+				background:#e4393c;
+				color: #fff;
+			}
+			.submit-btn:hover,.submit-btn:active{ color:#fff; background:#e21c20;}
+			.success-icon{
+				width: 20%;
+				display: block;
+				margin: 18% auto;	
+			}
+			.del-euccess-box{
+				display: none;
+			}
+			.del-euccess-box p{
+				text-align: center;
+				color: #666;
+			}
+			.bind-box{
+				margin-top: 6rem;
+				text-align: center;
+			}
+			.bind-btn{
+				font-size: 1.3rem;
+				text-decoration: underline;
+			}
+			.bind-btn:hover,.bind-btn:active{
+				color: #666;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title" style="color: #333;">删除银行卡</h1>
+		</header>
+		<div class="mui-content"> 
+			<div class="delect-box">
+				<p class="send-title">短信验证码已发送至<span id="username"></span></p>
+				<div class="input-box">
+					<i class="ico-pin"></i>
+					<input type="text" pattern="[0-9]*" class="input-code" name="pin-code" id="pin-code" placeholder="验证码"/>
+					<span class="c5 get-pin">59s</span>
+				</div>
+				<div class="delect-btn">确定删除</div>
+				<p class="msg c5">提示：更换银行卡信息之前，需删除现在银行卡信息。删除后，未成功绑定新银行卡之前，无法进行相关操作。例如，充值等。</p>
+			</div>
+			
+			<div class="del-euccess-box">
+				<img class="success-icon" src="../images/del_bank_suc.jpg"/>
+				<p>银行卡已成功删除，去绑定新的银行卡吧。</p>
+				<div class="bind-box"><a class="bind-btn">去绑银行卡</a></div>
+			</div>
+		</div> 
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/jquery-1.11.2.min.js"></script> 
+		<script src="../js/api.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				beforeback: function(){
+				//获得a界面的webview	
+				    return true;
+				}	
+			})
+			mui.plusReady(function(){
+				var is_delect = false
+				var username = store.get('username').substr(0,3)+'****'+store.get('username').substr(7)
+				document.getElementById('username').innerText = ' '+username
+				var times=60
+				sendmobilecode()
+				$("#pin-code").keyup(function(){
+					if($(this).length>0) $('.delect-btn').addClass('submit-btn')
+				})
+				function getyzm(){
+					times--;
+					$(".get-pin").css("color","#c6c6c6");
+					if(times>0&&times<60){
+						$(".get-pin").text(times+"s");
+						$(".get-pin").attr("disabled",'disabled');
+					}else{
+						$(".get-pin").css("color","#e4393c").text('获取验证码');
+						clearInterval(t_sendpincode)
+						$(".get-pin").removeAttr("disabled");
+						times=60
+					}
+					
+				} 
+				function sendmobilecode(){ 
+					//console.log('send');
+					var mobile = store.get('username') ;
+					if(times == 60){
+						request = {'mobile': mobile}; 
+						newUser.mobilecode(request,function(res){
+						//	console.log('绑定验证码：'+JSON.stringify(res)); 
+							if(res.error_no == 200){
+								t_sendpincode = setInterval(getyzm,1000)
+							//	plus.nativeUI.toast("验证码短信已发送成功！");
+							}else{
+								plus.nativeUI.toast(res.error_msg); 
+							}
+						})
+					}else{ 
+						alert("验证码短信已发送,请稍候重试！");
+					}
+				}
+				mui('.input-box').on('tap','.get-pin',function(){
+					if($(this).attr('disabled')){
+						alert("验证码短信已发送,请稍候重试！");
+						return false;
+					}
+					else{
+						sendmobilecode()
+					}
+				})
+				mui('.mui-content').on('tap','.submit-btn',function(){
+					var nowTime = new Date().getTime();
+					var clickTime = $(this).attr("ctime"); 
+					if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime); 
+				    }
+				    plus.nativeUI.showWaiting()
+				    var mobile_code = $("#pin-code").val()
+				    if(mobile_code==''||mobile_code.length<4){
+				    	alert('请输入正确的验证码！');
+						return false;
+				    }
+				    var request = {
+				    	token: user.utoken(), 
+				    	mobile: store.get('username'),
+				    	mobilecode: mobile_code  
+				    } 
+				    userbank.delete(request,function(res){ 
+				  //  	console.log(JSON.stringify(request)); 
+					//	console.log('绑定验证码：'+JSON.stringify(res)); 
+						if(res.error_no==200){
+							setTimeout(function(){
+								$(".delect-box").css('display','none')
+								plus.nativeUI.closeWaiting()
+								$(".del-euccess-box").fadeIn()
+								is_delect = true
+							},300)
+							
+						}else{ 
+							plus.nativeUI.closeWaiting()
+							plus.nativeUI.toast(res.error_msg); 
+						}
+					})
+				})
+				mui('.bind-box').on('tap','.bind-btn',function(){
+					var nowTime = new Date().getTime();
+					var clickTime = $(this).attr("ctime"); 
+					if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime); 
+				    }
+					var	recharge=plus.webview.create('../smrz_w_recharge.html','smrz_w_recharge.html',{'popGesture':'close'});
+					//判断异地登录
+					functionCom.checkToken(function(res){
+						//console.log(res.error_no)
+						if(res.error_no==200){
+							setTimeout(function(){
+							recharge.show("slide-in-right",100);
+						},50);
+						}
+					})//结束
+					recharge.addEventListener('loaded',function(){
+						mui.fire(recharge,'smrz',{
+							sale_price:1
+						});
+					});
+				})
+				var old_back = mui.back;
+				mui.back = function(){
+					var userinfoPage = plus.webview.currentWebview().opener().opener()
+					mui.fire(userinfoPage,'refresh')
+					plus.webview.currentWebview().opener().close('none')
+					setTimeout(function(){
+						old_back()
+					},300)
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

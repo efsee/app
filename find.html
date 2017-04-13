@@ -25,7 +25,30 @@
  
 .find-top > li:before {
     height: 0px;
-}			  		  
+}		
+.ui_item_cell{
+	border:0px solid #fff;
+	position: relative;
+}	
+.ui_item_cell:before,.ui_item_cell:after{
+	position: absolute;
+	content:'';
+	background: #E5E5E5;
+	width: 100%;
+	height:1px;
+	left: 0;
+	transform: scaleY(.5);
+	-webkit-transform: scaleY(.5);
+	z-index: 999;
+	 
+} 
+.ui_item_cell:before{ 
+	top: 0;
+}
+.ui_item_cell:after{ 
+	bottom: 0!important;
+}	  
+
  </style>
 </head>
 
@@ -39,7 +62,7 @@
 		   		<li>
 		   			<a open-type="common" class="tap" data='{"title":"消息通知","href":"notice.html"}'>		
 		   				<span class="icon_news"></span>
-		   				<p>消息通知</p>					
+		   				<p>官方公告</p>					
 		   			</a>
 		   		</li>
 		  	    <li>
@@ -49,7 +72,7 @@
 		   			</a>
 		   		</li>
 		   		<li>
-		   			<a class="tap" data='{"title":"聚车商学院","href":"sxy_article_list.html"}'>		
+		   			<a class="tap" open-type="common" data='{"title":"聚车商学院","href":"sxy_article.html"}'>		
 		   				<span class="icon_College"></span>
 		   				<p>聚车商学院</p>					
 		   			</a>
@@ -58,12 +81,12 @@
 		    </ul> 
 		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
 		   	
-		   		<li class="ui-jcts">
+		   		<!--<li class="ui-jcts">
 		   			<a open-type="common" class="tap" data='{"href":"guide-show.html"}'>
 		   				<span class="icon_jcts"></span>
 		   				聚车特色
 		   			</a>
-		   		</li>
+		   		</li>-->
 		   			<li>
 		   			<a class="tap" data='{"title":"新手指南","href":"newbie.html"}'>
 		   				<span class="icon_mall"></span>
@@ -87,7 +110,7 @@
 		   			</a>
 		   		</li>
 		   			<li>
-		   			<a href="javascript:void(0);" class="click_dialog" id="click_dialog">
+		   			<a href="javascript:void(0);" data='{"title":"关注微信公众号","href":"gzwx.html"}' class="click_dialog tap" >
 		   				 <span class="icon_follow"></span>
 		   				关注我们（微信公众号）
 		   			</a>		
@@ -110,7 +133,7 @@
 		   			<a>
 		   			   <span class="icon_bbh"></span>
 		   				当前版本
-		   				<span class="bbh-style">版本号 : 1.9.1</span>
+		   				<span class="bbh-style">版本号 : 1.9.2</span>
 		   			</a>
 		   		</li>
 		    	
@@ -136,7 +159,7 @@
 	    mui.openWindow({url:'guide-show.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,"aniShow":"pop-in","duration":300},waiting:{autoShow:false}});
 
 	})
-	mui.plusReady(function(){
+	mui.plusReady(function(){ 
 		document.getElementById("confirmBtn").addEventListener('tap', function() {
 			var btnArray = ['取消', '呼叫'];
 			mui.confirm(' ','4001-123-990', btnArray, function(e) {
@@ -145,9 +168,9 @@
 				} else {
 				}
 			})
+			//openQQ()
 		});
-			
-		document.getElementById("click_dialog").addEventListener('tap', function() {
+		/*document.getElementById("click_dialog").addEventListener('tap', function() {
 			var btnArray = ['取消', '去关注'];
 			mui.confirm(' ','您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。', btnArray, function(e) {
 				if (e.index == 1) {
@@ -155,7 +178,7 @@
 				} else {
 				}
 			})
-		});	
+		});	*/
 		var inittemplate = getTemplate('template', 'template.html');	
 		mui("body").on('tap','a.tap',function(){
 			var data = this.getAttribute('data');
@@ -172,7 +195,7 @@
 				mui.openWindow({
 					id: id,
 					url:href,
-					styles: webview_style,
+					styles: webview_style, 
 					waiting: {
 						autoShow: false
 					},
@@ -204,6 +227,26 @@
 				headerWebview.show('pop-in', 300);
 			}		
 		})
+		function openQQ() {
+            if (plus.os.name == "Android") {
+               var main = plus.android.runtimeMainActivity();
+               var Intent = plus.android.importClass('android.content.Intent');
+               var Uri = plus.android.importClass('android.net.Uri'); 
+               var intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2033360848"));
+               main.startActivity(intent); 
+            } 
+            if (plus.os.name == "iOS") {
+                plus.runtime.launchApplication({ 
+                    action: "mqq://im/chat?chat_type=wpa&uin=2033360848&version=1&src_type=web"
+                }, function(e) {
+                    plus.nativeUI.confirm("检查到您未安装qq，请先到appstore搜索下载？", function(i) {
+                        if (i.index == 0) {
+                            iosAppstore("itunes.apple.com/cn/app/mqq/");
+                        }
+                    });
+                });
+            }
+        }
 		
 	})		//plusReady结束
 </script>

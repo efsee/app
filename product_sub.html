@@ -321,8 +321,7 @@
 								//获得共用子webview
 							var contentWebview = inittemplate.content;
 							contentWebview.loadURL(href);
-							
-							var right_btn = data.right_btn || "";
+							var right_btn = data.right_btn || ""; 
 							//console.log(data.title)
 							mui.fire(headerWebview, 'updateHeader', {
 								title: title,
@@ -331,7 +330,7 @@
 							});
 							
 							mui.fire(headerWebview, 'loading');
-							headerWebview.show('slide-in-right', 150);
+							headerWebview.show('pop-in', 300);
 						}
 					}
 					else{

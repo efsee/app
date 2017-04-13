@@ -179,6 +179,7 @@
 							<span class="icon icon-zx"></span>
 							<div class="mui-media-body">个人中心</div>
 						</a>
+						<div id="auditFail" style="display: none; top:14%;right: 16%; position: absolute; width: 8px;height: 8px;border-radius: 50%;background: #F13F3F;"></div>
 					</li>
 					<li id="mytz" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 					<a href="user/hkjl.html" class="hkjl tap" data='{"title":"回款记录"}'>
@@ -358,7 +359,7 @@
 					var contentWebview = template.content;
 					contentWebview.loadURL(href);
 					var right_btn = data.right_btn || "";
-					mui.fire(headerWebview, 'updateHeader', {
+					mui.fire(headerWebview, 'updateHeader', {  
 						title: data.title,
 						showMenu: false,
 						right_btn:right_btn
@@ -383,41 +384,65 @@
 					}
 					var nowTime = new Date().getTime();
 	    			var clickTime = $(this).attr("ctime");
-	    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 1000)){
+				        return false;
+				    }else{
+				    	$(this).attr("ctime",nowTime);
+				    }
+				    var withdraw_header = plus.webview.create("withdraw_header.html","withdraw_header.html",{popGesture:"close"})				
+				    userbank.get({token:user.utoken()},function(res){
+						if(res.result.check_status == 3){
+							mui.alert('您的银行卡信息正在审核中，当前无法进行该操作，我们会为您尽快审核。谢谢！',function(){
+								//mui.back()
+							})
+							return false;
+						}else{
+							//判断异地登录
+							functionCom.checkToken(function(res){
+								//console.log(res.error_no)
+								if(res.error_no==200){
+									setTimeout(function(){
+										withdraw_header.show("pop-in",300)
+									},200)
+									withdrawDel=plus.webview.getWebviewById("withdraw_header.html")
+									withdrawDel.addEventListener( "popGesture", function(e){
+										var indexSubSx=withdrawDel.opener()
+										mui.fire(indexSubSx,"initpage")
+									}, false );
+									mui.fire(withdrawDel,"initpage")	
+								}
+							})	//结束
+						}
+					})	
+				})
+				document.getElementById("recharge").addEventListener('tap',function(e){
+					var nowTime = new Date().getTime();
+	    			var clickTime = $(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 1000)){
 				        return false;
 				    }else{
 				    	$(this).attr("ctime",nowTime);
 				    }
 					//判断异地登录
-					functionCom.checkToken(function(res){
-						//console.log(res.error_no)
-						if(res.error_no==200){
-							var withdraw_header = plus.webview.create("withdraw_header.html","withdraw_header.html",{popGesture:"close"})
-							setTimeout(function(){
-								withdraw_header.show("pop-in",300)
-							},300)
-							withdrawDel=plus.webview.getWebviewById("withdraw_header.html")
-							withdrawDel.addEventListener( "popGesture", function(e){
-								var indexSubSx=withdrawDel.opener()
-								mui.fire(indexSubSx,"initpage")
-							}, false );
-							mui.fire(withdrawDel,"initpage")	
+					userbank.get({token:user.utoken()},function(res){
+						if(res.result.check_status == 3){
+							mui.alert('您的银行卡信息正在审核中，当前无法进行该操作，我们会为您尽快审核。谢谢！',function(){
+								//mui.back()
+							})
+							return false;
+						}else{
+							functionCom.checkToken(function(res){
+								//console.log(res.error_no)
+								if(res.error_no==200){
+									mui.openWindow({
+										'url':'w_recharge.html','id':'w_recharge.html', 
+										'styles':{'top':'0px',"popGesture":"close","aniShow":"pop-in","duration":300},
+										'show':{'autoShow':true},'waiting':{'autoShow':false}
+									});
+								}
+							})//结束
 						}
-					})	//结束
-				})
-				document.getElementById("recharge").addEventListener('tap',function(e){
-					//判断异地登录
-					functionCom.checkToken(function(res){
-						//console.log(res.error_no)
-						if(res.error_no==200){
-							mui.openWindow({
-								'url':'w_recharge.html','id':'w_recharge.html', 
-								'styles':{'top':'0px',"popGesture":"close","aniShow":"pop-in","duration":300},
-								'show':{'autoShow':true},'waiting':{'autoShow':false}
-							});
-						}
-					})//结束
-					
+					})
 				})
 
 				
@@ -530,6 +555,13 @@
 					$('#recordcount2').html('(' + res.record.count2 + ')');
 					$('#recordcount3').html('(' + res.record.count3 + ')');
 				})*/
+				userbank.get({"token":user.utoken()},function(res){   
+					if(res.result.check_status==2){
+						$("#auditFail").css('display','block')
+					}else{
+						$("#auditFail").css('display','none')
+					}
+      			})
 				//邀请好友添加data
 		  		request = {'user_id':user.uid(),'epage':1};
 		  		user.GetFriendsInvite({'request':request},function(res){
