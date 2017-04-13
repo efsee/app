@@ -2,7 +2,7 @@ var url = "";
 var isOpenLogin;
 var templates = {};
 //定义模板函数
-var getTemplate = function(name, header, content) {
+var getTemplate = function(name, header, content) { 
 	var template = templates[name];
 	if (!template) {
 		//预加载共用父模板；

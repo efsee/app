@@ -6,8 +6,8 @@ var apiurl_new = 'http://apitest.ifcar99.com/';
 var api_upload_url = 'http://test.ifcar99.com/api.php?module=upload';
 var chargeapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_charge_api.php';
 var queryapi_url = 'http://test.ifcar99.com/api/authllcz/llcz_query_api.php';*/
-//正式地址 
-
+//正式地址  
+ 
 var host = 'https://www.ifcar99.com/'; 
 var apiurl = 'https://www.ifcar99.com/api.php'; 
 var apiurl_new = 'https://www.ifcar99.com/api_v2';
@@ -17,6 +17,18 @@ var queryapi_url = 'https://www.ifcar99.com/api/authllcz/llcz_query_api.php';
 
 //var host = 'https://192.168.1.10/';  
 mui.plusReady(function() { 
+	//获取登录客户端
+	auths=[];
+	plus.oauth.getServices(function(services){//认证成功回调
+		//auths = services;
+		for(var i in services){
+			var service = services[i]
+			if(service.id == 'weixin'){
+				auths.push(service)
+			}
+		}
+	},function(e){//错误回调
+	});
 	/*plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 		//appid属性
 		appinfo.appid = wgtinfo.appid;
@@ -25,7 +37,7 @@ mui.plusReady(function() {
 		//name属性 
 		appinfo.name = wgtinfo.name; 
 	});*/  
-if(document.getElementById("main-box")){
+if(document.getElementById("main-box")){ 
 	mui('#main-box').on('tap', 'a[href]', function(){
 		var href = this.getAttribute('href');
 		if(/^(http\:\/\/|http\:\/\/)/.test(href)){
@@ -270,7 +282,7 @@ var user = {
 	},
 	'logout': function($data, callback) {
 		var uid = this.uid();
-		var url = apiurl + '?module=user&action=logout';
+		var url = apiurl + '?module=user&action=logout';//获取登录客户端
 //		clientInfo = plus.push.getClientInfo();
 		ajax.post(url, {
 			uid: uid,
@@ -283,7 +295,25 @@ var user = {
 		store.delete('shoushi_status');
 		store.delete('shoushi_psw');   
 		store.delete('integral_notice'); //退出后删除签到提醒标识 
-		//store.delete('username');   
+		//store.delete('username'); 
+		var auth=auths[0]; 
+		if(auth){
+			var w=null;
+			if(plus.os.name=="Android"){
+				w=plus.nativeUI.showWaiting();
+			}
+			document.addEventListener("pause",function(){
+				setTimeout(function(){
+					w&&w.close();w=null;
+				},2000);
+			}, false );
+			auth.logout(function(e){
+				//alert('注销认证成功')
+			},function(){
+				//console.log('error'+e)
+			});
+		}
+		
 	},	
 	'getInfo': function(callback) {
 		var uid = this.uid();
@@ -410,6 +440,15 @@ var user = {
 	"UpdateShoushiStatus" : function($data, callback){
 		var url = apiurl + '?module=user&action=UpdateShoushiStatus';
 		ajax.post(url, $data, callback);
+	},
+	'clear':function(){
+		store.delete('uid');
+		store.delete('utoken'); 
+		store.delete('shoushi_status');
+	    store.delete('shoushi_psw');
+	    store.delete('integral_notice');
+	    store.delete('adBox');
+	    plus.storage.removeItem('shoushimima');
 	}
 }
 
@@ -520,7 +559,10 @@ var borrow = {
 		var url = apiurl + '?module=borrow&action=GetTenderLists';
 		ajax.post(url, $data, callback);
 	},
-	
+	"tender_bouns_recommend" : function($data, callback){
+		var url = apiurl_new + 'borrow/tender/bouns/recommend';
+		ajax.post(url, $data, callback);
+	}
 }
 
 var product = {
@@ -608,6 +650,10 @@ var articles = {
 	"SetNoticeStatus" : function($data, callback){
 		var url = apiurl + '?module=articles&action=SetNoticeStatus';
 		ajax.post(url, $data, callback);
+	},
+	"ReadAllNotice" : function($data, callback){
+		var url = apiurl + '?module=articles&action=ReadAllNotice';
+		ajax.post(url, $data, callback);
 	}
 }
 
@@ -661,8 +707,16 @@ var newUser = {
 	"get" : function($data, callback){
 		var url = apiurl_new + '/user/get';
 		ajax.post(url, $data, callback);
+	},
+	'setInfo':function(res){
+		store.set('uid', res.user.user_id, 3600 * 24 * 365);
+		store.set('utoken', res.token.token, 3600 * 24 * 365);
+		store.set('username', res.user.loginname, 3600 * 24 * 365);
+	},
+	'mobilecode':function($data, callback){
+		var url = apiurl_new + '/user/mobile_code';
+		ajax.post(url, $data, callback);
 	}
-	
 }
 //地址
 var address={
@@ -772,7 +826,80 @@ var article = {
 		ajax.post(url, $data, callback);
 	}
 }
-
+//微信
+var wx = {
+	'clear':function(){
+		
+	},
+	'setInfo':function(info){
+		store.set('wuid', info.unionid, 3600 * 24 * 365);
+		store.set('oid', info.openid, 3600 * 24 * 365);
+		store.set('nickname', info.nickname, 3600 * 24 * 365);
+		store.set('headurl', info.headimgurl, 3600 * 24 * 365);
+	},
+	'nickname': function() {
+		return store.get('nickname');
+	},
+	'oid': function() {
+		return store.get('oid');
+	},
+	'wuid': function() {
+		return store.get('wuid');
+	},
+	'headurl': function(uid) {
+		return store.get('headurl');
+	},
+	'judgeBind':function($data, callback){//判断有无绑定
+		var url = apiurl_new + '/wechat/mobile/oauth';
+		ajax.get(url, $data, callback);
+	},
+	'bindMobileCode':function($data, callback){//绑定验证码
+		var url = apiurl_new + '/user/bind_mobile_code';
+		ajax.get(url, $data, callback);
+	},
+	'bind':function($data, callback){//绑定已有账户
+		var url = apiurl_new + '/wechat/mobile_bind';
+		ajax.get(url, $data, callback);
+	},
+	'regBind':function($data, callback){//注册绑定
+		var url = apiurl_new + '/wechat/mobile_reg';
+		ajax.get(url, $data, callback);
+	},
+	'regMobileCode':function($data, callback){//注册绑定验证码
+		var url = apiurl_new + '/user/reg_mobile_code';
+		ajax.get(url, $data, callback);
+	}
+	
+}
+var uploader = {
+	'feedback':function($data, callback){//注册绑定验证码
+		var url = apiurl_new + '/feedback/add';
+		ajax.post(url, $data, callback);
+	}
+}
+var userbank = {
+	'delete':function($data, callback){//删除银行卡
+		var url = apiurl_new + '/userbank/delete'; 
+		ajax.post(url, $data, callback); 
+	},
+	'get':function($data, callback){//查看银行卡
+		var url = apiurl_new + '/userbank/get'; 
+		ajax.post(url, $data, callback); 
+	},
+	'modify':function($data, callback){//修改银行卡
+		var url = apiurl_new + '/userbank/modify'; 
+		ajax.post(url, $data, callback); 
+	},
+	'cancel_modify':function($data, callback){//修改银行卡
+		var url = apiurl_new + '/userbank/cancel_modify'; 
+		ajax.post(url, $data, callback); 
+	},
+	'modify_log_detail':function($data, callback){//修改银行卡
+		var url = apiurl_new + '/userbank/modify_log_detail'; 
+		ajax.post(url, $data, callback); 
+	}
+	
+}
 var system = {
 	'get': function(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -860,6 +987,10 @@ var functionCom = {
 				mui.confirm(error_msg,"提醒",["确定"],function(e) {
 					if (e.index == 0) {
 						//return false;
+						setTimeout(function(){
+							mui.fire(plus.webview.getLaunchWebview(),'gohome');
+						},500)
+						
 						login();
 						//mui.fire(plus.webview.getLaunchWebview(),'gohome');
 					}

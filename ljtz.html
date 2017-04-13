@@ -219,7 +219,7 @@
 			</div>
 			<p class="yearEarnings">年化收益：<span id="earningsMoney">{{borrow.borrow_apr}}</span>%，&nbsp;到期收益：<span id="span_borrow_sy">0.00</span>元</p>
 			<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed select-box" style="margin:10px 0;background: #EFEFF4;"> 
-				<li class="mui-table-view-cell select-coupon" data={"url":"use_hongbao.html","name":"hongbaoPage"} id="hongbao-offCanvas" style="padding-right: 12px;background: #fff;">
+				<li class="mui-table-view-cell select-coupon go-hongbao" data={"url":"use_hongbao.html","name":"hongbaoPage"} id="hongbao-offCanvas" style="padding-right: 12px;background: #fff;">
 			        <div class="mui-table">
 			            <div class="mui-table-cell mui-col-xs-4">
 			            	<span class="name">红包</span>
@@ -242,6 +242,7 @@
 			                <span class="c5" id="jxj">未选择</span>
 			                {{/if}}
 			                <input type="hidden" name="jxmoney" id="jxmoney" value="0" />
+			                <input type="hidden" name="jxrate" id="jxrate" value="0" />
 			            </div>
 			        </div>
 		    	</li>
@@ -270,7 +271,7 @@
 		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/template.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
+		<script type="text/javascript"> 
 			mui.init({
 				swipeBack: true,
 				beforeback: function(){
@@ -433,6 +434,7 @@
 					var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
 					$("#jxj").html(jxmsg);
 					$("#jxmoney").val(cid);
+					$("#jxrate").val(crate)
 					//请求收益
 					var moneyvalue  = $("#money").val();
 					var request = {};
@@ -487,7 +489,7 @@
 				})
 				
 				var jxjPageTest = true
-				mui("body").on("tap",".select-coupon",function(e){
+				mui("body").on("tap",".select-coupon,.go-hongbao",function(e){
 					e.preventDefault();
 					if(jxjPageTest){
 						jxjPageTest = false;
@@ -510,12 +512,11 @@
 						var urldata = eval("(" + urldata + ")");
 						var urlpage = plus.webview.create(urldata.url,urldata.url,{popGesture:"close"},{"money":$("#money").val(),"hb_id":hb_id})
 						setTimeout(function(){  
-							urlpage.show("slide-in-right")
+							urlpage.show("pop-in",300)
 							if(urldata.url=='use_coupon.html'&&clear_coupon_tip){
 								store.set('coupon_tip',1,3600*24*365)
-							}
-							
-						},300)
+							}	
+						},200)
 					} 
 					
 				})
@@ -528,11 +529,14 @@
 					var money  = $("#money").val();
 					var hmoney = $("#hmoney").val();
 					var jxmoney = $("#jxmoney").val()
+					var jxrate = $("#jxrate").val()
+					if(jxrate == '0') jxrate='';
+					else jxrate='+'+jxrate+'%';
 					var hongbao;
 					if(!use_hbmoney||use_hbmoney==0){ 
 						hongbao="";
 					}else{
-						hongbao="（含"+use_hbmoney+"元红包）"
+						hongbao="(含"+use_hbmoney+"元红包)"
 					}
 					var request = {};
 					request.token = user.utoken();
@@ -556,10 +560,195 @@
 				  			$("#money").focus()
 						});
 						return false;
+					} 
+					//if(!use_hbmoney||use_hbmoney==0){
+					if(!use_hbmoney||use_hbmoney==0){
+						borrow.tender_bouns_recommend({'token':user.utoken(),'money':money,'borrow_id':borrow_nid},function(res){
+							console.log('推荐'+JSON.stringify(res))
+							if(res.error_no==200&&res.result.total > 0){
+								mui.confirm('当前有可用优惠暂未使用，是否使用？',function(e){
+									if(e.index == 0){//取消  
+										tende_submit(request,money,biaoName,hongbao,jxrate)
+									}else{//确认
+										var defaultTab = document.getElementsByClassName('go-hongbao')[0]
+										mui.trigger(defaultTab, 'tap');	
+									}
+								})
+							}else{
+								tende_submit(request,money,biaoName,hongbao,jxrate)
+							}
+						})
+					}else{
+						tende_submit(request,money,biaoName,hongbao,jxrate)
+					}		
+				});
+				//全额投资
+				mui('body').on('tap','#qetx',function(){	
+					plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+					hbaomoney = $("#hongbaolist li");		
+					var money = parseFloat($("#balance").html());	
+					var borrow_apr = $("#borrow_apr").val();
+					var account_wait = borrow_account_wait;
+					var moneyb = parseInt(money/100);		
+		            var moneyd = moneyb*100;	
+					if(money>=100){
+						if (money>account_wait){				
+					        $("#money").val(account_wait);
+					         moneyvalue  = account_wait;
+					       // console.log(moneyvalue)
+					       
+						} else{
+					        $("#money").val(moneyd);
+					         moneyvalue  = moneyd;
+					       // console.log(moneyvalue)
+					    }
+						changeHb(moneyvalue)
+						changeJx()
+						 				
+					}else{
+						 mui.alert('您的余额不足100，请充值！', function() {
+		                    getdata(ljdata)
+		                    plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
+		               });	
 					}
+					var borrow_money  = $("#money").val();
+					var request = {};
+					request.borrow_nid = borrow_nid;
+				//	request.borrow_apr = borrow_apr;
+					request.borrow_period = borrow_period;
+					request.borrow_style = borrow_style;
+					request.money = borrow_money;
+					
+					
+					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
+						var cid = vipcoupon_data.cid
+						var c_etime = expireTime(vipcoupon_data.etime) 
+						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
+						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
+						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
+						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
+						$("#jxj").html(jxmsg);
+						$("#jxmoney").val(cid);
+						$("#jxrate").val(crate)
+						//请求收益
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}else{
+						
+						$("#borrow_apr").val(oldEarnMoney);
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}
+					//console.log(JSON.stringify(request));
+					borrow.sy({'request':request},function(res){
+						if(res) {
+							$('#span_borrow_sy').html(res);
+						}else{
+							$('#span_borrow_sy').html("0.00");
+						}
+					})
+					
+				})
+				/**********忘记密码页面跳转**********/
+				mui('body').on('tap','#wjmm',function(e){
+					e.preventDefault();
+					layer.close(index)
+					href=$(this).attr('data-href');
+					inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '修改交易密码',
+						showMenu: false
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('slide-in-right', 150);
+				});	
+				//任何位置点击失去焦点
+				document.addEventListener('tap',function(event){
+					if(document.activeElement == document.getElementById("money") && event.target.id != 'money'){
+						$('#money').blur();
+					}
+				})
+				mui('body').on('keyup','#money',function(){
+					
+					use_hbmoney = 0;
+					hbaomoney = $("#hongbaolist li");
+					var moneyvalue  = $("#money").val();
+					var request = {};
+					request.borrow_nid = borrow_nid;
+					request.borrow_period = borrow_period;
+					request.borrow_style = borrow_style;
+					request.money = moneyvalue;
+					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
+						var cid = vipcoupon_data.cid
+						var c_etime = expireTime(vipcoupon_data.etime) 
+						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
+						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
+						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
+						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
+						$("#jxj").html(jxmsg);
+						$("#jxmoney").val(cid);
+						$("#jxrate").val(crate)
+						//请求收益
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+					}else{
+						
+						$("#borrow_apr").val(oldEarnMoney);
+						var borrow_apr = $("#borrow_apr").val();
+						request.borrow_apr = borrow_apr;
+						//console.log(JSON.stringify(request));
+						changeJx()
+					}
+					//判断红包
+					changeHb(moneyvalue)
+					borrow.sy({'request':request},function(res){
+						if(res) {
+							$('#span_borrow_sy').html(res);
+						}else{
+							$('#span_borrow_sy').html("0.00");
+						}
+					})
+					
+				})
+				
+				$('body').on('blur','#money',function(){
+					var hbaomoney = $("#hongbaolist li");
+					var moneyvalue = $("#money").val();//原为#money：text	
+					if(!isNaN(moneyvalue)){
+						var hbNum=0
+						hbaomoney.each(function(){
+						 var str = $(this).find('a').attr('data-value');
+						  strs=str.substr(str.indexOf('-')+1,9);
+						 if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
+						 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
+								$(this).hide();
+								//hbNum-=1
+							}else{
+								$(this).show();//第一个默认显示
+								hbNum+=1
+							}
+						 }else{
+						 	if ( (strs) > (moneyvalue)*(0.005) ){
+								$(this).hide();
+							}else{
+								$(this).show();
+								hbNum+=1
+								}
+							}
+						});
+					}
+					//changeJx()
+				})
+				
+				//投资
+				function tende_submit(request,money,biaoName,hongbao,jxrate){
 					var pwRequest = {'user_id':user.uid()}; 
 					user.GetUsers({'request':pwRequest},function(pw){
-						//console.log(JSON.stringify(pw))
 						var	upayWord=pw.paypassword;
 						if(upayWord==""){
 							mui.confirm('请先设置交易密码','提醒',["取消","去设置"],function(e){
@@ -573,7 +762,7 @@
 										showMenu: false
 									});
 									mui.fire(headerWebview, 'loading');
-									headerWebview.show('slide-in-right', 150);
+									headerWebview.show('pop-in', 300);
 								}else{
 									return false
 								}
@@ -587,7 +776,7 @@
 							        '交易密码', 
 									'text-align:center;padding:0px;margin:0;'
 							    ],
-							    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00<span style="font-size:12px">'+hongbao+'</span></p><div class="pwd-box"><input type="tel" class="pwd-input" id="pwd-input" maxlength="6"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="tz-btn">确认投资</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
+							    content: '<p class="aleTelNum">投资&nbsp;'+biaoName+'</p><p class="aleTelPri">￥'+money+'.00<span style="font-size:12px;margin:0 3px;">'+hongbao+'</span><span style="color:#ffb100;font-size:12px;margin-left:2px">'+jxrate+'</span></p><div class="pwd-box"><input type="tel" class="pwd-input" id="pwd-input" maxlength="6"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="tz-btn">确认投资</a></div><div class="layer-wjmm"><a id="wjmm" data-href="wjmmpay.html">忘记交易密码?</a></div>',
 							    shadeClose: false,
 							    anim:true,
 							    success:function(layero, index){
@@ -621,7 +810,7 @@
 										    }
 							        		request.pay_password_md5 = $.md5(paypassword)
 											borrow.tenderAdd(request,function(res){
-												console.log(JSON.stringify(res));
+												//console.log(JSON.stringify(res));
 												/*console.log(JSON.stringify(request));*/
 												//plus.nativeUI.showWaiting();
 												if(res.error_no == 200){
@@ -697,173 +886,10 @@
 							})
 						
 						}
-					})
-						
-				});
-				//全额投资
-				mui('body').on('tap','#qetx',function(){	
-					plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
-					hbaomoney = $("#hongbaolist li");
-					//var money = parseInt($("#balance").html());		
-					var money = parseFloat($("#balance").html());	
-					var borrow_apr = $("#borrow_apr").val();
-					var account_wait = borrow_account_wait;
-					var moneyb = parseInt(money/100);		
-		            var moneyd = moneyb*100;	
-					if(money>=100){
-						if (money>account_wait){				
-					        $("#money").val(account_wait);
-					         moneyvalue  = account_wait;
-					       // console.log(moneyvalue)
-					       
-						} else{
-					        $("#money").val(moneyd);
-					         moneyvalue  = moneyd;
-					       // console.log(moneyvalue)
-					    }
-						changeHb(moneyvalue)
-						changeJx()
-						 				
-					}else{
-						 mui.alert('您的余额不足100，请充值！', function() {
-		                    getdata(ljdata)
-		                    plus.webview.currentWebview().evalJS("window.scrollTo(0,0);");
-		               });	
-					}
-					var borrow_money  = $("#money").val();
-					var request = {};
-					request.borrow_nid = borrow_nid;
-				//	request.borrow_apr = borrow_apr;
-					request.borrow_period = borrow_period;
-					request.borrow_style = borrow_style;
-					request.money = borrow_money;
-					
-					
-					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
-						var cid = vipcoupon_data.cid
-						var c_etime = expireTime(vipcoupon_data.etime) 
-						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
-						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
-						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
-						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
-						$("#jxj").html(jxmsg);
-						$("#jxmoney").val(cid);
-						//请求收益
-						var borrow_apr = $("#borrow_apr").val();
-						request.borrow_apr = borrow_apr;
-					}else{
-						
-						$("#borrow_apr").val(oldEarnMoney);
-						var borrow_apr = $("#borrow_apr").val();
-						request.borrow_apr = borrow_apr;
-					}
-					//console.log(JSON.stringify(request));
-					borrow.sy({'request':request},function(res){
-						if(res) {
-							$('#span_borrow_sy').html(res);
-						}else{
-							$('#span_borrow_sy').html("0.00");
-						}
-					})
-					
-				})
-				/**********忘记密码页面跳转**********/
-				mui('body').on('tap','#wjmm',function(e){
-					e.preventDefault();
-					layer.close(index)
-					href=$(this).attr('data-href');
-					inittemplate = getTemplate('template', 'template.html');
-					//获得共用父模板
-					var headerWebview = inittemplate.header;
-						//获得共用子webview
-					var contentWebview = inittemplate.content;
-					contentWebview.loadURL(href);
-					mui.fire(headerWebview, 'updateHeader', {
-						title: '修改交易密码',
-						showMenu: false
-					});
-					mui.fire(headerWebview, 'loading');
-					headerWebview.show('slide-in-right', 150);
-				});	
-				//任何位置点击失去焦点
-				document.addEventListener('tap',function(event){
-					if(document.activeElement == document.getElementById("money") && event.target.id != 'money'){
-						$('#money').blur();
-					}
-				})
-				mui('body').on('keyup','#money',function(){
-					
-					use_hbmoney = 0;
-					hbaomoney = $("#hongbaolist li");
-					var moneyvalue  = $("#money").val();
-					var request = {};
-					request.borrow_nid = borrow_nid;
-					request.borrow_period = borrow_period;
-					request.borrow_style = borrow_style;
-					request.money = moneyvalue;
-					if(vipcoupon_data.auto_use==1&&parseInt(moneyvalue)>=100000){
-						var cid = vipcoupon_data.cid
-						var c_etime = expireTime(vipcoupon_data.etime) 
-						var crate = tofix2(vipcoupon_data.crate,vipcoupon_data.crate) 
-						$("#earningsMoney").html((oldEarnMoney + parseFloat(crate)).toFixed(2) )
-						$("#borrow_apr").val(oldEarnMoney + parseFloat(crate)) 
-						var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
-						$("#jxj").html(jxmsg);
-						$("#jxmoney").val(cid);
-						//请求收益
-						var borrow_apr = $("#borrow_apr").val();
-						request.borrow_apr = borrow_apr;
-					}else{
-						
-						$("#borrow_apr").val(oldEarnMoney);
-						var borrow_apr = $("#borrow_apr").val();
-						request.borrow_apr = borrow_apr;
-						//console.log(JSON.stringify(request));
-						changeJx()
-					}
-					//判断红包
-					changeHb(moneyvalue)
-					borrow.sy({'request':request},function(res){
-						if(res) {
-							$('#span_borrow_sy').html(res);
-						}else{
-							$('#span_borrow_sy').html("0.00");
-						}
-					})
-					
-				})
+					})	
+				}
 				
-				$('body').on('blur','#money',function(){
-					if($("#hmoney").val() != 0){
-						
-					}
-					var hbaomoney = $("#hongbaolist li");
-					var moneyvalue = $("#money").val();//原为#money：text	
-					if(!isNaN(moneyvalue)){
-						var hbNum=0
-						hbaomoney.each(function(){
-						 var str = $(this).find('a').attr('data-value');
-						  strs=str.substr(str.indexOf('-')+1,9);
-						 if( (moneyvalue)*(0.01) < 20 ){//假如小于2000
-						 	if ( (strs) > (moneyvalue)*(0.01) ){//达不到使用规则
-								$(this).hide();
-								//hbNum-=1
-							}else{
-								$(this).show();//第一个默认显示
-								hbNum+=1
-							}
-						 }else{
-						 	if ( (strs) > (moneyvalue)*(0.005) ){
-								$(this).hide();
-							}else{
-								$(this).show();
-								hbNum+=1
-								}
-							}
-						});
-					}
-					//changeJx()
-				})
+				
 				function changeHb(moneyvalue){
 					$("#hmoney").val("");//金额变动清除选择红包
 					if(!isNaN(moneyvalue)){
@@ -898,6 +924,7 @@
 				
 				//可用加息券
 				function changeJx(){
+					$("#jxrate").val('0')
 					$("#jxmoney").val("");//金额变动清除选择加息券
 					$("#earningsMoney").html(oldEarnMoney.toFixed(2))
 					if(store.get('coupon_tip')){
@@ -1004,6 +1031,7 @@
 				var jxmsg = crate+"%加息劵"+"<span style='color:#999;font-size:12px;'>（"+c_etime+"天过期）</span>"
 				$("#jxj").html(jxmsg);
 				$("#jxmoney").val(cid);
+				$("#jxrate").val(crate)
 				//请求收益
 				var moneyvalue  = $("#money").val();
 				var request = {};

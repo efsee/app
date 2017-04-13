@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>关注微信公众号</title>
+		<link rel="stylesheet" href="css/mui.min2.css" />
+		<style>
+			body{
+				background: #fff;
+			}
+			p{
+				background: #E6E4E5;
+				color:#666;
+				font-size: 14px;
+				text-align: center;
+				line-height: 45px;
+			}
+			img{
+				width: 100%;
+				display: block;
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<p>微信号已复制，请按一下步骤进行关注</p>
+		<div>
+			<img src="images/wxgz/wxgz1.jpg" />
+			<img src="images/wxgz/wxgz2.jpg" />
+			<img src="images/wxgz/wxgz3.jpg" />
+			<img src="images/wxgz/wxgz4.jpg" style="margin-bottom: 30px;"/>
+		</div>
+		<script src="js/mui.min2.js"></script>
+		<script>
+			mui.plusReady(function(){
+				if(plus.os.name=='iOS'){
+					var UIPasteboard  = plus.ios.importClass("UIPasteboard");
+					var generalPasteboard = UIPasteboard.generalPasteboard();
+					// 设置/获取文本内容:
+					generalPasteboard.setValueforPasteboardType("juchejinrong", "public.utf8-plain-text");
+					var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text");  
+				}else{
+					var Context = plus.android.importClass("android.content.Context");
+				    var main = plus.android.runtimeMainActivity();
+				    var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+				    plus.android.invoke(clip,"setText","juchejinrong");
+				}
+				mui.toast('微信号已复制~')
+			})
+		</script>
+	</body>
+</html>

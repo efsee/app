@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>银行卡信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" /> 
+		<link href="../css/layer.css" rel="stylesheet"/>
+		<link href="../css/mylayer.css" rel="stylesheet"/>
+		<style>
+			html{
+				font-size: 12px;
+			}
+			@media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.card-box{
+				width: 94%;
+				background: #fff;
+				border-radius: 0.5rem;
+				-webkit-border-radius: 0.5rem;
+				margin: 0rem 3%;
+				padding: 2.2rem 1rem;
+				height: 8.4rem;
+				position: relative;
+			}
+			.back-img{
+				display:block;
+				width: 4rem;
+				height: 4rem;
+				margin: 0 1rem;
+				float: left;
+			}
+			.card-box div{
+				height: 4rem;
+				float: left;
+			
+			}
+			.card-name{
+				color: #333;
+				font-size: 1.4rem!important
+			}
+			.card-name span{
+				font-size: 1.1rem;
+			}
+			.card-name,.card-place{
+				height: 2rem;
+				line-height: 2rem;
+				font-size: 1.1rem;
+			}
+			.card-type{ 
+				bottom: 2.4rem;
+				position: absolute;
+				right: 1.5rem;
+				color: #999;
+				font-size: 1.1rem;
+			}
+			.submit-btn{
+				width: 94%;
+				height: 3.5rem;
+				line-height:3.5rem;
+				border-radius: 0.5rem;
+				text-align: center;
+				background: #fff;
+				margin: 1rem auto;
+				font-size: 1.3rem;
+				color: #999;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav header">
+			<a id="close" class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" style="color: #999;"></a>
+			<h1 id="title" class="mui-title" style="color: #333;">银行卡信息</h1>
+		</header>
+		<div class="mui-content"> 
+			<div style="height: 1.3rem;"></div>
+			<div class="card-box" id="cardId">
+				
+			</div>
+			<div style="clear: both;"></div>
+			<div class="submit-btn">更换银行卡</div>
+		</div> 
+		<script src="../js/mui.min2.js"></script> 
+		<script src="../js/api.js"></script>
+		<script src="../js/city.data1.js"></script>
+		<script src="../js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/jQuery.md5.js" ></script>
+		<script src="../js/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				
+			})
+			mui.plusReady(function(){
+				/****自动获取焦点弹窗native.js****/
+			  	var nativeWebview, imm, InputMethodManager;
+				var initNativeObjects = function() {
+				    if (mui.os.android) {
+				        var main = plus.android.runtimeMainActivity();
+				        var Context = plus.android.importClass("android.content.Context");
+				        InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+				        imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+				    } else {
+				        nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				    }
+				};
+				var showSoftInput = function(){
+					var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				    if (mui.os.android) {
+				    	//强制当前webview获得焦点
+				        plus.android.importClass(nativeWebview);
+				        nativeWebview.requestFocus();
+				        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				    } else {
+				        nativeWebview.plusCallMethod({
+				            "setKeyboardDisplayRequiresUserAction": false
+				        });
+				    }
+				    setTimeout(function() {
+				       //此处可写具体逻辑设置获取焦点的input
+				       var inputElem = document.querySelector('#money');
+				              inputElem.focus(); 
+				    }, 400);
+				};
+				//弹窗软键盘
+				var showTcInput = function() {
+					var nativeWebview = plus.webview.currentWebview().nativeInstanceObject();
+				    if (mui.os.android) {
+				    	//强制当前webview获得焦点
+				        plus.android.importClass(nativeWebview);
+				        nativeWebview.requestFocus();
+				        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+				    } else {
+				        nativeWebview.plusCallMethod({
+				            "setKeyboardDisplayRequiresUserAction": false
+				        });
+				    }
+				    setTimeout(function() {
+				       //此处可写具体逻辑设置获取焦点的input 
+				       var inputElem = document.querySelector('.pwd-input');
+				              inputElem.focus(); 
+				    }, 400);
+				};	
+				/*结束*/
+				
+                var username = store.get('username').substr(0,3)+'****'+store.get('username').substr(7)
+				var bank_status = "";
+				request = {"token":user.utoken()};
+      			userbank.get(request,function(res){   
+      			//	console.log(JSON.stringify(request))
+      				bank_status = res.result.status
+      				replace_bankstatus = res.result.check_status
+     				console.log(JSON.stringify(res))  
+					//res.account = res.account.slice(-4)
+      				for(var i in cityData){
+      					var province = cityData[i] 
+      					if(province.value == res.result.province){
+      						var province_text = province.text
+      						for(var j in province.children){
+      							var city = province.children[j]
+      							//console.log(city)
+      							if(city.value == res.result.city){
+      								var city_text = city.text
+      							}
+      						}
+      					}
+      				}
+      				var html = ""
+      				html+='<img class="back-img" src="../images/bank/bank_'+res.result.bank+'.png"/>'
+      				html+='<div><p class="card-name">'+res.result.bank_name+'<span class="card-account">（尾号'+res.result.account.slice(-4)+'）</span></p>'  
+      				html+='<p class="card-place">'+province_text+' '+city_text+'</p><span class="card-type">储蓄卡</span></div>'
+					document.getElementById('cardId').innerHTML = html
+      			}) 
+      			mui('.mui-content').on('tap','.submit-btn',function(){
+      				var nowTime = new Date().getTime();
+					var clickTime = this.getAttribute('ctime') //$(this).attr("ctime");
+					if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{ 
+				    	this.setAttribute("ctime",nowTime);
+				    }
+				    if(bank_status==2){
+				    	mui.toast('认证审核中，请稍后再试！')
+				    	return false;
+				    }
+				   /* if(bank_status==0){
+				    	mui.toast('银行卡审核失败，请联系客服！')
+				    	return false;
+				    }*/
+				    if(replace_bankstatus==3){
+				    	mui.toast('银行卡更换审核中，请耐心等待！')
+				    	return false;
+				    }
+      				user.getInfo(function(res){  
+      					//console.log(JSON.stringify(res))
+						if(res){
+							if(parseFloat(res.total)<0||parseFloat(res.total)==0){//更换银行卡
+								//输入交易密码
+								function closelayer(){
+									layer.close(index)
+								}
+								index =layer.open({
+									title: [
+								        '交易密码', 
+										'text-align:center;padding:0px;margin:0;'
+								    ],
+								    content: '<p class="aleTelNum">确定修改账户'+username+'的银行卡信息</p><br><div class="pwd-box"><input type="tel" class="pwd-input" id="pwd-input" maxlength="6"><div class="fake-box"><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""><input type="password" readonly=""></div></div><div class="tz-submit"><a class="tz-btn">确认修改</a></div><div class="layer-wjmm"><a id="wjmm" data-href="../wjmmpay.html">忘记交易密码?</a></div>',
+								    shadeClose: true,
+								    anim:true,
+								    success:function(layero, index){
+										initNativeObjects();
+										showTcInput(); 
+										var $input = $(".fake-box input"); 
+										var paypassword='';
+								        $("#pwd-input").on("input", function() { 
+								            var pwd = $(this).val().trim();  
+								            for (var i = 0, len = pwd.length; i < len; i++) {  
+								                $input.eq("" + i + "").val(pwd[i]);
+								            } 
+								            $input.each(function(){  
+								                var index2 = $(this).index();  
+								                if (index2 >= len) {  
+								                    $(this).val("");  
+								                }  
+								           }); 
+								            paypassword=$(this).val();
+								    	})
+								        
+								        mui('.tz-submit').on('tap','.tz-btn',function(e){ 
+								        	e.preventDefault();
+								        	if (paypassword.length==6) {
+								        		var nowTime = new Date().getTime();
+								    			var clickTime = $(this).attr("ctime");
+								    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+											        return false;
+											    }else{
+											    	$(this).attr("ctime",nowTime);
+											    }
+											    pwRequest = {'user_id':user.uid()}; 
+												user.GetUsers({'request':pwRequest},function(pw){
+													var upayWord=pw.paypassword;
+													if(upayWord==$.md5(paypassword)){//密码正确
+														mui.openWindow({
+															id:'delect_bank.html',
+															url:'delect_bank.html',
+															styles:{popGesture:'close'}	,
+															show:{ 
+														      autoShow:true,
+														      aniShow:'pop-in',
+														      duration:300
+														    },
+														    waiting:{
+														      autoShow:false  
+														    }
+														})
+														closelayer()
+													}else{
+														mui.toast('交易密码错误')
+														return false;
+													}
+													
+												})
+												
+												
+									    	}else{
+									    		mui.alert("请输入完整的交易密码",function(){
+									    			$("#pwd-input").focus()
+									    			return false;
+									    		})
+									    	}
+								        })
+				
+									}
+								})
+							}else{//删除银行卡
+								mui.confirm('当前账户总资产非零，更换银行卡需提交相关表单， 是否确认修改？',function(e){
+									if(e.index==1){
+										mui.openWindow({
+											id:'replace_bank_submit.html',
+											url:'replace_bank_submit.html',
+											styles:{popGesture:'close'}	,
+											show:{ 
+										      autoShow:true,
+										      aniShow:'pop-in',
+										      duration:300
+										    },
+										    waiting:{
+										      autoShow:false  
+										    }
+											
+										})
+									}
+								})
+								
+								
+							}
+						}
+					});
+      			})
+      			/**********忘记密码页面跳转**********/
+				mui('body').on('tap','#wjmm',function(e){
+					e.preventDefault();
+					layer.close(index)
+					href=$(this).attr('data-href');
+					inittemplate = getTemplate('template', 'template.html');
+					//获得共用父模板
+					var headerWebview = inittemplate.header;
+						//获得共用子webview
+					var contentWebview = inittemplate.content;
+					contentWebview.loadURL(href);
+					mui.fire(headerWebview, 'updateHeader', {
+						title: '修改交易密码',
+						showMenu: false
+					});
+					mui.fire(headerWebview, 'loading');
+					headerWebview.show('pop-in', 300);
+				});	 
+			})
+		</script>
+	</body>
+
+</html>

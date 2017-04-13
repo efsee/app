@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/css.css" rel="stylesheet" type="text/css" /> 
+
+<style type="text/css">
+@media screen and (min-width:300px) and (max-width:350px){.login-form input{font-size:14px}.login-form input::-webkit-input-placeholder{font-size: 15px;}.login-btn{font-size:18px}}
+@media screen and (min-width:351px) and (max-width:500px){.login-form input{font-size:18px}}
+.header:after{ height: 0px; }
+.get-pin{
+	position: absolute;
+	top: 38px;
+	font-size: 13px;
+	right: 15px;
+	border-left:1px solid #e6e5e5 ;
+	padding-left: 15px;
+}
+.border-right{
+	position: relative;
+	margin-right: 13px;
+}
+.border-right:after{
+	position: absolute;
+	content: "";
+	height: 80%;
+	width: 1px;
+	right: -9px;
+	top: 15%;
+	background: #666;
+}
+.login-dsp a{
+	color: #666;
+	text-decoration: underline;
+}
+.login-dsp a:active,.login-dsp a:hover{
+	color: #e4393c;
+}
+.ico-yhm{
+	background: url(images/other_login_icon.png) no-repeat 0 0px;
+	background-size: 75%;
+	left: 8px;
+	height:22px ;
+	top: 36px;
+}
+.ico-pwd{
+	background: url(images/other_login_icon.png) no-repeat 0 -46px;
+	background-size: 76%;
+	left: 10px;
+	height:22px ;
+	top: 36px;
+}
+.ico-pin{
+	background: url(images/other_login_icon.png) no-repeat 0 -24px;
+	background-size: 78%;
+	left: 10px;
+	height:22px ;
+	top: 36px;
+}
+.login-form input{
+	padding-left:40px;	 
+}
+.ico-invite{
+	background: url(images/other_login_icon.png) no-repeat 0 -66px;
+	background-size: 78%;
+	left: 10px;
+	height:22px ;
+	top: 33px;
+}
+.turn-login{
+	text-decoration: underline;
+	float: right;
+	margin: 20px 0;
+	font-size: 13px;
+}
+.turn-readtext{
+	color:#1A83F9
+}
+.turn-readtext:hover{
+	color:#1A83F9
+}
+.check-box{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	position: relative;
+	margin:15px 0 30px 0;
+}
+.check-box input{
+	padding: 0;
+	width: 15px!important;
+	height: 15px!important; 
+	top: -1px;
+	left: -7px;
+}
+</style>
+</head>
+<body class="body-red">
+<header class="mui-bar mui-bar-nav header"> 
+	<a href="javascript:void(0);" style="width:120px;" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
+	<h1 id="title" class="mui-title">绑定新账户</h1>
+</header>
+<div class="login clearfix">
+	<div class="logos">
+		<img src="images/logo1.png">	
+	</div>
+	<ul class="login-form clearfix">
+		<li><div class=" mui-input-row"><i class="ico-yhm"></i><input type="text" pattern="[0-9]*" class="login-txt mui-input-clear" id="login-username" name="mobile" placeholder="手机号码"></div></li>
+		<li><div class="mui-input-row mui-password"><i class="ico-pwd ico-pin"></i><input type="text" pattern="[0-9]*" class="login-txt" id="pin-code" name="pin-code" placeholder="验证码"><span class="c5 get-pin">获取验证码</span></span></div></li>
+		<li><div class="mui-input-row mui-password"><i class="ico-pwd"></i><input type="password" class="login-txt mui-input-password" id="login-password" name="password" placeholder="登录密码"></div></li>
+		<li><div class="mui-input-row mui-password"><i class="ico-pwd"></i><input type="password" class="login-txt mui-input-password" id="confirm-password" name="password" placeholder="确认密码"></div></li>
+		<li><div class="mui-input-row mui-password"><i class="ico-pwd ico-invite"></i><input type="text" pattern="[0-9]*" class="login-txt " id="invite-code" name="invite-code" placeholder="邀请码（推荐人邀请码选填）"></div></li>
+		<a class="c5 turn-login">已有账户</a>
+		<li class="opn login-opn"><button class="login-btn" id="login-post">注册绑定</button></li>
+		
+		<div class="check-box"><input class="mui-checkbox" checked="checked" id="readRegtext" type="checkbox" /><label for="readRegtext">我已阅读并同意<a class="turn-readtext">《聚车金融注册协议》</a></label></div>
+		<!--<li class="opn login-opn"><button class="login-btn" id="login-wx">微信登录</button></li>-->
+		
+	</ul>
+</div>
+
+<script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/base.js"></script>
+<script language="javascript" type="text/javascript" src="js/api.js"></script>
+<script type="text/javascript" src="js/jQuery.md5.js" ></script>
+<script>
+	mui.init({'swipeBack':true});
+	//限制输入手机位数
+	$("#login-username").keyup(function(){
+		var klength=$(this).val().length
+		if(klength>11){
+			$(this).val($(this).val().substr(0,11))
+			//console.log($(this).val())	
+		}
+	})
+	mui.plusReady(function(){
+		//提交登录
+		mui('body').on('tap', '#login-post', function(data) { 
+			console.log($('#readRegtext').is(':checked'))
+			var nowTime = new Date().getTime();
+			var clickTime = $(this).attr("ctime"); 
+			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+		        return false;
+		    }else{
+		    	$(this).attr("ctime",nowTime);
+		    }
+			var username = $("#login-username").val();
+			var password = $("#login-password").val();
+			var confirm_password = $("#confirm-password").val();
+			var pin_code = $("#pin-code").val()
+			var invite_code = $("#invite-code").val()
+			if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(username)){
+				alert('手机号码错误',function(){
+					$('#login-username').focus()
+				});
+				return false;
+			}
+			if(pin_code==""||pin_code.length<4){
+				alert('请输入正确的验证码',function(){
+					$("#pin-code").focus()
+				});
+				return false;
+			}
+			if(password.length<6||password==""){
+				alert('密码错误',function(){
+					$("#login-password").focus()
+				});
+				return false;
+			}
+			if(confirm_password!=password){
+				alert('两次密码不一致',function(){
+					$("#confirm-password").focus()
+				});
+				return false;
+			}
+			if(!$('#readRegtext').is(':checked')){
+				alert('请同意聚车金融注册协议',function(){
+					$("#confirm-password").focus()
+				});
+			}
+			$("input:focus").blur();
+			var device = JSON.stringify(getSysInfo())
+			wx.regBind({"phone":username, "password":password,'confirm_password':confirm_password,'from':'phone','device':device,'invite_userid':invite_code,'mobilecode':pin_code,'wx_unionid':wx.wuid(),'wx_openid':wx.oid(),'wx_nickname':wx.nickname(),'wx_headimgurl':wx.headurl()}, function(res) {
+			//	console.log('注册绑定：'+JSON.stringify(res))
+				//alert(JSON.stringify(res))
+				if (res.error_no==18008) {
+					plus.webview.currentWebview().opener().close();
+					plus.webview.currentWebview().opener().opener().close();
+					var uid = res.result.user.user_id;
+					user.deleteCache(uid); //清空缓存 
+					user.clear()
+					//设置登陆信息,一年有效期
+					newUser.setInfo(res.result)
+					mui.fire(plus.webview.getWebviewById('user.html'), 'mui.view.refresh');
+					mui.fire(plus.webview.getWebviewById('more.html'), 'mui.view.refresh');
+					var yzwv = plus.webview.getWebviewById('yz');
+					if(yzwv){
+						yzwv.close();
+					}
+					mui.fire(plus.webview.getLaunchWebview(), 'permission');
+//							//发送设备信息,并返回信息
+					setTimeout(function(){
+						plus.webview.currentWebview().close();
+					},300);
+					return true;
+				} else {
+					plus.nativeUI.alert(res.info || res.msg || res.message|| res.error_msg);
+					return false;
+				}
+			});
+		});
+		
+		mui(".check-box").on('tap','.turn-readtext',function(e){
+			//alert(5)
+			e.preventDefault()
+			e.stopPropagation()
+			mui.openWindow({ 
+				id:'reg_agreement.html',
+				url:'reg_agreement.html', 
+				styles:{popGesture:'close'},
+				show:{
+			      autoShow:true,
+			      aniShow:'pop-in',
+			      duration:300
+			    },
+			    waiting:{
+			      autoShow:false  
+			    }
+			})
+		})
+		mui('.login-form').on('tap','.get-pin',function(e){
+			if($(this).attr('disabled')){
+				alert("验证码短信已发送,请稍候重试！");
+				return false; 
+			}
+			else{
+				sendmobilecode()
+			}
+		})
+		var times=60
+		function getyzm(){
+			times--;
+			$(".get-pin").css("color","#999");
+			if(times>0&&times<60){
+				$(".get-pin").text(times+"s后重新发送");
+				$(".get-pin").attr("disabled",'disabled');
+			}else{
+				$(".get-pin").css("color","#e4393c").text('获取验证码');
+				clearInterval(t_sendpincode)
+				$(".get-pin").removeAttr("disabled");
+				times=60
+			}
+			
+		}
+		function sendmobilecode(){
+			//console.log('send');
+			var mobile = $("#login-username").val();
+			if(mobile == ""){
+				alert("请输入手机号码！");
+				return;
+			}
+			if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(mobile)){
+				alert("手机号码格式不对！");
+				return;
+			}
+			if(times == 60){
+				request = {'mobile': mobile};
+				wx.regMobileCode(request,function(res){
+				//	console.log('验证码：'+JSON.stringify(res));
+					if(res.error_no == 200){
+						t_sendpincode = setInterval(getyzm,1000)
+						plus.nativeUI.toast("验证码短信已发送成功！");
+					}else{
+						plus.nativeUI.toast(res.error_msg);
+					}
+				})
+			}else{
+				alert("验证码短信已发送,请稍候重试！");
+			}
+		}
+		function getSysInfo() {
+			var device = {
+				'model': plus.device.model,
+				'os': plus.os.name,
+				'os_version': plus.os.version,
+				'os_vendor': plus.os.vendor,
+				'os_language': plus.os.language,	
+			}
+			var types = {};
+		    types[plus.networkinfo.CONNECTION_UNKNOW] = "未知";
+		    types[plus.networkinfo.CONNECTION_NONE] = "未连接网络";
+		    types[plus.networkinfo.CONNECTION_ETHERNET] = "有线网络";
+		    types[plus.networkinfo.CONNECTION_WIFI] = "WiFi网络";
+		    types[plus.networkinfo.CONNECTION_CELL2G] = "2G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL3G] = "3G蜂窝网络";
+		    types[plus.networkinfo.CONNECTION_CELL4G] = "4G蜂窝网络";
+		    device.network = types[plus.networkinfo.getCurrentType()]
+		    return device;
+		}
+	})
+</script>
+</body>
+</html>

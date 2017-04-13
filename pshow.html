@@ -443,13 +443,13 @@ p.price span.small{
 			detailWV.show('pop-in',300);
 		},150);
 	}
-	
+	 
 	function getdata(data){
 		var request = data;//含有上个页面传来article_id、id、has_repay的对象
 		request.borrow_nid = data.article_id;
 		product.detail({"request":request},function(res){	
-			console.log(JSON.stringify(res)); 
-			console.log(JSON.stringify(request));
+			//console.log(JSON.stringify(res)); 
+			//console.log(JSON.stringify(request));  
 			if(res){
 				res.is_login = user.uid();
 				res.nowtime = new Date().getTime() / 1000;

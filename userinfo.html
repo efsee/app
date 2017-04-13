@@ -23,6 +23,10 @@
 			.mui-table-view span{
 				color: #999;
 				float: right;
+				height: 50px;
+				line-height: 50px;
+				display: block;
+				margin-top: -2px;
 			}
 			#userName{
 				color: #333;
@@ -62,7 +66,7 @@
 				height: auto;
 				/*float: right;*/
 				margin-right: 10px;
-				margin-bottom: -8px;
+				margin-bottom: -10px;
 			}
 		</style>
 	</head>
@@ -83,12 +87,12 @@
 						<div class="mui-switch-handle"></div>
 					</div>
 				</li>
-				<li class="mui-table-view-cell">
+				<!--<li class="mui-table-view-cell">
 					自动投资
 					<div class="mui-switch mui-switch-green mui-switch-mini" id="switch_auto">
 						<div class="mui-switch-handle"></div>
 					</div>
-				</li>
+				</li>-->
 			</ul>
 			
 			<ul class="mui-table-view exi-btn">
@@ -101,13 +105,19 @@
 				<li class="mui-table-view-cell">账户<span id="userName">{{username}}</span></li>
 			</ul>
 			<ul class="mui-table-view">
-				{{if sm_status=="1"&&realname!=null}}
-				<li class="mui-table-view-cell">姓名<span>{{realname}}</span></li> 
+				{{if sm_status=="1"&&_realname.realname!=null}}
+				<li class="mui-table-view-cell">姓名<span>{{_realname.realname}}</span></li> 
 				<li class="mui-table-view-cell">身份证<span>{{_realname.card_id}}</span></li>
 					{{if account!=null}}
-					<li class="mui-table-view-cell">银行卡<span><img class="back-img" src="images/bank/bank_{{bank}}.png"/>{{bank_name}}(尾号{{account}})</span></li>
+						{{if check_status == 2}}<!--审核失败-->
+						<li class="mui-table-view-cell"><a href="replace_bank/audit_fail.html"  class="mui-navigate-right replace-bank">银行卡<span style="margin-right: 25px;color: #E11C25;">银行卡信息变更审核失败</span></a></li>
+						{{else if check_status == 3}}
+						<li class="mui-table-view-cell"><a href="null"  class="mui-navigate-right replace-bank">银行卡<span style="margin-right: 25px;color: #E11C25;">审核中</span></a></li>
+						{{else}}
+						<li class="mui-table-view-cell"><a href="replace_bank/replace_bank.html"  class="mui-navigate-right replace-bank">银行卡<span style="margin-right: 25px;"><img class="back-img" src="images/bank/bank_{{bank}}.png"/>{{bank_name}}(尾号{{account}})</span></a></li>
+						{{/if}}
 					{{else}}
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell">  
 						<a href="smrz_w_recharge.html" class="mui-navigate-right tap">
 							银行卡
 							<span style="margin-right: 25px;">未认证</span>
@@ -156,7 +166,7 @@
 				</li>
 				{{/if}}
 			</ul>
-		</script>
+		</script> 
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" src="js/common.js" ></script>
 		<script type="text/javascript" src="js/api.js" ></script>
@@ -165,6 +175,7 @@
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function(){
+				//console.log(JSON.stringify(store.get('user@info_'+user.uid()))) 
 				//判断有无开启手势密码
 				if(store.get("shoushi_status")){
 					document.getElementById("switch_ssmm").classList.add('mui-active');
@@ -172,13 +183,14 @@
 					document.getElementById("switch_ssmm").classList.remove('mui-active');
 				}
 				user.UserInfo({'request':{"user_id":user.uid()}},function(r){
+					//console.log(JSON.stringify(r)) 
 					var sm_status = r.realname_status
-					request = {"user_id":user.uid()};
+					request = {"user_id":user.uid()}; 
 	      			account.GetUsersBankOne({'request':request},function(res){
 	      				res.sm_status = sm_status
-	      				//console.log(JSON.stringify(res))  
+	      				console.log(JSON.stringify(res))     
 	      				res.username = store.get('username').slice(0,3)+"****"+store.get('username').slice(-4) 
-	      				if(res.sm_status=="1"&&res.realname!=null){ //已经实名
+	      				if(res.sm_status=="1"&&res._realname.realname!=null){ //已经实名
 							res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
 							if(res.account!=null){//实名有银行卡
 								res.account = res.account.slice(-4)
@@ -218,7 +230,7 @@
 						functionCom.checkToken(function(res){
 							//console.log(res.error_no)
 							if(res.error_no==200){
-								headerWebview.show('slide-in-right', 150);
+								headerWebview.show('pop-in', 300);
 							}
 						})//结束
 					}
@@ -260,41 +272,43 @@
 						}
 					})//结束
 				});
+				//更换银行卡
+				mui("body").on('tap','a.replace-bank',function(e){
+					var url = this.getAttribute('href');
+					var url_id =  url.substr(url.lastIndexOf('/') + 1)
+					if(url=='null'){
+						plus.nativeUI.toast('银行卡信息更换审核中，请耐心等待~')
+					//	mui.toast('银行卡信息更换审核中，请耐心等待~')
+						return false;
+					}
+				//	console.log(url_id)
+					mui.openWindow({
+						id:url_id,
+						url:url,
+						styles:{popGesture:'close',bounce: 'vertical',bounceBackground:'#f8f8f8'}	,
+						show:{
+					      autoShow:true,
+					      aniShow:'pop-in',
+					      duration:300
+					    },
+					    waiting:{
+					      autoShow:false 
+					    }
+					})
+				})
 				
-				document.getElementById("switch_auto").addEventListener('toggle', function(event) {
-					//mui.alert(this.classList.contains('mui-active')+9)
-					if(!this.classList.contains('mui-active')){  
-						
-					}else{
-						mui.alert("功能升级中",function(e){  
-							if(e.index==0){
-								mui('#switch_auto').switch().toggle()	
-							}  
-						})
-					} 
-					/*mui.alert("功能升级中",function(e){
-						if(e.index==0){
-							//plus.webview.currentWebview().reload()
-							
-						} 
-					})*/
-					/*functionCom.checkToken(function(res){
-						//console.log(res.error_no)
-						if(res.error_no==200){
-							request = {};
-							request.user_id = user.uid();
-							request.auto = event.detail.isActive ? 1 : 0;
-							borrow.lantou(request,function(res){
-								if(res.status == 0){
-									plus.nativeUI.alert(res.msg);
-								}else{
-									//plus.nativeUI.toast('操作成功');
-									plus.nativeUI.toast(request.auto ? "已开启" : "已关闭",{"verticalAlign": "center"});
-								}
-							});
-						}
-					})//结束*/
-				});
+//				document.getElementById("switch_auto").addEventListener('toggle', function(event) {
+//					//mui.alert(this.classList.contains('mui-active')+9)
+//					if(!this.classList.contains('mui-active')){  
+//						
+//					}else{
+//						mui.alert("功能升级中",function(e){  
+//							if(e.index==0){
+//								mui('#switch_auto').switch().toggle()	
+//							}  
+//						})
+//					} 
+//				});
       			mui('body').on('tap', '#logOut', function(e){
 					e.stopPropagation();
 					user.logout({},function(res){
@@ -314,7 +328,9 @@
       			document.addEventListener("refresh",function(e){
       				//判断有无设置手势密码
 					plus.webview.currentWebview().reload()
+					
       			})
+      			//console.log(store.get('username'))
 			})
 		</script>
 	</body>

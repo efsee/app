@@ -16,6 +16,7 @@
 		text-align: center;
 		color: #656565;
 		font-size: 12px;
+		display: none;
 		}
 .getYY a{ display: inline-block; 
 		color:#e62600;
@@ -27,7 +28,7 @@
 </head>
 <body>
 <header class="mui-bar mui-bar-nav header">
-<h1 class="name">注册</h1>
+<h1 class="name" style="color: #333;font-weight: bold;">注册</h1> 
 <a href="javascript:void(0);" class="back mui-action-back" id="back"><i class="ico-back icon"></i></a>
 </header>
 <div class="wrap clearfix mui-content">
@@ -153,10 +154,10 @@ var count=0;
 				sendmobilecode()
 				$('.get_yy_code').removeClass('gray_a')
 				if(count==0){
-	              setTimeout(function(){
-	                  $('.getYY').show();
+	             /* setTimeout(function(){
+	                  
 	              }, 60000)
-	              
+	              */
 	            }
 			}
 			
@@ -188,6 +189,7 @@ function getyzm(idn){
 	
 	}
 	else{
+		$('.getYY').show();
 		$(idn).css("background","#F95453");
 		$(idn).text("发送验证码");
 		times=60;
@@ -226,7 +228,7 @@ function sendmobilecode(){
 					issend = false;
 				}else{
 					//console.log(JSON.stringify(res));
-					plus.nativeUI.toast("您输入的手机号已注册");
+					plus.nativeUI.toast(res.msg);
 					//alert(res.msg);
 					issend = true;
 				}

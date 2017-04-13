@@ -3,33 +3,194 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta name="format-detection" content="telephone=no, email=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
 <title>聚车金融</title>
 <link href="css/css.css" rel="stylesheet" type="text/css" />
 
 <link href="css/mui.min.css" rel="stylesheet"/>
 <style type="text/css">
-.help-list{ background:#FFF;}
-.help-list li{ border-bottom:#e1e1e1 1px solid;}
-.help-list li .tap{ padding:10px 25px 10px 44px; line-height:20px;}
-.help-list li .tap.pr10{ padding-right:10px;}
-.help-list li .ico-news{background-position:-90px 0px; position:absolute; left:10px; top:50%; margin-top:-12px;}
-.help-list li .ico-hot{ background-position:-120px 0px; position:absolute; left:10px; top:50%; margin-top:-12px;}
-.help-list li .ico-arrow{ position:absolute; right:5px; top:50%; margin-top:-10px;}
-.help-list li .title{ font-size:14px; line-height:30px; }
-.help-list li .date{ color:#999;}
-.help-list li .ico-view{ width:14px; height:14px; display:inline-block; vertical-align:middle; margin:-2px 5px 0 0; background-position:-80px -132px;}
-
+	.content-title{
+		line-height: 30px;
+		padding-left: 12px;
+		margin-top: 5px;
+	}
+	.listicon-box{
+		background: #fff;
+		height:105px;
+	}
+	.listicon-box li{
+		float: left;
+		width: 25%;
+		height: 105px;
+		text-align: center;
+		position: relative;
+	}
+	.listicon-box li:after{
+		position: absolute;
+		width: 1px;
+		height: 100%;
+		color:#e5e5e5;
+		right: 0;
+		top: 0;
+		content: "";
+		background: #e5e5e5;
+		transform: scaleX(.5);
+		-webkit-transform: scaleX(.5);
+	}
+	.listicon-box li div{
+		height: 40px;
+		width: 40px;
+		margin: 15px auto;
+		margin-bottom: 6px;
+		
+	}
+	.listicon-box li span{
+		font-size: 13px;
+		color:#333;
+	}
+	.mui-table-view-cell>a:not(.mui-btn){
+		padding-left: 32px;
+		background: url(images/question_tip.png) no-repeat 12px center;
+		background-size:17px ; 
+	}
+	.mui-navigate-right{
+		font-size: 15px;
+		line-height: 26px;
+	}
+	.icon1{ 
+		background: url(images/find_icon.png) no-repeat -36px -190px;
+		background-size: 230px; 
+	}
+	.icon2{ 
+		background: url(images/find_icon.png) no-repeat -82px -190px;
+		background-size: 230px; 
+	}
+	.icon3{ 
+		background: url(images/find_icon.png) no-repeat -132px -190px;
+		background-size: 230px; 
+	}
+	.icon4{ 
+		background: url(images/find_icon.png) no-repeat -178px -190px;
+		background-size: 230px; 
+	}
+	.que-txt{ 
+		color:#666;
+		padding-left: 35px;
+		font-size: 13px; 
+		padding: 0px 12px 12px 32px;
+		text-align: justify;
+		line-height: 24px;
+	}
+	.feedback-box{
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		height: 40px;
+		z-index: 0;
+	/*	margin:80px 0;*/
+	}
+	.feedback-box p{
+		display: table;
+		padding-left: 30px;
+		line-height: 40px;
+		margin: 0 auto;
+		position: relative;
+		height: 40px;
+	}
+	.feedback-box span{
+		position: absolute; 
+		display: block;
+		width: 30px;
+		height: 30px;
+		top:0px;
+		left: 0;
+		background: url(images/find_icon.png) no-repeat -60px -149px;
+		background-size: 230px; 
+	}
+	.mui-content{
+		min-height: 100%;
+		position: relative;
+		padding-bottom: 60px;
+	}
+	.mui-table-view:before,.mui-table-view:after{
+		height: 0;
+	}
+	.mui-table-view-cell:after{
+		background: #e6e5e5;
+	}
+	.mui-table-view-cell.mui-active{
+		background: #fff;
+	}
+	.mui-table-view-cell.mui-collapse.mui-active{
+		margin-top: 0;
+	}
 </style>
 </head>
 <body>
 	
 <div class="mui-content">
-
-	<ul id="news-list" class="help-list clearfix">
+	<p class="content-title">问题分类</p>
+	<ul class="listicon-box" id="news-list">
+		<li class="list-icon tap" data='{"id":"manual.html"}'><div class="icon1"></div><span>操作指南</span></li>
+		<li class="list-icon tap" data='{"id":241,"title":"常见问题"}'><div class="icon2"></div><span>常见问题</span></li>
+		<li class="list-icon tap" data='{"id":257,"title":"名词解释"}'><div class="icon3"></div><span>名词解释</span></li>
+		<li class="list-icon tap" data='{"id":241,"title":"更多问题"}'><div class="icon4"></div><span>更多问题</span></li>
 	</ul>
+	<p class="content-title">您可能遇到的问题</p>
+	<ul id="list" class="mui-table-view mui-table-view-chevron">
+		<li class="mui-table-view-cell mui-collapse">
+			<a class="mui-navigate-right" href="#">
+				注册的时候收不到验证码怎么办
+			</a>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<p class="que-txt">1、请确认手机是否安装短信拦截、过滤软件；<br/>
+				2、请确认手机是否能正常接收短信（信号问题、欠费、停机等）；<br />
+				3、短信收发过程中可能存在延迟，请耐心等待；<br />
+				4、请确认是否退订过该类消息；<br />
+				5、您还可以联系客服，寻求帮助（4001-123-990）。</p>
+			</ul>
+		</li>
+		<li class="mui-table-view-cell mui-collapse">
+			<a class="mui-navigate-right" href="#">
+				充值何时到账
+			</a>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<p class="que-txt">1、正常情况下，充值即时到账，若在10分钟左右还未到账，建议您联系客服处理（4001-123-990）；<br/>
+				2、如遇到充值卡单情况请第一时间联系客服处理，确认无误属于卡单情况，您充值的资金将会在1个工作日之内帮您申请补单，若补单未成功将直接退还至您的银行卡。
+			</ul>
+		</li>
+		<li class="mui-table-view-cell mui-collapse">
+			<a class="mui-navigate-right" href="#">
+				冻结是什么意思
+			</a>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<p class="que-txt">1、投资后，该笔投资金额会被暂时冻结，待该项目复审通过后，即解冻成为待收金额（待收金额=本金+该期投资利息）；<br/>
+				2、提现时，用户提现的金额也会被展示冻结，经审核通过后，通过第三方支付平台提至您的银行卡，提现成功，冻结结束。
+			</ul>
+		</li>
+		<li class="mui-table-view-cell mui-collapse">
+			<a class="mui-navigate-right" href="#">
+				项目到期什么时候回款
+			</a>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<p class="que-txt">项目到期回款以满标时间为基准，15天标在满标后15天（T+15）回款，30天标在满标后30天（T+30）回款，依次类推。</p>
+			</ul>
+		</li>
+		<li class="mui-table-view-cell mui-collapse">
+			<a class="mui-navigate-right" href="#">
+				在平台资金安全么？
+			</a>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<p class="que-txt">用户充值和提现的资金的收付行为为全部在具有央行颁发支付牌照的知名第三支付平台（连连支付）以及银行体系内操作，相应的资金亦实际存放在这些机构的银行卡账户内。</p>
+			</ul>
+		</li>	
+	</ul>
+	
+	<div class="feedback-box">
+		<p class="">意见反馈<span></span></p> 
+	</div>
 </div>
 	
 	
@@ -57,54 +218,72 @@
     <script type="text/javascript" charset="utf-8">
     mui.init();
 			mui.plusReady(function(){
-				plus.nativeUI.showWaiting();
-				getdata(1);
-				mui("#news-list").on('tap', 'a.tap', function(e){
-					e.stopPropagation();					
+				//plus.nativeUI.showWaiting();
+				//getdata(1);
+				mui("#news-list").on('tap', '.tap', function(e){
+					e.stopPropagation();		
+					var nowTime = new Date().getTime();
+	    			var clickTime = this.getAttribute('ctime') //$(this).attr("ctime");
+	    			if( clickTime != 'undefined' && (nowTime - clickTime < 3000)){
+				        return false;
+				    }else{
+				    	this.setAttribute("ctime",nowTime);
+				    }
 					var data = this.getAttribute('data');
 					data = eval("(" + data + ")");
 					if(data.id=="manual.html"){
 						mui.openWindow({
 							id:data.id,
 							url:data.id,
-							styles:{popGesture:'close'}	
+							styles:{popGesture:'close'}	,
+							show:{
+						      autoShow:true,
+						      aniShow:'pop-in',
+						      duration:300
+						    },
+						    waiting:{
+						      autoShow:false 
+						    }
+							
 						})
 					}else{
-						var detailWV = plus.webview.create('article_detail.html');
+						var detailWV = plus.webview.create('article_detail.html','article_detail.html',{popGesture:"close"});
 						detailWV.addEventListener( "loaded", function(){
 							mui.fire(detailWV,"mui.view.show",data);
 						}, false );	
 						setTimeout(function(){
-							detailWV.show('slide-in-right');
+							detailWV.show('pop-in',300);
 						},150);
 					}
 					
 					
 				})
+				//getdata(1)
 			});
-			
-			function getdata(page){				
+			  
+			/*function getdata(page){				
 				request = {'type_id':11,'order':'order_asc','epage':20};
 				request.page = page;
 				articles.GetList({'request':request},function(res){
-//					console.log(JSON.stringify(res));
-					var html = template('tpl-item',res);
-					var ul = document.querySelector('#news-list');
-					if(page > 1){
-						ul.innerHTML = ul.innerHTML + html;
-					}else{
-						ul.innerHTML = html;
-					}
-                    					
-					if(res.total == 0){
-						html = '<li class="mui-table-view-cell">没有记录</li>';
-						ul.innerHTML = html;
-						
-					
-					}
-					plus.nativeUI.closeWaiting();
 				});
-			}
+			}*/
+			mui(".mui-content").on('tap','.feedback-box',function(e){
+				e.stopPropagation()
+				mui.openWindow({
+					url:'feedback.html',
+					id:'feedback.html',
+					styles:{popGesture:'close'},
+					show:{
+				      autoShow:true,
+				      aniShow:'pop-in',
+				      duration:300,
+				      extras:{}
+				    },
+				    waiting:{
+				      autoShow:false
+				    }
+				})
+			})
     </script>
 </body>
 </html>

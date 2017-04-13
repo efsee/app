@@ -19,59 +19,86 @@
         <script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
         <script type="text/javascript" src="js/api.js" ></script>
         <script type="text/javascript" src="js/common.js" ></script>
-    <script type="text/javascript">
-    //取消浏览器的所有事件，使得active的样式在手机上正常生效
-	document.addEventListener('touchstart',function(){
-	    return false;
-	},true);
-	// 禁止选择
-	document.oncontextmenu=function(){
-		return false;
-	};
+        
+    <style type="text/css"> 
+    	.uinfo{width: 100%; display: block; padding-top: 10%; text-align: center; margin-bottom: 20px;}
+    	.uinfo img{width: 18%; height: auto; }
+    	.uinfo h5{height:15px;line-height: 25px; margin-top: -12px;}
+    	.uinfo p{height:15px; margin-top: -15px;}
+        .bottoms{position:absolute; bottom:48px;width:85%; margin-left:22px;}
+        #myCanvas{margin-top: 30px;}
+         #holder {
+			
+			/*border: solid 1px #bbb;*/
+			border-radius: 5px;
+			margin: 50px auto;
+			background-color: #fff;
+			margin-bottom: 20px;
+		}
+		#alert {
+			text-align: center;
+			padding: 20px 10px;
+		}/*#F13F3F*/
+		#wjmm{
+			float: left;
+			width: 47%;
+			color:#999;
+			text-align: right;
+			padding-right: 3%;
+			position: relative;
+			font-size: 13px;
+		}
+		#wjmm:after{
+			position: absolute;
+			content: "";
+			height: 60%;
+			width: 1px;
+			background: #999;
+			top: 20%;right: 0;
+		}
+		#wjmm:active,#syqtzhdl:active{
+			color: #666;
+		}
+		#syqtzhdl{
+			font-size: 13px;
+			float: right;
+			width: 47%;
+			color: #999;
+			text-align: left;
+			padding-left: 3%;
+		}
+    </style>
+</head> 
+<body>
+	<div class="uinfo">
+        <h5 style="text-align: center; margin-top: 12px; color: #333; font-family: arial; font-size: 20px; font-weight: normal;"  id="usernames"></h5>
+        <h5 id="log" style="text-align: center; color: #999;">请输入手势密码</h5>
+	</div>
 	
-     var password = '';
-     var errors = 4;
-     var first = 0;
-     
-         mui.init({swipeBack: false});
-         
-    mui.plusReady(function() {
-    	  mycanns();
-          plus.key.addEventListener('backbutton',function(){return false;},false); 
-          var ws=plus.webview.currentWebview();
-//        var username = plus.storage.getItem('username');
-//        usernames = username.substr(0, 2) + '****' + username.substr(-2, username.length);
-		var usernames = store.get('username');
-          document.getElementById('usernames').innerText = usernames;
+<div class="mui-content"> 
+	<div id='holder' class="mui-locker" data-locker-options='{"ringColor":"rgba(153,153,153,1)","fillColor":"#ffffff","pointColor":"rgba(153,153,153,1)","lineColor":"rgba(153,153,153,1)"}' data-locker-width='320' data-locker-height='320'></div>
+	<div id='alert'></div>
+</div>
+
+<div class="bottoms">
+<div id="wjmm">忘记手势密码</div><div id="syqtzhdl">切换登录方式</div>
+</div>
+<script src="js/mui.locker.js"></script>
+	<script>
+		mui.plusReady(function(){
+			mui.init()
+			var holder = document.querySelector('#holder'),
+				alert = document.querySelector('#alert'),
+				record = [];
+			var password = store.get("shoushi_psw")
+			var remain_times = 5
+			plus.key.addEventListener('backbutton',function(){return false;},false); 
+	        var ws=plus.webview.currentWebview();
+			var usernames = store.get('username'); 
+            document.getElementById('usernames').innerText = usernames.substr(0,3)+'****'+usernames.substr(7)
 			plus.webview.currentWebview().setStyle({scrollIndicator: "none"});
 			document.getElementById('wjmm').addEventListener('tap',function() {
-//				mui.confirm('忘记密码，你确定要重新登录？', '提示', ['确定', '取消'], function(e) {
-//					if (e.index === 0) {
-//						plus.storage.removeItem('shoushimima');
 				login();
-//					}
-//				});
-
-//				var btnArray = ['确定', '取消'];			
-//					mui.prompt('', '登陆密码', '请输入登陆密码', btnArray,function(e) {
-//                      if (e.index == 0) {
-//                          request = {'uid': user.uid(), 'username': usernames,'passwords': e.value,type: 'ifish'};
-//							user.yzpassword(request,function(res){
-//								if (res.status == 1) {
-//                                 //plus.webview.close(ws,'slide-out-bottom');
-//                                 mui.openWindow({url: '/permission.html',id: 'permission',show: {autoShow: false,aniShow: 'slide-in-bottom'}});
-//								} else {			
-//									//sethanrdpass();
-//									mui.toast(res.msg);
-//								}
-//							})
-//
-//			
-//						}
-//			
-//					});
-			
-			
 			});
 			document.getElementById('syqtzhdl').addEventListener('tap',function() {
 						login();
@@ -79,204 +106,81 @@
 //              var home=plus.webview.getWebviewById( plus.runtime.appid );
 //              home.reload();
 			});
-			
-			function logouot() {
-				plus.storage.clear();
-				mui.openWindow({url: '/login.html',id: 'login',show: {autoShow: false,aniShow: 'slide-in-bottom'}});
-                var home=plus.webview.getWebviewById( plus.runtime.appid );
-                home.reload();
-                  var n=4;
-                  var tt=setInterval(function(){
-                    n--;
-                    if(n<=0){
-                     clearInterval(tt);
-                     plus.webview.close(ws,'slide-out-bottom');
-                    }
-                    },1000);
-			} 
-        
-        });
-
-        var R = 32, CW = 210, CH = 300, OffsetX = 25, OffsetY = 25;
-        function CaculateNinePointLotion(diffX, diffY) {
-            var Re = [];
-            for (var row = 0; row < 3; row++) {
-                for (var col = 0; col < 3; col++) {
-                    var Point = {
-                        X: (OffsetX + col * diffX + ( col * 2 + 1) * R),
-                        Y: (OffsetY + row * diffY + (row * 2 + 1) * R)
-                    };
-                    Re.push(Point);
-                }
-            }
-            return Re;
-        }
-        var PointLocationArr = [];
-        
-        function mycanns(){
-        	var c = document.getElementById("myCanvas");
-            CW = document.body.offsetWidth;
-            c.width = CW;
-            c.height = CH;
-            var cxt = c.getContext("2d");
-            //两个圆之间的外距离 就是说两个圆心的距离去除两个半径
-            var X = (CW - 2 * OffsetX - R * 2 * 3) / 2;
-            var Y = (CH - 2 * OffsetY - R * 2 * 3) / 2; 
-            PointLocationArr = CaculateNinePointLotion(X, Y);
-            InitEvent(c, cxt);
-            //CW=2*offsetX+R*2*3+2*X
-            Draw(cxt, PointLocationArr, [],null);
-        }
-         
-        function Draw(cxt, _PointLocationArr, _LinePointArr,touchPoint) {
-            if (_LinePointArr.length > 0) {
-                cxt.beginPath();
-                for (var i = 0; i < _LinePointArr.length; i++) {
-                    var pointIndex = _LinePointArr[i];
-                    cxt.lineTo(_PointLocationArr[pointIndex].X, _PointLocationArr[pointIndex].Y);
-                }
-                cxt.lineWidth = 4;
-                cxt.strokeStyle = "#f13f3f";
-                cxt.stroke();
-                cxt.closePath();
-                if(touchPoint!=null)
-                {
-                    var lastPointIndex=_LinePointArr[_LinePointArr.length-1];
-                    var lastPoint=_PointLocationArr[lastPointIndex];
-                    cxt.beginPath();
-                    cxt.moveTo(lastPoint.X,lastPoint.Y);
-                    cxt.lineTo(touchPoint.X,touchPoint.Y);
-                    cxt.stroke();
-                    cxt.closePath();
-                }
-            }
-            for (var i = 0; i < _PointLocationArr.length; i++) {
-                var Point = _PointLocationArr[i];
-                cxt.fillStyle = "#f13f3f";
-                cxt.beginPath();
-                cxt.arc(Point.X, Point.Y, R-1, 0, Math.PI * 2, true);
-                cxt.closePath();
-                cxt.fill();
-                cxt.fillStyle = "#fff";
-                cxt.beginPath();
-                cxt.arc(Point.X, Point.Y, R - 3, 0, Math.PI * 2, true);
-                cxt.closePath();
-                cxt.fill();
-                if(_LinePointArr.indexOf(i)>=0)
-                {
-                    cxt.fillStyle = "#ffdfdf";
-                    cxt.beginPath();
-                    cxt.arc(Point.X, Point.Y, R -8, 0, Math.PI * 2, true);
-                    cxt.closePath();
-                    cxt.fill();
-                }
-				if(_LinePointArr.indexOf(i)>=0)
-                 {
-                     cxt.fillStyle = "#f13f3f";
-                     cxt.beginPath();
-                     cxt.arc(Point.X, Point.Y, R -22, 0, Math.PI * 2, true);
-                     cxt.closePath();
-                     cxt.fill();
-                 }
-            }
-        }
-        function IsPointSelect(touches,LinePoint)
-        {
-            for (var i = 0; i < PointLocationArr.length; i++) {
-                var currentPoint = PointLocationArr[i];
-                var xdiff = Math.abs(currentPoint.X - touches.pageX);
-                var ydiff = Math.abs(currentPoint.Y - touches.pageY+140);//位置
-                var dir = Math.pow((xdiff * xdiff + ydiff * ydiff), 0.5);
-                if (dir < R ) {
-                    if(LinePoint.indexOf(i) < 0){ LinePoint.push(i);}
-                    break;
-                }
-            }
-        }
-        function InitEvent(canvasContainer, cxt) {
-            var LinePoint = [];
-            canvasContainer.addEventListener("touchstart", function (e) {
-                IsPointSelect(e.touches[0],LinePoint);
-            }, false);
-            canvasContainer.addEventListener("touchmove", function (e) {
-                e.preventDefault();
-                var touches = e.touches[0];
-                IsPointSelect(touches,LinePoint);
-                cxt.clearRect(0,0,CW,CH);
-                Draw(cxt,PointLocationArr,LinePoint,{X:touches.pageX,Y:touches.pageY-140});//位置
-            }, false);
-            canvasContainer.addEventListener("touchend", function (e) {
-                cxt.clearRect(0,0,CW,CH);
-                Draw(cxt,PointLocationArr,LinePoint,null);
-					if (LinePoint.length < 2) {
-						LinePoint=[];
-		                cxt.clearRect(0,0,CW,CH);
-		                Draw(cxt, PointLocationArr, [],null);
-						document.getElementById('log').innerText = '请输入密码';
-						return;
-					}
-                
-                //alert(password);
-                //password = plus.storage.getItem('shoushimima');
-                //console.log(store.get("shoushi_psw"))
-                password = store.get("shoushi_psw")
-               // console.log(password+"and"+LinePoint.join(""))
-                if(password == LinePoint.join("")){
-                	var ws=plus.webview.currentWebview();
+			holder.addEventListener('done', function(event) {
+				var rs = event.detail;
+				if (rs.points.length < 4) {
+					document.getElementById('log').style.color = "#F13F3F"
+					document.getElementById('log').innerText = '密码太简单，请重新输入';
+					rs.sender.clear();
+					return;
+				}
+				remain_times--
+				var now_password = rs.points.join('')
+				if(now_password==password){//密码正确
+					var ws=plus.webview.currentWebview();
+					mui.fire(plus.webview.getLaunchWebview(),'sign_notice');
                 	plus.webview.close(ws,'slide-out-right');
-                }else{
-                	//errors -= 1;
-                	errors = errors > 0 ? errors - 1 : 0;
-                	if(errors <= 0){
-                		store.delete('shoushi_status');
+				}else{
+					if(remain_times!=0){
+					//	rs.sender.error_draw()
+					//console.log(rs.points)
+						var pointArray = []
+						var pointArray2 = []
+						for(i=0;i<now_password.length;i++){ 
+						//	now_password.charAt(i)
+							pointArray2.push(i)
+							pointArray.push(pointLocationArr[now_password.charAt(i)])
+						}
+						//for()
+				//		console.log(rs.points)
+						rs.sender.draw2(cxt2,pointArray,pointArray2, null)
+						document.getElementById('log').style.color = "#F13F3F";
+						document.getElementById('log').innerHTML = '密码输入错误，你还可以输入'+remain_times+'次'
+						$('#log').shake(2, 10, 200); 
+						
+						setTimeout(function(){
+							rs.sender.clear();
+						},300)
+						
+					}else{
+						store.delete('shoushi_status');
 						store.delete('shoushi_psw');
 						user.UpdateShoushiStatus({"request":{"user_id":user.uid(),"shoushi_status":"0"}},function(res){
-            			//关闭手势密码
-            				store.delete('shoushi_status');
+	            			//关闭手势密码
+	            			store.delete('shoushi_status');
 	                	})
 						user.logout({},function(res){
 							store.delete('uid');
 							store.delete('utoken'); 
 							mui.fire(plus.webview.getLaunchWebview(),'gohome');
 							login();
+							var ws=plus.webview.getWebviewById('yz');
+							setTimeout(function(){
+								ws.close();
+							},1000)
+	                		
 						});
-						
-                		//login()
-                		//plus.storage.clear();
-						//plus.storage.removeItem('shoushimima');
-                	}
-                	document.getElementById('log').innerText = '密码错误，您还有'+errors+'次机会';
-                }
-				setTimeout(function(){
-	                LinePoint=[];
-	                cxt.clearRect(0,0,CW,CH);
-	                Draw(cxt,PointLocationArr,LinePoint,null);
-				},10);
-
-            }, false);
-        }
-        mui.back = function() {
-        	return false;
-        };
-    </script>
-    <style type="text/css">
-    	.uinfo{width: 100%; height: 90px; display: block; padding-top: 10%; text-align: center; margin-bottom: 20px;}
-    	.uinfo img{width: 20%; height: auto; }
-    	.uinfo h5{height:15px; margin-top: -12px;}
-        .bottoms{position:absolute; bottom:48px;width:85%; margin-left:22px;}
-    </style>
-</head>
-<body>
-	<div class="uinfo">
-        <img src="images/user.png" />
-        <h5 style="text-align: center; margin-top: 12px; color: #999; font-family: arial; font-size: 15px; font-weight: normal;"  id="usernames"></h5>
-        <h5 id="log" style="text-align: center; color: #F13F3F;"></h5>
-	</div>
-	
-<canvas id="myCanvas"></canvas>
-
-<div class="bottoms">
-<div id="wjmm" style="float:left; padding: 5px; font-size: 15px; color:#999; display:block;">忘记手势密码</div><div id="syqtzhdl" style="float:right; padding: 5px; font-size: 15px; color:#999; display:block;">使用其它帐号登陆</div>
-</div>
+					}
+					
+				}
+				
+			})
+			mui.back = function() {
+	        	return false;
+	        };
+	        jQuery.fn.shake = function (intShakes /*Amount of shakes*/, intDistance /*Shake distance*/, intDuration /*Time duration*/) {
+		     	this.each(function () {
+		            var jqNode = $(this);
+		            jqNode.css({ position: 'relative' });
+		            for (var x = 1; x <= intShakes; x++) {
+		               jqNode.animate({ left: (intDistance * -1) }, (((intDuration / intShakes) / 4)))
+		               .animate({ left: intDistance }, ((intDuration / intShakes) / 2))
+		               .animate({ left: 0 }, (((intDuration / intShakes) / 4)));
+		            }
+		        });
+		    	return this;
+		   }
+		})
+	</script>
 </body>
 </html>

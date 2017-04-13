@@ -6,13 +6,14 @@
 		init: function() {
 			if (mui.os.plus) {
 				mui.plusReady(function() {
-					plus.share.getServices(function(services) {
+					plus.share.getServices(function(services) {//获取分享服务列表
 						this.shares = {};
 						mui.each(services, function(index, service) {
 							this.shares[service.id] = service;
 						}.bind(this));
 					}.bind(this), function(e) {
-						console.log("获取分享服务列表失败：" + e.message);
+						//console.log("获取分享服务列表失败：" + e.message);
+						alert("获取分享服务列表失败：" + e.message);
 					});
 				}.bind(this));
 			}
@@ -80,7 +81,7 @@
 				self.openSysShare(message, callback);
 			}
 		},
-		share: function(id, message, callback) {
+		share: function(id, message, callback) {//判断分享平台是否授权
 			var self = this;
 			var service = self.shares[id];
 			if (!service) {
@@ -88,12 +89,12 @@
 				callback && callback(false);
 				return;
 			}
-			if (service.authenticated) {
+			if (service.authenticated) {//已经授权
 				self._share(service, message, callback);
-			} else {
-				service.authorize(function() {
+			} else {//未授权
+				service.authorize(function() {//授权成功回调
 					self._share(service, message, callback);
-				}, function(e) {
+				}, function(e) {//授权失败回调
 					plus.nativeUI.alert("认证授权失败");
 					callback && callback(false);
 				});
@@ -101,9 +102,9 @@
 		},
 		_share: function(service, message, callback) {
 			service.send(message, function() {
-				plus.nativeUI.toast("分享到\"" + service.description + "\"成功！");
+				plus.nativeUI.toast("分享到\"" + service.description + "\"成功！"); 
 				callback && callback(true);
-			}, function(e) {
+			}, function(e) { 
 				plus.nativeUI.toast("分享到\"" + service.description + "\"失败！");
 				callback && callback(false);
 			});

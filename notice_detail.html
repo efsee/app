@@ -51,10 +51,98 @@
 	}
 header .mui-icon { color: #999; font-size: 14px; }
 header .mui-title { color: #333; }
-    	#main-box img { max-width: 100%;}
-.mui-content { background: #fff;}
+.main-bg{
+	width: 100%;
+	background-color: #F8F8F8;
+	padding: 10px 0 30px 0;
+	min-height: 100%;
+}
+#main-box{
+	width: 94%;
+	margin: 0 3%;
+	background: #fff;
+	border-top: 1px solid #e00000;
+	position: relative;
+}
+#main-box2{
+	width: 100%;
+	padding: 0; 
+	margin: 0!important;
+	padding-bottom: 20px;
+}
+#main-box:after,#main-box:before{
+	width: 47%;
+	content: "";
+	height: 1px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: #e00000;
+}
+#main-box:after{
+	left: 53%!important;
+}
+.logo-tip{
+	width: 6%;
+	position: absolute;
+	bottom: 0;
+	left: 47%;
+	transform: translateY(50%);
+	-webkit-transform: translateY(50%);
+}
+#main-box img { max-width: 100%;}
+.mui-content { background: #f8f8f8!important;}
+body{
+	background: #f8f8f8!important;
+	min-height: 100%;
+}
 .mui-loader { color: #999; line-height: 20px; font-size: 12px; padding-top: 50px; }
-
+.content {
+	background:  
+		-webkit-gradient(
+			linear,
+			left bottom, left top,
+			from(#e6e5e5),
+			color-stop(2%, #ffffff)
+		);		
+	-webkit-background-size: 100% 30px;
+	background-position: 0 30px;	
+}
+.content{
+	padding: 0;
+	margin: 0 auto;
+	padding-bottom: 28px;
+	min-height: 100%;
+}
+.content img{
+	margin: 0px auto;
+	display: block; 
+	padding: 0;
+}
+.content h2 ,.content h3,.content h4,.content h5,.content p ,.content div,.content span,.content{
+	line-height: 30px;
+	padding: 0!important;
+	margin: 0!important;
+	font-size: 13px!important;
+	font-weight: 400!important;
+	color: #666!important;
+	word-wrap:break-word;
+} 
+.content{
+	margin: 0 auto!important;
+	
+}
+.news-bt{
+	border: 0px;
+}
+.title{
+	font-weight: bold;
+	font-size: 15px!important;
+	word-wrap:break-word;
+}
+.date{
+	font-size:12px ;
+}
     </style>
 </head>
 <body>
@@ -67,7 +155,13 @@ header .mui-title { color: #333; }
 	<div class="mui-loader mui-text-center" id="mui-loader">
 		<span class="mui-spinner"></span> <span id="loading-text">内容正在加载，请稍后...</span>
 	</div>
-	<div id="main-box">
+	<div class="main-bg">
+		<div id="main-box">
+			<div id="main-box2">
+				
+			</div>
+			<img class="logo-tip" src="images/logo-tm.png" />
+		</div>
 	</div>
 </div>
 
@@ -80,28 +174,54 @@ header .mui-title { color: #333; }
 		<div class="content">
 			{{#contents | updateimgpath}}
 		</div>
+		
 	</div>
 </script>
 
 <script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/template.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/template.function.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	document.addEventListener('newsId',function(event){
+	mui.init({
+  		beforeback: function(){
+			//获得a界面的webview
+			var thisIndex=plus.webview.currentWebview().opener()
+//				//触发a的自定义事件（refresh）,从而进行数据刷新
+			mui.fire(thisIndex,'initpage2');
+			//返回true，继续页面关闭逻辑
+			return true;}
+  	});
+  	mui.plusReady(function(){
+  		plus.webview.currentWebview().setStyle({
+	        'popGesture': 'none'
+	    });
+  	})
+	document.addEventListener('newsId',function(event){ 
 		//获得事件参数
 		var id = event.detail.id;
 		//根据id向服务器请求新闻详情
 		articles.detail({'request':{'id':id}},function(res){
+			//console.log(JSON.stringify(res))
 			articles.SetNoticeStatus({"request":{"user_id":user.uid(),"notice_id":id}},function(res){
 				
 			})
 			html = template('tpl-html',res);
-			document.getElementById("main-box").innerHTML = html;
+			document.getElementById("main-box2").innerHTML = html;
 			document.getElementById("mui-loader").style.display = 'none';
-//				plus.webview.currentWebview().show('slide-in-right');
+			if($('#main-box img').length>0){
+				setTimeout(function(){
+					for(var i=0; i < $('#main-box2 img').length;i++){
+						var row = $('#main-box2 img').eq(i)
+						var p_index = parseInt(parseInt(row.height())/30)
+						if(p_index==0) p_index+1
+						row.css({'height':p_index*30+'px',"width":'auto','margin':'0 auto','display':'block'})	
+					}
+				},200)
+				
+			}
 		})
 	})
-
 </script>
 </body>
 </html>

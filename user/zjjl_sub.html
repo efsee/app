@@ -99,6 +99,7 @@
 				request = {'type':'','user_id':user.uid(),'epage':10,'_where':' and balance>0 '};
 				request.page = page;
 				account.GetLogList({'request':request},function(res){//$data和回调函数
+					console.log('记录'+JSON.stringify(res)) 
 					if(page==1){
 						$(".mui-scroll").html("").css("top","0")	
 						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();

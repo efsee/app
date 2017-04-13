@@ -60,10 +60,12 @@ html[xmlns] .slides {display: block;}
 
 			//立即体验按钮点击事件
 			document.getElementById("close").addEventListener('tap', function(event) {
+				//console.log(8)
 				var indexPage=plus.webview.getLaunchWebview()
 				mui.fire(indexPage,"turnVersion")
+				//http://192.168.0.200:8081/app/images/guide/1.png
 				//console.log(indexPage.getURL())
-				plus.storage.setItem("welcome191", "true"); 
+				plus.storage.setItem("welcome192", "true"); 
 				plus.navigator.setFullscreen(false);
 //				plus.webview.currentWebview().loadURL("index.html");
 //				mui.fire(plus.webview.getWebviewById("home"),"gohome");

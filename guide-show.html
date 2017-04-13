@@ -62,21 +62,15 @@ html[xmlns] .slides {display: block;}
 			document.getElementById("close").addEventListener('tap', function(event) {
 				plus.storage.setItem("welcome", "true");
 				plus.navigator.setFullscreen(false);
-				plus.webview.currentWebview().loadURL("index.html");
+			//	plus.webview.currentWebview().loadURL("index.html");
 //				mui.fire(plus.webview.getWebviewById("home"),"gohome");
 				mui.fire(plus.webview.getLaunchWebview(),"goproduct");
 				plus.webview.currentWebview().close();
 			}, false);
 
-			document.getElementById("pass").addEventListener('tap', function(event) {
-				plus.storage.setItem("welcome", "true");
-				plus.navigator.setFullscreen(false);
-//				plus.webview.currentWebview().loadURL("index.html");
-//				mui.fire(plus.webview.getWebviewById("home"),"gohome");
-				plus.webview.currentWebview().close();
-			}, false);
+			
 			
 			
 		</script>
 </body>
-</html>
+</html> 
