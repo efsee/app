@@ -5,6 +5,12 @@
 	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>聚车金融</title>
 	    <script src="js/mui.min2.js"></script>
+	    <script>
+	    	mui.plusReady(function() {
+	    		if(!plus.storage.getItem('welcome192')) 
+				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
+	    	})
+	    </script>
 	    <script src="js/common.js"></script>
 	    <script src="js/api.js"></script>
 	    <script src="js/jquery-1.11.2.min.js"></script>
@@ -90,13 +96,26 @@
 		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 		</nav>
 	</body>
-	<script src="http://cdn.bootcss.com/socket.io/1.7.3/socket.io.js"></script> 
 	<script>   
 		mui.plusReady(function(){
+			
 			if(!plus.storage.getItem('welcome192'))
-			{
-				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
+			{	
+				if(plus.os.name=='Android'){
+					setTimeout(function(){
+						plus.navigator.closeSplashscreen(); 
+					},1600)
+				}else{
+					setTimeout(function(){
+						plus.navigator.closeSplashscreen(); 
+					},1200)
+				}
+				
+				//mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
 			}else{
+				setTimeout(function(){
+					plus.navigator.closeSplashscreen(); 
+				},1000)
 				plus.navigator.setFullscreen(false);
 				if(!store.get('diffrent192')){
 					var appinfo={};
