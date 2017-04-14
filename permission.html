@@ -17,6 +17,18 @@
 	            width: 100%;
 	            background:#fff;
 	        }
+	        @media screen and (min-width:300px) and (max-width:350px){html{font-size:11px}}
+			@media screen and (min-width:351px) and (max-width:400px){html{font-size:12px}}
+			@media screen and (min-width:401px) and (max-width:450px){html{font-size:13px}}
+			.small{
+				height: 4.1rem!important;
+			}
+			#holder{
+				margin: 1.5rem auto 0.5rem !important;
+			}
+			#alert{
+				padding: 1.2rem 10px!important;
+			}
 	        .mui-content{
 	        	background:#fff;
 	        }
@@ -62,7 +74,7 @@
         <h5  id="log"style="text-align: center; color: #333;">绘制解锁图案</h5>
         <div class="mui-content"> 
 			<div id='holder' class="mui-locker" data-locker-options='{"ringColor":"rgba(153,153,153,1)","fillColor":"#ffffff","pointColor":"rgba(153,153,153,1)","lineColor":"rgba(153,153,153,1)"}' data-locker-width='320' data-locker-height='320'></div>
-			<div id='alert'></div>
+			<div id='alert'></div> 
 		</div>
         
        <!-- <canvas id="myCanvas"></canvas>-->

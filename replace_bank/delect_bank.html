@@ -166,6 +166,9 @@
 				$("#pin-code").keyup(function(){
 					if($(this).length>0) $('.delect-btn').addClass('submit-btn')
 				})
+				$("#pin-code").change(function(){
+					if($(this).length>0) $('.delect-btn').addClass('submit-btn')
+				})
 				function getyzm(){
 					times--;
 					$(".get-pin").css("color","#c6c6c6");
@@ -215,7 +218,6 @@
 				    }else{
 				    	$(this).attr("ctime",nowTime); 
 				    }
-				    plus.nativeUI.showWaiting()
 				    var mobile_code = $("#pin-code").val()
 				    if(mobile_code==''||mobile_code.length<4){
 				    	alert('请输入正确的验证码！');
@@ -225,10 +227,11 @@
 				    	token: user.utoken(), 
 				    	mobile: store.get('username'),
 				    	mobilecode: mobile_code  
-				    } 
+				    }
+				    plus.nativeUI.showWaiting()
 				    userbank.delete(request,function(res){ 
 				  //  	console.log(JSON.stringify(request)); 
-					//	console.log('绑定验证码：'+JSON.stringify(res)); 
+						console.log('绑定验证码：'+JSON.stringify(res)); 
 						if(res.error_no==200){
 							setTimeout(function(){
 								$(".delect-box").css('display','none')

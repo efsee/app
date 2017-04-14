@@ -141,7 +141,7 @@
 	    		<div class="zzck" id="zzck">
 	      			<h2>总资产（元）</h2>	
 	      			<h1 id="total">****</h1>
-	      			<div class="show-eye close-eye">
+	      			<div class="show-eye open-eye"> 
 	      				
 	      			</div>
 	    		</div>
@@ -470,7 +470,7 @@
 					e.stopPropagation()
 					//console.log("5")
 					//默认close-eye
-					if($(this).hasClass('open-eye')){
+					if($(this).hasClass('close-eye')){
 						user.getInfo(function(res){
 							if(res){
 				//				console.log(JSON.stringify(res));
@@ -481,15 +481,15 @@
 								$('#income').html(res.ljincome);
 							}
 						});
-						$(this).addClass('close-eye').removeClass('open-eye')
+						$(this).addClass('open-eye').removeClass('close-eye')
 						store.delete('showeye')
 					}else{
 						$('#total').html('****');
 						$('#balance').html('****');
 						$('#await').html('****');
 						$('#income').html('****');
-						$(this).addClass('open-eye').removeClass('close-eye')
-						store.set('showeye',1, 3600 * 24 * 365)
+						$(this).addClass('close-eye').removeClass('open-eye')
+						store.set('showeye',1, 3600 * 24 * 365) 
 						
 					}
 				})
@@ -525,18 +525,18 @@
 			function getdata(){
 				user.getInfo(function(res){
 					if(res){
-						if(store.get('showeye')){
+						if(store.get('showeye')){//有show标志
 							$('#total').html('****');
 							$('#balance').html('****');
 							$('#await').html('****');
 							$('#income').html('****');
-							$('.show-eye').removeClass('close-eye').addClass('open-eye')
+							$('.show-eye').removeClass('open-eye').addClass('close-eye')
 						}else{
 							$('#total').html(res.total);
 							$('#balance').html(res.balance);
 							$('#await').html(res.await);
 							$('#income').html(res.ljincome)
-							$('.show-eye').removeClass('open-eye').addClass('close-eye')
+							$('.show-eye').removeClass('close-eye').addClass('open-eye')
 						}
 		//				console.log(JSON.stringify(res));
 						$('#frost').html(res.frost);

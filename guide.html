@@ -25,7 +25,7 @@ html[xmlns] .slides {display: block;}
 .flex-control-paging li a:hover { border:#ff705e 2px solid; }
 .flex-control-paging li a.flex-active { border:#ff705e 2px solid; cursor: default; }
 /*#pass{ position: absolute; top:25px; right: 20px; display: block; width: 45px; height: 25px;  font-size:12px; text-align:center; color:#D2B771;z-index: 100; border: solid 1px #E2CD97; border-radius: 5px;;}*/
-#close{position: absolute; bottom: 0; height: 40%;width: 100%; display: block; }   
+#close{position: absolute; bottom: 0; height: 25%;width: 100%; display: block; }   
     </style>
     <script src="js/mui.min.js"></script>
 	<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
@@ -50,33 +50,22 @@ html[xmlns] .slides {display: block;}
 </div>
 
 		<script>
-			mui.back = function() {};
+			mui.back = function() {}; 
 			mui.plusReady(function() {
 				plus.navigator.setFullscreen(true);
-				plus.navigator.closeSplashscreen(); 
+				//plus.navigator.closeSplashscreen(); 
 			});
 
 			//立即体验按钮点击事件
 			document.getElementById("close").addEventListener('tap', function(event) {
-				//console.log(8)
 				var indexPage=plus.webview.getLaunchWebview()
 				mui.fire(indexPage,"turnVersion")
 				//http://192.168.0.200:8081/app/images/guide/1.png
 				//console.log(indexPage.getURL())
 				plus.storage.setItem("welcome192", "true"); 
 				plus.navigator.setFullscreen(false);
-//				plus.webview.currentWebview().loadURL("index.html");
-//				mui.fire(plus.webview.getWebviewById("home"),"gohome");
 				plus.webview.currentWebview().close();
 			}, false);
-
-			/*document.getElementById("pass").addEventListener('tap', function(event) {
-				plus.storage.setItem("welcome", "true");
-				plus.navigator.setFullscreen(false);
-//				plus.webview.currentWebview().loadURL("index.html");
-//				mui.fire(plus.webview.getWebviewById("home"),"gohome");
-				plus.webview.currentWebview().close();
-			}, false);	*/
 		</script>
 </body>
 </html>
