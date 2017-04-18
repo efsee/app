@@ -128,7 +128,7 @@ header .mui-title { color: #333; }
 //    			var html = template('tpl-item-1',res);
 //    			document.getElementById("tablist-1").innerHTML = html;
 //    		});
-      		request = {'user_id':user.uid(),'epage':10}; 
+      		request = {'user_id':user.uid(),'epage':999}; 
       		user.GetFriendsInvite({'request':request},function(res){
       			console.log(JSON.stringify(res));
       			var html = template('tpl-item-2',res);

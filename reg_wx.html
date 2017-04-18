@@ -183,17 +183,18 @@
 			}
 			if(!$('#readRegtext').is(':checked')){
 				alert('请同意聚车金融注册协议',function(){
-					$("#confirm-password").focus()
+					return false;
 				});
+				return false;
 			}
 			$("input:focus").blur();
 			var device = JSON.stringify(getSysInfo())
 			wx.regBind({"phone":username, "password":password,'confirm_password':confirm_password,'from':'phone','device':device,'invite_userid':invite_code,'mobilecode':pin_code,'wx_unionid':wx.wuid(),'wx_openid':wx.oid(),'wx_nickname':wx.nickname(),'wx_headimgurl':wx.headurl()}, function(res) {
-			//	console.log('注册绑定：'+JSON.stringify(res))
-				//alert(JSON.stringify(res))
+			//	console.log('注册绑定：'+JSON.stringify(res)) 
+			//	alert(JSON.stringify(res))
 				if (res.error_no==18008) {
-					plus.webview.currentWebview().opener().close();
 					plus.webview.currentWebview().opener().opener().close();
+					plus.webview.currentWebview().opener().close();
 					var uid = res.result.user.user_id;
 					user.deleteCache(uid); //清空缓存 
 					user.clear()
@@ -210,7 +211,7 @@
 					setTimeout(function(){
 						plus.webview.currentWebview().close();
 					},300);
-					return true;
+					return false;
 				} else {
 					plus.nativeUI.alert(res.info || res.msg || res.message|| res.error_msg);
 					return false;

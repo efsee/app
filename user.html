@@ -501,22 +501,13 @@
 			
 			document.addEventListener('initpage',function(e){
 				//alert("4")
-				plus.navigator.setStatusBarBackground("#fff");
+			//	plus.navigator.setStatusBarBackground("#fff");
 				//mui('.mui-scroll-wrapper').scroll().scrollTo(0,0)	
 				$('#tyMoney').removeClass('user-new-jf');
 				if(!store.get('mytyopen')){
 					//$('#tyMoney').addClass('user-new-jf');
 				}
 				
-			/*	mui("body").on('tap','#mytz',function(){
-					store.set('mytzopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-				})
-				mui("body").on('tap','#llcz',function(){
-					store.set('llczopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-				})
-				mui("body").on('tap','#jfMall',function(){
-					store.set('myjfopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
-				})*/
 				mui("body").on('tap','#tyMoney',function(){
 					//store.set('mytyopen', 1, 3600 * 24 * 365);	//标志暂存时间30秒
 				})
@@ -547,14 +538,6 @@
 						}
 					}
 				});
-				//回款、投资等列表数量
-				/*request = {'user_id':user.uid()};
-				borrow.recordcounts({'request':request},function(res){
-		//			console.log(JSON.stringify(res));
-					$('#recordcount1').html('(' + res.record.count1 + ')');
-					$('#recordcount2').html('(' + res.record.count2 + ')');
-					$('#recordcount3').html('(' + res.record.count3 + ')');
-				})*/
 				userbank.get({"token":user.utoken()},function(res){   
 					if(res.result.check_status==2){
 						$("#auditFail").css('display','block')

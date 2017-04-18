@@ -103,6 +103,15 @@
 		<script id="tpl" type="text/html">
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">账户<span id="userName">{{username}}</span></li>
+				{{if wx_uid == ""||wx_uid == null}}
+				<li class="mui-table-view-cell">微信绑定<span id="userName">未绑定</span></li>
+				{{else}}
+					{{if wx_nickname==""||wx_nickname==null}}
+					<li class="mui-table-view-cell">微信绑定<span id="userName">已绑定</span></li>
+					{{else}}
+					<li class="mui-table-view-cell">微信绑定<span id="userName">{{wx_nickname}}</span></li>
+					{{/if}}
+				{{/if}}
 			</ul>
 			<ul class="mui-table-view">
 				{{if sm_status=="1"&&_realname.realname!=null}}
@@ -117,7 +126,7 @@
 						<li class="mui-table-view-cell"><a href="replace_bank/replace_bank.html"  class="mui-navigate-right replace-bank">银行卡<span style="margin-right: 25px;"><img class="back-img" src="images/bank/bank_{{bank}}.png"/>{{bank_name}}(尾号{{account}})</span></a></li>
 						{{/if}}
 					{{else}}
-					<li class="mui-table-view-cell">  
+					<li class="mui-table-view-cell">
 						<a href="smrz_w_recharge.html" class="mui-navigate-right tap">
 							银行卡
 							<span style="margin-right: 25px;">未认证</span>
@@ -183,26 +192,34 @@
 					document.getElementById("switch_ssmm").classList.remove('mui-active');
 				}
 				user.UserInfo({'request':{"user_id":user.uid()}},function(r){
-					//console.log(JSON.stringify(r)) 
+					//console.log(JSON.stringify(r))   
 					var sm_status = r.realname_status
-					request = {"user_id":user.uid()}; 
-	      			account.GetUsersBankOne({'request':request},function(res){
-	      				res.sm_status = sm_status
-	      				console.log(JSON.stringify(res))     
-	      				res.username = store.get('username').slice(0,3)+"****"+store.get('username').slice(-4) 
-	      				if(res.sm_status=="1"&&res._realname.realname!=null){ //已经实名
-							res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
-							if(res.account!=null){//实名有银行卡
-								res.account = res.account.slice(-4)
-							}   
-	      				}
-	      				var html = template("tpl",res);
-		      			document.getElementById("userBox").innerHTML = html;
-		      			//$('#mui-loader').hide();
-		      			document.getElementById('mui-loader').style.display="none";
-		      			document.getElementsByClassName("mui-content")[0].style.display="block";
-						//$('#bodybox').show();	
-	      			})
+					request = {"user_id":user.uid()};
+					newUser.get({'token':user.utoken()},function(data){
+						console.log(JSON.stringify(data)) 
+						var wx_uid = data.result.user.wx_unionid
+						var wx_nickname = data.result.user.wx_nickname
+						account.GetUsersBankOne({'request':request},function(res){
+		      				res.sm_status = sm_status;
+		      				res.wx_uid = wx_uid;
+		      				res.wx_nickname = wx_nickname;
+		      				//console.log(JSON.stringify(res))     
+		      				res.username = store.get('username').slice(0,3)+"****"+store.get('username').slice(-4) 
+		      				if(res.sm_status=="1"&&res._realname.realname!=null){ //已经实名
+								res._realname.card_id = res._realname.card_id.slice(0,2) + "******************" + res._realname.card_id.slice(-2);
+								if(res.account!=null){//实名有银行卡
+									res.account = res.account.slice(-4)
+								}   
+		      				}
+		      				var html = template("tpl",res);
+			      			document.getElementById("userBox").innerHTML = html;
+			      			//$('#mui-loader').hide();
+			      			document.getElementById('mui-loader').style.display="none";
+			      			document.getElementsByClassName("mui-content")[0].style.display="block";
+							//$('#bodybox').show();	
+		      			})
+					})
+	      			
 
 		  		})
  
@@ -323,7 +340,7 @@
 						},1000);
 					});
 				})
-      			
+      			 
       			//返回刷新
       			document.addEventListener("refresh",function(e){
       				//判断有无设置手势密码

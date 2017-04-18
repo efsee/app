@@ -5,15 +5,17 @@
 	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>聚车金融</title>
 	    <script src="js/mui.min2.js"></script>
-	    <script>
-	    	mui.plusReady(function() {
-	    		if(!plus.storage.getItem('welcome192')) 
-				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
-	    	})
-	    </script>
 	    <script src="js/common.js"></script>
 	    <script src="js/api.js"></script>
 	    <script src="js/jquery-1.11.2.min.js"></script>
+	    <script src="html5plus://ready"></script>
+	    <script>
+	    	if(window.plus){
+			    if(!plus.storage.getItem('welcome192')){	 
+					mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{aniShow:'none'},waiting:{autoShow:false}});
+				} 
+			}
+	    </script>
 	    <link href="css/mui.min.css" rel="stylesheet"/>
 	    <link href="css/css.css" rel="stylesheet" type="text/css" />
 	    <link href="css/integral.css" rel="stylesheet" type="text/css" />
@@ -75,7 +77,7 @@
 	    		background: rgba(00,00,00,0.6);
 	    		display: none;
 	    	}
-	    </style>
+	    </style> 
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav header">
@@ -96,27 +98,18 @@
 		<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-More icon"></i><p>我的</p></a>
 		</nav>
 	</body>
+	
 	<script>   
 		mui.plusReady(function(){
 			
 			if(!plus.storage.getItem('welcome192'))
-			{	
-				if(plus.os.name=='Android'){
-					setTimeout(function(){
-						plus.navigator.closeSplashscreen(); 
-					},1600)
-				}else{
-					setTimeout(function(){
-						plus.navigator.closeSplashscreen(); 
-					},1200)
-				}
-				
-				//mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
-			}else{
+			{	 
+				//mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{aniShow:'none'},waiting:{autoShow:false}});
+			}else{//已经显示导航了
 				setTimeout(function(){
 					plus.navigator.closeSplashscreen(); 
-				},1000)
-				plus.navigator.setFullscreen(false);
+				},800) 
+				//plus.navigator.setFullscreen(false);
 				if(!store.get('diffrent192')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
@@ -130,12 +123,12 @@
 						var request = {};
 						product.getversion({"request":request},function(res){
 							//console.log(JSON.stringify(res));
-							if(res){
+							if(res){ 
 								if(appinfo.version<res.version){
 									var content='';
 									$.each(res.content, function(i, item) {
 										content+='\r\n'+item;
-									});
+									}); 
 									store.set('diffrent192', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
@@ -154,6 +147,27 @@
 					})
 					
 				}
+			} 
+			/**********************************底部导航子页面webview实现****************************************/
+			/*var productPage = plus.webview.create('product.html','product.html',{top:'45px',bottom:'50px',scrollIndicator:'none'})
+			plus.webview.currentWebview().append(productPage); 
+			//productPage.hide()
+			var userPage = plus.webview.create('user.html','user.html',{top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'})
+			plus.webview.currentWebview().append(userPage);*/
+			//userPage.hide() 
+		    var	subpages = ['home.html', 'product.html', 'find.html', 'user.html'];  
+			subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'};//,render:'always' 
+			var activeTab = subpages[0];
+			var self = plus.webview.currentWebview(); 
+			for (var i = 0; i < 4; i++) { 
+				var temp = {};
+				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
+				if (i > 0) { 
+					sub.hide();//除了home.html外，其他webview都隐藏 
+				}else{
+					
+				}
+				self.append(sub);
 			}
 			/*****/
 			//bug：手势密码未输入完成界面会提醒签到
@@ -225,27 +239,6 @@
 					
 				}
 			})
-			/**********************************底部导航子页面webview实现****************************************/
-			var productPage = plus.webview.create('product.html','product.html',{top:'45px',bottom:'50px',scrollIndicator:'none'})
-			plus.webview.currentWebview().append(productPage); 
-			//productPage.hide()
-			var userPage = plus.webview.create('user.html','user.html',{top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'})
-			plus.webview.currentWebview().append(userPage);
-			//userPage.hide() 
-			var subpages = ['home.html', '', 'find.html', ''];  
-			var subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'};//,render:'always' 
-			var activeTab = subpages[0];
-			var self = plus.webview.currentWebview(); 
-			for (var i = 0; i < 4; i++) { 
-				var temp = {};
-				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
-				if (i > 0) { 
-					sub.hide();//除了home.html外，其他webview都隐藏 
-				}else{
-					
-				}
-				self.append(sub);
-			}
 			//preload () 
 			mui(".bot-nav").on('tap','a',function(){
 				//单点登录验证
@@ -258,15 +251,15 @@
 					})	
 				}
 				var url = this.getAttribute('href');
-				document.getElementById("title").innerHTML = this.getAttribute('title');
-				var sub = plus.webview.getWebviewById(url); 
-				mui.fire(sub,'initpage');
 				if(url == 'user.html'){//如果打开了user页面，若没有登录信息，则调出login（）
 					if(!user.uid()){
 						login(); 
 						return false;
 					}
-				}
+				} 
+				document.getElementById("title").innerHTML = this.getAttribute('title');
+				var sub = plus.webview.getWebviewById(url); 
+				mui.fire(sub,'initpage');
 				active = document.querySelector('.bot-nav>.tab.active');
 				if(active && active.getAttribute('href') == url){
 					return false;//如果点击为当前页
