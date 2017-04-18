@@ -190,7 +190,7 @@ body{
 			}
 			$("input:focus").blur();
 			var device = JSON.stringify(getSysInfo())
-			wx.bind({"phone":username, "password":password,'from':'phone','device':device,wx_unionid:wx.wuid(),wx_openid:wx.oid(),wx_headimgurl:wx.headurl(),nickname:wx.nickname(),mobilecode:pin_code}, function(rs) {
+			wx.bind({"phone":username, "password":password,'from':'phone','device':device,wx_unionid:wx.wuid(),wx_openid:wx.oid(),wx_headimgurl:wx.headurl(),wx_nickname:wx.nickname(),mobilecode:pin_code}, function(rs) {
 				//console.log(device);
 			//	console.log(JSON.stringify(rs))
 				if (rs.error_no==18005) {

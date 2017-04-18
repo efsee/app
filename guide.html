@@ -48,14 +48,13 @@ html[xmlns] .slides {display: block;}
 	<li><a class="">3</a></li>
 	<li><a class="">4</a></li></ol>-->
 </div>
-
+		
 		<script>
 			mui.back = function() {}; 
 			mui.plusReady(function() {
 				plus.navigator.setFullscreen(true);
-				//plus.navigator.closeSplashscreen(); 
+			    plus.navigator.closeSplashscreen();
 			});
-
 			//立即体验按钮点击事件
 			document.getElementById("close").addEventListener('tap', function(event) {
 				var indexPage=plus.webview.getLaunchWebview()

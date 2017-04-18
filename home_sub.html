@@ -348,6 +348,7 @@
 			//首页banner数据请求
 			request = {'type_id':6};
 			articles.GetscrollpicList({'request':request},function(res){
+				console.log(JSON.stringify(res))
 				res.host = host;
 				var html = template('tpl-pic-item',res);
 				document.getElementById("swiper-wrapper").innerHTML = html;

@@ -116,20 +116,13 @@ body{
 	$("#login-username").keyup(function(){
 		var klength=$(this).val().length
 		if(klength>11){
-			$(this).val($(this).val().substr(0,11))
-			//console.log($(this).val())	
+			$(this).val($(this).val().substr(0,11))	
 		}
 	})
 	mui.plusReady(function(){
-		/*var cid = plus.push.getClientInfo()
-		console.log(JSON.stringify(cid))*/
 		//注册按钮
 		loginusername = store.get('username');
 		$('#login-username').val(loginusername);
-		/*mui('body').on('tap', '#login-username', function() {
-			$('#login-username').val('');
-		})*/
-		//$('#login-username').val(cid.clientid);
 		mui('body').on('tap', '.register-link', function() {
 			mui.openWindow({
 				url:'reg.html',
@@ -170,7 +163,10 @@ body{
 			});
 			//mui.fire(plus.webview.getWebviewById("wjmm.html"), 'getusername');
 			mui.fire(headerWebview, 'loading');
-			headerWebview.show('slide-in-right', 150);
+			setTimeout(function(){
+				headerWebview.show('pop-in', 300);
+			},300)
+			
 			
 		});
 		
@@ -200,8 +196,6 @@ body{
 			$("input:focus").blur();
 			var device = JSON.stringify(getSysInfo())
 			newUser.login({"loginname":username, "password_md5":password,'from':'phone','device':device}, function(rs) {
-				//console.log(device);
-				//console.log(JSON.stringify(rs.result.token.token))
 				if (rs.error_no==200) {
 					var uid = rs.result.user.user_id;
 					user.deleteCache(uid); //清空缓存 
@@ -249,14 +243,6 @@ body{
 			var auth=auths[0]; 
 			if(auth){
 				var w=null;
-				/*if(plus.os.name=="Android"){
-					w=plus.nativeUI.showWaiting();
-				}
-				document.addEventListener("pause",function(){
-					setTimeout(function(){
-						w&&w.close();w=null;
-					},2000);
-				}, false );*/
 				$('.mengban').fadeIn()
 				auth.login(function(e){
 					auth.getUserInfo( function(e){						
@@ -310,16 +296,9 @@ body{
 						console.log( "获取用户信息失败："+e.message+" - "+e.code );
 					} );
 				},function(e){
-					//alert(5)
-					//alert('login:'+JSON.stringify(e))
 					$('.mengban').fadeOut()
-					w&&w.close();w=null; 
+					w&&w.close();w=null;  
 				});
-				/*auth.logout(function(e){
-					alert('注销认证成功')
-				},function(){
-					console.log('error'+e)
-				});*/
 			}else{
 				plus.nativeUI.alert("无效的登录认证通道！",null,"登录");
 			}
@@ -345,5 +324,5 @@ body{
 		} 
 	})
 </script>
-</body>
+</body> 
 </html>

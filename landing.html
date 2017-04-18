@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+	    		if(!plus.storage.getItem('welcome192')) 
+				mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},waiting:{autoShow:false}});
+	    		else
+	    		
+			})
+		</script>
+	</body>
+
+</html>
