@@ -41,12 +41,6 @@ html[xmlns] .slides {display: block;}
 			<li><span id="close"></span><img src="images/guide/3.png" ></li>
 		</ul>
 	</div>
-	<!--<a href="#" class="learn" id="close">马上体验</a>-->
-	<!--<ol class="flex-control-nav flex-control-paging">
-	<li><a class="flex-active">1</a></li>
-	<li><a class="">2</a></li>
-	<li><a class="">3</a></li>
-	<li><a class="">4</a></li></ol>-->
 </div>
 		
 		<script>
@@ -59,10 +53,8 @@ html[xmlns] .slides {display: block;}
 			document.getElementById("close").addEventListener('tap', function(event) {
 				var indexPage=plus.webview.getLaunchWebview()
 				mui.fire(indexPage,"turnVersion")
-				//http://192.168.0.200:8081/app/images/guide/1.png
-				//console.log(indexPage.getURL())
 				plus.storage.setItem("welcome192", "true"); 
-				plus.navigator.setFullscreen(false);
+				plus.navigator.setFullscreen(false); 
 				plus.webview.currentWebview().close();
 			}, false);
 		</script>
