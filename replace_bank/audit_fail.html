@@ -74,12 +74,12 @@
 			        'popGesture': 'none'
 			    });
 				userbank.modify_log_detail({'token':user.utoken(),'user_id':user.uid(),'is_delete':'2'},function(res){
-					console.log('失败了：'+JSON.stringify(res)) 
+					//console.log('失败了：'+JSON.stringify(res)) 
 					if(res.error_no==200) document.getElementById('error_reason_detail').innerHTML = res.result.fail_reason  
 				})
 				mui('body').on('tap','.submit-btn',function(){
 					userbank.cancel_modify({'token':user.utoken()},function(res){
-						console.log(JSON.stringify(res))
+						//console.log(JSON.stringify(res))
 						if(res.error_no==200){ 
 							mui.back()
 						}else{

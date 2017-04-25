@@ -104,25 +104,19 @@
 			
 			if(!plus.storage.getItem('welcome192'))
 			{	 
-				//mui.openWindow({url:'guide.html', id:'guide',styles:{popGesture:'none'},show:{aniShow:'none'},waiting:{autoShow:false}});
-			}else{//已经显示导航了
+			}else{//已经显示导航了 
 				setTimeout(function(){
 					plus.navigator.closeSplashscreen(); 
-				},800) 
+				},1000) 
 				//plus.navigator.setFullscreen(false);
 				if(!store.get('diffrent192')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-						//appid属性
 						appinfo.appid = wgtinfo.appid;
-						//version属性
 						appinfo.version = wgtinfo.version;
-						//name属性
 						appinfo.name = wgtinfo.name; 
-						
 						var request = {};
 						product.getversion({"request":request},function(res){
-							//console.log(JSON.stringify(res));
 							if(res){ 
 								if(appinfo.version<res.version){
 									var content='';
@@ -132,10 +126,13 @@
 									store.set('diffrent192', 1, 18000);	//标志暂存时间30秒
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
-										if (e.index == 1) {
-											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
-											plus.runtime.openURL(url);
-											
+										if (e.index == 1) {  
+											if(plus.os.name=='Android'){
+												createDownloadTask()
+											}else{
+												url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
+												plus.runtime.openURL(url);
+											}
 										} else {
 										}
 									})
@@ -148,18 +145,24 @@
 					
 				}
 			} 
+			/*****/
+			//bug：手势密码未输入完成界面会提醒签到
+			//修复思路：假如有手势密码。采用传自定义方法的方式，输入完正确手势密码在进行延时提醒
+			//无手势密码时，采用现有方式进行提醒 
+			/*****/
+			if(user.uid()){//判断手势密码是否开启	
+				if(store.get('shoushi_status')){
+	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
+	           }else{
+	            	sign_notice() 
+	           } 
+		   }
 			/**********************************底部导航子页面webview实现****************************************/
-			/*var productPage = plus.webview.create('product.html','product.html',{top:'45px',bottom:'50px',scrollIndicator:'none'})
-			plus.webview.currentWebview().append(productPage); 
-			//productPage.hide()
-			var userPage = plus.webview.create('user.html','user.html',{top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'})
-			plus.webview.currentWebview().append(userPage);*/
-			//userPage.hide() 
 		    var	subpages = ['home.html', 'product.html', 'find.html', 'user.html'];  
 			subpage_style = {top:'45px',bottom:'50px',scrollIndicator:'none',bounce: 'vertical',bounceBackground:'#f8f8f8'};//,render:'always' 
 			var activeTab = subpages[0];
 			var self = plus.webview.currentWebview(); 
-			for (var i = 0; i < 4; i++) { 
+			for (var i = 0; i < 4; i++) {  
 				var temp = {};
 				var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);//遍历创建各页面的webview的id
 				if (i > 0) { 
@@ -169,18 +172,6 @@
 				}
 				self.append(sub);
 			}
-			/*****/
-			//bug：手势密码未输入完成界面会提醒签到
-			//修复思路：假如有手势密码。采用传自定义方法的方式，输入完正确手势密码在进行延时提醒
-			//无手势密码时，采用现有方式进行提醒
-			/*****/
-			if(user.uid()){//判断手势密码是否开启	
-				if(store.get('shoushi_status')){
-	            	mui.openWindow({url:'permissions.html', id:'yz',styles:{popGesture:'none'},show:{autoShow:true,aniShow:'fade-in'},'waiting':{'autoShow':false}});
-	           }else{
-	            	sign_notice() 
-	           } 
-		   }
 			document.addEventListener('sign_notice',function(){
 				sign_notice() 
 			})
@@ -192,13 +183,9 @@
 				if(!store.get('diffrent192')){
 					var appinfo={};
 					plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-						//appid属性
 						appinfo.appid = wgtinfo.appid;
-						//version属性
 						appinfo.version = wgtinfo.version;
-						//name属性
 						appinfo.name = wgtinfo.name;
-						
 						var request = {};
 						product.getversion({"request":request},function(res){
 							if(res){
@@ -211,9 +198,13 @@
 									var btnArray = ['取    消', '立即更新'];
 									mui.confirm(content,res.title, btnArray, function(e) {
 										if (e.index == 1) {
-											url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
-											plus.runtime.openURL(url);
-											
+											//安卓下载
+											if(plus.os.name=='Android'){
+												createDownloadTask()
+											}else{
+												url='http://a.app.qq.com/o/simple.jsp?pkgname=com.hzgxr.ifcar99';
+												plus.runtime.openURL(url);
+											}	
 										} else {
 										}
 									})
@@ -312,8 +303,7 @@
 				var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
 				setTimeout(function(){
 					integralPage.show('pop-in', 300);  
-				},300)
-				
+				},300)	 
 			},false);
 			
 			//mui('.header .mui-icon-email')[0]
@@ -443,25 +433,21 @@
 					if(user.uid()){//定时后加判断有无登录
 						credit.GetLogList({'request':req2},function(res,status,xhr){
 							store.set("integral_notice",1,20000)//一天一次
-							if(res==""){
-							//	setTimeout(function(){
-									mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
-										if(e.index == 1){
-											var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
-											integralPage.addEventListener('loaded',function(){
-												mui.fire(integralPage,'signauto')
-											})
-											
-											setTimeout(function(){
-												integralPage.show('pop-in', 300);  
-											},300) 	
-										}else{
-											return false;
-										}
-									})
-									
-							//	},10000)
-								 
+							if(res==""){ 
+								mui.confirm("您已坚持"+0+"天了，可别忘记今天签到哦~","签到提醒\n",["取消","去签到"],function(e){
+									if(e.index == 1){
+										var integralPage = plus.webview.create("integral.html","integral.html",{popGesture:"close"})
+										integralPage.addEventListener('loaded',function(){
+											mui.fire(integralPage,'signauto')
+										})
+										
+										setTimeout(function(){
+											integralPage.show('pop-in', 300);  
+										},300) 	
+									}else{
+										return false;
+									}
+								})	 
 							}else{
 								var serverTime = (new Date(xhr.getResponseHeader('Date'))).getTime()+28800000
 							    var remainDate=serverTime-serverTime%86400000-28800000
@@ -494,6 +480,38 @@
 					
 				},10000)
             }
+		}
+		//安卓升级包 
+		var dtask=null;
+		function createDownloadTask(){
+			if ( dtask ) {
+				return;
+			}
+		    var url = "https://www.ifcar99.com/download/app.apk"; 
+		    var options = {method:"GET",
+		       filename:"_doc/update/" 
+		    };
+		    plus.nativeUI.showWaiting("下载中...");
+			dtask = plus.downloader.createDownload( url, options,function(d,status){
+				if ( status == 200 ) { 
+		            console.log("下载成功："+d.filename);
+		            installApk(d.filename);
+		        } else {
+		            console.log("下载失败！");
+		            plus.nativeUI.toast("下载失败！");
+		        }
+		        plus.nativeUI.closeWaiting();
+			}).start();
+		}
+		function installApk(path){
+			plus.nativeUI.showWaiting("安装中...");
+		    plus.runtime.install(path,{},function(){
+		        plus.nativeUI.closeWaiting(); 
+		    },function(e){
+		        plus.nativeUI.closeWaiting();
+		        console.log("安装app失败["+e.code+"]："+e.message);
+		        plus.nativeUI.alert("安装app失败["+e.code+"]："+e.message);
+		    });
 		}
 		 //首页返回键处理
 		 //处理逻辑：1秒内，连续两次按返回键，则退出应用；

@@ -80,13 +80,6 @@
 		   	
 		    </ul> 
 		       <ul class="ui_item_cell ui_cell_img ui_cell_arrow ui_cell_active">
-		   	
-		   		<!--<li class="ui-jcts">
-		   			<a open-type="common" class="tap" data='{"href":"guide-show.html"}'>
-		   				<span class="icon_jcts"></span>
-		   				聚车特色
-		   			</a>
-		   		</li>-->
 		   			<li>
 		   			<a class="tap" data='{"title":"新手指南","href":"newbie.html"}'>
 		   				<span class="icon_mall"></span>
@@ -131,9 +124,9 @@
 		    <ul class="ui_item_cell ui_cell_img ui_cell_arrow ">
 		    	<li id="bbh">
 		   			<a>
-		   			   <span class="icon_bbh"></span>
+		   			   <span class="icon_bbh"></span> 
 		   				当前版本
-		   				<span class="bbh-style">版本号 : 1.9.2</span>
+		   				<span class="bbh-style">版本号 : 1.9.2</span> 
 		   			</a>
 		   		</li>
 		    	
@@ -170,15 +163,6 @@
 			})
 			//openQQ()
 		});
-		/*document.getElementById("click_dialog").addEventListener('tap', function() {
-			var btnArray = ['取消', '去关注'];
-			mui.confirm(' ','您可在微信-通讯录-添加朋友-查找公众号中搜索“聚车金融”，点击关注，可更方便的获取我们的最新信息。', btnArray, function(e) {
-				if (e.index == 1) {
-					window.location.href = 'weixin:WXSceneSession';
-				} else {
-				}
-			})
-		});	*/
 		var inittemplate = getTemplate('template', 'template.html');	
 		mui("body").on('tap','a.tap',function(){
 			var data = this.getAttribute('data');

@@ -100,14 +100,14 @@
 			}, 0);
 			return false;
 		}, false);
-		
+		 
 		//
 		var fileInput = document.createElement('div');
 		fileInput.setAttribute('class', 'file');
 		fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
 		fileInput.addEventListener('tap', function(event) {
 			var self = this;
-			var index = (this.id).substr(-1);
+			var index = (this.id).substr(-1); 
 			
 			plus.gallery.pick(function(e) {
 //				console.log("event:"+e);
@@ -200,7 +200,6 @@
 		}, function(upload, status) {
 //			plus.nativeUI.closeWaiting()
 			console.log("upload:"+JSON.stringify(upload));
-			//console.log("upload cb:"+upload.responseText);
 			if(status==200){
 				var data = JSON.parse(upload.responseText);
 				pic_str = pic_str+','+data.result.url; 
@@ -227,13 +226,6 @@
 		feedback.uploader.addFile(feedback.singlefiles[0].path,{
 			key: 'file'
 		}); 
-		/*mui.each(feedback.files, function(index, element) {
-			var f = feedback.files[index];
-			console.log("addFile:"+JSON.stringify(f));
-			feedback.uploader.addFile(f.path,{
-				key: 'file'
-			}); 
-		});*/
 		//开始上传任务
 		feedback.uploader.start();
 	};
